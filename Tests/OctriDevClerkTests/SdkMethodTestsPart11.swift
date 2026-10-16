@@ -17,8 +17,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.oAuthApplications.get(
-            oauthApplicationId: decoded("\"oauth_application-1\"")
-        )
+                oauthApplicationId: decoded("\"oauth_application-1\"")
+            )
             XCTFail("getOAuthApplication did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -67,10 +67,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizations.get(
-            organizationId: decoded("\"organization-1\""),
-            includeMembersCount: decoded("false"),
-            includeMissingMemberWithElevatedPermissions: decoded("false")
-        )
+                organizationId: decoded("\"organization-1\""),
+                includeMembersCount: decoded("false"),
+                includeMissingMemberWithElevatedPermissions: decoded("false")
+            )
             XCTFail("getOrganization did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -87,7 +87,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testGetOrganizationBillingCreditBalanceGetOrganizationBillingCreditBalanceReachesMockAndDecodesResponse() async throws {
+    func testGetOrganizationBillingCreditBalanceGetOrganizationBillingCreditBalanceReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -106,7 +107,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testGetOrganizationBillingCreditBalanceGetOrganizationBillingCredX419b361dbeReachesMockAndDecodesResponse() async throws {
+    func testGetOrganizationBillingCreditBalanceGetOrganizationBillingCredX419b361dbeReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -117,8 +119,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizations.getBillingCreditBalance(
-            organizationId: decoded("\"organization-1\"")
-        )
+                organizationId: decoded("\"organization-1\"")
+            )
             XCTFail("getOrganizationBillingCreditBalance did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -135,7 +137,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testGetOrganizationBillingSubscriptionGetOrganizationBillingSubscriptionReachesMockAndDecodesResponse() async throws {
+    func testGetOrganizationBillingSubscriptionGetOrganizationBillingSubscriptionReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -154,7 +157,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testGetOrganizationBillingSubscriptionGetOrganizationBillingSubscription400ReachesMockAndDecodesResponse() async throws {
+    func testGetOrganizationBillingSubscriptionGetOrganizationBillingSubscription400ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -165,8 +169,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizations.getBillingSubscription(
-            organizationId: decoded("\"organization-1\"")
-        )
+                organizationId: decoded("\"organization-1\"")
+            )
             XCTFail("getOrganizationBillingSubscription did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -214,9 +218,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizationInvitations.get(
-            organizationId: decoded("\"organization-1\""),
-            invitationId: decoded("\"invitation-1\"")
-        )
+                organizationId: decoded("\"organization-1\""),
+                invitationId: decoded("\"invitation-1\"")
+            )
             XCTFail("getOrganizationInvitation did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -263,8 +267,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizationPermissions.get(
-            permissionId: decoded("\"permission-1\"")
-        )
+                permissionId: decoded("\"permission-1\"")
+            )
             XCTFail("getOrganizationPermission did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 401)
@@ -311,8 +315,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizationRoles.get(
-            organizationRoleId: decoded("\"organization_role-1\"")
-        )
+                organizationRoleId: decoded("\"organization_role-1\"")
+            )
             XCTFail("getOrganizationRole did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 401)
@@ -359,8 +363,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.phoneNumbers.get(
-            phoneNumberId: decoded("\"phone_number-1\"")
-        )
+                phoneNumberId: decoded("\"phone_number-1\"")
+            )
             XCTFail("getPhoneNumber did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -424,8 +428,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.redirectUrls.get(
-            id: decoded("\"id-1\"")
-        )
+                id: decoded("\"id-1\"")
+            )
             XCTFail("getRedirectUrl did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 404)
@@ -473,9 +477,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.sessions.getReverification(
-            sessionId: decoded("\"session-1\""),
-            reverificationId: decoded("\"reverification-1\"")
-        )
+                sessionId: decoded("\"session-1\""),
+                reverificationId: decoded("\"reverification-1\"")
+            )
             XCTFail("getReverification did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -522,8 +526,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.roleSets.get(
-            roleSetKeyOrId: decoded("\"role_set_key_or-1\"")
-        )
+                roleSetKeyOrId: decoded("\"role_set_key_or-1\"")
+            )
             XCTFail("getRoleSet did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 401)

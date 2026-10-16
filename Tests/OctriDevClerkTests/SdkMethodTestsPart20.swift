@@ -11,7 +11,8 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try EnterpriseConnectionsMethods.UpdateEnterpriseConnectionOptions(enterpriseConnectionId: decoded("\"enterprise_connection-1\""))
+        var options = try EnterpriseConnectionsMethods
+            .UpdateEnterpriseConnectionOptions(enterpriseConnectionId: decoded("\"enterprise_connection-1\""))
         options.name = try decoded("\"Example Name\"")
         options.domains = try decoded("[\"domains\"]")
         options.active = try decoded("false")
@@ -28,8 +29,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.enterpriseConnections.update(
-            options: options
-        )
+                options: options
+            )
             XCTFail("updateEnterpriseConnection did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -92,8 +93,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.instanceSettings.updateInstance(
-            options: options
-        )
+                options: options
+            )
             XCTFail("updateInstance did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 422)
@@ -143,11 +144,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.betaFeatures.updateInstanceAuthConfig(
-            restrictedToAllowlist: decoded("false"),
-            fromEmailAddress: decoded("\"user@example.com\""),
-            progressiveSignUp: decoded("false"),
-            testMode: decoded("false")
-        )
+                restrictedToAllowlist: decoded("false"),
+                fromEmailAddress: decoded("\"user@example.com\""),
+                progressiveSignUp: decoded("false"),
+                testMode: decoded("false")
+            )
             XCTFail("updateInstanceAuthConfig did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 402)
@@ -194,8 +195,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.instanceSettings.updateInstanceCommunication(
-            blockedCountryCodes: decoded("[\"AA\"]")
-        )
+                blockedCountryCodes: decoded("[\"AA\"]")
+            )
             XCTFail("updateInstanceCommunication did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 422)
@@ -212,7 +213,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testUpdateInstanceOAuthApplicationSettingsUpdateInstanceOAuthApplX23f582f059ReachesMockAndDecodesResponse() async throws {
+    func testUpdateInstanceOAuthApplicationSettingsUpdateInstanceOAuthApplX23f582f059ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -242,7 +244,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testUpdateInstanceOAuthApplicationSettingsUpdateInstanceOAuthApplX31712452abReachesMockAndDecodesResponse() async throws {
+    func testUpdateInstanceOAuthApplicationSettingsUpdateInstanceOAuthApplX31712452abReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/422") else {
             return
         }
@@ -264,8 +267,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.instanceSettings.updateInstanceOAuthApplicationSettings(
-            options: options
-        )
+                options: options
+            )
             XCTFail("updateInstanceOAuthApplicationSettings did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 422)
@@ -282,7 +285,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testUpdateInstanceOrganizationSettingsUpdateInstanceOrganizationSettingsReachesMockAndDecodesResponse() async throws {
+    func testUpdateInstanceOrganizationSettingsUpdateInstanceOrganizationSettingsReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -310,7 +314,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testUpdateInstanceOrganizationSettingsUpdateInstanceOrganizationSettings400ReachesMockAndDecodesResponse() async throws {
+    func testUpdateInstanceOrganizationSettingsUpdateInstanceOrganizationSettings400ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -330,8 +335,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.instanceSettings.updateInstanceOrganizationSettings(
-            options: options
-        )
+                options: options
+            )
             XCTFail("updateInstanceOrganizationSettings did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -378,8 +383,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.instanceSettings.updateInstanceProtect(
-            rulesEnabled: decoded("false")
-        )
+                rulesEnabled: decoded("false")
+            )
             XCTFail("updateInstanceProtect did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 422)
@@ -430,12 +435,12 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.instanceSettings.updateInstanceRestrictions(
-            allowlist: decoded("false"),
-            blocklist: decoded("false"),
-            allowlistBlocklistDisabledOnSignIn: decoded("false"),
-            blockEmailSubaddresses: decoded("false"),
-            blockDisposableEmailDomains: decoded("false")
-        )
+                allowlist: decoded("false"),
+                blocklist: decoded("false"),
+                allowlistBlocklistDisabledOnSignIn: decoded("false"),
+                blockEmailSubaddresses: decoded("false"),
+                blockDisposableEmailDomains: decoded("false")
+            )
             XCTFail("updateInstanceRestrictions did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 402)
@@ -457,7 +462,11 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try JwtTemplatesMethods.UpdateJWTTemplateOptions(templateId: decoded("\"template-1\""), name: decoded("\"Example Name\""), claims: decoded("{}"))
+        var options = try JwtTemplatesMethods.UpdateJWTTemplateOptions(
+            templateId: decoded("\"template-1\""),
+            name: decoded("\"Example Name\""),
+            claims: decoded("{}")
+        )
         options.lifetime = try decoded("30")
         options.allowedClockSkew = try decoded("0")
         options.customSigningKey = try decoded("false")
@@ -482,7 +491,11 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try JwtTemplatesMethods.UpdateJWTTemplateOptions(templateId: decoded("\"template-1\""), name: decoded("\"Example Name\""), claims: decoded("{}"))
+        var options = try JwtTemplatesMethods.UpdateJWTTemplateOptions(
+            templateId: decoded("\"template-1\""),
+            name: decoded("\"Example Name\""),
+            claims: decoded("{}")
+        )
         options.lifetime = try decoded("30")
         options.allowedClockSkew = try decoded("0")
         options.customSigningKey = try decoded("false")
@@ -494,8 +507,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.jwtTemplates.update(
-            options: options
-        )
+                options: options
+            )
             XCTFail("updateJwtTemplate did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -544,10 +557,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.machines.update(
-            machineId: decoded("\"machine-1\""),
-            name: decoded("\"Example Name\""),
-            defaultTokenTtl: decoded("1")
-        )
+                machineId: decoded("\"machine-1\""),
+                name: decoded("\"Example Name\""),
+                defaultTokenTtl: decoded("1")
+            )
             XCTFail("updateMachine did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)

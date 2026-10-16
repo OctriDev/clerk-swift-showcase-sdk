@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-// Canonical enterpriseConnections operation model declarations
+/// Canonical enterpriseConnections operation model declarations
 /// Attribute mapping for SAML attributes
 public struct CreateEnterpriseConnectionRequestBodySamlAttributeMapping: Codable {
     public var userId: String?
@@ -23,22 +23,22 @@ public struct CreateEnterpriseConnectionRequestBodySamlAttributeMapping: Codable
     }
 
     init() {
-        (self.userId, self.emailAddress, self.firstName, self.lastName) = (nil, nil, nil, nil)
+        (userId, emailAddress, firstName, lastName) = (nil, nil, nil, nil)
     }
 }
 
-extension CreateEnterpriseConnectionRequestBodySamlAttributeMapping {
-    public init(from decoder: Decoder) throws {
+public extension CreateEnterpriseConnectionRequestBodySamlAttributeMapping {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.userId = try container.sdkDecodeIfPresent(.userId)
-        self.emailAddress = try container.sdkDecodeIfPresent(.emailAddress)
-        self.firstName = try container.sdkDecodeIfPresent(.firstName)
-        self.lastName = try container.sdkDecodeIfPresent(.lastName)
+        userId = try container.sdkDecodeIfPresent(.userId)
+        emailAddress = try container.sdkDecodeIfPresent(.emailAddress)
+        firstName = try container.sdkDecodeIfPresent(.firstName)
+        lastName = try container.sdkDecodeIfPresent(.lastName)
     }
 }
 
-extension CreateEnterpriseConnectionRequestBodySamlAttributeMapping {
-    public init(userId: String? = nil, emailAddress: String? = nil, firstName: String? = nil, lastName: String? = nil) {
+public extension CreateEnterpriseConnectionRequestBodySamlAttributeMapping {
+    init(userId: String? = nil, emailAddress: String? = nil, firstName: String? = nil, lastName: String? = nil) {
         self.init()
         (self.userId, self.emailAddress) = (userId, emailAddress)
         (self.firstName, self.lastName) = (firstName, lastName)

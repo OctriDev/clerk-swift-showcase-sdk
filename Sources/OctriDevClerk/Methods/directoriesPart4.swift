@@ -6,28 +6,67 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension DirectoriesMethods {
-    /// Deletes a directory and stops provisioning for it. Provisioning requests authenticated with the directory's API key are rejected afterwards.
+public extension DirectoriesMethods {
+    /// Deletes a directory and stops provisioning for it. Provisioning requests authenticated with the directory's API
+    /// key are rejected afterwards.
     ///
     /// - Parameters:
     /// - directoryId: The ID of the directory to delete
-    public static func deleteDirectory(config: ClientConfig, directoryId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try (await sdkRequest("DELETE", ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId))].joined(), config: config, decoder: .json, operationId: "DeleteDirectory", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func deleteDirectory(
+        config: ClientConfig,
+        directoryId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeletedObject {
+        try await (sdkRequest(
+            "DELETE",
+            ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "DeleteDirectory",
+            options: requestOptions,
+            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 
-    /// Generates a new API key for the directory and returns it in the `api_key` field. This is the only way to obtain the key after creation, so make sure to update it in your identity provider. The previous key remains valid for a short grace period before it expires.
+    /// Generates a new API key for the directory and returns it in the `api_key` field. This is the only way to obtain
+    /// the key after creation, so make sure to update it in your identity provider. The previous key remains valid for
+    /// a short grace period before it expires.
     ///
     /// - Parameters:
     /// - directoryId: The ID of the directory whose API key to rotate
-    public static func rotateDirectoryApiKey(config: ClientConfig, directoryId: String, requestOptions: RequestOptions? = nil) async throws -> Directory {
-        return try (await sdkRequest("POST", ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId)), "/rotate_api_key"].joined(), config: config, decoder: .json, operationId: "RotateDirectoryAPIKey", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+    static func rotateDirectoryApiKey(
+        config: ClientConfig,
+        directoryId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Directory {
+        try await (sdkRequest(
+            "POST",
+            ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId)), "/rotate_api_key"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "RotateDirectoryAPIKey",
+            options: requestOptions,
+            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 
     /// Returns the list of directory group to organization role mappings for a directory, ordered by precedence.
     ///
     /// - Parameters:
     /// - directoryId: The ID of the directory.
-    public static func listDirectoryGroupRoleMappings(config: ClientConfig, directoryId: String, requestOptions: RequestOptions? = nil) async throws -> ListDirectoryGroupRoleMappingsResponse {
-        return try (await sdkRequest("GET", ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId)), "/group_role_mappings"].joined(), config: config, decoder: .json, operationId: "ListDirectoryGroupRoleMappings", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func listDirectoryGroupRoleMappings(
+        config: ClientConfig,
+        directoryId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ListDirectoryGroupRoleMappingsResponse {
+        try await (sdkRequest(
+            "GET",
+            ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId)), "/group_role_mappings"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "ListDirectoryGroupRoleMappings",
+            options: requestOptions,
+            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

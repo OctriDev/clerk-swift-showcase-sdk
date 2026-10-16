@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension ScimDirectoriesMethods {
+public extension ScimDirectoriesMethods {
     /// Returns a list of all directories for the instance.
     ///
     /// - Parameters:
@@ -14,22 +14,38 @@ extension ScimDirectoriesMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    public static func listScimDirectories(config: ClientConfig, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> ListSCIMDirectoriesResponse {
-        if let limit = limit {
+    static func listScimDirectories(
+        config: ClientConfig,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ListSCIMDirectoriesResponse {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset = offset {
+        if let offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try (await sdkRequest("GET", "/scim_directories", config: config, query: [
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("offset", value: offset),
-        ], decoder: .json, operationId: "ListSCIMDirectories", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/scim_directories",
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("offset", value: offset),
+            ],
+            decoder: .json,
+            operationId: "ListSCIMDirectories",
+            options: requestOptions,
+            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self]
+        )).data
     }
 
-    /// Creates a SCIM directory for the instance and associates it with an enterprise connection. Supply `enterprise_connection_id` and `provider`; you can also include group-to-role mappings to create with the directory. The created directory response includes its SCIM endpoint URL and API key.
+    /// Creates a SCIM directory for the instance and associates it with an enterprise connection. Supply
+    /// `enterprise_connection_id` and `provider`; you can also include group-to-role mappings to create with the
+    /// directory. The created directory response includes its SCIM endpoint URL and API key.
     ///
     /// Create a new directory for the instance.
     ///
@@ -40,9 +56,30 @@ extension ScimDirectoriesMethods {
     /// - name: A human-friendly name for the directory.
     /// - groupRoleMappings: Optional SCIM group to organization role mappings to
     ///   create with the directory.
-    public static func createScimDirectory(config: ClientConfig, enterpriseConnectionId: String, provider: String, name: String? = nil, groupRoleMappings: [CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem]? = nil, requestOptions: RequestOptions? = nil) async throws -> SCIMDirectory {
-        let requestBody = CreateScimDirectoryRequestBody(enterpriseConnectionId: enterpriseConnectionId, provider: provider, name: name, groupRoleMappings: groupRoleMappings)
+    static func createScimDirectory(
+        config: ClientConfig,
+        enterpriseConnectionId: String,
+        provider: String,
+        name: String? = nil,
+        groupRoleMappings: [CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SCIMDirectory {
+        let requestBody = CreateScimDirectoryRequestBody(
+            enterpriseConnectionId: enterpriseConnectionId,
+            provider: provider,
+            name: name,
+            groupRoleMappings: groupRoleMappings
+        )
 
-        return try (await sdkRequest("POST", "/scim_directories", config: config, body: requestBody, decoder: .json, operationId: "CreateSCIMDirectory", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/scim_directories",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "CreateSCIMDirectory",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

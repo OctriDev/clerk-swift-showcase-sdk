@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension JwtTemplatesMethods {
-    public struct UpdateJWTTemplateOptions: Codable {
+public extension JwtTemplatesMethods {
+    struct UpdateJWTTemplateOptions: Codable {
         public var templateId: String
         public var name: String
         public var claims: [String: JSONValue]
@@ -24,7 +24,9 @@ extension JwtTemplatesMethods {
         }
     }
 
-    /// Updates an existing JWT template's configuration. Include `name` and `claims`; `lifetime` and `allowed_clock_skew` must fall within their permitted ranges, and custom signing details are required when `custom_signing_key` is true. The response returns the updated template.
+    /// Updates an existing JWT template's configuration. Include `name` and `claims`; `lifetime` and
+    /// `allowed_clock_skew` must fall within their permitted ranges, and custom signing details are required when
+    /// `custom_signing_key` is true. The response returns the updated template.
     ///
     /// Updates an existing JWT template
     ///
@@ -40,9 +42,13 @@ extension JwtTemplatesMethods {
     ///   Required if `custom_signing_key` is `true`.
     /// - signingKey: The custom signing private key to use when minting JWTs.
     ///   Required if `custom_signing_key` is `true`.
-    public static func updateJwtTemplate(config: ClientConfig, options: UpdateJWTTemplateOptions, requestOptions: RequestOptions? = nil) async throws -> JWTTemplate {
+    static func updateJwtTemplate(
+        config: ClientConfig,
+        options: UpdateJWTTemplateOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> JWTTemplate {
         if let lifetime = options.lifetime?.valueOrNil {
-            try validateRange("lifetime", Double(lifetime), min: 30, max: 315360000)
+            try validateRange("lifetime", Double(lifetime), min: 30, max: 315_360_000)
         }
 
         if let allowedClockSkew = options.allowedClockSkew?.valueOrNil {
@@ -51,6 +57,15 @@ extension JwtTemplatesMethods {
 
         let requestBody = UpdateJwtTemplateRequestBody(options: options)
 
-        return try (await sdkRequest("PATCH", ["/jwt_templates/", sdkEncodePathSegment(sdkWireString(options.templateId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateJWTTemplate", options: requestOptions, errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            ["/jwt_templates/", sdkEncodePathSegment(sdkWireString(options.templateId))].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdateJWTTemplate",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

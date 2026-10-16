@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Machines domain models
+/// Machines domain models
 /// Typed representation of the `MachineWithoutScopedMachines` API schema.
 public struct MachineWithoutScopedMachines: Codable {
     /// Required enumerated value serialized in the `object` wire field.
@@ -31,53 +31,103 @@ public struct MachineWithoutScopedMachines: Codable {
         case defaultTokenTtl = "default_token_ttl"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension MachineWithoutScopedMachines {
-    public init(from decoder: Decoder) throws {
+public extension MachineWithoutScopedMachines {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
         }
         guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
         }
         guard container.contains(.instanceId) else {
-            throw SdkValidationError(field: "instance_id", code: "required", message: "Validation failed for 'instance_id': value is required")
+            throw SdkValidationError(
+                field: "instance_id",
+                code: "required",
+                message: "Validation failed for 'instance_id': value is required"
+            )
         }
         guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
         }
         guard container.contains(.updatedAt) else {
-            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
+            throw SdkValidationError(
+                field: "updated_at",
+                code: "required",
+                message: "Validation failed for 'updated_at': value is required"
+            )
         }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.instanceId = try container.sdkDecodeRequired(.instanceId)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.defaultTokenTtl = try container.sdkDecodeIfPresent(.defaultTokenTtl)
-            try validateLength("name", self.name, min: 1, max: 255)
-        if let value = self.defaultTokenTtl {
-            try validateRange("default_token_ttl", Double(value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        instanceId = try container.sdkDecodeRequired(.instanceId)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        defaultTokenTtl = try container.sdkDecodeIfPresent(.defaultTokenTtl)
+        try validateLength("name", name, min: 1, max: 255)
+        if let value = defaultTokenTtl {
+            try validateRange(
+                "default_token_ttl",
+                Double(value),
+                min: 1,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
 
-extension MachineWithoutScopedMachines {
-    public init(object: MachineWithoutScopedMachinesObject, id: String, name: String, instanceId: String, createdAt: Int, updatedAt: Int, defaultTokenTtl: Int? = nil) throws {
+public extension MachineWithoutScopedMachines {
+    init(
+        object: MachineWithoutScopedMachinesObject,
+        id: String,
+        name: String,
+        instanceId: String,
+        createdAt: Int,
+        updatedAt: Int,
+        defaultTokenTtl: Int? = nil
+    ) throws {
         (self.object, self.id) = (object, id)
         (self.name, self.instanceId) = (name, instanceId)
         (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
         self.defaultTokenTtl = defaultTokenTtl
-            try validateLength("name", self.name, min: 1, max: 255)
+        try validateLength("name", self.name, min: 1, max: 255)
         if let value = self.defaultTokenTtl {
-            try validateRange("default_token_ttl", Double(value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "default_token_ttl",
+                Double(value),
+                min: 1,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
@@ -100,33 +150,51 @@ public struct MachineScope: Codable {
         case createdAt = "created_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension MachineScope {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.fromMachineId) else {
-            throw SdkValidationError(field: "from_machine_id", code: "required", message: "Validation failed for 'from_machine_id': value is required")
-        }
-        guard container.contains(.toMachineId) else {
-            throw SdkValidationError(field: "to_machine_id", code: "required", message: "Validation failed for 'to_machine_id': value is required")
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.fromMachineId = try container.sdkDecodeRequired(.fromMachineId)
-        self.toMachineId = try container.sdkDecodeRequired(.toMachineId)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension MachineScope {
-    public init(object: MachineScopeObject, fromMachineId: String, toMachineId: String, createdAt: Int) {
+public extension MachineScope {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.fromMachineId) else {
+            throw SdkValidationError(
+                field: "from_machine_id",
+                code: "required",
+                message: "Validation failed for 'from_machine_id': value is required"
+            )
+        }
+        guard container.contains(.toMachineId) else {
+            throw SdkValidationError(
+                field: "to_machine_id",
+                code: "required",
+                message: "Validation failed for 'to_machine_id': value is required"
+            )
+        }
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        fromMachineId = try container.sdkDecodeRequired(.fromMachineId)
+        toMachineId = try container.sdkDecodeRequired(.toMachineId)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+    }
+}
+
+public extension MachineScope {
+    init(object: MachineScopeObject, fromMachineId: String, toMachineId: String, createdAt: Int) {
         (self.object, self.fromMachineId) = (object, fromMachineId)
         (self.toMachineId, self.createdAt) = (toMachineId, createdAt)
     }
@@ -140,21 +208,27 @@ public struct MachineVariant1: Codable {
         case scopedMachines = "scoped_machines"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension MachineVariant1 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.scopedMachines) else {
-            throw SdkValidationError(field: "scoped_machines", code: "required", message: "Validation failed for 'scoped_machines': value is required")
-        }
-        self.scopedMachines = try container.sdkDecodeRequired(.scopedMachines)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension MachineVariant1 {
-    public init(scopedMachines: [MachineWithoutScopedMachines]) {
+public extension MachineVariant1 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.scopedMachines) else {
+            throw SdkValidationError(
+                field: "scoped_machines",
+                code: "required",
+                message: "Validation failed for 'scoped_machines': value is required"
+            )
+        }
+        scopedMachines = try container.sdkDecodeRequired(.scopedMachines)
+    }
+}
+
+public extension MachineVariant1 {
+    init(scopedMachines: [MachineWithoutScopedMachines]) {
         self.scopedMachines = scopedMachines
     }
 }
@@ -189,57 +263,112 @@ public struct Machine: Codable {
         case defaultTokenTtl = "default_token_ttl"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension Machine {
-    public init(from decoder: Decoder) throws {
+public extension Machine {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
         }
         guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
         }
         guard container.contains(.instanceId) else {
-            throw SdkValidationError(field: "instance_id", code: "required", message: "Validation failed for 'instance_id': value is required")
+            throw SdkValidationError(
+                field: "instance_id",
+                code: "required",
+                message: "Validation failed for 'instance_id': value is required"
+            )
         }
         guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
         }
         guard container.contains(.updatedAt) else {
-            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
+            throw SdkValidationError(
+                field: "updated_at",
+                code: "required",
+                message: "Validation failed for 'updated_at': value is required"
+            )
         }
         guard container.contains(.scopedMachines) else {
-            throw SdkValidationError(field: "scoped_machines", code: "required", message: "Validation failed for 'scoped_machines': value is required")
+            throw SdkValidationError(
+                field: "scoped_machines",
+                code: "required",
+                message: "Validation failed for 'scoped_machines': value is required"
+            )
         }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.instanceId = try container.sdkDecodeRequired(.instanceId)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.scopedMachines = try container.sdkDecodeRequired(.scopedMachines)
-        self.defaultTokenTtl = try container.sdkDecodeIfPresent(.defaultTokenTtl)
-            try validateLength("name", self.name, min: 1, max: 255)
-        if let value = self.defaultTokenTtl {
-            try validateRange("default_token_ttl", Double(value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        instanceId = try container.sdkDecodeRequired(.instanceId)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        scopedMachines = try container.sdkDecodeRequired(.scopedMachines)
+        defaultTokenTtl = try container.sdkDecodeIfPresent(.defaultTokenTtl)
+        try validateLength("name", name, min: 1, max: 255)
+        if let value = defaultTokenTtl {
+            try validateRange(
+                "default_token_ttl",
+                Double(value),
+                min: 1,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
 
-extension Machine {
-    public init(object: MachineWithoutScopedMachinesObject, id: String, name: String, instanceId: String, createdAt: Int, updatedAt: Int, scopedMachines: [MachineWithoutScopedMachines], defaultTokenTtl: Int? = nil) throws {
+public extension Machine {
+    init(
+        object: MachineWithoutScopedMachinesObject,
+        id: String,
+        name: String,
+        instanceId: String,
+        createdAt: Int,
+        updatedAt: Int,
+        scopedMachines: [MachineWithoutScopedMachines],
+        defaultTokenTtl: Int? = nil
+    ) throws {
         (self.object, self.id) = (object, id)
         (self.name, self.instanceId) = (name, instanceId)
         (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
         (self.scopedMachines, self.defaultTokenTtl) = (scopedMachines, defaultTokenTtl)
-            try validateLength("name", self.name, min: 1, max: 255)
+        try validateLength("name", self.name, min: 1, max: 255)
         if let value = self.defaultTokenTtl {
-            try validateRange("default_token_ttl", Double(value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "default_token_ttl",
+                Double(value),
+                min: 1,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
@@ -248,12 +377,15 @@ extension Machine {
 public struct MachineWithoutScopedMachinesObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let machine = MachineWithoutScopedMachinesObject(rawValue: "machine")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -266,12 +398,15 @@ public struct MachineWithoutScopedMachinesObject: RawRepresentable, Hashable, Co
 public struct MachineScopeObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let machineScope = MachineScopeObject(rawValue: "machine_scope")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension MachinesMethods {
+public extension MachinesMethods {
     /// Updates an existing machine. Only the provided fields will be updated.
     ///
     /// - Parameters:
@@ -14,27 +14,67 @@ extension MachinesMethods {
     /// - name: The name of the machine
     /// - defaultTokenTtl: The default time-to-live (TTL) in seconds for tokens
     ///   created by this machine. Must be at least 1 second.
-    public static func updateMachine(config: ClientConfig, machineId: String, name: String? = nil, defaultTokenTtl: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> Machine {
-        if let name = name {
+    static func updateMachine(
+        config: ClientConfig,
+        machineId: String,
+        name: String? = nil,
+        defaultTokenTtl: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Machine {
+        if let name {
             try validateLength("name", name, min: 1, max: 255)
         }
 
-        if let defaultTokenTtl = defaultTokenTtl {
-            try validateRange("default_token_ttl", Double(defaultTokenTtl), min: 1, max: 315360000)
+        if let defaultTokenTtl {
+            try validateRange("default_token_ttl", Double(defaultTokenTtl), min: 1, max: 315_360_000)
         }
 
         let requestBody = UpdateMachineRequestBody(name: name, defaultTokenTtl: defaultTokenTtl)
 
-        return try (await sdkRequest("PATCH", ["/machines/", sdkEncodePathSegment(sdkWireString(machineId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateMachine", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            ["/machines/", sdkEncodePathSegment(sdkWireString(machineId))].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdateMachine",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 
-    /// Deletes a machine. Use its `machine_id` to identify the machine you want to remove. The response confirms deletion with the machine ID and a `deleted` value.
+    /// Deletes a machine. Use its `machine_id` to identify the machine you want to remove. The response confirms
+    /// deletion with the machine ID and a `deleted` value.
     ///
     /// Deletes a machine.
     ///
     /// - Parameters:
     /// - machineId: The ID of the machine to delete
-    public static func deleteMachine(config: ClientConfig, machineId: String, requestOptions: RequestOptions? = nil) async throws -> DeleteMachineResponse {
-        return try (await sdkRequest("DELETE", ["/machines/", sdkEncodePathSegment(sdkWireString(machineId))].joined(), config: config, decoder: .json, operationId: "DeleteMachine", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+    static func deleteMachine(
+        config: ClientConfig,
+        machineId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeleteMachineResponse {
+        try await (sdkRequest(
+            "DELETE",
+            ["/machines/", sdkEncodePathSegment(sdkWireString(machineId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "DeleteMachine",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 }

@@ -3,29 +3,36 @@
 
 import Foundation
 
-// SAMLConnections domain models
+/// SAMLConnections domain models
 public indirect enum SAMLConnection {
     case jsonValue(JSONValue)
     case jsonValue1(JSONValue)
 }
 
 extension SAMLConnection: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
         throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for SAMLConnection")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension SAMLConnection {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(JSONValue.self) { return .jsonValue(value) }
-        if let value = try? container.decode(JSONValue.self) { return .jsonValue1(value) }
+        if let value = try? container.decode(JSONValue.self) {
+            return .jsonValue(value)
+        }
+        if let value = try? container.decode(JSONValue.self) {
+            return .jsonValue1(value)
+        }
         return nil
     }
 }
@@ -55,29 +62,43 @@ public struct SAMLConnectionIdpCertificatesItem: Codable {
         case expiresAt = "expires_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension SAMLConnectionIdpCertificatesItem {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.certificate) else {
-            throw SdkValidationError(field: "certificate", code: "required", message: "Validation failed for 'certificate': value is required")
-        }
-        guard container.contains(.issuedAt) else {
-            throw SdkValidationError(field: "issued_at", code: "required", message: "Validation failed for 'issued_at': value is required")
-        }
-        guard container.contains(.expiresAt) else {
-            throw SdkValidationError(field: "expires_at", code: "required", message: "Validation failed for 'expires_at': value is required")
-        }
-        self.certificate = try container.sdkDecodeRequired(.certificate)
-        self.issuedAt = try container.sdkDecodeNullable(.issuedAt)
-        self.expiresAt = try container.sdkDecodeNullable(.expiresAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension SAMLConnectionIdpCertificatesItem {
-    public init(certificate: String, issuedAt: Int?, expiresAt: Int?) {
+public extension SAMLConnectionIdpCertificatesItem {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.certificate) else {
+            throw SdkValidationError(
+                field: "certificate",
+                code: "required",
+                message: "Validation failed for 'certificate': value is required"
+            )
+        }
+        guard container.contains(.issuedAt) else {
+            throw SdkValidationError(
+                field: "issued_at",
+                code: "required",
+                message: "Validation failed for 'issued_at': value is required"
+            )
+        }
+        guard container.contains(.expiresAt) else {
+            throw SdkValidationError(
+                field: "expires_at",
+                code: "required",
+                message: "Validation failed for 'expires_at': value is required"
+            )
+        }
+        certificate = try container.sdkDecodeRequired(.certificate)
+        issuedAt = try container.sdkDecodeNullable(.issuedAt)
+        expiresAt = try container.sdkDecodeNullable(.expiresAt)
+    }
+}
+
+public extension SAMLConnectionIdpCertificatesItem {
+    init(certificate: String, issuedAt: Int?, expiresAt: Int?) {
         (self.certificate, self.issuedAt) = (certificate, issuedAt)
         self.expiresAt = expiresAt
     }
@@ -95,25 +116,35 @@ public struct SAMLConnections: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension SAMLConnections {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension SAMLConnections {
-    public init(data: [SAMLConnection], totalCount: Int) {
+public extension SAMLConnections {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension SAMLConnections {
+    init(data: [SAMLConnection], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -136,33 +167,51 @@ public struct SAMLConnectionAttributeMapping: Codable {
         case lastName = "last_name"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension SAMLConnectionAttributeMapping {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.userId) else {
-            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
-        }
-        guard container.contains(.emailAddress) else {
-            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
-        }
-        guard container.contains(.firstName) else {
-            throw SdkValidationError(field: "first_name", code: "required", message: "Validation failed for 'first_name': value is required")
-        }
-        guard container.contains(.lastName) else {
-            throw SdkValidationError(field: "last_name", code: "required", message: "Validation failed for 'last_name': value is required")
-        }
-        self.userId = try container.sdkDecodeRequired(.userId)
-        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        self.firstName = try container.sdkDecodeRequired(.firstName)
-        self.lastName = try container.sdkDecodeRequired(.lastName)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension SAMLConnectionAttributeMapping {
-    public init(userId: String, emailAddress: String, firstName: String, lastName: String) {
+public extension SAMLConnectionAttributeMapping {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.userId) else {
+            throw SdkValidationError(
+                field: "user_id",
+                code: "required",
+                message: "Validation failed for 'user_id': value is required"
+            )
+        }
+        guard container.contains(.emailAddress) else {
+            throw SdkValidationError(
+                field: "email_address",
+                code: "required",
+                message: "Validation failed for 'email_address': value is required"
+            )
+        }
+        guard container.contains(.firstName) else {
+            throw SdkValidationError(
+                field: "first_name",
+                code: "required",
+                message: "Validation failed for 'first_name': value is required"
+            )
+        }
+        guard container.contains(.lastName) else {
+            throw SdkValidationError(
+                field: "last_name",
+                code: "required",
+                message: "Validation failed for 'last_name': value is required"
+            )
+        }
+        userId = try container.sdkDecodeRequired(.userId)
+        emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        firstName = try container.sdkDecodeRequired(.firstName)
+        lastName = try container.sdkDecodeRequired(.lastName)
+    }
+}
+
+public extension SAMLConnectionAttributeMapping {
+    init(userId: String, emailAddress: String, firstName: String, lastName: String) {
         (self.userId, self.emailAddress) = (userId, emailAddress)
         (self.firstName, self.lastName) = (firstName, lastName)
     }
@@ -180,22 +229,28 @@ public struct SAMLConnectionLoginHint: Codable {
         case source
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension SAMLConnectionLoginHint {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.mode) else {
-            throw SdkValidationError(field: "mode", code: "required", message: "Validation failed for 'mode': value is required")
-        }
-        self.mode = try container.sdkDecodeRequired(.mode)
-        self.source = try container.sdkDecodeIfPresent(.source)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension SAMLConnectionLoginHint {
-    public init(mode: SAMLConnectionLoginHintMode, source: String? = nil) {
+public extension SAMLConnectionLoginHint {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.mode) else {
+            throw SdkValidationError(
+                field: "mode",
+                code: "required",
+                message: "Validation failed for 'mode': value is required"
+            )
+        }
+        mode = try container.sdkDecodeRequired(.mode)
+        source = try container.sdkDecodeIfPresent(.source)
+    }
+}
+
+public extension SAMLConnectionLoginHint {
+    init(mode: SAMLConnectionLoginHintMode, source: String? = nil) {
         (self.mode, self.source) = (mode, source)
     }
 }
@@ -204,12 +259,15 @@ extension SAMLConnectionLoginHint {
 public struct SAMLConnectionObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let samlConnection = SAMLConnectionObject(rawValue: "saml_connection")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -222,14 +280,17 @@ public struct SAMLConnectionObject: RawRepresentable, Hashable, Codable, Sendabl
 public struct SAMLConnectionLoginHintMode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let emailAddress = SAMLConnectionLoginHintMode(rawValue: "email_address")
     public static let customAttribute = SAMLConnectionLoginHintMode(rawValue: "custom_attribute")
     public static let off = SAMLConnectionLoginHintMode(rawValue: "off")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

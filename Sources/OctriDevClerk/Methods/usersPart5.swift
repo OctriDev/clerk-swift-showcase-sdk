@@ -6,14 +6,27 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
-    /// Retrieves the details of a user by their identifier. Use `user_id` to select the user whose account details you need.
+public extension UsersMethods {
+    /// Retrieves the details of a user by their identifier. Use `user_id` to select the user whose account details you
+    /// need.
     ///
     /// Retrieve the details of a user
     ///
     /// - Parameters:
     /// - userId: The ID of the user to retrieve
-    public static func getUser(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> User {
-        return try (await sdkRequest("GET", ["/users/", sdkEncodePathSegment(sdkWireString(userId))].joined(), config: config, decoder: .json, operationId: "GetUser", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func getUser(
+        config: ClientConfig,
+        userId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> User {
+        try await (sdkRequest(
+            "GET",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "GetUser",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

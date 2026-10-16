@@ -17,8 +17,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.phoneNumbers.delete(
-            phoneNumberId: decoded("\"phone_number-1\"")
-        )
+                phoneNumberId: decoded("\"phone_number-1\"")
+            )
             XCTFail("deletePhoneNumber did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -65,8 +65,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.redirectUrls.delete(
-            id: decoded("\"id-1\"")
-        )
+                id: decoded("\"id-1\"")
+            )
             XCTFail("deleteRedirectUrl did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 404)
@@ -113,8 +113,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.samlConnections.delete(
-            samlConnectionId: decoded("\"saml_connection-1\"")
-        )
+                samlConnectionId: decoded("\"saml_connection-1\"")
+            )
             XCTFail("deleteSamlConnection did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 402)
@@ -161,8 +161,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.scimDirectories.delete(
-            scimDirectoryId: decoded("\"scim_directory-1\"")
-        )
+                scimDirectoryId: decoded("\"scim_directory-1\"")
+            )
             XCTFail("deleteScimDirectory did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 401)
@@ -210,9 +210,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.scimDirectories.deleteScimGroupRoleMapping(
-            scimDirectoryId: decoded("\"scim_directory-1\""),
-            mappingId: decoded("\"mapping-1\"")
-        )
+                scimDirectoryId: decoded("\"scim_directory-1\""),
+                mappingId: decoded("\"mapping-1\"")
+            )
             XCTFail("deleteScimGroupRoleMapping did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -259,8 +259,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.ssoBypass.deleteAllowlistUser(
-            userId: decoded("\"user-1\"")
-        )
+                userId: decoded("\"user-1\"")
+            )
             XCTFail("deleteSsoBypassAllowlistUser did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -343,8 +343,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.deleteTotp(
-            userId: decoded("\"user-1\"")
-        )
+                userId: decoded("\"user-1\"")
+            )
             XCTFail("deleteTotp did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 404)
@@ -391,8 +391,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.delete(
-            userId: decoded("\"user-1\"")
-        )
+                userId: decoded("\"user-1\"")
+            )
             XCTFail("deleteUser did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -439,8 +439,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.deleteProfileImage(
-            userId: decoded("\"user-1\"")
-        )
+                userId: decoded("\"user-1\"")
+            )
             XCTFail("deleteUserProfileImage did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 404)
@@ -488,9 +488,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.deletePasskey(
-            userId: decoded("\"user-1\""),
-            passkeyIdentificationId: decoded("\"passkey_identification-1\"")
-        )
+                userId: decoded("\"user-1\""),
+                passkeyIdentificationId: decoded("\"passkey_identification-1\"")
+            )
             XCTFail("deleteUsersPasskey did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -538,9 +538,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.deleteWeb3Wallet(
-            userId: decoded("\"user-1\""),
-            web3WalletIdentificationId: decoded("\"web3_wallet_identification-1\"")
-        )
+                userId: decoded("\"user-1\""),
+                web3WalletIdentificationId: decoded("\"web3_wallet_identification-1\"")
+            )
             XCTFail("deleteUsersWeb3Wallet did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)

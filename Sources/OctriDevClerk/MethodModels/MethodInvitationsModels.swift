@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-// Canonical invitations operation model declarations
+/// Canonical invitations operation model declarations
 public struct RevokeInvitationResponse: Codable {
     /// Required enumerated value serialized in the `object` wire field.
     public var object: InvitationObject
@@ -43,55 +43,96 @@ public struct RevokeInvitationResponse: Codable {
         case expiresAt = "expires_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension RevokeInvitationResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.emailAddress) else {
-            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
-        }
-        guard container.contains(.publicMetadata) else {
-            throw SdkValidationError(field: "public_metadata", code: "required", message: "Validation failed for 'public_metadata': value is required")
-        }
-        guard container.contains(.status) else {
-            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        guard container.contains(.updatedAt) else {
-            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        self.publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.revoked = try container.sdkDecodeIfPresent(.revoked)
-        self.url = try container.sdkDecodeIfPresent(.url)
-        self.expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
-            try sdkValidateEmail("email_address", self.emailAddress)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension RevokeInvitationResponse {
-    public init(object: InvitationObject, id: String, emailAddress: String, publicMetadata: [String: JSONValue], status: RevokeInvitationResponseVariant1Status, createdAt: Int, updatedAt: Int, revoked: Bool? = nil, url: String? = nil, expiresAt: Int? = nil) throws {
+public extension RevokeInvitationResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.emailAddress) else {
+            throw SdkValidationError(
+                field: "email_address",
+                code: "required",
+                message: "Validation failed for 'email_address': value is required"
+            )
+        }
+        guard container.contains(.publicMetadata) else {
+            throw SdkValidationError(
+                field: "public_metadata",
+                code: "required",
+                message: "Validation failed for 'public_metadata': value is required"
+            )
+        }
+        guard container.contains(.status) else {
+            throw SdkValidationError(
+                field: "status",
+                code: "required",
+                message: "Validation failed for 'status': value is required"
+            )
+        }
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        guard container.contains(.updatedAt) else {
+            throw SdkValidationError(
+                field: "updated_at",
+                code: "required",
+                message: "Validation failed for 'updated_at': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
+        status = try container.sdkDecodeRequired(.status)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        revoked = try container.sdkDecodeIfPresent(.revoked)
+        url = try container.sdkDecodeIfPresent(.url)
+        expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
+        try sdkValidateEmail("email_address", emailAddress)
+    }
+}
+
+public extension RevokeInvitationResponse {
+    init(
+        object: InvitationObject,
+        id: String,
+        emailAddress: String,
+        publicMetadata: [String: JSONValue],
+        status: RevokeInvitationResponseVariant1Status,
+        createdAt: Int,
+        updatedAt: Int,
+        revoked: Bool? = nil,
+        url: String? = nil,
+        expiresAt: Int? = nil
+    ) throws {
         (self.object, self.id) = (object, id)
         (self.emailAddress, self.publicMetadata) = (emailAddress, publicMetadata)
         (self.status, self.createdAt) = (status, createdAt)
         (self.updatedAt, self.revoked) = (updatedAt, revoked)
         (self.url, self.expiresAt) = (url, expiresAt)
-            try sdkValidateEmail("email_address", self.emailAddress)
+        try sdkValidateEmail("email_address", self.emailAddress)
     }
 }
 
@@ -126,36 +167,66 @@ public struct CreateBulkInvitationsRequestBodyItem: Codable {
         case templateSlug = "template_slug"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension CreateBulkInvitationsRequestBodyItem {
-    public init(from decoder: Decoder) throws {
+public extension CreateBulkInvitationsRequestBodyItem {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.emailAddress) else {
-            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
+            throw SdkValidationError(
+                field: "email_address",
+                code: "required",
+                message: "Validation failed for 'email_address': value is required"
+            )
         }
-        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        self.publicMetadata = try container.sdkDecodeIfPresent(.publicMetadata)
-        self.redirectUrl = try container.sdkDecodeIfPresent(.redirectUrl)
-        self.notify = try container.sdkDecodeIfPresent(.notify)
-        self.ignoreExisting = try container.sdkDecodeIfPresent(.ignoreExisting)
-        self.expiresInDays = try container.sdkDecodeIfPresent(.expiresInDays)
-        self.templateSlug = try container.sdkDecodeIfPresent(.templateSlug)
-        if let value = self.expiresInDays {
-            try validateRange("expires_in_days", Double(value), min: 1, max: 365, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        publicMetadata = try container.sdkDecodeIfPresent(.publicMetadata)
+        redirectUrl = try container.sdkDecodeIfPresent(.redirectUrl)
+        notify = try container.sdkDecodeIfPresent(.notify)
+        ignoreExisting = try container.sdkDecodeIfPresent(.ignoreExisting)
+        expiresInDays = try container.sdkDecodeIfPresent(.expiresInDays)
+        templateSlug = try container.sdkDecodeIfPresent(.templateSlug)
+        if let value = expiresInDays {
+            try validateRange(
+                "expires_in_days",
+                Double(value),
+                min: 1,
+                max: 365,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
 
-extension CreateBulkInvitationsRequestBodyItem {
-    public init(emailAddress: String, publicMetadata: [String: JSONValue]? = nil, redirectUrl: String? = nil, notify: Bool? = nil, ignoreExisting: Bool? = nil, expiresInDays: Int? = nil, templateSlug: CreateBulkInvitationsRequestBodyItemTemplateSlug? = nil) throws {
+public extension CreateBulkInvitationsRequestBodyItem {
+    init(
+        emailAddress: String,
+        publicMetadata: [String: JSONValue]? = nil,
+        redirectUrl: String? = nil,
+        notify: Bool? = nil,
+        ignoreExisting: Bool? = nil,
+        expiresInDays: Int? = nil,
+        templateSlug: CreateBulkInvitationsRequestBodyItemTemplateSlug? = nil
+    ) throws {
         (self.emailAddress, self.publicMetadata) = (emailAddress, publicMetadata)
         (self.redirectUrl, self.notify) = (redirectUrl, notify)
         (self.ignoreExisting, self.expiresInDays) = (ignoreExisting, expiresInDays)
         self.templateSlug = templateSlug
         if let value = self.expiresInDays {
-            try validateRange("expires_in_days", Double(value), min: 1, max: 365, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "expires_in_days",
+                Double(value),
+                min: 1,
+                max: 365,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
@@ -172,20 +243,20 @@ public struct RevokeInvitationResponseVariant1: Codable {
     }
 
     init() {
-        (self.revoked, self.status) = (nil, nil)
+        (revoked, status) = (nil, nil)
     }
 }
 
-extension RevokeInvitationResponseVariant1 {
-    public init(from decoder: Decoder) throws {
+public extension RevokeInvitationResponseVariant1 {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.revoked = try container.sdkDecodeIfPresent(.revoked)
-        self.status = try container.sdkDecodeIfPresent(.status)
+        revoked = try container.sdkDecodeIfPresent(.revoked)
+        status = try container.sdkDecodeIfPresent(.status)
     }
 }
 
-extension RevokeInvitationResponseVariant1 {
-    public init(revoked: Bool? = nil, status: RevokeInvitationResponseVariant1Status? = nil) {
+public extension RevokeInvitationResponseVariant1 {
+    init(revoked: Bool? = nil, status: RevokeInvitationResponseVariant1Status? = nil) {
         self.init()
         (self.revoked, self.status) = (revoked, status)
     }

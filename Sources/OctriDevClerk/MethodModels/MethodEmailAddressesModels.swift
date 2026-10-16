@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-// Canonical emailAddresses operation model declarations
+/// Canonical emailAddresses operation model declarations
 public struct AttemptEmailAddressVerificationResponse: Codable {
     /// The type of the verification object.
     public var object: String?
@@ -35,26 +35,34 @@ public struct AttemptEmailAddressVerificationResponse: Codable {
     }
 
     init() {
-        (self.object, self.id, self.status, self.strategy, self.attempts) = (nil, nil, nil, nil, nil)
-        (self.expireAt, self.channel) = (nil, nil)
+        (object, id, status, strategy, attempts) = (nil, nil, nil, nil, nil)
+        (expireAt, channel) = (nil, nil)
     }
 }
 
-extension AttemptEmailAddressVerificationResponse {
-    public init(from decoder: Decoder) throws {
+public extension AttemptEmailAddressVerificationResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeIfPresent(.object)
-        self.id = try container.sdkDecodeIfPresent(.id)
-        self.status = try container.sdkDecodeIfPresent(.status)
-        self.strategy = try container.sdkDecodeIfPresent(.strategy)
-        self.attempts = try container.sdkDecodeIfPresent(.attempts)
-        self.expireAt = try container.sdkDecodeIfPresent(.expireAt)
-        self.channel = try container.sdkDecodeIfPresent(.channel)
+        object = try container.sdkDecodeIfPresent(.object)
+        id = try container.sdkDecodeIfPresent(.id)
+        status = try container.sdkDecodeIfPresent(.status)
+        strategy = try container.sdkDecodeIfPresent(.strategy)
+        attempts = try container.sdkDecodeIfPresent(.attempts)
+        expireAt = try container.sdkDecodeIfPresent(.expireAt)
+        channel = try container.sdkDecodeIfPresent(.channel)
     }
 }
 
-extension AttemptEmailAddressVerificationResponse {
-    public init(object: String? = nil, id: String? = nil, status: String? = nil, strategy: String? = nil, attempts: Int? = nil, expireAt: Int? = nil, channel: String? = nil) {
+public extension AttemptEmailAddressVerificationResponse {
+    init(
+        object: String? = nil,
+        id: String? = nil,
+        status: String? = nil,
+        strategy: String? = nil,
+        attempts: Int? = nil,
+        expireAt: Int? = nil,
+        channel: String? = nil
+    ) {
         self.init()
         (self.object, self.id) = (object, id)
         (self.status, self.strategy) = (status, strategy)

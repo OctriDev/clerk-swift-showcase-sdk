@@ -7,15 +7,34 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum ProxyChecksMethods {
-    /// This endpoint can be used to validate that a proxy-enabled domain is operational. It tries to verify that the proxy URL provided in the parameters maps to a functional proxy that can reach the Clerk Frontend API. You can use this endpoint before you set a proxy URL for a domain. This way you can ensure that switching to proxy-based configuration will not lead to downtime for your instance. The `proxy_url` parameter allows for testing proxy configurations for domains that don't have a proxy URL yet, or operate on a different proxy URL than the one provided. It can also be used to re-validate a domain that is already configured to work with a proxy.
+    /// This endpoint can be used to validate that a proxy-enabled domain is operational. It tries to verify that the
+    /// proxy URL provided in the parameters maps to a functional proxy that can reach the Clerk Frontend API. You can
+    /// use this endpoint before you set a proxy URL for a domain. This way you can ensure that switching to proxy-based
+    /// configuration will not lead to downtime for your instance. The `proxy_url` parameter allows for testing proxy
+    /// configurations for domains that don't have a proxy URL yet, or operate on a different proxy URL than the one
+    /// provided. It can also be used to re-validate a domain that is already configured to work with a proxy.
     ///
     /// - Parameters:
     /// - domainId: The ID of the domain that will be updated.
     /// - proxyUrl: The full URL of the proxy which will forward requests to the
     ///   Clerk Frontend API for this domain. e.g. https://example.com/__clerk
-    public static func verifyDomainProxy(config: ClientConfig, domainId: String? = nil, proxyUrl: String? = nil, requestOptions: RequestOptions? = nil) async throws -> ProxyCheck {
+    public static func verifyDomainProxy(
+        config: ClientConfig,
+        domainId: String? = nil,
+        proxyUrl: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ProxyCheck {
         let requestBody = VerifyDomainProxyRequestBody(domainId: domainId, proxyUrl: proxyUrl)
 
-        return try (await sdkRequest("POST", "/proxy_checks", config: config, body: requestBody, decoder: .json, operationId: "VerifyDomainProxy", options: requestOptions, errors: ["400": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/proxy_checks",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "VerifyDomainProxy",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

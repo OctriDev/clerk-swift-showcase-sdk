@@ -13,9 +13,12 @@ struct ReplaceUserEmailAddressRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.emailAddress, forKey: SdkCodingKey("email_address"))
-        try keyedContainer.encodeIfPresent(self.identificationStatus, forKey: SdkCodingKey("identification_status"))
-        try keyedContainer.encodeIfPresent(self.notifyPrimaryEmailAddressChanged, forKey: SdkCodingKey("notify_primary_email_address_changed"))
+        try keyedContainer.encode(emailAddress, forKey: SdkCodingKey("email_address"))
+        try keyedContainer.encodeIfPresent(identificationStatus, forKey: SdkCodingKey("identification_status"))
+        try keyedContainer.encodeIfPresent(
+            notifyPrimaryEmailAddressChanged,
+            forKey: SdkCodingKey("notify_primary_email_address_changed")
+        )
     }
 }
 
@@ -28,11 +31,11 @@ struct CreatePhoneNumberRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.userId, forKey: SdkCodingKey("user_id"))
-        try keyedContainer.encode(self.phoneNumber, forKey: SdkCodingKey("phone_number"))
-        try keyedContainer.encodeIfPresent(self.verified, forKey: SdkCodingKey("verified"))
-        try keyedContainer.encodeIfPresent(self.primary, forKey: SdkCodingKey("primary"))
-        try keyedContainer.encodeIfPresent(self.reservedForSecondFactor, forKey: SdkCodingKey("reserved_for_second_factor"))
+        try keyedContainer.encode(userId, forKey: SdkCodingKey("user_id"))
+        try keyedContainer.encode(phoneNumber, forKey: SdkCodingKey("phone_number"))
+        try keyedContainer.encodeIfPresent(verified, forKey: SdkCodingKey("verified"))
+        try keyedContainer.encodeIfPresent(primary, forKey: SdkCodingKey("primary"))
+        try keyedContainer.encodeIfPresent(reservedForSecondFactor, forKey: SdkCodingKey("reserved_for_second_factor"))
     }
 }
 
@@ -43,9 +46,9 @@ struct UpdatePhoneNumberRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.verified, forKey: SdkCodingKey("verified"))
-        try keyedContainer.encodeIfPresent(self.primary, forKey: SdkCodingKey("primary"))
-        try keyedContainer.encodeIfPresent(self.reservedForSecondFactor, forKey: SdkCodingKey("reserved_for_second_factor"))
+        try keyedContainer.encodeIfPresent(verified, forKey: SdkCodingKey("verified"))
+        try keyedContainer.encodeIfPresent(primary, forKey: SdkCodingKey("primary"))
+        try keyedContainer.encodeIfPresent(reservedForSecondFactor, forKey: SdkCodingKey("reserved_for_second_factor"))
     }
 }
 
@@ -55,8 +58,8 @@ struct AttemptPhoneNumberVerificationRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.verificationId, forKey: SdkCodingKey("verification_id"))
-        try keyedContainer.encode(self.code, forKey: SdkCodingKey("code"))
+        try keyedContainer.encode(verificationId, forKey: SdkCodingKey("verification_id"))
+        try keyedContainer.encode(code, forKey: SdkCodingKey("code"))
     }
 }
 
@@ -66,8 +69,8 @@ struct ReplaceUserPhoneNumberRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.phoneNumber, forKey: SdkCodingKey("phone_number"))
-        try keyedContainer.encodeIfPresent(self.identificationStatus, forKey: SdkCodingKey("identification_status"))
+        try keyedContainer.encode(phoneNumber, forKey: SdkCodingKey("phone_number"))
+        try keyedContainer.encodeIfPresent(identificationStatus, forKey: SdkCodingKey("identification_status"))
     }
 }
 
@@ -77,8 +80,8 @@ struct CreateSessionRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.userId, forKey: SdkCodingKey("user_id"))
-        try keyedContainer.encodeIfPresent(self.activeOrganizationId, forKey: SdkCodingKey("active_organization_id"))
+        try keyedContainer.encode(userId, forKey: SdkCodingKey("user_id"))
+        try keyedContainer.encodeIfPresent(activeOrganizationId, forKey: SdkCodingKey("active_organization_id"))
     }
 }
 
@@ -92,12 +95,12 @@ struct RefreshSessionRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.expiredToken, forKey: SdkCodingKey("expired_token"))
-        try keyedContainer.encode(self.refreshToken, forKey: SdkCodingKey("refresh_token"))
-        try keyedContainer.encode(self.requestOrigin, forKey: SdkCodingKey("request_origin"))
-        try keyedContainer.encodeIfPresent(self.requestHeaders, forKey: SdkCodingKey("request_headers"))
-        try keyedContainer.encodeIfPresent(self.format, forKey: SdkCodingKey("format"))
-        try keyedContainer.encodeIfPresent(self.requestOriginatingIp, forKey: SdkCodingKey("request_originating_ip"))
+        try keyedContainer.encode(expiredToken, forKey: SdkCodingKey("expired_token"))
+        try keyedContainer.encode(refreshToken, forKey: SdkCodingKey("refresh_token"))
+        try keyedContainer.encode(requestOrigin, forKey: SdkCodingKey("request_origin"))
+        try keyedContainer.encodeIfPresent(requestHeaders, forKey: SdkCodingKey("request_headers"))
+        try keyedContainer.encodeIfPresent(format, forKey: SdkCodingKey("format"))
+        try keyedContainer.encodeIfPresent(requestOriginatingIp, forKey: SdkCodingKey("request_originating_ip"))
     }
 }
 
@@ -106,7 +109,7 @@ struct CreateSessionTokenRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.expiresInSeconds, forKey: SdkCodingKey("expires_in_seconds"))
+        try keyedContainer.encodeIfPresent(expiresInSeconds, forKey: SdkCodingKey("expires_in_seconds"))
     }
 }
 
@@ -115,7 +118,7 @@ struct CreateSessionTokenFromTemplateRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.expiresInSeconds, forKey: SdkCodingKey("expires_in_seconds"))
+        try keyedContainer.encodeIfPresent(expiresInSeconds, forKey: SdkCodingKey("expires_in_seconds"))
     }
 }
 
@@ -130,23 +133,23 @@ struct UpsertTemplateRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(self.subject, forKey: SdkCodingKey("subject"))
-        try keyedContainer.encodeIfPresent(self.markup, forKey: SdkCodingKey("markup"))
-        try keyedContainer.encodeIfPresent(self.body, forKey: SdkCodingKey("body"))
-        try keyedContainer.encodeIfPresent(self.deliveredByClerk, forKey: SdkCodingKey("delivered_by_clerk"))
-        try keyedContainer.encodeIfPresent(self.fromEmailName, forKey: SdkCodingKey("from_email_name"))
-        try keyedContainer.encodeIfPresent(self.replyToEmailName, forKey: SdkCodingKey("reply_to_email_name"))
+        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(subject, forKey: SdkCodingKey("subject"))
+        try keyedContainer.encodeIfPresent(markup, forKey: SdkCodingKey("markup"))
+        try keyedContainer.encodeIfPresent(body, forKey: SdkCodingKey("body"))
+        try keyedContainer.encodeIfPresent(deliveredByClerk, forKey: SdkCodingKey("delivered_by_clerk"))
+        try keyedContainer.encodeIfPresent(fromEmailName, forKey: SdkCodingKey("from_email_name"))
+        try keyedContainer.encodeIfPresent(replyToEmailName, forKey: SdkCodingKey("reply_to_email_name"))
     }
 
     init(options: EmailSmsTemplatesMethods.UpsertTemplateOptions) {
-        self.name = options.name
-        self.subject = options.subject
-        self.markup = options.markup
-        self.body = options.body
-        self.deliveredByClerk = options.deliveredByClerk
-        self.fromEmailName = options.fromEmailName
-        self.replyToEmailName = options.replyToEmailName
+        name = options.name
+        subject = options.subject
+        markup = options.markup
+        body = options.body
+        deliveredByClerk = options.deliveredByClerk
+        fromEmailName = options.fromEmailName
+        replyToEmailName = options.replyToEmailName
     }
 }
 
@@ -158,10 +161,10 @@ struct PreviewTemplateRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.subject, forKey: SdkCodingKey("subject"))
-        try keyedContainer.encodeIfPresent(self.body, forKey: SdkCodingKey("body"))
-        try keyedContainer.encodeIfPresent(self.fromEmailName, forKey: SdkCodingKey("from_email_name"))
-        try keyedContainer.encodeIfPresent(self.replyToEmailName, forKey: SdkCodingKey("reply_to_email_name"))
+        try keyedContainer.encodeIfPresent(subject, forKey: SdkCodingKey("subject"))
+        try keyedContainer.encodeIfPresent(body, forKey: SdkCodingKey("body"))
+        try keyedContainer.encodeIfPresent(fromEmailName, forKey: SdkCodingKey("from_email_name"))
+        try keyedContainer.encodeIfPresent(replyToEmailName, forKey: SdkCodingKey("reply_to_email_name"))
     }
 }
 
@@ -170,6 +173,6 @@ struct ToggleTemplateDeliveryRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.deliveredByClerk, forKey: SdkCodingKey("delivered_by_clerk"))
+        try keyedContainer.encodeIfPresent(deliveredByClerk, forKey: SdkCodingKey("delivered_by_clerk"))
     }
 }

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// JWTTemplates domain models
+/// JWTTemplates domain models
 /// Typed representation of the `JWTTemplate` API schema.
 public struct JWTTemplate: Codable {
     /// Required enumerated value serialized in the `object` wire field.
@@ -40,27 +40,40 @@ public struct JWTTemplate: Codable {
         case updatedAt = "updated_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension JWTTemplate {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.claims = try container.sdkDecodeRequired(.claims)
-        self.lifetime = try container.sdkDecodeRequired(.lifetime)
-        self.allowedClockSkew = try container.sdkDecodeRequired(.allowedClockSkew)
-        self.customSigningKey = try container.sdkDecodeRequired(.customSigningKey)
-        self.signingAlgorithm = try container.sdkDecodeRequired(.signingAlgorithm)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension JWTTemplate {
-    public init(object: JWTTemplateObject, id: String, name: String, claims: [String: JSONValue], lifetime: Int, allowedClockSkew: Int, customSigningKey: Bool, signingAlgorithm: String, createdAt: Int, updatedAt: Int) {
+public extension JWTTemplate {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        claims = try container.sdkDecodeRequired(.claims)
+        lifetime = try container.sdkDecodeRequired(.lifetime)
+        allowedClockSkew = try container.sdkDecodeRequired(.allowedClockSkew)
+        customSigningKey = try container.sdkDecodeRequired(.customSigningKey)
+        signingAlgorithm = try container.sdkDecodeRequired(.signingAlgorithm)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+    }
+}
+
+public extension JWTTemplate {
+    init(
+        object: JWTTemplateObject,
+        id: String,
+        name: String,
+        claims: [String: JSONValue],
+        lifetime: Int,
+        allowedClockSkew: Int,
+        customSigningKey: Bool,
+        signingAlgorithm: String,
+        createdAt: Int,
+        updatedAt: Int
+    ) {
         (self.object, self.id) = (object, id)
         (self.name, self.claims) = (name, claims)
         (self.lifetime, self.allowedClockSkew) = (lifetime, allowedClockSkew)
@@ -73,12 +86,15 @@ extension JWTTemplate {
 public struct JWTTemplateObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let jwtTemplate = JWTTemplateObject(rawValue: "jwt_template")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -6,26 +6,55 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OAuthApplicationsMethods {
-    /// Rotates the OAuth application's client secret. When the client secret is rotated, make sure to update it in authorized OAuth clients.
+public extension OAuthApplicationsMethods {
+    /// Rotates the OAuth application's client secret. When the client secret is rotated, make sure to update it in
+    /// authorized OAuth clients.
     ///
     /// - Parameters:
     /// - oauthApplicationId: The ID of the OAuth application for which to rotate
     ///   the client secret
-    public static func rotateOAuthApplicationSecret(config: ClientConfig, oauthApplicationId: String, requestOptions: RequestOptions? = nil) async throws -> OAuthApplicationWithSecret {
-        return try (await sdkRequest("POST", ["/oauth_applications/", sdkEncodePathSegment(sdkWireString(oauthApplicationId)), "/rotate_secret"].joined(), config: config, decoder: .json, operationId: "RotateOAuthApplicationSecret", options: requestOptions, errors: ["403": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func rotateOAuthApplicationSecret(
+        config: ClientConfig,
+        oauthApplicationId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OAuthApplicationWithSecret {
+        try await (sdkRequest(
+            "POST",
+            ["/oauth_applications/", sdkEncodePathSegment(sdkWireString(oauthApplicationId)), "/rotate_secret"]
+                .joined(),
+            config: config,
+            decoder: .json,
+            operationId: "RotateOAuthApplicationSecret",
+            options: requestOptions,
+            errors: ["403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 
-    /// Revoke both OAuth access token and refresh token for the associated grant for the given OAuth application. The request may specify either token. JWT access tokens cannot be revoked.
+    /// Revoke both OAuth access token and refresh token for the associated grant for the given OAuth application. The
+    /// request may specify either token. JWT access tokens cannot be revoked.
     ///
     /// - Parameters:
     /// - oauthApplicationId: The ID of the OAuth application for which to revoke
     ///   the token
     /// - token: The opaque OAuth access token or refresh token to revoke. All
     ///   tokens associated with the same OAuth grant are also revoked.
-    public static func revokeOAuthApplicationToken(config: ClientConfig, oauthApplicationId: String, token: String, requestOptions: RequestOptions? = nil) async throws -> SdkEmptyResponse {
+    static func revokeOAuthApplicationToken(
+        config: ClientConfig,
+        oauthApplicationId: String,
+        token: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SdkEmptyResponse {
         let requestBody = RevokeOAuthApplicationTokenRequestBody(token: token)
 
-        return try (await sdkRequest("POST", ["/oauth_applications/", sdkEncodePathSegment(sdkWireString(oauthApplicationId)), "/revoke_token"].joined(), config: config, body: requestBody, decoder: .empty, operationId: "RevokeOAuthApplicationToken", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/oauth_applications/", sdkEncodePathSegment(sdkWireString(oauthApplicationId)), "/revoke_token"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .empty,
+            operationId: "RevokeOAuthApplicationToken",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

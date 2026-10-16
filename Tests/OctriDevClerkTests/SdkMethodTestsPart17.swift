@@ -6,7 +6,8 @@ import Foundation
 import XCTest
 
 extension SdkMethodTests {
-    func testReplaceDirectoryGroupRoleMappingsReplaceDirectoryGroupRoleMappings400ReachesMockAndDecodesResponse() async throws {
+    func testReplaceDirectoryGroupRoleMappingsReplaceDirectoryGroupRoleMappings400ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -17,9 +18,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.directories.replaceGroupRoleMappings(
-            directoryId: decoded("\"directory-1\""),
-            mappings: decoded(sdkMethodFixture346Value1)
-        )
+                directoryId: decoded("\"directory-1\""),
+                mappings: decoded(sdkMethodFixture346Value1)
+            )
             XCTFail("replaceDirectoryGroupRoleMappings did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -68,10 +69,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizations.replaceMetadata(
-            organizationId: decoded("\"organization-1\""),
-            publicMetadata: decoded("{}"),
-            privateMetadata: decoded("{}")
-        )
+                organizationId: decoded("\"organization-1\""),
+                publicMetadata: decoded("{}"),
+                privateMetadata: decoded("{}")
+            )
             XCTFail("replaceOrganizationMetadata did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -120,10 +121,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.roleSets.replaceRoleIn(
-            roleSetKeyOrId: decoded("\"role_set_key_or-1\""),
-            roleKey: decoded("\"role_key\""),
-            toRoleKey: decoded("\"to_role_key\"")
-        )
+                roleSetKeyOrId: decoded("\"role_set_key_or-1\""),
+                roleKey: decoded("\"role_key\""),
+                toRoleKey: decoded("\"to_role_key\"")
+            )
             XCTFail("replaceRoleInRoleSet did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -172,10 +173,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.roleSets.replace(
-            roleSetKeyOrId: decoded("\"role_set_key_or-1\""),
-            destRoleSetKey: decoded("\"dest_role_set_key\""),
-            reassignmentMappings: decoded("{\"key\":\"key\"}")
-        )
+                roleSetKeyOrId: decoded("\"role_set_key_or-1\""),
+                destRoleSetKey: decoded("\"dest_role_set_key\""),
+                reassignmentMappings: decoded("{\"key\":\"key\"}")
+            )
             XCTFail("replaceRoleSet did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -223,9 +224,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.scimDirectories.replaceScimGroupRoleMappings(
-            scimDirectoryId: decoded("\"scim_directory-1\""),
-            mappings: decoded("[{\"scim_group_id\":\"scim_group-1\",\"role_id\":\"role-1\"}]")
-        )
+                scimDirectoryId: decoded("\"scim_directory-1\""),
+                mappings: decoded("[{\"scim_group_id\":\"scim_group-1\",\"role_id\":\"role-1\"}]")
+            )
             XCTFail("replaceScimGroupRoleMappings did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -275,11 +276,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.emailAddresses.replaceUserEmailAddress(
-            userId: decoded("\"user-1\""),
-            emailAddress: decoded("\"user@example.com\""),
-            identificationStatus: decoded("\"verified\""),
-            notifyPrimaryEmailAddressChanged: decoded("false")
-        )
+                userId: decoded("\"user-1\""),
+                emailAddress: decoded("\"user@example.com\""),
+                identificationStatus: decoded("\"verified\""),
+                notifyPrimaryEmailAddressChanged: decoded("false")
+            )
             XCTFail("replaceUserEmailAddress did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -329,11 +330,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.replaceMetadata(
-            userId: decoded("\"user-1\""),
-            publicMetadata: decoded("{}"),
-            privateMetadata: decoded("{}"),
-            unsafeMetadata: decoded("{}")
-        )
+                userId: decoded("\"user-1\""),
+                publicMetadata: decoded("{}"),
+                privateMetadata: decoded("{}"),
+                unsafeMetadata: decoded("{}")
+            )
             XCTFail("replaceUserMetadata did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -382,10 +383,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.phoneNumbers.replace(
-            userId: decoded("\"user-1\""),
-            phoneNumber: decoded("\"+15555550100\""),
-            identificationStatus: decoded("\"verified\"")
-        )
+                userId: decoded("\"user-1\""),
+                phoneNumber: decoded("\"+15555550100\""),
+                identificationStatus: decoded("\"verified\"")
+            )
             XCTFail("replaceUserPhoneNumber did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -433,9 +434,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.emailSmsTemplates.revertTemplate(
-            templateType: decoded("\"email\""),
-            slug: decoded("\"slug\"")
-        )
+                templateType: decoded("\"email\""),
+                slug: decoded("\"slug\"")
+            )
             XCTFail("revertTemplate did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -482,8 +483,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.actorTokens.revoke(
-            actorTokenId: decoded("\"actor_token-1\"")
-        )
+                actorTokenId: decoded("\"actor_token-1\"")
+            )
             XCTFail("revokeActorToken did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -550,8 +551,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.agentTasks.revoke(
-            agentTaskId: decoded("\"agent_task-1\"")
-        )
+                agentTaskId: decoded("\"agent_task-1\"")
+            )
             XCTFail("revokeAgentTask did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedBilling domain models
+/// SharedBilling domain models
 /// Proration details from passed subscription time
 public struct BillingDiscountsResponseProration: Codable {
     /// Credit amount with formatting
@@ -22,33 +22,51 @@ public struct BillingDiscountsResponseProration: Codable {
         case cyclePassedPercent = "cycle_passed_percent"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BillingDiscountsResponseProration {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        guard container.contains(.cycleDaysPassed) else {
-            throw SdkValidationError(field: "cycle_days_passed", code: "required", message: "Validation failed for 'cycle_days_passed': value is required")
-        }
-        guard container.contains(.cycleDaysTotal) else {
-            throw SdkValidationError(field: "cycle_days_total", code: "required", message: "Validation failed for 'cycle_days_total': value is required")
-        }
-        guard container.contains(.cyclePassedPercent) else {
-            throw SdkValidationError(field: "cycle_passed_percent", code: "required", message: "Validation failed for 'cycle_passed_percent': value is required")
-        }
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.cycleDaysPassed = try container.sdkDecodeRequired(.cycleDaysPassed)
-        self.cycleDaysTotal = try container.sdkDecodeRequired(.cycleDaysTotal)
-        self.cyclePassedPercent = try container.sdkDecodeRequired(.cyclePassedPercent)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BillingDiscountsResponseProration {
-    public init(amount: CommerceMoneyResponse, cycleDaysPassed: Int, cycleDaysTotal: Int, cyclePassedPercent: Double) {
+public extension BillingDiscountsResponseProration {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.amount) else {
+            throw SdkValidationError(
+                field: "amount",
+                code: "required",
+                message: "Validation failed for 'amount': value is required"
+            )
+        }
+        guard container.contains(.cycleDaysPassed) else {
+            throw SdkValidationError(
+                field: "cycle_days_passed",
+                code: "required",
+                message: "Validation failed for 'cycle_days_passed': value is required"
+            )
+        }
+        guard container.contains(.cycleDaysTotal) else {
+            throw SdkValidationError(
+                field: "cycle_days_total",
+                code: "required",
+                message: "Validation failed for 'cycle_days_total': value is required"
+            )
+        }
+        guard container.contains(.cyclePassedPercent) else {
+            throw SdkValidationError(
+                field: "cycle_passed_percent",
+                code: "required",
+                message: "Validation failed for 'cycle_passed_percent': value is required"
+            )
+        }
+        amount = try container.sdkDecodeRequired(.amount)
+        cycleDaysPassed = try container.sdkDecodeRequired(.cycleDaysPassed)
+        cycleDaysTotal = try container.sdkDecodeRequired(.cycleDaysTotal)
+        cyclePassedPercent = try container.sdkDecodeRequired(.cyclePassedPercent)
+    }
+}
+
+public extension BillingDiscountsResponseProration {
+    init(amount: CommerceMoneyResponse, cycleDaysPassed: Int, cycleDaysTotal: Int, cyclePassedPercent: Double) {
         (self.amount, self.cycleDaysPassed) = (amount, cycleDaysPassed)
         (self.cycleDaysTotal, self.cyclePassedPercent) = (cycleDaysTotal, cyclePassedPercent)
     }
@@ -66,25 +84,35 @@ public struct BillingDiscountsResponse: Codable {
         case total
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BillingDiscountsResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.proration) else {
-            throw SdkValidationError(field: "proration", code: "required", message: "Validation failed for 'proration': value is required")
-        }
-        guard container.contains(.total) else {
-            throw SdkValidationError(field: "total", code: "required", message: "Validation failed for 'total': value is required")
-        }
-        self.proration = try container.sdkDecodeNullable(.proration)
-        self.total = try container.sdkDecodeRequired(.total)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BillingDiscountsResponse {
-    public init(proration: [String: JSONValue]?, total: CommerceMoneyResponse) {
+public extension BillingDiscountsResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.proration) else {
+            throw SdkValidationError(
+                field: "proration",
+                code: "required",
+                message: "Validation failed for 'proration': value is required"
+            )
+        }
+        guard container.contains(.total) else {
+            throw SdkValidationError(
+                field: "total",
+                code: "required",
+                message: "Validation failed for 'total': value is required"
+            )
+        }
+        proration = try container.sdkDecodeNullable(.proration)
+        total = try container.sdkDecodeRequired(.total)
+    }
+}
+
+public extension BillingDiscountsResponse {
+    init(proration: [String: JSONValue]?, total: CommerceMoneyResponse) {
         (self.proration, self.total) = (proration, total)
     }
 }
@@ -107,33 +135,51 @@ public struct BillingProrationDiscountDetail: Codable {
         case cyclePassedPercent = "cycle_passed_percent"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BillingProrationDiscountDetail {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        guard container.contains(.cycleDaysPassed) else {
-            throw SdkValidationError(field: "cycle_days_passed", code: "required", message: "Validation failed for 'cycle_days_passed': value is required")
-        }
-        guard container.contains(.cycleDaysTotal) else {
-            throw SdkValidationError(field: "cycle_days_total", code: "required", message: "Validation failed for 'cycle_days_total': value is required")
-        }
-        guard container.contains(.cyclePassedPercent) else {
-            throw SdkValidationError(field: "cycle_passed_percent", code: "required", message: "Validation failed for 'cycle_passed_percent': value is required")
-        }
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.cycleDaysPassed = try container.sdkDecodeRequired(.cycleDaysPassed)
-        self.cycleDaysTotal = try container.sdkDecodeRequired(.cycleDaysTotal)
-        self.cyclePassedPercent = try container.sdkDecodeRequired(.cyclePassedPercent)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BillingProrationDiscountDetail {
-    public init(amount: CommerceMoneyResponse, cycleDaysPassed: Int, cycleDaysTotal: Int, cyclePassedPercent: Double) {
+public extension BillingProrationDiscountDetail {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.amount) else {
+            throw SdkValidationError(
+                field: "amount",
+                code: "required",
+                message: "Validation failed for 'amount': value is required"
+            )
+        }
+        guard container.contains(.cycleDaysPassed) else {
+            throw SdkValidationError(
+                field: "cycle_days_passed",
+                code: "required",
+                message: "Validation failed for 'cycle_days_passed': value is required"
+            )
+        }
+        guard container.contains(.cycleDaysTotal) else {
+            throw SdkValidationError(
+                field: "cycle_days_total",
+                code: "required",
+                message: "Validation failed for 'cycle_days_total': value is required"
+            )
+        }
+        guard container.contains(.cyclePassedPercent) else {
+            throw SdkValidationError(
+                field: "cycle_passed_percent",
+                code: "required",
+                message: "Validation failed for 'cycle_passed_percent': value is required"
+            )
+        }
+        amount = try container.sdkDecodeRequired(.amount)
+        cycleDaysPassed = try container.sdkDecodeRequired(.cycleDaysPassed)
+        cycleDaysTotal = try container.sdkDecodeRequired(.cycleDaysTotal)
+        cyclePassedPercent = try container.sdkDecodeRequired(.cyclePassedPercent)
+    }
+}
+
+public extension BillingProrationDiscountDetail {
+    init(amount: CommerceMoneyResponse, cycleDaysPassed: Int, cycleDaysTotal: Int, cyclePassedPercent: Double) {
         (self.amount, self.cycleDaysPassed) = (amount, cycleDaysPassed)
         (self.cycleDaysTotal, self.cyclePassedPercent) = (cycleDaysTotal, cyclePassedPercent)
     }

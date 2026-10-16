@@ -38,10 +38,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.domains.add(
-            name: decoded("\"Example Name\""),
-            isSatellite: decoded("false"),
-            proxyUrl: decoded("\"https://example.com\"")
-        )
+                name: decoded("\"Example Name\""),
+                isSatellite: decoded("false"),
+                proxyUrl: decoded("\"https://example.com\"")
+            )
             XCTFail("addDomain did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -91,11 +91,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.roleSets.addRolesTo(
-            roleSetKeyOrId: decoded("\"role_set_key_or-1\""),
-            roleKeys: decoded("[\"role_keys\"]"),
-            defaultRoleKey: decoded("\"default_role_key\""),
-            creatorRoleKey: decoded("\"creator_role_key\"")
-        )
+                roleSetKeyOrId: decoded("\"role_set_key_or-1\""),
+                roleKeys: decoded("[\"role_keys\"]"),
+                defaultRoleKey: decoded("\"default_role_key\""),
+                creatorRoleKey: decoded("\"creator_role_key\"")
+            )
             XCTFail("addRolesToRoleSet did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -112,7 +112,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testAdjustOrganizationBillingCreditBalanceAdjustOrganizationBilliX25f3b2f39bReachesMockAndDecodesResponse() async throws {
+    func testAdjustOrganizationBillingCreditBalanceAdjustOrganizationBilliX25f3b2f39bReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -136,7 +137,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testAdjustOrganizationBillingCreditBalanceAdjustOrganizationBilliXb9866559d8ReachesMockAndDecodesResponse() async throws {
+    func testAdjustOrganizationBillingCreditBalanceAdjustOrganizationBilliXb9866559d8ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -147,13 +149,13 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizations.adjustBillingCreditBalance(
-            organizationId: decoded("\"organization-1\""),
-            amount: decoded("100"),
-            action: decoded("\"increase\""),
-            idempotencyKey: decoded("\"idempotency_key\""),
-            currency: decoded("\"currency\""),
-            note: decoded("\"note\"")
-        )
+                organizationId: decoded("\"organization-1\""),
+                amount: decoded("100"),
+                action: decoded("\"increase\""),
+                idempotencyKey: decoded("\"idempotency_key\""),
+                currency: decoded("\"currency\""),
+                note: decoded("\"note\"")
+            )
             XCTFail("adjustOrganizationBillingCreditBalance did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -194,7 +196,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testAdjustUserBillingCreditBalanceAdjustUserBillingCreditBalance400ReachesMockAndDecodesResponse() async throws {
+    func testAdjustUserBillingCreditBalanceAdjustUserBillingCreditBalance400ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -205,13 +208,13 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.adjustBillingCreditBalance(
-            userId: decoded("\"user-1\""),
-            amount: decoded("100"),
-            action: decoded("\"increase\""),
-            idempotencyKey: decoded("\"idempotency_key\""),
-            currency: decoded("\"currency\""),
-            note: decoded("\"note\"")
-        )
+                userId: decoded("\"user-1\""),
+                amount: decoded("100"),
+                action: decoded("\"increase\""),
+                idempotencyKey: decoded("\"idempotency_key\""),
+                currency: decoded("\"currency\""),
+                note: decoded("\"note\"")
+            )
             XCTFail("adjustUserBillingCreditBalance did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -228,7 +231,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testApplyBillingSubscriptionItemDiscountApplyBillingSubscriptionItemDiscountReachesMockAndDecodesResponse() async throws {
+    func testApplyBillingSubscriptionItemDiscountApplyBillingSubscriptionItemDiscountReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -248,7 +252,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testApplyBillingSubscriptionItemDiscountApplyBillingSubscriptionIXed730a147fReachesMockAndDecodesResponse() async throws {
+    func testApplyBillingSubscriptionItemDiscountApplyBillingSubscriptionIXed730a147fReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -259,9 +264,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.billing.applySubscriptionItemDiscount(
-            subscriptionItemId: decoded("\"subscription_item-1\""),
-            discountId: decoded("\"discount-1\"")
-        )
+                subscriptionItemId: decoded("\"subscription_item-1\""),
+                discountId: decoded("\"discount-1\"")
+            )
             XCTFail("applyBillingSubscriptionItemDiscount did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -278,7 +283,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testAssignPermissionToOrganizationRoleAssignPermissionToOrganizationRoleReachesMockAndDecodesResponse() async throws {
+    func testAssignPermissionToOrganizationRoleAssignPermissionToOrganizationRoleReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -298,7 +304,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testAssignPermissionToOrganizationRoleAssignPermissionToOrganizationRole401ReachesMockAndDecodesResponse() async throws {
+    func testAssignPermissionToOrganizationRoleAssignPermissionToOrganizationRole401ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/401") else {
             return
         }
@@ -309,9 +316,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizationRoles.assignPermissionTo(
-            organizationRoleId: decoded("\"organization_role-1\""),
-            permissionId: decoded("\"permission-1\"")
-        )
+                organizationRoleId: decoded("\"organization_role-1\""),
+                permissionId: decoded("\"permission-1\"")
+            )
             XCTFail("assignPermissionToOrganizationRole did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 401)
@@ -349,7 +356,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testAttemptEmailAddressVerificationAttemptEmailAddressVerification400ReachesMockAndDecodesResponse() async throws {
+    func testAttemptEmailAddressVerificationAttemptEmailAddressVerification400ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -360,10 +368,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.emailAddresses.attemptEmailAddressVerification(
-            emailAddressId: decoded("\"email_address-1\""),
-            verificationId: decoded("\"verification-1\""),
-            code: decoded("\"code\"")
-        )
+                emailAddressId: decoded("\"email_address-1\""),
+                verificationId: decoded("\"verification-1\""),
+                code: decoded("\"code\"")
+            )
             XCTFail("attemptEmailAddressVerification did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -401,7 +409,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testAttemptPhoneNumberVerificationAttemptPhoneNumberVerification400ReachesMockAndDecodesResponse() async throws {
+    func testAttemptPhoneNumberVerificationAttemptPhoneNumberVerification400ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -412,10 +421,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.phoneNumbers.attemptVerification(
-            phoneNumberId: decoded("\"phone_number-1\""),
-            verificationId: decoded("\"verification-1\""),
-            code: decoded("\"code\"")
-        )
+                phoneNumberId: decoded("\"phone_number-1\""),
+                verificationId: decoded("\"verification-1\""),
+                code: decoded("\"code\"")
+            )
             XCTFail("attemptPhoneNumberVerification did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -462,8 +471,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.ban(
-            userId: decoded("\"user-1\"")
-        )
+                userId: decoded("\"user-1\"")
+            )
             XCTFail("banUser did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 402)
@@ -510,8 +519,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.banBulk(
-            userIds: decoded("[\"user_ids\"]")
-        )
+                userIds: decoded("[\"user_ids\"]")
+            )
             XCTFail("banUsersBulk did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)

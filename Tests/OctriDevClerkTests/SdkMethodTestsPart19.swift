@@ -37,9 +37,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.setPasswordCompromised(
-            userId: decoded("\"user-1\""),
-            revokeAllSessions: decoded("false")
-        )
+                userId: decoded("\"user-1\""),
+                revokeAllSessions: decoded("false")
+            )
             XCTFail("setUserPasswordCompromised did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -87,9 +87,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.setProfileImage(
-            userId: decoded("\"user-1\""),
-            file: SdkUploadFile(data: Data("sample".utf8), filename: "sample.bin")
-        )
+                userId: decoded("\"user-1\""),
+                file: SdkUploadFile(data: Data("sample".utf8), filename: "sample.bin")
+            )
             XCTFail("setUserProfileImage did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -138,10 +138,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.emailSmsTemplates.toggleTemplateDelivery(
-            templateType: decoded("\"email\""),
-            slug: decoded("\"slug\""),
-            deliveredByClerk: decoded("false")
-        )
+                templateType: decoded("\"email\""),
+                slug: decoded("\"slug\""),
+                deliveredByClerk: decoded("false")
+            )
             XCTFail("toggleTemplateDelivery did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -188,8 +188,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.unban(
-            userId: decoded("\"user-1\"")
-        )
+                userId: decoded("\"user-1\"")
+            )
             XCTFail("unbanUser did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 402)
@@ -236,8 +236,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.unbanBulk(
-            userIds: decoded("[\"user_ids\"]")
-        )
+                userIds: decoded("[\"user_ids\"]")
+            )
             XCTFail("unbanUsersBulk did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -284,8 +284,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.unlock(
-            userId: decoded("\"user-1\"")
-        )
+                userId: decoded("\"user-1\"")
+            )
             XCTFail("unlockUser did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -332,8 +332,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.unsetPasswordCompromised(
-            userId: decoded("\"user-1\"")
-        )
+                userId: decoded("\"user-1\"")
+            )
             XCTFail("unsetUserPasswordCompromised did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -409,13 +409,13 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.directories.update(
-            directoryId: decoded("\"directory-1\""),
-            name: decoded("\"Example Name\""),
-            enabled: decoded("false"),
-            provider: decoded("\"provider\""),
-            attributeMapping: decoded("{\"key\":\"key\"}"),
-            groupRoleMappingEnabled: decoded("false")
-        )
+                directoryId: decoded("\"directory-1\""),
+                name: decoded("\"Example Name\""),
+                enabled: decoded("false"),
+                provider: decoded("\"provider\""),
+                attributeMapping: decoded("{\"key\":\"key\"}"),
+                groupRoleMappingEnabled: decoded("false")
+            )
             XCTFail("updateDirectory did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -465,11 +465,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.domains.update(
-            domainId: decoded("\"domain-1\""),
-            name: decoded("\"Example Name\""),
-            proxyUrl: decoded("\"https://example.com\""),
-            isSecondary: decoded("false")
-        )
+                domainId: decoded("\"domain-1\""),
+                name: decoded("\"Example Name\""),
+                proxyUrl: decoded("\"https://example.com\""),
+                isSecondary: decoded("false")
+            )
             XCTFail("updateDomain did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -519,11 +519,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.emailAddresses.updateEmailAddress(
-            emailAddressId: decoded("\"email_address-1\""),
-            verified: decoded("false"),
-            primary: decoded("false"),
-            notifyPrimaryEmailAddressChanged: decoded("false")
-        )
+                emailAddressId: decoded("\"email_address-1\""),
+                verified: decoded("false"),
+                primary: decoded("false"),
+                notifyPrimaryEmailAddressChanged: decoded("false")
+            )
             XCTFail("updateEmailAddress did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -545,7 +545,8 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try EnterpriseConnectionsMethods.UpdateEnterpriseConnectionOptions(enterpriseConnectionId: decoded("\"enterprise_connection-1\""))
+        var options = try EnterpriseConnectionsMethods
+            .UpdateEnterpriseConnectionOptions(enterpriseConnectionId: decoded("\"enterprise_connection-1\""))
         options.name = try decoded("\"Example Name\"")
         options.domains = try decoded("[\"domains\"]")
         options.active = try decoded("false")

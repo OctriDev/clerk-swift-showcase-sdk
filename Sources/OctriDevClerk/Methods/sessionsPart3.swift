@@ -6,18 +6,32 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension SessionsMethods {
-    /// Retrieves the details and current status of a session identified by its session ID. Use `session_id` to look up the session and inspect its user, client, activity timestamps, expiry, and latest activity when available.
+public extension SessionsMethods {
+    /// Retrieves the details and current status of a session identified by its session ID. Use `session_id` to look up
+    /// the session and inspect its user, client, activity timestamps, expiry, and latest activity when available.
     ///
     /// Retrieve the details of a session
     ///
     /// - Parameters:
     /// - sessionId: The ID of the session
-    public static func getSession(config: ClientConfig, sessionId: String, requestOptions: RequestOptions? = nil) async throws -> Session {
-        return try (await sdkRequest("GET", ["/sessions/", sdkEncodePathSegment(sdkWireString(sessionId))].joined(), config: config, decoder: .json, operationId: "GetSession", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func getSession(
+        config: ClientConfig,
+        sessionId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Session {
+        try await (sdkRequest(
+            "GET",
+            ["/sessions/", sdkEncodePathSegment(sdkWireString(sessionId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "GetSession",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 
-    /// Refreshes a session by creating a new session token. A 401 is returned when there are validation errors, which signals the SDKs to fall back to the handshake flow.
+    /// Refreshes a session by creating a new session token. A 401 is returned when there are validation errors, which
+    /// signals the SDKs to fall back to the handshake flow.
     ///
     /// - Parameters:
     /// - sessionId: The ID of the session
@@ -29,9 +43,35 @@ extension SessionsMethods {
     /// - requestHeaders: The headers of the request.
     /// - format: The format of the response.
     /// - requestOriginatingIp: The IP address of the request.
-    public static func refreshSession(config: ClientConfig, sessionId: String, expiredToken: String, refreshToken: String, requestOrigin: String, requestHeaders: SdkOptional<[String: JSONValue]>? = nil, format: SdkOptional<RefreshSessionRequestBodyFormat>? = nil, requestOriginatingIp: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> SessionRefresh {
-        let requestBody = RefreshSessionRequestBody(expiredToken: expiredToken, refreshToken: refreshToken, requestOrigin: requestOrigin, requestHeaders: requestHeaders, format: format, requestOriginatingIp: requestOriginatingIp)
+    static func refreshSession(
+        config: ClientConfig,
+        sessionId: String,
+        expiredToken: String,
+        refreshToken: String,
+        requestOrigin: String,
+        requestHeaders: SdkOptional<[String: JSONValue]>? = nil,
+        format: SdkOptional<RefreshSessionRequestBodyFormat>? = nil,
+        requestOriginatingIp: SdkOptional<String>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SessionRefresh {
+        let requestBody = RefreshSessionRequestBody(
+            expiredToken: expiredToken,
+            refreshToken: refreshToken,
+            requestOrigin: requestOrigin,
+            requestHeaders: requestHeaders,
+            format: format,
+            requestOriginatingIp: requestOriginatingIp
+        )
 
-        return try (await sdkRequest("POST", ["/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "/refresh"].joined(), config: config, body: requestBody, decoder: .json, operationId: "RefreshSession", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "/refresh"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "RefreshSession",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self]
+        )).data
     }
 }

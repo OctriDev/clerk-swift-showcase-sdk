@@ -6,18 +6,33 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension DirectoriesMethods {
-    /// Retrieves the configuration for a directory used to provision users from an identity provider. Use `directory_id` to identify the directory whose details you need.
+public extension DirectoriesMethods {
+    /// Retrieves the configuration for a directory used to provision users from an identity provider. Use
+    /// `directory_id` to identify the directory whose details you need.
     ///
     /// Returns the details of a directory.
     ///
     /// - Parameters:
     /// - directoryId: The ID of the directory to retrieve
-    public static func getDirectory(config: ClientConfig, directoryId: String, requestOptions: RequestOptions? = nil) async throws -> Directory {
-        return try (await sdkRequest("GET", ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId))].joined(), config: config, decoder: .json, operationId: "GetDirectory", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func getDirectory(
+        config: ClientConfig,
+        directoryId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Directory {
+        try await (sdkRequest(
+            "GET",
+            ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "GetDirectory",
+            options: requestOptions,
+            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 
-    /// Updates configurable properties of a directory used to provision users from an identity provider. Supply only the fields you want to change; `attribute_mapping` entries are merged into the existing mapping, and a key set to `null` is removed.
+    /// Updates configurable properties of a directory used to provision users from an identity provider. Supply only
+    /// the fields you want to change; `attribute_mapping` entries are merged into the existing mapping, and a key set
+    /// to `null` is removed.
     ///
     /// Updates a directory.
     ///
@@ -31,9 +46,39 @@ extension DirectoriesMethods {
     ///   mapping.
     /// - groupRoleMappingEnabled: Whether group-to-role mapping is enabled for this
     ///   directory.
-    public static func updateDirectory(config: ClientConfig, directoryId: String, name: String? = nil, enabled: Bool? = nil, provider: String? = nil, attributeMapping: [String: String?]? = nil, groupRoleMappingEnabled: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> Directory {
-        let requestBody = UpdateDirectoryRequestBody(name: name, enabled: enabled, provider: provider, attributeMapping: attributeMapping, groupRoleMappingEnabled: groupRoleMappingEnabled)
+    static func updateDirectory(
+        config: ClientConfig,
+        directoryId: String,
+        name: String? = nil,
+        enabled: Bool? = nil,
+        provider: String? = nil,
+        attributeMapping: [String: String?]? = nil,
+        groupRoleMappingEnabled: Bool? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Directory {
+        let requestBody = UpdateDirectoryRequestBody(
+            name: name,
+            enabled: enabled,
+            provider: provider,
+            attributeMapping: attributeMapping,
+            groupRoleMappingEnabled: groupRoleMappingEnabled
+        )
 
-        return try (await sdkRequest("PATCH", ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateDirectory", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId))].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdateDirectory",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 }

@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-// Canonical scimDirectories operation model declarations
+/// Canonical scimDirectories operation model declarations
 public struct ListSCIMGroupRoleMappingsResponse: Codable {
     public var data: SCIMGroupRoleMappings
     /// Total number of SCIM group role mappings in the directory.
@@ -18,25 +18,35 @@ public struct ListSCIMGroupRoleMappingsResponse: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ListSCIMGroupRoleMappingsResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ListSCIMGroupRoleMappingsResponse {
-    public init(data: SCIMGroupRoleMappings, totalCount: Int) {
+public extension ListSCIMGroupRoleMappingsResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension ListSCIMGroupRoleMappingsResponse {
+    init(data: SCIMGroupRoleMappings, totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -58,40 +68,66 @@ public struct CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem: Codable {
         case precedence
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem {
-    public init(from decoder: Decoder) throws {
+public extension CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.scimGroupId) else {
-            throw SdkValidationError(field: "scim_group_id", code: "required", message: "Validation failed for 'scim_group_id': value is required")
+            throw SdkValidationError(
+                field: "scim_group_id",
+                code: "required",
+                message: "Validation failed for 'scim_group_id': value is required"
+            )
         }
         guard container.contains(.roleId) else {
-            throw SdkValidationError(field: "role_id", code: "required", message: "Validation failed for 'role_id': value is required")
+            throw SdkValidationError(
+                field: "role_id",
+                code: "required",
+                message: "Validation failed for 'role_id': value is required"
+            )
         }
-        self.scimGroupId = try container.sdkDecodeRequired(.scimGroupId)
-        self.roleId = try container.sdkDecodeRequired(.roleId)
-        self.scimGroupDisplayName = try container.sdkDecodeIfPresent(.scimGroupDisplayName)
-        self.precedence = try container.sdkDecodeIfPresent(.precedence)
-        if let value = self.scimGroupDisplayName {
+        scimGroupId = try container.sdkDecodeRequired(.scimGroupId)
+        roleId = try container.sdkDecodeRequired(.roleId)
+        scimGroupDisplayName = try container.sdkDecodeIfPresent(.scimGroupDisplayName)
+        precedence = try container.sdkDecodeIfPresent(.precedence)
+        if let value = scimGroupDisplayName {
             try validateLength("scim_group_display_name", value, min: nil, max: 255)
         }
-        if let value = self.precedence {
-            try validateRange("precedence", Double(value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        if let value = precedence {
+            try validateRange(
+                "precedence",
+                Double(value),
+                min: 1,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
 
-extension CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem {
-    public init(scimGroupId: String, roleId: String, scimGroupDisplayName: String? = nil, precedence: Int? = nil) throws {
+public extension CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem {
+    init(scimGroupId: String, roleId: String, scimGroupDisplayName: String? = nil, precedence: Int? = nil) throws {
         (self.scimGroupId, self.roleId) = (scimGroupId, roleId)
         (self.scimGroupDisplayName, self.precedence) = (scimGroupDisplayName, precedence)
         if let value = self.scimGroupDisplayName {
             try validateLength("scim_group_display_name", value, min: nil, max: 255)
         }
         if let value = self.precedence {
-            try validateRange("precedence", Double(value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "precedence",
+                Double(value),
+                min: 1,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
@@ -110,29 +146,43 @@ public struct DeleteSCIMGroupRoleMappingResponse: Codable {
         case deleted
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension DeleteSCIMGroupRoleMappingResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.deleted) else {
-            throw SdkValidationError(field: "deleted", code: "required", message: "Validation failed for 'deleted': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.deleted = try container.sdkDecodeRequired(.deleted)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension DeleteSCIMGroupRoleMappingResponse {
-    public init(object: DeleteSCIMGroupRoleMappingResponseObject, id: String, deleted: Bool) {
+public extension DeleteSCIMGroupRoleMappingResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.deleted) else {
+            throw SdkValidationError(
+                field: "deleted",
+                code: "required",
+                message: "Validation failed for 'deleted': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        deleted = try container.sdkDecodeRequired(.deleted)
+    }
+}
+
+public extension DeleteSCIMGroupRoleMappingResponse {
+    init(object: DeleteSCIMGroupRoleMappingResponseObject, id: String, deleted: Bool) {
         (self.object, self.id) = (object, id)
         self.deleted = deleted
     }
@@ -148,25 +198,35 @@ public struct ListSCIMDirectoriesResponse: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ListSCIMDirectoriesResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ListSCIMDirectoriesResponse {
-    public init(data: SCIMDirectories, totalCount: Int) {
+public extension ListSCIMDirectoriesResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension ListSCIMDirectoriesResponse {
+    init(data: SCIMDirectories, totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -182,25 +242,35 @@ public struct ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem: Codable {
         case roleId = "role_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.scimGroupId) else {
-            throw SdkValidationError(field: "scim_group_id", code: "required", message: "Validation failed for 'scim_group_id': value is required")
-        }
-        guard container.contains(.roleId) else {
-            throw SdkValidationError(field: "role_id", code: "required", message: "Validation failed for 'role_id': value is required")
-        }
-        self.scimGroupId = try container.sdkDecodeRequired(.scimGroupId)
-        self.roleId = try container.sdkDecodeRequired(.roleId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem {
-    public init(scimGroupId: String, roleId: String) {
+public extension ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.scimGroupId) else {
+            throw SdkValidationError(
+                field: "scim_group_id",
+                code: "required",
+                message: "Validation failed for 'scim_group_id': value is required"
+            )
+        }
+        guard container.contains(.roleId) else {
+            throw SdkValidationError(
+                field: "role_id",
+                code: "required",
+                message: "Validation failed for 'role_id': value is required"
+            )
+        }
+        scimGroupId = try container.sdkDecodeRequired(.scimGroupId)
+        roleId = try container.sdkDecodeRequired(.roleId)
+    }
+}
+
+public extension ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem {
+    init(scimGroupId: String, roleId: String) {
         (self.scimGroupId, self.roleId) = (scimGroupId, roleId)
     }
 }

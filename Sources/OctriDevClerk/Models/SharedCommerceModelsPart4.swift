@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedCommerce domain models
+/// SharedCommerce domain models
 /// Typed representation of the `CommercePlan` API schema.
 public struct CommercePlan: Codable {
     /// String representing the object's type. Objects of the same type share the same value.
@@ -67,36 +67,58 @@ public struct CommercePlan: Codable {
         case unitPrices = "unit_prices"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommercePlan {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.fee = try container.sdkDecodeNullable(.fee)
-        self.annualMonthlyFee = try container.sdkDecodeNullable(.annualMonthlyFee)
-        self.annualFee = try container.sdkDecodeNullable(.annualFee)
-        self.description = try container.sdkDecodeNullable(.description)
-        self.productId = try container.sdkDecodeRequired(.productId)
-        self.isDefault = try container.sdkDecodeRequired(.isDefault)
-        self.isRecurring = try container.sdkDecodeRequired(.isRecurring)
-        self.publiclyVisible = try container.sdkDecodeRequired(.publiclyVisible)
-        self.hasBaseFee = try container.sdkDecodeRequired(.hasBaseFee)
-        self.forPayerType = try container.sdkDecodeRequired(.forPayerType)
-        self.slug = try container.sdkDecodeRequired(.slug)
-        self.avatarUrl = try container.sdkDecodeNullable(.avatarUrl)
-        self.freeTrialEnabled = try container.sdkDecodeRequired(.freeTrialEnabled)
-        self.freeTrialDays = try container.sdkDecodeNullable(.freeTrialDays)
-        self.features = try container.sdkDecodeIfPresent(.features)
-        self.unitPrices = try container.sdkDecodeIfPresent(.unitPrices)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CommercePlan {
-    public init(object: CommercePlanObject, id: String, name: String, fee: CommercePlanFee?, annualMonthlyFee: CommercePlanAnnualMonthlyFee?, annualFee: CommercePlanAnnualFee?, description: String?, productId: String, isDefault: Bool, isRecurring: Bool, publiclyVisible: Bool, hasBaseFee: Bool, forPayerType: String, slug: String, avatarUrl: String?, freeTrialEnabled: Bool, freeTrialDays: Int?, features: [FeatureResponse]? = nil, unitPrices: [CommercePlanUnitPrice]? = nil) {
+public extension CommercePlan {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        fee = try container.sdkDecodeNullable(.fee)
+        annualMonthlyFee = try container.sdkDecodeNullable(.annualMonthlyFee)
+        annualFee = try container.sdkDecodeNullable(.annualFee)
+        description = try container.sdkDecodeNullable(.description)
+        productId = try container.sdkDecodeRequired(.productId)
+        isDefault = try container.sdkDecodeRequired(.isDefault)
+        isRecurring = try container.sdkDecodeRequired(.isRecurring)
+        publiclyVisible = try container.sdkDecodeRequired(.publiclyVisible)
+        hasBaseFee = try container.sdkDecodeRequired(.hasBaseFee)
+        forPayerType = try container.sdkDecodeRequired(.forPayerType)
+        slug = try container.sdkDecodeRequired(.slug)
+        avatarUrl = try container.sdkDecodeNullable(.avatarUrl)
+        freeTrialEnabled = try container.sdkDecodeRequired(.freeTrialEnabled)
+        freeTrialDays = try container.sdkDecodeNullable(.freeTrialDays)
+        features = try container.sdkDecodeIfPresent(.features)
+        unitPrices = try container.sdkDecodeIfPresent(.unitPrices)
+    }
+}
+
+public extension CommercePlan {
+    init(
+        object: CommercePlanObject,
+        id: String,
+        name: String,
+        fee: CommercePlanFee?,
+        annualMonthlyFee: CommercePlanAnnualMonthlyFee?,
+        annualFee: CommercePlanAnnualFee?,
+        description: String?,
+        productId: String,
+        isDefault: Bool,
+        isRecurring: Bool,
+        publiclyVisible: Bool,
+        hasBaseFee: Bool,
+        forPayerType: String,
+        slug: String,
+        avatarUrl: String?,
+        freeTrialEnabled: Bool,
+        freeTrialDays: Int?,
+        features: [FeatureResponse]? = nil,
+        unitPrices: [CommercePlanUnitPrice]? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.name, self.fee) = (name, fee)
         (self.annualMonthlyFee, self.annualFee) = (annualMonthlyFee, annualFee)
@@ -131,22 +153,27 @@ public struct CommerceSubscriptionItemNextPayment: Codable {
     }
 
     init() {
-        (self.amount, self.date, self.perUnitTotals, self.totals) = (nil, nil, nil, nil)
+        (amount, date, perUnitTotals, totals) = (nil, nil, nil, nil)
     }
 }
 
-extension CommerceSubscriptionItemNextPayment {
-    public init(from decoder: Decoder) throws {
+public extension CommerceSubscriptionItemNextPayment {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.amount = try container.sdkDecodeIfPresent(.amount)
-        self.date = try container.sdkDecodeIfPresent(.date)
-        self.perUnitTotals = try container.sdkDecodeIfPresent(.perUnitTotals)
-        self.totals = try container.sdkDecodeIfPresent(.totals)
+        amount = try container.sdkDecodeIfPresent(.amount)
+        date = try container.sdkDecodeIfPresent(.date)
+        perUnitTotals = try container.sdkDecodeIfPresent(.perUnitTotals)
+        totals = try container.sdkDecodeIfPresent(.totals)
     }
 }
 
-extension CommerceSubscriptionItemNextPayment {
-    public init(amount: CommerceSubscriptionItemNextPaymentResponseAmount? = nil, date: Int? = nil, perUnitTotals: [CommercePerUnitTotal]? = nil, totals: CommerceSubscriptionItemNextPaymentResponseTotals? = nil) {
+public extension CommerceSubscriptionItemNextPayment {
+    init(
+        amount: CommerceSubscriptionItemNextPaymentResponseAmount? = nil,
+        date: Int? = nil,
+        perUnitTotals: [CommercePerUnitTotal]? = nil,
+        totals: CommerceSubscriptionItemNextPaymentResponseTotals? = nil
+    ) {
         self.init()
         (self.amount, self.date) = (amount, date)
         (self.perUnitTotals, self.totals) = (perUnitTotals, totals)
@@ -168,29 +195,43 @@ public struct CommercePlanUnitPrice: Codable {
         case tiers
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommercePlanUnitPrice {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.blockSize) else {
-            throw SdkValidationError(field: "block_size", code: "required", message: "Validation failed for 'block_size': value is required")
-        }
-        guard container.contains(.tiers) else {
-            throw SdkValidationError(field: "tiers", code: "required", message: "Validation failed for 'tiers': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.blockSize = try container.sdkDecodeRequired(.blockSize)
-        self.tiers = try container.sdkDecodeRequired(.tiers)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CommercePlanUnitPrice {
-    public init(name: String, blockSize: Int, tiers: [CommercePlanUnitPriceTier]) {
+public extension CommercePlanUnitPrice {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.blockSize) else {
+            throw SdkValidationError(
+                field: "block_size",
+                code: "required",
+                message: "Validation failed for 'block_size': value is required"
+            )
+        }
+        guard container.contains(.tiers) else {
+            throw SdkValidationError(
+                field: "tiers",
+                code: "required",
+                message: "Validation failed for 'tiers': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        blockSize = try container.sdkDecodeRequired(.blockSize)
+        tiers = try container.sdkDecodeRequired(.tiers)
+    }
+}
+
+public extension CommercePlanUnitPrice {
+    init(name: String, blockSize: Int, tiers: [CommercePlanUnitPriceTier]) {
         (self.name, self.blockSize) = (name, blockSize)
         self.tiers = tiers
     }
@@ -217,22 +258,27 @@ public struct CommerceSubscriptionItemNextPaymentResponse: Codable {
     }
 
     init() {
-        (self.amount, self.date, self.perUnitTotals, self.totals) = (nil, nil, nil, nil)
+        (amount, date, perUnitTotals, totals) = (nil, nil, nil, nil)
     }
 }
 
-extension CommerceSubscriptionItemNextPaymentResponse {
-    public init(from decoder: Decoder) throws {
+public extension CommerceSubscriptionItemNextPaymentResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.amount = try container.sdkDecodeIfPresent(.amount)
-        self.date = try container.sdkDecodeIfPresent(.date)
-        self.perUnitTotals = try container.sdkDecodeIfPresent(.perUnitTotals)
-        self.totals = try container.sdkDecodeIfPresent(.totals)
+        amount = try container.sdkDecodeIfPresent(.amount)
+        date = try container.sdkDecodeIfPresent(.date)
+        perUnitTotals = try container.sdkDecodeIfPresent(.perUnitTotals)
+        totals = try container.sdkDecodeIfPresent(.totals)
     }
 }
 
-extension CommerceSubscriptionItemNextPaymentResponse {
-    public init(amount: CommerceSubscriptionItemNextPaymentResponseAmount? = nil, date: Int? = nil, perUnitTotals: [CommercePerUnitTotal]? = nil, totals: CommerceSubscriptionItemNextPaymentResponseTotals? = nil) {
+public extension CommerceSubscriptionItemNextPaymentResponse {
+    init(
+        amount: CommerceSubscriptionItemNextPaymentResponseAmount? = nil,
+        date: Int? = nil,
+        perUnitTotals: [CommercePerUnitTotal]? = nil,
+        totals: CommerceSubscriptionItemNextPaymentResponseTotals? = nil
+    ) {
         self.init()
         (self.amount, self.date) = (amount, date)
         (self.perUnitTotals, self.totals) = (perUnitTotals, totals)
@@ -251,25 +297,35 @@ public struct CommerceDiscountsResponse: Codable {
         case total
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommerceDiscountsResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.proration) else {
-            throw SdkValidationError(field: "proration", code: "required", message: "Validation failed for 'proration': value is required")
-        }
-        guard container.contains(.total) else {
-            throw SdkValidationError(field: "total", code: "required", message: "Validation failed for 'total': value is required")
-        }
-        self.proration = try container.sdkDecodeNullable(.proration)
-        self.total = try container.sdkDecodeRequired(.total)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CommerceDiscountsResponse {
-    public init(proration: CommerceDiscountsResponseProration?, total: CommerceMoneyResponse) {
+public extension CommerceDiscountsResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.proration) else {
+            throw SdkValidationError(
+                field: "proration",
+                code: "required",
+                message: "Validation failed for 'proration': value is required"
+            )
+        }
+        guard container.contains(.total) else {
+            throw SdkValidationError(
+                field: "total",
+                code: "required",
+                message: "Validation failed for 'total': value is required"
+            )
+        }
+        proration = try container.sdkDecodeNullable(.proration)
+        total = try container.sdkDecodeRequired(.total)
+    }
+}
+
+public extension CommerceDiscountsResponse {
+    init(proration: CommerceDiscountsResponseProration?, total: CommerceMoneyResponse) {
         (self.proration, self.total) = (proration, total)
     }
 }
@@ -292,33 +348,51 @@ public struct CommercePlanFee: Codable {
         case currencySymbol = "currency_symbol"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommercePlanFee {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        guard container.contains(.amountFormatted) else {
-            throw SdkValidationError(field: "amount_formatted", code: "required", message: "Validation failed for 'amount_formatted': value is required")
-        }
-        guard container.contains(.currency) else {
-            throw SdkValidationError(field: "currency", code: "required", message: "Validation failed for 'currency': value is required")
-        }
-        guard container.contains(.currencySymbol) else {
-            throw SdkValidationError(field: "currency_symbol", code: "required", message: "Validation failed for 'currency_symbol': value is required")
-        }
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.amountFormatted = try container.sdkDecodeRequired(.amountFormatted)
-        self.currency = try container.sdkDecodeRequired(.currency)
-        self.currencySymbol = try container.sdkDecodeRequired(.currencySymbol)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CommercePlanFee {
-    public init(amount: Int, amountFormatted: String, currency: String, currencySymbol: String) {
+public extension CommercePlanFee {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.amount) else {
+            throw SdkValidationError(
+                field: "amount",
+                code: "required",
+                message: "Validation failed for 'amount': value is required"
+            )
+        }
+        guard container.contains(.amountFormatted) else {
+            throw SdkValidationError(
+                field: "amount_formatted",
+                code: "required",
+                message: "Validation failed for 'amount_formatted': value is required"
+            )
+        }
+        guard container.contains(.currency) else {
+            throw SdkValidationError(
+                field: "currency",
+                code: "required",
+                message: "Validation failed for 'currency': value is required"
+            )
+        }
+        guard container.contains(.currencySymbol) else {
+            throw SdkValidationError(
+                field: "currency_symbol",
+                code: "required",
+                message: "Validation failed for 'currency_symbol': value is required"
+            )
+        }
+        amount = try container.sdkDecodeRequired(.amount)
+        amountFormatted = try container.sdkDecodeRequired(.amountFormatted)
+        currency = try container.sdkDecodeRequired(.currency)
+        currencySymbol = try container.sdkDecodeRequired(.currencySymbol)
+    }
+}
+
+public extension CommercePlanFee {
+    init(amount: Int, amountFormatted: String, currency: String, currencySymbol: String) {
         (self.amount, self.amountFormatted) = (amount, amountFormatted)
         (self.currency, self.currencySymbol) = (currency, currencySymbol)
     }
@@ -342,33 +416,51 @@ public struct CommerceCreditBalanceResponseBalance: Codable {
         case currencySymbol = "currency_symbol"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommerceCreditBalanceResponseBalance {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        guard container.contains(.amountFormatted) else {
-            throw SdkValidationError(field: "amount_formatted", code: "required", message: "Validation failed for 'amount_formatted': value is required")
-        }
-        guard container.contains(.currency) else {
-            throw SdkValidationError(field: "currency", code: "required", message: "Validation failed for 'currency': value is required")
-        }
-        guard container.contains(.currencySymbol) else {
-            throw SdkValidationError(field: "currency_symbol", code: "required", message: "Validation failed for 'currency_symbol': value is required")
-        }
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.amountFormatted = try container.sdkDecodeRequired(.amountFormatted)
-        self.currency = try container.sdkDecodeRequired(.currency)
-        self.currencySymbol = try container.sdkDecodeRequired(.currencySymbol)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CommerceCreditBalanceResponseBalance {
-    public init(amount: Int, amountFormatted: String, currency: String, currencySymbol: String) {
+public extension CommerceCreditBalanceResponseBalance {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.amount) else {
+            throw SdkValidationError(
+                field: "amount",
+                code: "required",
+                message: "Validation failed for 'amount': value is required"
+            )
+        }
+        guard container.contains(.amountFormatted) else {
+            throw SdkValidationError(
+                field: "amount_formatted",
+                code: "required",
+                message: "Validation failed for 'amount_formatted': value is required"
+            )
+        }
+        guard container.contains(.currency) else {
+            throw SdkValidationError(
+                field: "currency",
+                code: "required",
+                message: "Validation failed for 'currency': value is required"
+            )
+        }
+        guard container.contains(.currencySymbol) else {
+            throw SdkValidationError(
+                field: "currency_symbol",
+                code: "required",
+                message: "Validation failed for 'currency_symbol': value is required"
+            )
+        }
+        amount = try container.sdkDecodeRequired(.amount)
+        amountFormatted = try container.sdkDecodeRequired(.amountFormatted)
+        currency = try container.sdkDecodeRequired(.currency)
+        currencySymbol = try container.sdkDecodeRequired(.currencySymbol)
+    }
+}
+
+public extension CommerceCreditBalanceResponseBalance {
+    init(amount: Int, amountFormatted: String, currency: String, currencySymbol: String) {
         (self.amount, self.amountFormatted) = (amount, amountFormatted)
         (self.currency, self.currencySymbol) = (currency, currencySymbol)
     }
@@ -392,33 +484,51 @@ public struct CommerceDiscountsResponseProration: Codable {
         case cyclePassedPercent = "cycle_passed_percent"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommerceDiscountsResponseProration {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        guard container.contains(.cycleDaysPassed) else {
-            throw SdkValidationError(field: "cycle_days_passed", code: "required", message: "Validation failed for 'cycle_days_passed': value is required")
-        }
-        guard container.contains(.cycleDaysTotal) else {
-            throw SdkValidationError(field: "cycle_days_total", code: "required", message: "Validation failed for 'cycle_days_total': value is required")
-        }
-        guard container.contains(.cyclePassedPercent) else {
-            throw SdkValidationError(field: "cycle_passed_percent", code: "required", message: "Validation failed for 'cycle_passed_percent': value is required")
-        }
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.cycleDaysPassed = try container.sdkDecodeRequired(.cycleDaysPassed)
-        self.cycleDaysTotal = try container.sdkDecodeRequired(.cycleDaysTotal)
-        self.cyclePassedPercent = try container.sdkDecodeRequired(.cyclePassedPercent)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CommerceDiscountsResponseProration {
-    public init(amount: CommerceMoneyResponse, cycleDaysPassed: Int, cycleDaysTotal: Int, cyclePassedPercent: Double) {
+public extension CommerceDiscountsResponseProration {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.amount) else {
+            throw SdkValidationError(
+                field: "amount",
+                code: "required",
+                message: "Validation failed for 'amount': value is required"
+            )
+        }
+        guard container.contains(.cycleDaysPassed) else {
+            throw SdkValidationError(
+                field: "cycle_days_passed",
+                code: "required",
+                message: "Validation failed for 'cycle_days_passed': value is required"
+            )
+        }
+        guard container.contains(.cycleDaysTotal) else {
+            throw SdkValidationError(
+                field: "cycle_days_total",
+                code: "required",
+                message: "Validation failed for 'cycle_days_total': value is required"
+            )
+        }
+        guard container.contains(.cyclePassedPercent) else {
+            throw SdkValidationError(
+                field: "cycle_passed_percent",
+                code: "required",
+                message: "Validation failed for 'cycle_passed_percent': value is required"
+            )
+        }
+        amount = try container.sdkDecodeRequired(.amount)
+        cycleDaysPassed = try container.sdkDecodeRequired(.cycleDaysPassed)
+        cycleDaysTotal = try container.sdkDecodeRequired(.cycleDaysTotal)
+        cyclePassedPercent = try container.sdkDecodeRequired(.cyclePassedPercent)
+    }
+}
+
+public extension CommerceDiscountsResponseProration {
+    init(amount: CommerceMoneyResponse, cycleDaysPassed: Int, cycleDaysTotal: Int, cyclePassedPercent: Double) {
         (self.amount, self.cycleDaysPassed) = (amount, cycleDaysPassed)
         (self.cycleDaysTotal, self.cyclePassedPercent) = (cycleDaysTotal, cyclePassedPercent)
     }
@@ -442,33 +552,51 @@ public struct CommerceCreditsResponseProration: Codable {
         case cycleRemainingPercent = "cycle_remaining_percent"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommerceCreditsResponseProration {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        guard container.contains(.cycleDaysRemaining) else {
-            throw SdkValidationError(field: "cycle_days_remaining", code: "required", message: "Validation failed for 'cycle_days_remaining': value is required")
-        }
-        guard container.contains(.cycleDaysTotal) else {
-            throw SdkValidationError(field: "cycle_days_total", code: "required", message: "Validation failed for 'cycle_days_total': value is required")
-        }
-        guard container.contains(.cycleRemainingPercent) else {
-            throw SdkValidationError(field: "cycle_remaining_percent", code: "required", message: "Validation failed for 'cycle_remaining_percent': value is required")
-        }
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.cycleDaysRemaining = try container.sdkDecodeRequired(.cycleDaysRemaining)
-        self.cycleDaysTotal = try container.sdkDecodeRequired(.cycleDaysTotal)
-        self.cycleRemainingPercent = try container.sdkDecodeRequired(.cycleRemainingPercent)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CommerceCreditsResponseProration {
-    public init(amount: CommerceMoneyResponse, cycleDaysRemaining: Int, cycleDaysTotal: Int, cycleRemainingPercent: Double) {
+public extension CommerceCreditsResponseProration {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.amount) else {
+            throw SdkValidationError(
+                field: "amount",
+                code: "required",
+                message: "Validation failed for 'amount': value is required"
+            )
+        }
+        guard container.contains(.cycleDaysRemaining) else {
+            throw SdkValidationError(
+                field: "cycle_days_remaining",
+                code: "required",
+                message: "Validation failed for 'cycle_days_remaining': value is required"
+            )
+        }
+        guard container.contains(.cycleDaysTotal) else {
+            throw SdkValidationError(
+                field: "cycle_days_total",
+                code: "required",
+                message: "Validation failed for 'cycle_days_total': value is required"
+            )
+        }
+        guard container.contains(.cycleRemainingPercent) else {
+            throw SdkValidationError(
+                field: "cycle_remaining_percent",
+                code: "required",
+                message: "Validation failed for 'cycle_remaining_percent': value is required"
+            )
+        }
+        amount = try container.sdkDecodeRequired(.amount)
+        cycleDaysRemaining = try container.sdkDecodeRequired(.cycleDaysRemaining)
+        cycleDaysTotal = try container.sdkDecodeRequired(.cycleDaysTotal)
+        cycleRemainingPercent = try container.sdkDecodeRequired(.cycleRemainingPercent)
+    }
+}
+
+public extension CommerceCreditsResponseProration {
+    init(amount: CommerceMoneyResponse, cycleDaysRemaining: Int, cycleDaysTotal: Int, cycleRemainingPercent: Double) {
         (self.amount, self.cycleDaysRemaining) = (amount, cycleDaysRemaining)
         (self.cycleDaysTotal, self.cycleRemainingPercent) = (cycleDaysTotal, cycleRemainingPercent)
     }
@@ -501,5 +629,7 @@ public struct CommerceTotalsResponse: Codable {
         case discounts
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }

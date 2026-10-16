@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension EmailSmsTemplatesMethods {
-    /// Reverts an email or SMS template to its corresponding system default. Use `template_type` and `slug` to identify the template to restore.
+public extension EmailSmsTemplatesMethods {
+    /// Reverts an email or SMS template to its corresponding system default. Use `template_type` and `slug` to identify
+    /// the template to restore.
     ///
     /// Reverts an updated template to its default state
     ///
@@ -16,7 +17,26 @@ extension EmailSmsTemplatesMethods {
     /// - slug: The slug of the template to revert
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public static func revertTemplate(config: ClientConfig, templateType: RevertTemplateParameter, slug: String, requestOptions: RequestOptions? = nil) async throws -> Template {
-        return try (await sdkRequest("POST", ["/templates/", sdkEncodePathSegment(sdkWireString(templateType)), "/", sdkEncodePathSegment(sdkWireString(slug)), "/revert"].joined(), config: config, decoder: .json, operationId: "RevertTemplate", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "402": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func revertTemplate(
+        config: ClientConfig,
+        templateType: RevertTemplateParameter,
+        slug: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Template {
+        try await (sdkRequest(
+            "POST",
+            [
+                "/templates/",
+                sdkEncodePathSegment(sdkWireString(templateType)),
+                "/",
+                sdkEncodePathSegment(sdkWireString(slug)),
+                "/revert",
+            ].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "RevertTemplate",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "402": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

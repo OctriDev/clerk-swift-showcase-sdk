@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-// Canonical waitlistEntries operation model declarations
+/// Canonical waitlistEntries operation model declarations
 public struct ListWaitlistEntriesResponse: Codable {
     public var data: [WaitlistEntry]
     /// Total number of waitlist entries
@@ -18,25 +18,35 @@ public struct ListWaitlistEntriesResponse: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ListWaitlistEntriesResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ListWaitlistEntriesResponse {
-    public init(data: [WaitlistEntry], totalCount: Int) {
+public extension ListWaitlistEntriesResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension ListWaitlistEntriesResponse {
+    init(data: [WaitlistEntry], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -53,24 +63,30 @@ public struct CreateBulkWaitlistEntriesRequestBodyItem: Codable {
         case notify
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CreateBulkWaitlistEntriesRequestBodyItem {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.emailAddress) else {
-            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
-        }
-        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        self.notify = try container.sdkDecodeIfPresent(.notify)
-            try sdkValidateEmail("email_address", self.emailAddress)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CreateBulkWaitlistEntriesRequestBodyItem {
-    public init(emailAddress: String, notify: Bool? = nil) throws {
+public extension CreateBulkWaitlistEntriesRequestBodyItem {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.emailAddress) else {
+            throw SdkValidationError(
+                field: "email_address",
+                code: "required",
+                message: "Validation failed for 'email_address': value is required"
+            )
+        }
+        emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        notify = try container.sdkDecodeIfPresent(.notify)
+        try sdkValidateEmail("email_address", emailAddress)
+    }
+}
+
+public extension CreateBulkWaitlistEntriesRequestBodyItem {
+    init(emailAddress: String, notify: Bool? = nil) throws {
         (self.emailAddress, self.notify) = (emailAddress, notify)
-            try sdkValidateEmail("email_address", self.emailAddress)
+        try sdkValidateEmail("email_address", self.emailAddress)
     }
 }

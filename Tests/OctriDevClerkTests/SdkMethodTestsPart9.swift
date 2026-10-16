@@ -17,8 +17,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.waitlistEntries.delete(
-            waitlistEntryId: decoded("\"waitlist_entry-1\"")
-        )
+                waitlistEntryId: decoded("\"waitlist_entry-1\"")
+            )
             XCTFail("deleteWaitlistEntry did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -65,8 +65,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.disableMfa(
-            userId: decoded("\"user-1\"")
-        )
+                userId: decoded("\"user-1\"")
+            )
             XCTFail("disableMfa did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 404)
@@ -83,7 +83,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testExtendBillingSubscriptionItemFreeTrialExtendBillingSubscriptiX87265d78f0ReachesMockAndDecodesResponse() async throws {
+    func testExtendBillingSubscriptionItemFreeTrialExtendBillingSubscriptiX87265d78f0ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -103,7 +104,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testExtendBillingSubscriptionItemFreeTrialExtendBillingSubscriptiX5fd782cb16ReachesMockAndDecodesResponse() async throws {
+    func testExtendBillingSubscriptionItemFreeTrialExtendBillingSubscriptiX5fd782cb16ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -114,9 +116,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.billing.extendSubscriptionItemFreeTrial(
-            subscriptionItemId: decoded("\"subscription_item-1\""),
-            extendTo: decoded("\"2026-01-08T00:00:00Z\"")
-        )
+                subscriptionItemId: decoded("\"subscription_item-1\""),
+                extendTo: decoded("\"2026-01-08T00:00:00Z\"")
+            )
             XCTFail("extendBillingSubscriptionItemFreeTrial did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -248,11 +250,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.billing.getPriceList(
-            paginated: decoded("false"),
-            limit: decoded("10"),
-            offset: decoded("0"),
-            planId: decoded("\"plan-1\"")
-        )
+                paginated: decoded("false"),
+                limit: decoded("10"),
+                offset: decoded("0"),
+                planId: decoded("\"plan-1\"")
+            )
             XCTFail("getBillingPriceList did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -299,8 +301,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.billing.getStatement(
-            statementId: decoded("\"statement-1\"")
-        )
+                statementId: decoded("\"statement-1\"")
+            )
             XCTFail("getBillingStatement did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -349,10 +351,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.billing.getStatementList(
-            paginated: decoded("false"),
-            limit: decoded("10"),
-            offset: decoded("0")
-        )
+                paginated: decoded("false"),
+                limit: decoded("10"),
+                offset: decoded("0")
+            )
             XCTFail("getBillingStatementList did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -369,7 +371,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testGetBillingStatementPaymentAttemptsGetBillingStatementPaymentAttemptsReachesMockAndDecodesResponse() async throws {
+    func testGetBillingStatementPaymentAttemptsGetBillingStatementPaymentAttemptsReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -391,7 +394,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testGetBillingStatementPaymentAttemptsGetBillingStatementPaymentAttempts400ReachesMockAndDecodesResponse() async throws {
+    func testGetBillingStatementPaymentAttemptsGetBillingStatementPaymentAttempts400ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -402,11 +406,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.billing.getStatementPaymentAttempts(
-            statementId: decoded("\"statement-1\""),
-            paginated: decoded("false"),
-            limit: decoded("10"),
-            offset: decoded("0")
-        )
+                statementId: decoded("\"statement-1\""),
+                paginated: decoded("false"),
+                limit: decoded("10"),
+                offset: decoded("0")
+            )
             XCTFail("getBillingStatementPaymentAttempts did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -453,8 +457,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.clients.get(
-            clientId: decoded("\"client-1\"")
-        )
+                clientId: decoded("\"client-1\"")
+            )
             XCTFail("getClient did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -504,11 +508,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.billing.getCommercePlanList(
-            paginated: decoded("false"),
-            limit: decoded("10"),
-            offset: decoded("0"),
-            payerType: decoded("\"user\"")
-        )
+                paginated: decoded("false"),
+                limit: decoded("10"),
+                offset: decoded("0"),
+                payerType: decoded("\"user\"")
+            )
             XCTFail("getCommercePlanList did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)

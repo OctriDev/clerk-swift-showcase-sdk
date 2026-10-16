@@ -6,7 +6,8 @@ import Foundation
 import XCTest
 
 extension SdkMethodTests {
-    func testCancelCommerceSubscriptionItemCancelCommerceSubscriptionItem400ReachesMockAndDecodesResponse() async throws {
+    func testCancelCommerceSubscriptionItemCancelCommerceSubscriptionItem400ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -17,9 +18,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.billing.cancelCommerceSubscriptionItem(
-            subscriptionItemId: decoded("\"subscription_item-1\""),
-            endNow: decoded("false")
-        )
+                subscriptionItemId: decoded("\"subscription_item-1\""),
+                endNow: decoded("false")
+            )
             XCTFail("cancelCommerceSubscriptionItem did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -48,7 +49,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testChangeProductionInstanceDomainChangeProductionInstanceDomain400ReachesMockAndDecodesResponse() async throws {
+    func testChangeProductionInstanceDomainChangeProductionInstanceDomain400ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -59,9 +61,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.betaFeatures.changeProductionInstanceDomain(
-            homeUrl: decoded("\"https://example.com\""),
-            isSecondary: decoded("false")
-        )
+                homeUrl: decoded("\"https://example.com\""),
+                isSecondary: decoded("false")
+            )
             XCTFail("changeProductionInstanceDomain did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -111,11 +113,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.actorTokens.create(
-            userId: decoded("\"user-1\""),
-            actor: decoded("{\"sub\":\"user_2OEpKhcCN1Lat9NQ0G6puh7q5Rb\"}"),
-            expiresInSeconds: decoded("3600"),
-            sessionMaxDurationInSeconds: decoded("1800")
-        )
+                userId: decoded("\"user-1\""),
+                actor: decoded("{\"sub\":\"user_2OEpKhcCN1Lat9NQ0G6puh7q5Rb\"}"),
+                expiresInSeconds: decoded("3600"),
+                sessionMaxDurationInSeconds: decoded("1800")
+            )
             XCTFail("createActorToken did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -189,13 +191,13 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.agentTasks.create(
-            onBehalfOf: decoded("{\"user_id\":\"user-1\",\"identifier\":\"identifier\"}"),
-            permissions: decoded("\"*\""),
-            agentName: decoded("\"Example Name\""),
-            taskDescription: decoded("\"example text\""),
-            redirectUrl: decoded("\"https://example.com\""),
-            sessionMaxDurationInSeconds: decoded("1800")
-        )
+                onBehalfOf: decoded("{\"user_id\":\"user-1\",\"identifier\":\"identifier\"}"),
+                permissions: decoded("\"*\""),
+                agentName: decoded("\"Example Name\""),
+                taskDescription: decoded("\"example text\""),
+                redirectUrl: decoded("\"https://example.com\""),
+                sessionMaxDurationInSeconds: decoded("1800")
+            )
             XCTFail("createAgentTask did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -243,9 +245,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.allowListBlockList.createAllowlistIdentifier(
-            identifier: decoded("\"identifier\""),
-            notify: decoded("false")
-        )
+                identifier: decoded("\"identifier\""),
+                notify: decoded("false")
+            )
             XCTFail("createAllowlistIdentifier did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -267,7 +269,10 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try ApiKeysMethods.CreateApiKeyOptions(name: decoded("\"xxx\""), subject: decoded("\"user_aaaaaaaaaaaaaaaaaaaaaaaaaaa\""))
+        var options = try ApiKeysMethods.CreateApiKeyOptions(
+            name: decoded("\"xxx\""),
+            subject: decoded("\"user_aaaaaaaaaaaaaaaaaaaaaaaaaaa\"")
+        )
         options.type = try decoded("\"api_key\"")
         options.description = try decoded("\"example text\"")
         options.claims = try decoded("null")
@@ -323,13 +328,13 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.billing.createPrice(
-            planId: decoded("\"plan-1\""),
-            amount: decoded("100"),
-            currency: decoded("\"USD\""),
-            annualMonthlyAmount: decoded("100"),
-            description: decoded("\"example text\""),
-            supportedBillingPeriods: decoded("\"month\"")
-        )
+                planId: decoded("\"plan-1\""),
+                amount: decoded("100"),
+                currency: decoded("\"USD\""),
+                annualMonthlyAmount: decoded("100"),
+                description: decoded("\"example text\""),
+                supportedBillingPeriods: decoded("\"month\"")
+            )
             XCTFail("createBillingPrice did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -378,10 +383,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.billing.createPriceTransition(
-            subscriptionItemId: decoded("\"subscription_item-1\""),
-            fromPriceId: decoded("\"from_price-1\""),
-            toPriceId: decoded("\"to_price-1\"")
-        )
+                subscriptionItemId: decoded("\"subscription_item-1\""),
+                fromPriceId: decoded("\"from_price-1\""),
+                toPriceId: decoded("\"to_price-1\"")
+            )
             XCTFail("createBillingPriceTransition did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -428,8 +433,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.allowListBlockList.createBlocklistIdentifier(
-            identifier: decoded("\"identifier\"")
-        )
+                identifier: decoded("\"identifier\"")
+            )
             XCTFail("createBlocklistIdentifier did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -476,8 +481,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.invitations.createBulk(
-            body: decoded(sdkMethodFixture40Value1)
-        )
+                body: decoded(sdkMethodFixture40Value1)
+            )
             XCTFail("createBulkInvitations did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -524,8 +529,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.waitlistEntries.createBulk(
-            body: decoded("[{\"email_address\":\"user@example.com\",\"notify\":true}]")
-        )
+                body: decoded("[{\"email_address\":\"user@example.com\",\"notify\":true}]")
+            )
             XCTFail("createBulkWaitlistEntries did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)

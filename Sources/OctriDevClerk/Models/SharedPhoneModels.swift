@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedPhone domain models
+/// SharedPhone domain models
 public indirect enum PhoneNumberVerification {
     case verificationOtp(VerificationOtp)
     case verificationAdmin(VerificationAdmin)
@@ -12,7 +12,6 @@ public indirect enum PhoneNumberVerification {
 }
 
 extension PhoneNumberVerification: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "object"
     }
@@ -20,20 +19,29 @@ extension PhoneNumberVerification: Codable {
     public init(from decoder: Decoder) throws {
         if let tagged = try? decoder.container(keyedBy: CodingKeys.self),
            let discriminator = try? tagged.decode(String.self, forKey: .discriminator) {
-            if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+            if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+                self = value; return
+            }
         }
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeUntaggedGroup1(from: container) { self = value; return }
+        if let value = Self.decodeUntaggedGroup1(from: container) {
+            self = value; return
+        }
         if let tagged = try? decoder.container(keyedBy: CodingKeys.self),
            let discriminator = try? tagged.decode(String.self, forKey: .discriminator) {
             self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
             return
         }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for PhoneNumberVerification")
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for PhoneNumberVerification"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -44,17 +52,21 @@ extension PhoneNumberVerification: Codable {
 extension PhoneNumberVerification {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "verification_otp": return .verificationOtp(try VerificationOtp(from: decoder))
-        case "verification_admin": return .verificationAdmin(try VerificationAdmin(from: decoder))
-        default: return nil
+        case "verification_otp": try .verificationOtp(VerificationOtp(from: decoder))
+        case "verification_admin": try .verificationAdmin(VerificationAdmin(from: decoder))
+        default: nil
         }
     }
 }
 
 extension PhoneNumberVerification {
     static func decodeUntaggedGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(VerificationOtp.self) { return .verificationOtp(value) }
-        if let value = try? container.decode(VerificationAdmin.self) { return .verificationAdmin(value) }
+        if let value = try? container.decode(VerificationOtp.self) {
+            return .verificationOtp(value)
+        }
+        if let value = try? container.decode(VerificationAdmin.self) {
+            return .verificationAdmin(value)
+        }
         return nil
     }
 }
@@ -109,49 +121,91 @@ public struct PhoneNumber: Codable {
         case backupCodes = "backup_codes"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension PhoneNumber {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.phoneNumber) else {
-            throw SdkValidationError(field: "phone_number", code: "required", message: "Validation failed for 'phone_number': value is required")
-        }
-        guard container.contains(.reserved) else {
-            throw SdkValidationError(field: "reserved", code: "required", message: "Validation failed for 'reserved': value is required")
-        }
-        guard container.contains(.verification) else {
-            throw SdkValidationError(field: "verification", code: "required", message: "Validation failed for 'verification': value is required")
-        }
-        guard container.contains(.linkedTo) else {
-            throw SdkValidationError(field: "linked_to", code: "required", message: "Validation failed for 'linked_to': value is required")
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        guard container.contains(.updatedAt) else {
-            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.phoneNumber = try container.sdkDecodeRequired(.phoneNumber)
-        self.reserved = try container.sdkDecodeRequired(.reserved)
-        self.verification = try container.sdkDecodeNullable(.verification)
-        self.linkedTo = try container.sdkDecodeRequired(.linkedTo)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.id = try container.sdkDecodeIfPresent(.id)
-        self.reservedForSecondFactor = try container.sdkDecodeIfPresent(.reservedForSecondFactor)
-        self.defaultSecondFactor = try container.sdkDecodeIfPresent(.defaultSecondFactor)
-        self.backupCodes = try container.sdkDecodeIfPresent(.backupCodes)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension PhoneNumber {
-    public init(object: PhoneNumberObject, phoneNumber: String, reserved: Bool, verification: PhoneNumberVerification?, linkedTo: [IdentificationLink], createdAt: Int, updatedAt: Int, id: String? = nil, reservedForSecondFactor: Bool? = nil, defaultSecondFactor: Bool? = nil, backupCodes: [String]? = nil) {
+public extension PhoneNumber {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.phoneNumber) else {
+            throw SdkValidationError(
+                field: "phone_number",
+                code: "required",
+                message: "Validation failed for 'phone_number': value is required"
+            )
+        }
+        guard container.contains(.reserved) else {
+            throw SdkValidationError(
+                field: "reserved",
+                code: "required",
+                message: "Validation failed for 'reserved': value is required"
+            )
+        }
+        guard container.contains(.verification) else {
+            throw SdkValidationError(
+                field: "verification",
+                code: "required",
+                message: "Validation failed for 'verification': value is required"
+            )
+        }
+        guard container.contains(.linkedTo) else {
+            throw SdkValidationError(
+                field: "linked_to",
+                code: "required",
+                message: "Validation failed for 'linked_to': value is required"
+            )
+        }
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        guard container.contains(.updatedAt) else {
+            throw SdkValidationError(
+                field: "updated_at",
+                code: "required",
+                message: "Validation failed for 'updated_at': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        phoneNumber = try container.sdkDecodeRequired(.phoneNumber)
+        reserved = try container.sdkDecodeRequired(.reserved)
+        verification = try container.sdkDecodeNullable(.verification)
+        linkedTo = try container.sdkDecodeRequired(.linkedTo)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        id = try container.sdkDecodeIfPresent(.id)
+        reservedForSecondFactor = try container.sdkDecodeIfPresent(.reservedForSecondFactor)
+        defaultSecondFactor = try container.sdkDecodeIfPresent(.defaultSecondFactor)
+        backupCodes = try container.sdkDecodeIfPresent(.backupCodes)
+    }
+}
+
+public extension PhoneNumber {
+    init(
+        object: PhoneNumberObject,
+        phoneNumber: String,
+        reserved: Bool,
+        verification: PhoneNumberVerification?,
+        linkedTo: [IdentificationLink],
+        createdAt: Int,
+        updatedAt: Int,
+        id: String? = nil,
+        reservedForSecondFactor: Bool? = nil,
+        defaultSecondFactor: Bool? = nil,
+        backupCodes: [String]? = nil
+    ) {
         (self.object, self.phoneNumber) = (object, phoneNumber)
         (self.reserved, self.verification) = (reserved, verification)
         (self.linkedTo, self.createdAt) = (linkedTo, createdAt)
@@ -165,12 +219,15 @@ extension PhoneNumber {
 public struct PhoneNumberObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let phoneNumber = PhoneNumberObject(rawValue: "phone_number")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

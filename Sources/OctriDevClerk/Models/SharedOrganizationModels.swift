@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedOrganization domain models
+/// SharedOrganization domain models
 /// Typed representation of the `OrganizationMemberships` API schema.
 public struct OrganizationMemberships: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -16,25 +16,35 @@ public struct OrganizationMemberships: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OrganizationMemberships {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension OrganizationMemberships {
-    public init(data: [OrganizationMembership], totalCount: Int) {
+public extension OrganizationMemberships {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension OrganizationMemberships {
+    init(data: [OrganizationMembership], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -51,25 +61,35 @@ public struct OrganizationInvitationsWithPublicOrganizationData: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OrganizationInvitationsWithPublicOrganizationData {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension OrganizationInvitationsWithPublicOrganizationData {
-    public init(data: [OrganizationInvitationWithPublicOrganizationData], totalCount: Int) {
+public extension OrganizationInvitationsWithPublicOrganizationData {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension OrganizationInvitationsWithPublicOrganizationData {
+    init(data: [OrganizationInvitationWithPublicOrganizationData], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -128,33 +148,52 @@ public struct OrganizationInvitationWithPublicOrganizationData: Codable {
         case publicOrganizationData = "public_organization_data"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OrganizationInvitationWithPublicOrganizationData {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        self.role = try container.sdkDecodeRequired(.role)
-        self.roleName = try container.sdkDecodeRequired(.roleName)
-        self.inviterId = try container.sdkDecodeNullable(.inviterId)
-        self.publicInviterData = try container.sdkDecodeNullable(.publicInviterData)
-        self.publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
-        self.url = try container.sdkDecodeNullable(.url)
-        self.expiresAt = try container.sdkDecodeNullable(.expiresAt)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.organizationId = try container.sdkDecodeIfPresent(.organizationId)
-        self.status = try container.sdkDecodeIfPresent(.status)
-        self.privateMetadata = try container.sdkDecodeIfPresent(.privateMetadata)
-        self.publicOrganizationData = try container.sdkDecodeIfPresent(.publicOrganizationData)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension OrganizationInvitationWithPublicOrganizationData {
-    public init(object: OrganizationInvitationWithPublicOrganizationDataVariant0Object, id: String, emailAddress: String, role: String, roleName: String, inviterId: String?, publicInviterData: OrganizationInvitationPublicUserData?, publicMetadata: [String: JSONValue], url: String?, expiresAt: Int?, createdAt: Int, updatedAt: Int, organizationId: String? = nil, status: String? = nil, privateMetadata: [String: JSONValue]? = nil, publicOrganizationData: OrganizationInvitationPublicOrganizationData? = nil) {
+public extension OrganizationInvitationWithPublicOrganizationData {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        role = try container.sdkDecodeRequired(.role)
+        roleName = try container.sdkDecodeRequired(.roleName)
+        inviterId = try container.sdkDecodeNullable(.inviterId)
+        publicInviterData = try container.sdkDecodeNullable(.publicInviterData)
+        publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
+        url = try container.sdkDecodeNullable(.url)
+        expiresAt = try container.sdkDecodeNullable(.expiresAt)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        organizationId = try container.sdkDecodeIfPresent(.organizationId)
+        status = try container.sdkDecodeIfPresent(.status)
+        privateMetadata = try container.sdkDecodeIfPresent(.privateMetadata)
+        publicOrganizationData = try container.sdkDecodeIfPresent(.publicOrganizationData)
+    }
+}
+
+public extension OrganizationInvitationWithPublicOrganizationData {
+    init(
+        object: OrganizationInvitationWithPublicOrganizationDataVariant0Object,
+        id: String,
+        emailAddress: String,
+        role: String,
+        roleName: String,
+        inviterId: String?,
+        publicInviterData: OrganizationInvitationPublicUserData?,
+        publicMetadata: [String: JSONValue],
+        url: String?,
+        expiresAt: Int?,
+        createdAt: Int,
+        updatedAt: Int,
+        organizationId: String? = nil,
+        status: String? = nil,
+        privateMetadata: [String: JSONValue]? = nil,
+        publicOrganizationData: OrganizationInvitationPublicOrganizationData? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.emailAddress, self.role) = (emailAddress, role)
         (self.roleName, self.inviterId) = (roleName, inviterId)
@@ -202,45 +241,82 @@ public struct OrganizationMembershipPublicUserData: Codable {
         case deprovisioned
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OrganizationMembershipPublicUserData {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.userId) else {
-            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
-        }
-        guard container.contains(.firstName) else {
-            throw SdkValidationError(field: "first_name", code: "required", message: "Validation failed for 'first_name': value is required")
-        }
-        guard container.contains(.lastName) else {
-            throw SdkValidationError(field: "last_name", code: "required", message: "Validation failed for 'last_name': value is required")
-        }
-        guard container.contains(.profileImageUrl) else {
-            throw SdkValidationError(field: "profile_image_url", code: "required", message: "Validation failed for 'profile_image_url': value is required")
-        }
-        guard container.contains(.imageUrl) else {
-            throw SdkValidationError(field: "image_url", code: "required", message: "Validation failed for 'image_url': value is required")
-        }
-        guard container.contains(.hasImage) else {
-            throw SdkValidationError(field: "has_image", code: "required", message: "Validation failed for 'has_image': value is required")
-        }
-        self.userId = try container.sdkDecodeRequired(.userId)
-        self.firstName = try container.sdkDecodeNullable(.firstName)
-        self.lastName = try container.sdkDecodeNullable(.lastName)
-        self.profileImageUrl = try container.sdkDecodeNullable(.profileImageUrl)
-        self.imageUrl = try container.sdkDecodeRequired(.imageUrl)
-        self.hasImage = try container.sdkDecodeRequired(.hasImage)
-        self.identifier = try container.sdkDecodeIfPresent(.identifier)
-        self.username = try container.sdkDecodeIfPresent(.username)
-        self.banned = try container.sdkDecodeIfPresent(.banned)
-        self.deprovisioned = try container.sdkDecodeIfPresent(.deprovisioned)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension OrganizationMembershipPublicUserData {
-    public init(userId: String, firstName: String?, lastName: String?, profileImageUrl: String?, imageUrl: String, hasImage: Bool, identifier: String? = nil, username: String? = nil, banned: Bool? = nil, deprovisioned: Bool? = nil) {
+public extension OrganizationMembershipPublicUserData {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.userId) else {
+            throw SdkValidationError(
+                field: "user_id",
+                code: "required",
+                message: "Validation failed for 'user_id': value is required"
+            )
+        }
+        guard container.contains(.firstName) else {
+            throw SdkValidationError(
+                field: "first_name",
+                code: "required",
+                message: "Validation failed for 'first_name': value is required"
+            )
+        }
+        guard container.contains(.lastName) else {
+            throw SdkValidationError(
+                field: "last_name",
+                code: "required",
+                message: "Validation failed for 'last_name': value is required"
+            )
+        }
+        guard container.contains(.profileImageUrl) else {
+            throw SdkValidationError(
+                field: "profile_image_url",
+                code: "required",
+                message: "Validation failed for 'profile_image_url': value is required"
+            )
+        }
+        guard container.contains(.imageUrl) else {
+            throw SdkValidationError(
+                field: "image_url",
+                code: "required",
+                message: "Validation failed for 'image_url': value is required"
+            )
+        }
+        guard container.contains(.hasImage) else {
+            throw SdkValidationError(
+                field: "has_image",
+                code: "required",
+                message: "Validation failed for 'has_image': value is required"
+            )
+        }
+        userId = try container.sdkDecodeRequired(.userId)
+        firstName = try container.sdkDecodeNullable(.firstName)
+        lastName = try container.sdkDecodeNullable(.lastName)
+        profileImageUrl = try container.sdkDecodeNullable(.profileImageUrl)
+        imageUrl = try container.sdkDecodeRequired(.imageUrl)
+        hasImage = try container.sdkDecodeRequired(.hasImage)
+        identifier = try container.sdkDecodeIfPresent(.identifier)
+        username = try container.sdkDecodeIfPresent(.username)
+        banned = try container.sdkDecodeIfPresent(.banned)
+        deprovisioned = try container.sdkDecodeIfPresent(.deprovisioned)
+    }
+}
+
+public extension OrganizationMembershipPublicUserData {
+    init(
+        userId: String,
+        firstName: String?,
+        lastName: String?,
+        profileImageUrl: String?,
+        imageUrl: String,
+        hasImage: Bool,
+        identifier: String? = nil,
+        username: String? = nil,
+        banned: Bool? = nil,
+        deprovisioned: Bool? = nil
+    ) {
         (self.userId, self.firstName) = (userId, firstName)
         (self.lastName, self.profileImageUrl) = (lastName, profileImageUrl)
         (self.imageUrl, self.hasImage) = (imageUrl, hasImage)
@@ -273,41 +349,67 @@ public struct OrganizationInvitationPublicUserData: Codable {
         case identifier
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OrganizationInvitationPublicUserData {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.userId) else {
-            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
-        }
-        guard container.contains(.firstName) else {
-            throw SdkValidationError(field: "first_name", code: "required", message: "Validation failed for 'first_name': value is required")
-        }
-        guard container.contains(.lastName) else {
-            throw SdkValidationError(field: "last_name", code: "required", message: "Validation failed for 'last_name': value is required")
-        }
-        guard container.contains(.imageUrl) else {
-            throw SdkValidationError(field: "image_url", code: "required", message: "Validation failed for 'image_url': value is required")
-        }
-        guard container.contains(.hasImage) else {
-            throw SdkValidationError(field: "has_image", code: "required", message: "Validation failed for 'has_image': value is required")
-        }
-        guard container.contains(.identifier) else {
-            throw SdkValidationError(field: "identifier", code: "required", message: "Validation failed for 'identifier': value is required")
-        }
-        self.userId = try container.sdkDecodeRequired(.userId)
-        self.firstName = try container.sdkDecodeNullable(.firstName)
-        self.lastName = try container.sdkDecodeNullable(.lastName)
-        self.imageUrl = try container.sdkDecodeRequired(.imageUrl)
-        self.hasImage = try container.sdkDecodeRequired(.hasImage)
-        self.identifier = try container.sdkDecodeRequired(.identifier)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension OrganizationInvitationPublicUserData {
-    public init(userId: String, firstName: String?, lastName: String?, imageUrl: String, hasImage: Bool, identifier: String) {
+public extension OrganizationInvitationPublicUserData {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.userId) else {
+            throw SdkValidationError(
+                field: "user_id",
+                code: "required",
+                message: "Validation failed for 'user_id': value is required"
+            )
+        }
+        guard container.contains(.firstName) else {
+            throw SdkValidationError(
+                field: "first_name",
+                code: "required",
+                message: "Validation failed for 'first_name': value is required"
+            )
+        }
+        guard container.contains(.lastName) else {
+            throw SdkValidationError(
+                field: "last_name",
+                code: "required",
+                message: "Validation failed for 'last_name': value is required"
+            )
+        }
+        guard container.contains(.imageUrl) else {
+            throw SdkValidationError(
+                field: "image_url",
+                code: "required",
+                message: "Validation failed for 'image_url': value is required"
+            )
+        }
+        guard container.contains(.hasImage) else {
+            throw SdkValidationError(
+                field: "has_image",
+                code: "required",
+                message: "Validation failed for 'has_image': value is required"
+            )
+        }
+        guard container.contains(.identifier) else {
+            throw SdkValidationError(
+                field: "identifier",
+                code: "required",
+                message: "Validation failed for 'identifier': value is required"
+            )
+        }
+        userId = try container.sdkDecodeRequired(.userId)
+        firstName = try container.sdkDecodeNullable(.firstName)
+        lastName = try container.sdkDecodeNullable(.lastName)
+        imageUrl = try container.sdkDecodeRequired(.imageUrl)
+        hasImage = try container.sdkDecodeRequired(.hasImage)
+        identifier = try container.sdkDecodeRequired(.identifier)
+    }
+}
+
+public extension OrganizationInvitationPublicUserData {
+    init(userId: String, firstName: String?, lastName: String?, imageUrl: String, hasImage: Bool, identifier: String) {
         (self.userId, self.firstName) = (userId, firstName)
         (self.lastName, self.imageUrl) = (lastName, imageUrl)
         (self.hasImage, self.identifier) = (hasImage, identifier)
@@ -380,37 +482,60 @@ public struct Organization: Codable {
         case roleSetKey = "role_set_key"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension Organization {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.slug = try container.sdkDecodeRequired(.slug)
-        self.hasImage = try container.sdkDecodeRequired(.hasImage)
-        self.maxAllowedMemberships = try container.sdkDecodeRequired(.maxAllowedMemberships)
-        self.adminDeleteEnabled = try container.sdkDecodeRequired(.adminDeleteEnabled)
-        self.publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.imageUrl = try container.sdkDecodeIfPresent(.imageUrl)
-        self.membersCount = try container.sdkDecodeIfPresent(.membersCount)
-        self.missingMemberWithElevatedPermissions = try container.sdkDecodeIfPresent(.missingMemberWithElevatedPermissions)
-        self.pendingInvitationsCount = try container.sdkDecodeIfPresent(.pendingInvitationsCount)
-        self.selfServeSsoEnabled = try container.sdkDecodeIfPresent(.selfServeSsoEnabled)
-        self.selfServeDirectorySyncEnabled = try container.sdkDecodeIfPresent(.selfServeDirectorySyncEnabled)
-        self.privateMetadata = try container.sdkDecodeIfPresent(.privateMetadata)
-        self.createdBy = try container.sdkDecodeIfPresent(.createdBy)
-        self.lastActiveAt = try container.sdkDecodeIfPresent(.lastActiveAt)
-        self.roleSetKey = try container.sdkDecodeIfPresent(.roleSetKey)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension Organization {
-    public init(object: OrganizationObject, id: String, name: String, slug: String, hasImage: Bool, maxAllowedMemberships: Int, adminDeleteEnabled: Bool, publicMetadata: [String: JSONValue], createdAt: Int, updatedAt: Int, imageUrl: String? = nil, membersCount: Int? = nil, missingMemberWithElevatedPermissions: Bool? = nil, pendingInvitationsCount: Int? = nil, selfServeSsoEnabled: Bool? = nil, selfServeDirectorySyncEnabled: Bool? = nil, privateMetadata: [String: JSONValue]? = nil, createdBy: String? = nil, lastActiveAt: Int? = nil, roleSetKey: String? = nil) {
+public extension Organization {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        slug = try container.sdkDecodeRequired(.slug)
+        hasImage = try container.sdkDecodeRequired(.hasImage)
+        maxAllowedMemberships = try container.sdkDecodeRequired(.maxAllowedMemberships)
+        adminDeleteEnabled = try container.sdkDecodeRequired(.adminDeleteEnabled)
+        publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        imageUrl = try container.sdkDecodeIfPresent(.imageUrl)
+        membersCount = try container.sdkDecodeIfPresent(.membersCount)
+        missingMemberWithElevatedPermissions = try container.sdkDecodeIfPresent(.missingMemberWithElevatedPermissions)
+        pendingInvitationsCount = try container.sdkDecodeIfPresent(.pendingInvitationsCount)
+        selfServeSsoEnabled = try container.sdkDecodeIfPresent(.selfServeSsoEnabled)
+        selfServeDirectorySyncEnabled = try container.sdkDecodeIfPresent(.selfServeDirectorySyncEnabled)
+        privateMetadata = try container.sdkDecodeIfPresent(.privateMetadata)
+        createdBy = try container.sdkDecodeIfPresent(.createdBy)
+        lastActiveAt = try container.sdkDecodeIfPresent(.lastActiveAt)
+        roleSetKey = try container.sdkDecodeIfPresent(.roleSetKey)
+    }
+}
+
+public extension Organization {
+    init(
+        object: OrganizationObject,
+        id: String,
+        name: String,
+        slug: String,
+        hasImage: Bool,
+        maxAllowedMemberships: Int,
+        adminDeleteEnabled: Bool,
+        publicMetadata: [String: JSONValue],
+        createdAt: Int,
+        updatedAt: Int,
+        imageUrl: String? = nil,
+        membersCount: Int? = nil,
+        missingMemberWithElevatedPermissions: Bool? = nil,
+        pendingInvitationsCount: Int? = nil,
+        selfServeSsoEnabled: Bool? = nil,
+        selfServeDirectorySyncEnabled: Bool? = nil,
+        privateMetadata: [String: JSONValue]? = nil,
+        createdBy: String? = nil,
+        lastActiveAt: Int? = nil,
+        roleSetKey: String? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.name, self.slug) = (name, slug)
         (self.hasImage, self.maxAllowedMemberships) = (hasImage, maxAllowedMemberships)
@@ -465,22 +590,24 @@ public struct OrganizationMembership: Codable {
         case publicUserData = "public_user_data"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension OrganizationMembership {
-    public init(from decoder: Decoder) throws {
+public extension OrganizationMembership {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.role = try container.sdkDecodeRequired(.role)
-        self.permissions = try container.sdkDecodeRequired(.permissions)
-        self.publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
-        self.organization = try container.sdkDecodeRequired(.organization)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.roleName = try container.sdkDecodeIfPresent(.roleName)
-        self.privateMetadata = try container.sdkDecodeIfPresent(.privateMetadata)
-        self.publicUserData = try container.sdkDecodeIfPresent(.publicUserData)
+        id = try container.sdkDecodeRequired(.id)
+        object = try container.sdkDecodeRequired(.object)
+        role = try container.sdkDecodeRequired(.role)
+        permissions = try container.sdkDecodeRequired(.permissions)
+        publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
+        organization = try container.sdkDecodeRequired(.organization)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        roleName = try container.sdkDecodeIfPresent(.roleName)
+        privateMetadata = try container.sdkDecodeIfPresent(.privateMetadata)
+        publicUserData = try container.sdkDecodeIfPresent(.publicUserData)
     }
 }

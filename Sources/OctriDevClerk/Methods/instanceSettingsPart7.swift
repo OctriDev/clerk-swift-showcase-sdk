@@ -6,13 +6,24 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension InstanceSettingsMethods {
+public extension InstanceSettingsMethods {
     /// Retrieves the organization settings of the instance
-    public static func getInstanceOrganizationSettings(config: ClientConfig, requestOptions: RequestOptions? = nil) async throws -> OrganizationSettings {
-        return try (await sdkRequest("GET", "/instance/organization_settings", config: config, decoder: .json, operationId: "GetInstanceOrganizationSettings", options: requestOptions, errors: ["402": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+    static func getInstanceOrganizationSettings(
+        config: ClientConfig,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationSettings {
+        try await (sdkRequest(
+            "GET",
+            "/instance/organization_settings",
+            config: config,
+            decoder: .json,
+            operationId: "GetInstanceOrganizationSettings",
+            options: requestOptions,
+            errors: ["402": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 
-    public struct UpdateInstanceOrganizationSettingsOptions: Codable {
+    struct UpdateInstanceOrganizationSettingsOptions: Codable {
         public var enabled: SdkOptional<Bool>?
         public var maxAllowedMemberships: SdkOptional<Int>?
         public var adminDeleteEnabled: SdkOptional<Bool>?
@@ -25,7 +36,9 @@ extension InstanceSettingsMethods {
         public init() {}
     }
 
-    /// Updates the organization settings for the instance. Use the available fields to configure organization creation, membership limits, deletion, and domain enrollment; `domains_enrollment_modes` supports automatic invitations and suggestions. The response returns the updated organization settings.
+    /// Updates the organization settings for the instance. Use the available fields to configure organization creation,
+    /// membership limits, deletion, and domain enrollment; `domains_enrollment_modes` supports automatic invitations
+    /// and suggestions. The response returns the updated organization settings.
     ///
     /// Updates the organization settings of the instance
     ///
@@ -37,9 +50,28 @@ extension InstanceSettingsMethods {
     ///   organization creator.
     /// - domainsDefaultRoleId: Specify what the default organization role is for
     ///   the organization domains.
-    public static func updateInstanceOrganizationSettings(config: ClientConfig, options: UpdateInstanceOrganizationSettingsOptions, requestOptions: RequestOptions? = nil) async throws -> OrganizationSettings {
+    static func updateInstanceOrganizationSettings(
+        config: ClientConfig,
+        options: UpdateInstanceOrganizationSettingsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationSettings {
         let requestBody = UpdateInstanceOrganizationSettingsRequestBody(options: options)
 
-        return try (await sdkRequest("PATCH", "/instance/organization_settings", config: config, body: requestBody, decoder: .json, operationId: "UpdateInstanceOrganizationSettings", options: requestOptions, errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            "/instance/organization_settings",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdateInstanceOrganizationSettings",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "402": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 }

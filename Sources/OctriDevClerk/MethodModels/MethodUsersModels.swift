@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-// Canonical users operation model declarations
+/// Canonical users operation model declarations
 public struct ListUserBiometricCredentialsResponse: Codable {
     public var data: [BiometricCredential]
     /// Total number of biometric credentials
@@ -18,25 +18,35 @@ public struct ListUserBiometricCredentialsResponse: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ListUserBiometricCredentialsResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ListUserBiometricCredentialsResponse {
-    public init(data: [BiometricCredential], totalCount: Int) {
+public extension ListUserBiometricCredentialsResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension ListUserBiometricCredentialsResponse {
+    init(data: [BiometricCredential], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -51,20 +61,20 @@ public struct VerifyTOTPResponse: Codable {
     }
 
     init() {
-        (self.verified, self.codeType) = (nil, nil)
+        (verified, codeType) = (nil, nil)
     }
 }
 
-extension VerifyTOTPResponse {
-    public init(from decoder: Decoder) throws {
+public extension VerifyTOTPResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.verified = try container.sdkDecodeIfPresent(.verified)
-        self.codeType = try container.sdkDecodeIfPresent(.codeType)
+        verified = try container.sdkDecodeIfPresent(.verified)
+        codeType = try container.sdkDecodeIfPresent(.codeType)
     }
 }
 
-extension VerifyTOTPResponse {
-    public init(verified: Bool? = nil, codeType: VerifyTOTPResponseCodeType? = nil) {
+public extension VerifyTOTPResponse {
+    init(verified: Bool? = nil, codeType: VerifyTOTPResponseCodeType? = nil) {
         self.init()
         (self.verified, self.codeType) = (verified, codeType)
     }
@@ -80,25 +90,35 @@ public struct ListUserTrustedDevicesResponse: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ListUserTrustedDevicesResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ListUserTrustedDevicesResponse {
-    public init(data: [TrustedDevice], totalCount: Int) {
+public extension ListUserTrustedDevicesResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension ListUserTrustedDevicesResponse {
+    init(data: [TrustedDevice], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -111,19 +131,19 @@ public struct VerifyPasswordResponse: Codable {
     }
 
     init() {
-        self.verified = nil
+        verified = nil
     }
 }
 
-extension VerifyPasswordResponse {
-    public init(from decoder: Decoder) throws {
+public extension VerifyPasswordResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.verified = try container.sdkDecodeIfPresent(.verified)
+        verified = try container.sdkDecodeIfPresent(.verified)
     }
 }
 
-extension VerifyPasswordResponse {
-    public init(verified: Bool? = nil) {
+public extension VerifyPasswordResponse {
+    init(verified: Bool? = nil) {
         self.init()
         self.verified = verified
     }
@@ -137,19 +157,19 @@ public struct DeleteTOTPResponse: Codable {
     }
 
     init() {
-        self.userId = nil
+        userId = nil
     }
 }
 
-extension DeleteTOTPResponse {
-    public init(from decoder: Decoder) throws {
+public extension DeleteTOTPResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.userId = try container.sdkDecodeIfPresent(.userId)
+        userId = try container.sdkDecodeIfPresent(.userId)
     }
 }
 
-extension DeleteTOTPResponse {
-    public init(userId: String? = nil) {
+public extension DeleteTOTPResponse {
+    init(userId: String? = nil) {
         self.init()
         self.userId = userId
     }
@@ -163,19 +183,19 @@ public struct DisableMFAResponse: Codable {
     }
 
     init() {
-        self.userId = nil
+        userId = nil
     }
 }
 
-extension DisableMFAResponse {
-    public init(from decoder: Decoder) throws {
+public extension DisableMFAResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.userId = try container.sdkDecodeIfPresent(.userId)
+        userId = try container.sdkDecodeIfPresent(.userId)
     }
 }
 
-extension DisableMFAResponse {
-    public init(userId: String? = nil) {
+public extension DisableMFAResponse {
+    init(userId: String? = nil) {
         self.init()
         self.userId = userId
     }
@@ -189,19 +209,19 @@ public struct DeleteBackupCodeResponse: Codable {
     }
 
     init() {
-        self.userId = nil
+        userId = nil
     }
 }
 
-extension DeleteBackupCodeResponse {
-    public init(from decoder: Decoder) throws {
+public extension DeleteBackupCodeResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.userId = try container.sdkDecodeIfPresent(.userId)
+        userId = try container.sdkDecodeIfPresent(.userId)
     }
 }
 
-extension DeleteBackupCodeResponse {
-    public init(userId: String? = nil) {
+public extension DeleteBackupCodeResponse {
+    init(userId: String? = nil) {
         self.init()
         self.userId = userId
     }

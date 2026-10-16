@@ -3,9 +3,16 @@
 
 import Foundation
 
-// SharedVerification domain models
-extension VerificationEmailLink {
-    public init(status: VerificationEmailLinkStatus, strategy: VerificationEmailLinkStrategy, attempts: Int?, expireAt: Int?, object: VerificationEmailLinkObject? = nil, verifiedAtClient: String? = nil) throws {
+/// SharedVerification domain models
+public extension VerificationEmailLink {
+    init(
+        status: VerificationEmailLinkStatus,
+        strategy: VerificationEmailLinkStrategy,
+        attempts: Int?,
+        expireAt: Int?,
+        object: VerificationEmailLinkObject? = nil,
+        verifiedAtClient: String? = nil
+    ) throws {
         (self.status, self.strategy) = (status, strategy)
         (self.attempts, self.expireAt) = (attempts, expireAt)
         (self.object, self.verifiedAtClient) = (object, verifiedAtClient)
@@ -39,38 +46,63 @@ public struct VerificationAdmin: Codable {
         case verifiedAtClient = "verified_at_client"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension VerificationAdmin {
-    public init(from decoder: Decoder) throws {
+public extension VerificationAdmin {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.status) else {
-            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
+            throw SdkValidationError(
+                field: "status",
+                code: "required",
+                message: "Validation failed for 'status': value is required"
+            )
         }
         guard container.contains(.strategy) else {
-            throw SdkValidationError(field: "strategy", code: "required", message: "Validation failed for 'strategy': value is required")
+            throw SdkValidationError(
+                field: "strategy",
+                code: "required",
+                message: "Validation failed for 'strategy': value is required"
+            )
         }
         guard container.contains(.attempts) else {
-            throw SdkValidationError(field: "attempts", code: "required", message: "Validation failed for 'attempts': value is required")
+            throw SdkValidationError(
+                field: "attempts",
+                code: "required",
+                message: "Validation failed for 'attempts': value is required"
+            )
         }
         guard container.contains(.expireAt) else {
-            throw SdkValidationError(field: "expire_at", code: "required", message: "Validation failed for 'expire_at': value is required")
+            throw SdkValidationError(
+                field: "expire_at",
+                code: "required",
+                message: "Validation failed for 'expire_at': value is required"
+            )
         }
-        self.status = try container.sdkDecodeRequired(.status)
-        self.strategy = try container.sdkDecodeRequired(.strategy)
-        self.attempts = try container.sdkDecodeNullable(.attempts)
-        self.expireAt = try container.sdkDecodeNullable(.expireAt)
-        self.object = try container.sdkDecodeIfPresent(.object)
-        self.verifiedAtClient = try container.sdkDecodeIfPresent(.verifiedAtClient)
-        if let value = self.object {
+        status = try container.sdkDecodeRequired(.status)
+        strategy = try container.sdkDecodeRequired(.strategy)
+        attempts = try container.sdkDecodeNullable(.attempts)
+        expireAt = try container.sdkDecodeNullable(.expireAt)
+        object = try container.sdkDecodeIfPresent(.object)
+        verifiedAtClient = try container.sdkDecodeIfPresent(.verifiedAtClient)
+        if let value = object {
             try sdkValidateRawEnum("object", value, VerificationAdminObject.allCases.map(\.rawValue))
         }
     }
 }
 
-extension VerificationAdmin {
-    public init(status: VerificationAdminStatus, strategy: VerificationAdminStrategy, attempts: Int?, expireAt: Int?, object: VerificationAdminObject? = nil, verifiedAtClient: String? = nil) throws {
+public extension VerificationAdmin {
+    init(
+        status: VerificationAdminStatus,
+        strategy: VerificationAdminStrategy,
+        attempts: Int?,
+        expireAt: Int?,
+        object: VerificationAdminObject? = nil,
+        verifiedAtClient: String? = nil
+    ) throws {
         (self.status, self.strategy) = (status, strategy)
         (self.attempts, self.expireAt) = (attempts, expireAt)
         (self.object, self.verifiedAtClient) = (object, verifiedAtClient)
@@ -102,12 +134,15 @@ public enum VerificationAdminObject: String, CaseIterable, Codable {
 public struct VerificationEmailLinkStrategy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let emailLink = VerificationEmailLinkStrategy(rawValue: "email_link")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -138,12 +173,15 @@ public enum VerificationTicketObject: String, CaseIterable, Codable {
 public struct VerificationAdminStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let verified = VerificationAdminStatus(rawValue: "verified")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -156,12 +194,15 @@ public struct VerificationAdminStatus: RawRepresentable, Hashable, Codable, Send
 public struct VerificationTicketStrategy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let ticket = VerificationTicketStrategy(rawValue: "ticket")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -174,12 +215,15 @@ public struct VerificationTicketStrategy: RawRepresentable, Hashable, Codable, S
 public struct VerificationAdminStrategy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let admin = VerificationAdminStrategy(rawValue: "admin")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -210,12 +254,15 @@ public enum VerificationSamlObject: String, CaseIterable, Codable {
 public struct VerificationScimStrategy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let scim = VerificationScimStrategy(rawValue: "scim")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -228,12 +275,15 @@ public struct VerificationScimStrategy: RawRepresentable, Hashable, Codable, Sen
 public struct VerificationSamlStrategy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let saml = VerificationSamlStrategy(rawValue: "saml")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -282,7 +332,10 @@ public enum VerificationOtpObject: String, CaseIterable, Codable {
 public struct VerificationOtpStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let unverified = VerificationOtpStatus(rawValue: "unverified")
     public static let verified = VerificationOtpStatus(rawValue: "verified")
     public static let failed = VerificationOtpStatus(rawValue: "failed")
@@ -290,7 +343,7 @@ public struct VerificationOtpStatus: RawRepresentable, Hashable, Codable, Sendab
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -321,14 +374,17 @@ public enum VerificationScimObject: String, CaseIterable, Codable {
 public struct VerificationTicketStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let unverified = VerificationTicketStatus(rawValue: "unverified")
     public static let verified = VerificationTicketStatus(rawValue: "verified")
     public static let expired = VerificationTicketStatus(rawValue: "expired")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -341,7 +397,10 @@ public struct VerificationTicketStatus: RawRepresentable, Hashable, Codable, Sen
 public struct VerificationEmailLinkStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let unverified = VerificationEmailLinkStatus(rawValue: "unverified")
     public static let verified = VerificationEmailLinkStatus(rawValue: "verified")
     public static let failed = VerificationEmailLinkStatus(rawValue: "failed")
@@ -349,7 +408,7 @@ public struct VerificationEmailLinkStatus: RawRepresentable, Hashable, Codable, 
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -380,14 +439,17 @@ public enum VerificationFromOauthObject: String, CaseIterable, Codable {
 public struct VerificationOtpStrategy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let phoneCode = VerificationOtpStrategy(rawValue: "phone_code")
     public static let emailCode = VerificationOtpStrategy(rawValue: "email_code")
     public static let resetPasswordEmailCode = VerificationOtpStrategy(rawValue: "reset_password_email_code")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -400,7 +462,10 @@ public struct VerificationOtpStrategy: RawRepresentable, Hashable, Codable, Send
 public struct VerificationSamlStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let unverified = VerificationSamlStatus(rawValue: "unverified")
     public static let verified = VerificationSamlStatus(rawValue: "verified")
     public static let failed = VerificationSamlStatus(rawValue: "failed")
@@ -409,7 +474,7 @@ public struct VerificationSamlStatus: RawRepresentable, Hashable, Codable, Senda
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -422,12 +487,15 @@ public struct VerificationSamlStatus: RawRepresentable, Hashable, Codable, Senda
 public struct VerificationScimStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let verified = VerificationScimStatus(rawValue: "verified")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -440,13 +508,16 @@ public struct VerificationScimStatus: RawRepresentable, Hashable, Codable, Senda
 public struct VerificationFromOauthStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let unverified = VerificationFromOauthStatus(rawValue: "unverified")
     public static let verified = VerificationFromOauthStatus(rawValue: "verified")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

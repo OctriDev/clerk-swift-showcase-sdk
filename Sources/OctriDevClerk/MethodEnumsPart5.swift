@@ -9,12 +9,15 @@ import Foundation
 public struct CreateSessionTokenResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let token = CreateSessionTokenResponseObject(rawValue: "token")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -23,15 +26,20 @@ public struct CreateSessionTokenResponseObject: RawRepresentable, Hashable, Coda
     }
 }
 
-public struct VerifyOAuthAccessTokenResponseVariant0Object: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct VerifyOAuthAccessTokenResponseVariant0Object: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let clerkIdpOauthAccessToken = VerifyOAuthAccessTokenResponseVariant0Object(rawValue: "clerk_idp_oauth_access_token")
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let clerkIdpOauthAccessToken =
+        VerifyOAuthAccessTokenResponseVariant0Object(rawValue: "clerk_idp_oauth_access_token")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -43,13 +51,16 @@ public struct VerifyOAuthAccessTokenResponseVariant0Object: RawRepresentable, Ha
 public struct UpsertTemplateParameter: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let email = UpsertTemplateParameter(rawValue: "email")
     public static let sms = UpsertTemplateParameter(rawValue: "sms")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -62,12 +73,15 @@ public struct UpsertTemplateParameter: RawRepresentable, Hashable, Codable, Send
 public struct DeleteMachineResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let machine = DeleteMachineResponseObject(rawValue: "machine")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -79,7 +93,10 @@ public struct DeleteMachineResponseObject: RawRepresentable, Hashable, Codable, 
 public struct ListWaitlistEntriesParameter: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let pending = ListWaitlistEntriesParameter(rawValue: "pending")
     public static let invited = ListWaitlistEntriesParameter(rawValue: "invited")
     public static let completed = ListWaitlistEntriesParameter(rawValue: "completed")
@@ -87,7 +104,7 @@ public struct ListWaitlistEntriesParameter: RawRepresentable, Hashable, Codable,
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -96,15 +113,20 @@ public struct ListWaitlistEntriesParameter: RawRepresentable, Hashable, Codable,
     }
 }
 
-public struct CreateAdminPortalLinkTokenResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct CreateAdminPortalLinkTokenResponseObject: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let adminPortalLinkToken = CreateAdminPortalLinkTokenResponseObject(rawValue: "admin_portal_link_token")
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let adminPortalLinkToken =
+        CreateAdminPortalLinkTokenResponseObject(rawValue: "admin_portal_link_token")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -114,15 +136,20 @@ public struct CreateAdminPortalLinkTokenResponseObject: RawRepresentable, Hashab
 }
 
 /// String representing the object's type.
-public struct DeleteDirectoryGroupRoleMappingResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct DeleteDirectoryGroupRoleMappingResponseObject: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let directoryGroupRoleMapping = DeleteDirectoryGroupRoleMappingResponseObject(rawValue: "directory_group_role_mapping")
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let directoryGroupRoleMapping =
+        DeleteDirectoryGroupRoleMappingResponseObject(rawValue: "directory_group_role_mapping")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -131,17 +158,21 @@ public struct DeleteDirectoryGroupRoleMappingResponseObject: RawRepresentable, H
     }
 }
 
-public struct ListEnterpriseConnectionTestRunsParameterItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct ListEnterpriseConnectionTestRunsParameterItem: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let pending = ListEnterpriseConnectionTestRunsParameterItem(rawValue: "pending")
     public static let success = ListEnterpriseConnectionTestRunsParameterItem(rawValue: "success")
     public static let failed = ListEnterpriseConnectionTestRunsParameterItem(rawValue: "failed")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -154,12 +185,15 @@ public struct ListEnterpriseConnectionTestRunsParameterItem: RawRepresentable, H
 public struct DeleteMachineScopeResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let machineScope = DeleteMachineScopeResponseObject(rawValue: "machine_scope")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -168,10 +202,14 @@ public struct DeleteMachineScopeResponseObject: RawRepresentable, Hashable, Coda
     }
 }
 
-public struct GetCommerceSubscriptionItemListParameter: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct GetCommerceSubscriptionItemListParameter: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let active = GetCommerceSubscriptionItemListParameter(rawValue: "active")
     public static let ended = GetCommerceSubscriptionItemListParameter(rawValue: "ended")
     public static let pastDue = GetCommerceSubscriptionItemListParameter(rawValue: "past_due")
@@ -180,7 +218,7 @@ public struct GetCommerceSubscriptionItemListParameter: RawRepresentable, Hashab
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -192,12 +230,15 @@ public struct GetCommerceSubscriptionItemListParameter: RawRepresentable, Hashab
 public struct GetApiKeyResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let apiKey = GetApiKeyResponseObject(rawValue: "api_key")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
