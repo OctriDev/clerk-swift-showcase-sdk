@@ -9,69 +9,23 @@ public class BetaFeaturesNamespace {
         self.config = config
     }
 
-    /// Updates instance authentication settings, including allowlist restrictions, the sender address for
-    /// authentication emails, progressive sign-up, and test mode. Set `from_email_address` to an alphanumeric local
-    /// part only; `restricted_to_allowlist` defaults to false when omitted, and test mode defaults to true for
-    /// development instances.
+/// Updates instance authentication settings, including allowlist restrictions, the sender address for authentication emails, progressive sign-up, and test mode. Set `from_email_address` to an alphanumeric local part only; `restricted_to_allowlist` defaults to false when omitted, and test mode defaults to true for development instances.
     ///
     /// Updates the settings of an instance
-    public func updateInstanceAuthConfig(
-        restrictedToAllowlist: SdkOptional<Bool>? = nil,
-        fromEmailAddress: SdkOptional<String>? = nil,
-        progressiveSignUp: SdkOptional<Bool>? = nil,
-        testMode: SdkOptional<Bool>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> InstanceSettings {
-        try await BetaFeaturesMethods.updateInstanceAuthConfig(
-            config: config,
-            restrictedToAllowlist: restrictedToAllowlist,
-            fromEmailAddress: fromEmailAddress,
-            progressiveSignUp: progressiveSignUp,
-            testMode: testMode,
-            requestOptions: requestOptions
-        )
+    public func updateInstanceAuthConfig(restrictedToAllowlist: SdkOptional<Bool>? = nil, fromEmailAddress: SdkOptional<String>? = nil, progressiveSignUp: SdkOptional<Bool>? = nil, testMode: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> InstanceSettings {
+        return try await BetaFeaturesMethods.updateInstanceAuthConfig(config: config, restrictedToAllowlist: restrictedToAllowlist, fromEmailAddress: fromEmailAddress, progressiveSignUp: progressiveSignUp, testMode: testMode, requestOptions: requestOptions)
     }
 
-    /// Change the domain of a production instance. Changing the domain requires updating the [DNS
-    /// records](https://clerk.com/docs/deployments/overview#dns-records) accordingly, deploying new [SSL
-    /// certificates](https://clerk.com/docs/deployments/overview#deploy-certificates), updating your Social
-    /// Connection's redirect URLs and setting the new keys in your code. WARNING: Changing your domain will invalidate
-    /// all current user sessions (i.e. users will be logged out). Also, while your application is being deployed, a
-    /// small downtime is expected to occur. Returns 403 `domain_managed_by_integration` for applications in a
-    /// Vercel-managed workspace; change the domain from the Vercel integration instead.
+/// Change the domain of a production instance. Changing the domain requires updating the [DNS records](https://clerk.com/docs/deployments/overview#dns-records) accordingly, deploying new [SSL certificates](https://clerk.com/docs/deployments/overview#deploy-certificates), updating your Social Connection's redirect URLs and setting the new keys in your code. WARNING: Changing your domain will invalidate all current user sessions (i.e. users will be logged out). Also, while your application is being deployed, a small downtime is expected to occur. Returns 403 `domain_managed_by_integration` for applications in a Vercel-managed workspace; change the domain from the Vercel integration instead.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public func updateProductionInstanceDomain(
-        homeUrl: String? = nil,
-        isSecondary: Bool? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SdkEmptyResponse {
-        try await BetaFeaturesMethods.updateProductionInstanceDomain(
-            config: config,
-            homeUrl: homeUrl,
-            isSecondary: isSecondary,
-            requestOptions: requestOptions
-        )
+    public func updateProductionInstanceDomain(homeUrl: String? = nil, isSecondary: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> SdkEmptyResponse {
+        return try await BetaFeaturesMethods.updateProductionInstanceDomain(config: config, homeUrl: homeUrl, isSecondary: isSecondary, requestOptions: requestOptions)
     }
 
-    /// Change the domain of a production instance. Changing the domain requires updating the [DNS
-    /// records](https://clerk.com/docs/deployments/overview#dns-records) accordingly, deploying new [SSL
-    /// certificates](https://clerk.com/docs/deployments/overview#deploy-certificates), updating your Social
-    /// Connection's redirect URLs and setting the new keys in your code. WARNING: Changing your domain will invalidate
-    /// all current user sessions (i.e. users will be logged out). Also, while your application is being deployed, a
-    /// small downtime is expected to occur. Returns 403 `domain_managed_by_integration` for applications in a
-    /// Vercel-managed workspace; change the domain from the Vercel integration instead.
-    public func changeProductionInstanceDomain(
-        homeUrl: String? = nil,
-        isSecondary: Bool? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SdkEmptyResponse {
-        try await BetaFeaturesMethods.changeProductionInstanceDomain(
-            config: config,
-            homeUrl: homeUrl,
-            isSecondary: isSecondary,
-            requestOptions: requestOptions
-        )
+/// Change the domain of a production instance. Changing the domain requires updating the [DNS records](https://clerk.com/docs/deployments/overview#dns-records) accordingly, deploying new [SSL certificates](https://clerk.com/docs/deployments/overview#deploy-certificates), updating your Social Connection's redirect URLs and setting the new keys in your code. WARNING: Changing your domain will invalidate all current user sessions (i.e. users will be logged out). Also, while your application is being deployed, a small downtime is expected to occur. Returns 403 `domain_managed_by_integration` for applications in a Vercel-managed workspace; change the domain from the Vercel integration instead.
+    public func changeProductionInstanceDomain(homeUrl: String? = nil, isSecondary: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> SdkEmptyResponse {
+        return try await BetaFeaturesMethods.changeProductionInstanceDomain(config: config, homeUrl: homeUrl, isSecondary: isSecondary, requestOptions: requestOptions)
     }
 }
 
@@ -81,35 +35,16 @@ public class ActorTokensNamespace {
         self.config = config
     }
 
-    /// Create an actor token that can be used to impersonate the given user. The `actor` parameter needs to include at
-    /// least a "sub" key whose value is the ID of the actor (impersonating) user.
-    public func create(
-        userId: String,
-        actor: CreateActorTokenRequestBodyActor,
-        expiresInSeconds: Int? = nil,
-        sessionMaxDurationInSeconds: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> ActorToken {
-        try await ActorTokensMethods.createActorToken(
-            config: config,
-            userId: userId,
-            actor: actor,
-            expiresInSeconds: expiresInSeconds,
-            sessionMaxDurationInSeconds: sessionMaxDurationInSeconds,
-            requestOptions: requestOptions
-        )
+/// Create an actor token that can be used to impersonate the given user. The `actor` parameter needs to include at least a "sub" key whose value is the ID of the actor (impersonating) user.
+    public func create(userId: String, actor: CreateActorTokenRequestBodyActor, expiresInSeconds: Int? = nil, sessionMaxDurationInSeconds: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> ActorToken {
+        return try await ActorTokensMethods.createActorToken(config: config, userId: userId, actor: actor, expiresInSeconds: expiresInSeconds, sessionMaxDurationInSeconds: sessionMaxDurationInSeconds, requestOptions: requestOptions)
     }
 
-    /// Revokes a pending actor token, changing its status to revoked. Use `actor_token_id` to identify the token; the
-    /// response includes its resulting status and associated actor and user details.
+/// Revokes a pending actor token, changing its status to revoked. Use `actor_token_id` to identify the token; the response includes its resulting status and associated actor and user details.
     ///
     /// Revokes a pending actor token.
     public func revoke(actorTokenId: String, requestOptions: RequestOptions? = nil) async throws -> ActorToken {
-        try await ActorTokensMethods.revokeActorToken(
-            config: config,
-            actorTokenId: actorTokenId,
-            requestOptions: requestOptions
-        )
+        return try await ActorTokensMethods.revokeActorToken(config: config, actorTokenId: actorTokenId, requestOptions: requestOptions)
     }
 }
 
@@ -119,67 +54,24 @@ public class DomainsNamespace {
         self.config = config
     }
 
-    /// Use this endpoint to get a list of all domains for an instance. The response will contain the primary domain for
-    /// the instance and any satellite domains. Each domain in the response contains information about the URLs where
-    /// Clerk operates and the required CNAME targets.
+/// Use this endpoint to get a list of all domains for an instance. The response will contain the primary domain for the instance and any satellite domains. Each domain in the response contains information about the URLs where Clerk operates and the required CNAME targets.
     public func list(requestOptions: RequestOptions? = nil) async throws -> Domains {
-        try await DomainsMethods.listDomains(config: config, requestOptions: requestOptions)
+        return try await DomainsMethods.listDomains(config: config, requestOptions: requestOptions)
     }
 
-    /// Add a new domain for your instance. Useful in the case of multi-domain instances, allows adding satellite
-    /// domains to an instance. The new domain must have a `name`. The domain name can contain the port for development
-    /// instances, like `localhost:3000`. Set `is_satellite` to `true` to add a satellite domain. To migrate a
-    /// production instance from an active provider domain to its first custom primary domain, set `is_satellite` to
-    /// `false`. The custom domain becomes active and the provider domain stays attached. Additional custom primary
-    /// domains are not supported. If you're planning to configure the new satellite domain to run behind a proxy, pass
-    /// the `proxy_url` parameter accordingly. Adding a custom primary domain returns 403
-    /// `domain_managed_by_integration` for applications in a Vercel-managed workspace; change the domain from the
-    /// Vercel integration instead.
-    public func add(
-        name: String,
-        isSatellite: Bool,
-        proxyUrl: SdkOptional<String>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Domain {
-        try await DomainsMethods.addDomain(
-            config: config,
-            name: name,
-            isSatellite: isSatellite,
-            proxyUrl: proxyUrl,
-            requestOptions: requestOptions
-        )
+/// Add a new domain for your instance. Useful in the case of multi-domain instances, allows adding satellite domains to an instance. The new domain must have a `name`. The domain name can contain the port for development instances, like `localhost:3000`. Set `is_satellite` to `true` to add a satellite domain. To migrate a production instance from an active provider domain to its first custom primary domain, set `is_satellite` to `false`. The custom domain becomes active and the provider domain stays attached. Additional custom primary domains are not supported. If you're planning to configure the new satellite domain to run behind a proxy, pass the `proxy_url` parameter accordingly. Adding a custom primary domain returns 403 `domain_managed_by_integration` for applications in a Vercel-managed workspace; change the domain from the Vercel integration instead.
+    public func add(name: String, isSatellite: Bool, proxyUrl: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> Domain {
+        return try await DomainsMethods.addDomain(config: config, name: name, isSatellite: isSatellite, proxyUrl: proxyUrl, requestOptions: requestOptions)
     }
 
-    /// Deletes a domain for the instance. The instance's active domain cannot be deleted. Deleting a non-satellite
-    /// domain returns 403 `domain_managed_by_integration` for applications in a Vercel-managed workspace; change the
-    /// domain from the Vercel integration instead.
+/// Deletes a domain for the instance. The instance's active domain cannot be deleted. Deleting a non-satellite domain returns 403 `domain_managed_by_integration` for applications in a Vercel-managed workspace; change the domain from the Vercel integration instead.
     public func delete(domainId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        try await DomainsMethods.deleteDomain(config: config, domainId: domainId, requestOptions: requestOptions)
+        return try await DomainsMethods.deleteDomain(config: config, domainId: domainId, requestOptions: requestOptions)
     }
 
-    /// The `proxy_url` can be updated only for production instances. Update one of the instance's domains. Both primary
-    /// and satellite domains can be updated. If you choose to use Clerk via proxy, use this endpoint to specify the
-    /// `proxy_url`. Whenever you decide you'd rather switch to DNS setup for Clerk, simply set `proxy_url` to `null`
-    /// for the domain. When you update a production instance's primary domain name, you have to make sure that you've
-    /// completed all the necessary setup steps for DNS and emails to work. Expect downtime otherwise. Updating a
-    /// primary domain's name will also update the instance's home origin, affecting the default application paths.
-    /// Updating the `name` or `is_secondary` of a primary domain returns 403 `domain_managed_by_integration` for
-    /// applications in a Vercel-managed workspace; change the domain from the Vercel integration instead.
-    public func update(
-        domainId: String,
-        name: SdkOptional<String>? = nil,
-        proxyUrl: SdkOptional<String>? = nil,
-        isSecondary: SdkOptional<Bool>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Domain {
-        try await DomainsMethods.updateDomain(
-            config: config,
-            domainId: domainId,
-            name: name,
-            proxyUrl: proxyUrl,
-            isSecondary: isSecondary,
-            requestOptions: requestOptions
-        )
+/// The `proxy_url` can be updated only for production instances. Update one of the instance's domains. Both primary and satellite domains can be updated. If you choose to use Clerk via proxy, use this endpoint to specify the `proxy_url`. Whenever you decide you'd rather switch to DNS setup for Clerk, simply set `proxy_url` to `null` for the domain. When you update a production instance's primary domain name, you have to make sure that you've completed all the necessary setup steps for DNS and emails to work. Expect downtime otherwise. Updating a primary domain's name will also update the instance's home origin, affecting the default application paths. Updating the `name` or `is_secondary` of a primary domain returns 403 `domain_managed_by_integration` for applications in a Vercel-managed workspace; change the domain from the Vercel integration instead.
+    public func update(domainId: String, name: SdkOptional<String>? = nil, proxyUrl: SdkOptional<String>? = nil, isSecondary: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> Domain {
+        return try await DomainsMethods.updateDomain(config: config, domainId: domainId, name: name, proxyUrl: proxyUrl, isSecondary: isSecondary, requestOptions: requestOptions)
     }
 }
 
@@ -189,140 +81,69 @@ public class InstanceSettingsNamespace {
         self.config = config
     }
 
-    /// Retrieves the current instance configuration, including its environment, allowed origins, and subdomain access
-    /// settings. Use the returned `allowed_subdomains` and `subdomain_allowlist_enabled` values to understand which
-    /// subdomains may originate requests.
+/// Retrieves the current instance configuration, including its environment, allowed origins, and subdomain access settings. Use the returned `allowed_subdomains` and `subdomain_allowlist_enabled` values to understand which subdomains may originate requests.
     ///
     /// Fetches the current instance
     public func getInstance(requestOptions: RequestOptions? = nil) async throws -> Instance {
-        try await InstanceSettingsMethods.getInstance(config: config, requestOptions: requestOptions)
+        return try await InstanceSettingsMethods.getInstance(config: config, requestOptions: requestOptions)
     }
 
-    /// Updates configurable settings for an instance, including browser origins, password breach checks, and sign-in
-    /// preferences. Supply only the settings you want to change; `preferred_sign_in_strategy_when_password_required`
-    /// accepts `password`, `otp`, or an empty string.
+/// Updates configurable settings for an instance, including browser origins, password breach checks, and sign-in preferences. Supply only the settings you want to change; `preferred_sign_in_strategy_when_password_required` accepts `password`, `otp`, or an empty string.
     ///
     /// Updates the settings of an instance
-    public func updateInstance(
-        options: InstanceSettingsMethods.UpdateInstanceOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SdkEmptyResponse {
-        try await InstanceSettingsMethods.updateInstance(
-            config: config,
-            options: options,
-            requestOptions: requestOptions
-        )
+    public func updateInstance(options: InstanceSettingsMethods.UpdateInstanceOptions, requestOptions: RequestOptions? = nil) async throws -> SdkEmptyResponse {
+        return try await InstanceSettingsMethods.updateInstance(config: config, options: options, requestOptions: requestOptions)
     }
 
-    /// Updates the restriction settings that control allowlisting, blocklisting, and email address checks for an
-    /// instance. Supply the boolean settings you want to change; the response contains the resulting restriction
-    /// configuration.
+/// Updates the restriction settings that control allowlisting, blocklisting, and email address checks for an instance. Supply the boolean settings you want to change; the response contains the resulting restriction configuration.
     ///
     /// Updates the restriction settings of an instance
-    public func updateInstanceRestrictions(
-        allowlist: SdkOptional<Bool>? = nil,
-        blocklist: SdkOptional<Bool>? = nil,
-        allowlistBlocklistDisabledOnSignIn: SdkOptional<Bool>? = nil,
-        blockEmailSubaddresses: SdkOptional<Bool>? = nil,
-        blockDisposableEmailDomains: SdkOptional<Bool>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> InstanceRestrictions {
-        try await InstanceSettingsMethods.updateInstanceRestrictions(
-            config: config,
-            allowlist: allowlist,
-            blocklist: blocklist,
-            allowlistBlocklistDisabledOnSignIn: allowlistBlocklistDisabledOnSignIn,
-            blockEmailSubaddresses: blockEmailSubaddresses,
-            blockDisposableEmailDomains: blockDisposableEmailDomains,
-            requestOptions: requestOptions
-        )
+    public func updateInstanceRestrictions(allowlist: SdkOptional<Bool>? = nil, blocklist: SdkOptional<Bool>? = nil, allowlistBlocklistDisabledOnSignIn: SdkOptional<Bool>? = nil, blockEmailSubaddresses: SdkOptional<Bool>? = nil, blockDisposableEmailDomains: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> InstanceRestrictions {
+        return try await InstanceSettingsMethods.updateInstanceRestrictions(config: config, allowlist: allowlist, blocklist: blocklist, allowlistBlocklistDisabledOnSignIn: allowlistBlocklistDisabledOnSignIn, blockEmailSubaddresses: blockEmailSubaddresses, blockDisposableEmailDomains: blockDisposableEmailDomains, requestOptions: requestOptions)
     }
 
-    /// Retrieves the Protect settings for the instance, including rule enforcement and prerequisite check status. Use
-    /// `rules_enabled` to distinguish active enforcement from shadow evaluation, where rules are scored and recorded
-    /// without blocking traffic.
+/// Retrieves the Protect settings for the instance, including rule enforcement and prerequisite check status. Use `rules_enabled` to distinguish active enforcement from shadow evaluation, where rules are scored and recorded without blocking traffic.
     public func getInstanceProtect(requestOptions: RequestOptions? = nil) async throws -> InstanceProtect {
-        try await InstanceSettingsMethods.getInstanceProtect(config: config, requestOptions: requestOptions)
+        return try await InstanceSettingsMethods.getInstanceProtect(config: config, requestOptions: requestOptions)
     }
 
-    /// Updates whether Protect rules are enforced for the instance. Set `rules_enabled` to true to enforce rules or
-    /// false to return to shadow evaluation, which continues scoring and recording rules without blocking traffic.
-    public func updateInstanceProtect(
-        rulesEnabled: SdkOptional<Bool>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> InstanceProtect {
-        try await InstanceSettingsMethods.updateInstanceProtect(
-            config: config,
-            rulesEnabled: rulesEnabled,
-            requestOptions: requestOptions
-        )
+/// Updates whether Protect rules are enforced for the instance. Set `rules_enabled` to true to enforce rules or false to return to shadow evaluation, which continues scoring and recording rules without blocking traffic.
+    public func updateInstanceProtect(rulesEnabled: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> InstanceProtect {
+        return try await InstanceSettingsMethods.updateInstanceProtect(config: config, rulesEnabled: rulesEnabled, requestOptions: requestOptions)
     }
 
-    /// Retrieves the per-instance SMS communication settings, including the SMS country blocklist.
+/// Retrieves the per-instance SMS communication settings, including the SMS country blocklist.
     public func getInstanceCommunication(requestOptions: RequestOptions? = nil) async throws -> InstanceCommunication {
-        try await InstanceSettingsMethods.getInstanceCommunication(config: config, requestOptions: requestOptions)
+        return try await InstanceSettingsMethods.getInstanceCommunication(config: config, requestOptions: requestOptions)
     }
 
-    /// Replaces the SMS country blocklist for this instance. Pass the full set of ISO 3166-1 alpha-2 country codes that
-    /// should be blocked; codes that aren't recognized as SMS-tier countries are silently dropped from the persisted
-    /// list. Omitting `blocked_country_codes` is a no-op.
-    public func updateInstanceCommunication(
-        blockedCountryCodes: SdkOptional<[String]>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> InstanceCommunication {
-        try await InstanceSettingsMethods.updateInstanceCommunication(
-            config: config,
-            blockedCountryCodes: blockedCountryCodes,
-            requestOptions: requestOptions
-        )
+/// Replaces the SMS country blocklist for this instance. Pass the full set of ISO 3166-1 alpha-2 country codes that should be blocked; codes that aren't recognized as SMS-tier countries are silently dropped from the persisted list. Omitting `blocked_country_codes` is a no-op.
+    public func updateInstanceCommunication(blockedCountryCodes: SdkOptional<[String]>? = nil, requestOptions: RequestOptions? = nil) async throws -> InstanceCommunication {
+        return try await InstanceSettingsMethods.updateInstanceCommunication(config: config, blockedCountryCodes: blockedCountryCodes, requestOptions: requestOptions)
     }
 
-    /// Retrieves the settings for OAuth applications for the instance (dynamic client registration, JWT access tokens,
-    /// etc.).
-    public func getInstanceOAuthApplicationSettings(requestOptions: RequestOptions? = nil) async throws
-        -> OAuthApplicationSettings {
-        try await InstanceSettingsMethods.getInstanceOAuthApplicationSettings(
-            config: config,
-            requestOptions: requestOptions
-        )
+/// Retrieves the settings for OAuth applications for the instance (dynamic client registration, JWT access tokens, etc.).
+    public func getInstanceOAuthApplicationSettings(requestOptions: RequestOptions? = nil) async throws -> OAuthApplicationSettings {
+        return try await InstanceSettingsMethods.getInstanceOAuthApplicationSettings(config: config, requestOptions: requestOptions)
     }
 }
 
-public extension InstanceSettingsNamespace {
-    /// Updates the OAuth application settings for the instance.
-    func updateInstanceOAuthApplicationSettings(
-        options: InstanceSettingsMethods.UpdateInstanceOAuthApplicationSettingsOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OAuthApplicationSettings {
-        try await InstanceSettingsMethods.updateInstanceOAuthApplicationSettings(
-            config: config,
-            options: options,
-            requestOptions: requestOptions
-        )
+extension InstanceSettingsNamespace {
+/// Updates the OAuth application settings for the instance.
+    public func updateInstanceOAuthApplicationSettings(options: InstanceSettingsMethods.UpdateInstanceOAuthApplicationSettingsOptions, requestOptions: RequestOptions? = nil) async throws -> OAuthApplicationSettings {
+        return try await InstanceSettingsMethods.updateInstanceOAuthApplicationSettings(config: config, options: options, requestOptions: requestOptions)
     }
 
-    /// Retrieves the organization settings of the instance
-    func getInstanceOrganizationSettings(requestOptions: RequestOptions? = nil) async throws -> OrganizationSettings {
-        try await InstanceSettingsMethods.getInstanceOrganizationSettings(
-            config: config,
-            requestOptions: requestOptions
-        )
+/// Retrieves the organization settings of the instance
+    public func getInstanceOrganizationSettings(requestOptions: RequestOptions? = nil) async throws -> OrganizationSettings {
+        return try await InstanceSettingsMethods.getInstanceOrganizationSettings(config: config, requestOptions: requestOptions)
     }
 
-    /// Updates the organization settings for the instance. Use the available fields to configure organization creation,
-    /// membership limits, deletion, and domain enrollment; `domains_enrollment_modes` supports automatic invitations
-    /// and suggestions. The response returns the updated organization settings.
+/// Updates the organization settings for the instance. Use the available fields to configure organization creation, membership limits, deletion, and domain enrollment; `domains_enrollment_modes` supports automatic invitations and suggestions. The response returns the updated organization settings.
     ///
     /// Updates the organization settings of the instance
-    func updateInstanceOrganizationSettings(
-        options: InstanceSettingsMethods.UpdateInstanceOrganizationSettingsOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OrganizationSettings {
-        try await InstanceSettingsMethods.updateInstanceOrganizationSettings(
-            config: config,
-            options: options,
-            requestOptions: requestOptions
-        )
+    public func updateInstanceOrganizationSettings(options: InstanceSettingsMethods.UpdateInstanceOrganizationSettingsOptions, requestOptions: RequestOptions? = nil) async throws -> OrganizationSettings {
+        return try await InstanceSettingsMethods.updateInstanceOrganizationSettings(config: config, options: options, requestOptions: requestOptions)
     }
 }
 
@@ -332,19 +153,19 @@ public class WebhooksNamespace {
         self.config = config
     }
 
-    /// Create a Svix app and associate it with the current instance
+/// Create a Svix app and associate it with the current instance
     public func createSvixApp(requestOptions: RequestOptions? = nil) async throws -> SvixURL {
-        try await WebhooksMethods.createSvixApp(config: config, requestOptions: requestOptions)
+        return try await WebhooksMethods.createSvixApp(config: config, requestOptions: requestOptions)
     }
 
-    /// Delete a Svix app and disassociate it from the current instance
+/// Delete a Svix app and disassociate it from the current instance
     public func deleteSvixApp(requestOptions: RequestOptions? = nil) async throws -> SdkEmptyResponse {
-        try await WebhooksMethods.deleteSvixApp(config: config, requestOptions: requestOptions)
+        return try await WebhooksMethods.deleteSvixApp(config: config, requestOptions: requestOptions)
     }
 
-    /// Generate a new URL for accessing the Svix's management dashboard for that particular instance
+/// Generate a new URL for accessing the Svix's management dashboard for that particular instance
     public func generateSvixAuthUrl(requestOptions: RequestOptions? = nil) async throws -> SvixURL {
-        try await WebhooksMethods.generateSvixAuthUrl(config: config, requestOptions: requestOptions)
+        return try await WebhooksMethods.generateSvixAuthUrl(config: config, requestOptions: requestOptions)
     }
 }
 
@@ -354,86 +175,34 @@ public class JwtTemplatesNamespace {
         self.config = config
     }
 
-    /// Lists JWT templates, with an option to return paginated or unpaginated results. Use `limit` and `offset` to
-    /// control the number of templates returned and the starting position.
-    public func list(
-        paginated: Bool? = nil,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> [JWTTemplate] {
-        try await JwtTemplatesMethods.listJwtTemplates(
-            config: config,
-            paginated: paginated,
-            limit: limit,
-            offset: offset,
-            requestOptions: requestOptions
-        )
+/// Lists JWT templates, with an option to return paginated or unpaginated results. Use `limit` and `offset` to control the number of templates returned and the starting position.
+    public func list(paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> [JWTTemplate] {
+        return try await JwtTemplatesMethods.listJwtTemplates(config: config, paginated: paginated, limit: limit, offset: offset, requestOptions: requestOptions)
     }
 
-    /// Creates a JWT template with the supplied name and claims. Include `name` and `claims`; set `lifetime` and
-    /// `allowed_clock_skew` within their permitted ranges, and provide a signing algorithm and key when
-    /// `custom_signing_key` is true. The response returns the created template.
+/// Creates a JWT template with the supplied name and claims. Include `name` and `claims`; set `lifetime` and `allowed_clock_skew` within their permitted ranges, and provide a signing algorithm and key when `custom_signing_key` is true. The response returns the created template.
     ///
     /// Create a new JWT template
-    public func create(
-        name: String,
-        claims: [String: JSONValue],
-        lifetime: SdkOptional<Int>? = nil,
-        allowedClockSkew: SdkOptional<Int>? = nil,
-        customSigningKey: Bool? = nil,
-        signingAlgorithm: SdkOptional<String>? = nil,
-        signingKey: SdkOptional<String>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> JWTTemplate {
-        try await JwtTemplatesMethods.createJwtTemplate(
-            config: config,
-            name: name,
-            claims: claims,
-            lifetime: lifetime,
-            allowedClockSkew: allowedClockSkew,
-            customSigningKey: customSigningKey,
-            signingAlgorithm: signingAlgorithm,
-            signingKey: signingKey,
-            requestOptions: requestOptions
-        )
+    public func create(name: String, claims: [String: JSONValue], lifetime: SdkOptional<Int>? = nil, allowedClockSkew: SdkOptional<Int>? = nil, customSigningKey: Bool? = nil, signingAlgorithm: SdkOptional<String>? = nil, signingKey: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> JWTTemplate {
+        return try await JwtTemplatesMethods.createJwtTemplate(config: config, name: name, claims: claims, lifetime: lifetime, allowedClockSkew: allowedClockSkew, customSigningKey: customSigningKey, signingAlgorithm: signingAlgorithm, signingKey: signingKey, requestOptions: requestOptions)
     }
 
-    /// Retrieves the details of a JWT template by its identifier. Use `template_id` to select the template whose
-    /// claims, lifetime, and signing configuration you need.
+/// Retrieves the details of a JWT template by its identifier. Use `template_id` to select the template whose claims, lifetime, and signing configuration you need.
     ///
     /// Retrieve the details of a given JWT template
     public func get(templateId: String, requestOptions: RequestOptions? = nil) async throws -> JWTTemplate {
-        try await JwtTemplatesMethods.getJwtTemplate(
-            config: config,
-            templateId: templateId,
-            requestOptions: requestOptions
-        )
+        return try await JwtTemplatesMethods.getJwtTemplate(config: config, templateId: templateId, requestOptions: requestOptions)
     }
 
-    /// Updates an existing JWT template's configuration. Include `name` and `claims`; `lifetime` and
-    /// `allowed_clock_skew` must fall within their permitted ranges, and custom signing details are required when
-    /// `custom_signing_key` is true. The response returns the updated template.
+/// Updates an existing JWT template's configuration. Include `name` and `claims`; `lifetime` and `allowed_clock_skew` must fall within their permitted ranges, and custom signing details are required when `custom_signing_key` is true. The response returns the updated template.
     ///
     /// Updates an existing JWT template
-    public func update(
-        options: JwtTemplatesMethods.UpdateJWTTemplateOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> JWTTemplate {
-        try await JwtTemplatesMethods.updateJwtTemplate(
-            config: config,
-            options: options,
-            requestOptions: requestOptions
-        )
+    public func update(options: JwtTemplatesMethods.UpdateJWTTemplateOptions, requestOptions: RequestOptions? = nil) async throws -> JWTTemplate {
+        return try await JwtTemplatesMethods.updateJwtTemplate(config: config, options: options, requestOptions: requestOptions)
     }
 
-    /// Deletes a JWT template by its identifier. Use `template_id` to select the template to remove. The response
-    /// indicates whether the template was deleted.
+/// Deletes a JWT template by its identifier. Use `template_id` to select the template to remove. The response indicates whether the template was deleted.
     public func delete(templateId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        try await JwtTemplatesMethods.deleteJwtTemplate(
-            config: config,
-            templateId: templateId,
-            requestOptions: requestOptions
-        )
+        return try await JwtTemplatesMethods.deleteJwtTemplate(config: config, templateId: templateId, requestOptions: requestOptions)
     }
 }

@@ -3,20 +3,17 @@
 
 import Foundation
 
-/// Users domain models
+// Users domain models
 /// Required enumerated value serialized in the `status` wire field.
 public struct VerificationPasskeyStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let verified = VerificationPasskeyStatus(rawValue: "verified")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -47,10 +44,7 @@ public enum VerificationOauthObject: String, CaseIterable, Codable {
 public struct VerificationWeb3Status: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let unverified = VerificationWeb3Status(rawValue: "unverified")
     public static let verified = VerificationWeb3Status(rawValue: "verified")
     public static let failed = VerificationWeb3Status(rawValue: "failed")
@@ -58,7 +52,7 @@ public struct VerificationWeb3Status: RawRepresentable, Hashable, Codable, Senda
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -71,16 +65,13 @@ public struct VerificationWeb3Status: RawRepresentable, Hashable, Codable, Senda
 public struct TrustedDeviceStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let active = TrustedDeviceStatus(rawValue: "active")
     public static let revoked = TrustedDeviceStatus(rawValue: "revoked")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -93,17 +84,14 @@ public struct TrustedDeviceStatus: RawRepresentable, Hashable, Codable, Sendable
 public struct ExternalAccountWithVerificationObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let externalAccount = ExternalAccountWithVerificationObject(rawValue: "external_account")
     public static let facebookAccount = ExternalAccountWithVerificationObject(rawValue: "facebook_account")
     public static let googleAccount = ExternalAccountWithVerificationObject(rawValue: "google_account")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -134,15 +122,12 @@ public enum VerificationGoogleOneTapObject: String, CaseIterable, Codable {
 public struct VerificationPasskeyStrategy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let passkey = VerificationPasskeyStrategy(rawValue: "passkey")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -11,25 +11,10 @@ public enum SignUpsMethods {
     ///
     /// - Parameters:
     /// - id: The ID of the sign-up to retrieve
-    public static func getSignUp(
-        config: ClientConfig,
-        id: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SignUp {
-        try await (sdkRequest(
-            "GET",
-            ["/sign_ups/", sdkEncodePathSegment(sdkWireString(id))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "GetSignUp",
-            options: requestOptions,
-            errors: ["403": ClerkErrors.self]
-        )).data
+    public static func getSignUp(config: ClientConfig, id: String, requestOptions: RequestOptions? = nil) async throws -> SignUp {
+        return try (await sdkRequest("GET", ["/sign_ups/", sdkEncodePathSegment(sdkWireString(id))].joined(), config: config, decoder: .json, operationId: "GetSignUp", options: requestOptions, errors: ["403": ClerkErrors.self])).data
     }
-
-    /// Updates an existing sign-up with the fields you provide. Use `external_id` to associate the sign-up with an
-    /// identifier from your external system, or set `custom_action` to mark it as a custom action. The response
-    /// includes the sign-up's current status and verification details.
+    /// Updates an existing sign-up with the fields you provide. Use `external_id` to associate the sign-up with an identifier from your external system, or set `custom_action` to mark it as a custom action. The response includes the sign-up's current status and verification details.
     ///
     /// Update the sign-up with the given ID
     ///
@@ -39,24 +24,9 @@ public enum SignUpsMethods {
     ///   external systems or your previous authentication solution. This will be
     ///   copied to the resulting user when the sign-up is completed.
     /// - customAction: If true, the sign-up will be marked as a custom action.
-    public static func updateSignUp(
-        config: ClientConfig,
-        id: String,
-        externalId: SdkOptional<String>? = nil,
-        customAction: SdkOptional<Bool>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SignUp {
+    public static func updateSignUp(config: ClientConfig, id: String, externalId: SdkOptional<String>? = nil, customAction: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> SignUp {
         let requestBody = UpdateSignUpRequestBody(externalId: externalId, customAction: customAction)
 
-        return try await (sdkRequest(
-            "PATCH",
-            ["/sign_ups/", sdkEncodePathSegment(sdkWireString(id))].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "UpdateSignUp",
-            options: requestOptions,
-            errors: ["403": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("PATCH", ["/sign_ups/", sdkEncodePathSegment(sdkWireString(id))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateSignUp", options: requestOptions, errors: ["403": ClerkErrors.self])).data
     }
 }

@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension UsersMethods {
+extension UsersMethods {
     /// Retrieve a paginated list of the user's organization memberships
     ///
     /// - Parameters:
@@ -16,33 +16,18 @@ public extension UsersMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    static func usersGetOrganizationMemberships(
-        config: ClientConfig,
-        userId: String,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OrganizationMemberships {
-        if let limit {
+    public static func usersGetOrganizationMemberships(config: ClientConfig, userId: String, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationMemberships {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/organization_memberships"].joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-            ],
-            decoder: .json,
-            operationId: "UsersGetOrganizationMemberships",
-            options: requestOptions,
-            errors: ["403": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/organization_memberships"].joined(), config: config, query: [
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "UsersGetOrganizationMemberships", options: requestOptions, errors: ["403": ClerkErrors.self])).data
     }
 }

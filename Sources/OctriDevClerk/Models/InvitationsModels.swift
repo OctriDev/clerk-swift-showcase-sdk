@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Invitations domain models
+// Invitations domain models
 /// Typed representation of the `InvitationRevoked` API schema.
 public struct InvitationRevoked: Codable {
     /// Required enumerated value serialized in the `object` wire field.
@@ -40,96 +40,55 @@ public struct InvitationRevoked: Codable {
         case expiresAt = "expires_at"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension InvitationRevoked {
-    init(from decoder: Decoder) throws {
+extension InvitationRevoked {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
+            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.emailAddress) else {
-            throw SdkValidationError(
-                field: "email_address",
-                code: "required",
-                message: "Validation failed for 'email_address': value is required"
-            )
+            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
         }
         guard container.contains(.publicMetadata) else {
-            throw SdkValidationError(
-                field: "public_metadata",
-                code: "required",
-                message: "Validation failed for 'public_metadata': value is required"
-            )
+            throw SdkValidationError(field: "public_metadata", code: "required", message: "Validation failed for 'public_metadata': value is required")
         }
         guard container.contains(.status) else {
-            throw SdkValidationError(
-                field: "status",
-                code: "required",
-                message: "Validation failed for 'status': value is required"
-            )
+            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
         }
         guard container.contains(.createdAt) else {
-            throw SdkValidationError(
-                field: "created_at",
-                code: "required",
-                message: "Validation failed for 'created_at': value is required"
-            )
+            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
         }
         guard container.contains(.updatedAt) else {
-            throw SdkValidationError(
-                field: "updated_at",
-                code: "required",
-                message: "Validation failed for 'updated_at': value is required"
-            )
+            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
         }
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
-        status = try container.sdkDecodeRequired(.status)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        revoked = try container.sdkDecodeIfPresent(.revoked)
-        url = try container.sdkDecodeIfPresent(.url)
-        expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
-        try sdkValidateEmail("email_address", emailAddress)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        self.publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
+        self.status = try container.sdkDecodeRequired(.status)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.revoked = try container.sdkDecodeIfPresent(.revoked)
+        self.url = try container.sdkDecodeIfPresent(.url)
+        self.expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
+            try sdkValidateEmail("email_address", self.emailAddress)
     }
 }
 
-public extension InvitationRevoked {
-    init(
-        object: InvitationObject,
-        id: String,
-        emailAddress: String,
-        publicMetadata: [String: JSONValue],
-        status: InvitationRevokedVariant1Status,
-        createdAt: Int,
-        updatedAt: Int,
-        revoked: Bool? = nil,
-        url: String? = nil,
-        expiresAt: Int? = nil
-    ) throws {
+extension InvitationRevoked {
+    public init(object: InvitationObject, id: String, emailAddress: String, publicMetadata: [String: JSONValue], status: InvitationRevokedVariant1Status, createdAt: Int, updatedAt: Int, revoked: Bool? = nil, url: String? = nil, expiresAt: Int? = nil) throws {
         (self.object, self.id) = (object, id)
         (self.emailAddress, self.publicMetadata) = (emailAddress, publicMetadata)
         (self.status, self.createdAt) = (status, createdAt)
         (self.updatedAt, self.revoked) = (updatedAt, revoked)
         (self.url, self.expiresAt) = (url, expiresAt)
-        try sdkValidateEmail("email_address", self.emailAddress)
+            try sdkValidateEmail("email_address", self.emailAddress)
     }
 }
 
@@ -145,20 +104,20 @@ public struct InvitationRevokedVariant1: Codable {
     }
 
     init() {
-        (revoked, status) = (nil, nil)
+        (self.revoked, self.status) = (nil, nil)
     }
 }
 
-public extension InvitationRevokedVariant1 {
-    init(from decoder: Decoder) throws {
+extension InvitationRevokedVariant1 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        revoked = try container.sdkDecodeIfPresent(.revoked)
-        status = try container.sdkDecodeIfPresent(.status)
+        self.revoked = try container.sdkDecodeIfPresent(.revoked)
+        self.status = try container.sdkDecodeIfPresent(.status)
     }
 }
 
-public extension InvitationRevokedVariant1 {
-    init(revoked: Bool? = nil, status: InvitationRevokedVariant1Status? = nil) {
+extension InvitationRevokedVariant1 {
+    public init(revoked: Bool? = nil, status: InvitationRevokedVariant1Status? = nil) {
         self.init()
         (self.revoked, self.status) = (revoked, status)
     }
@@ -167,15 +126,12 @@ public extension InvitationRevokedVariant1 {
 public struct InvitationRevokedVariant1Status: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let revoked = InvitationRevokedVariant1Status(rawValue: "revoked")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

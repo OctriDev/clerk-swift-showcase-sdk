@@ -6,64 +6,32 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OAuthApplicationsMethods {
+extension OAuthApplicationsMethods {
     /// Deletes the given OAuth application. This is not reversible.
     ///
     /// - Parameters:
     /// - oauthApplicationId: The ID of the OAuth application to delete
-    static func deleteOAuthApplication(
-        config: ClientConfig,
-        oauthApplicationId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DeletedObject {
-        try await (sdkRequest(
-            "DELETE",
-            ["/oauth_applications/", sdkEncodePathSegment(sdkWireString(oauthApplicationId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DeleteOAuthApplication",
-            options: requestOptions,
-            errors: ["403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func deleteOAuthApplication(config: ClientConfig, oauthApplicationId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
+        return try (await sdkRequest("DELETE", ["/oauth_applications/", sdkEncodePathSegment(sdkWireString(oauthApplicationId))].joined(), config: config, decoder: .json, operationId: "DeleteOAuthApplication", options: requestOptions, errors: ["403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 
-    /// Uploads an image to set or replace an OAuth application's logo. Send the request as `multipart/form-data` with
-    /// the image in the `file` field; supported types are JPEG, PNG, GIF, and WebP, and the file must not exceed 10 MB.
-    /// You can provide `uploader_user_id` to credit a user with the upload.
+    /// Uploads an image to set or replace an OAuth application's logo. Send the request as `multipart/form-data` with the image in the `file` field; supported types are JPEG, PNG, GIF, and WebP, and the file must not exceed 10 MB. You can provide `uploader_user_id` to credit a user with the upload.
     ///
-    /// Set or replace an OAuth application's logo by uploading an image file. This endpoint uses the
-    /// `multipart/form-data` request content type and accepts a file of image type. The file size cannot exceed 10MB.
-    /// Only the following file content types are supported: `image/jpeg`, `image/png`, `image/gif`, `image/webp`.
+    /// Set or replace an OAuth application's logo by uploading an image file. This endpoint uses the `multipart/form-data` request content type and accepts a file of image type. The file size cannot exceed 10MB. Only the following file content types are supported: `image/jpeg`, `image/png`, `image/gif`, `image/webp`.
     ///
     /// - Parameters:
     /// - oauthApplicationId: The ID of the OAuth application for which to upload a
     ///   logo
     /// - uploaderUserId: The ID of the user that will be credited with the image
     ///   upload.
-    static func uploadOAuthApplicationLogo(
-        config: ClientConfig,
-        oauthApplicationId: String,
-        file: SdkUploadFile,
-        uploaderUserId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OAuthApplication {
+    public static func uploadOAuthApplicationLogo(config: ClientConfig, oauthApplicationId: String, file: SdkUploadFile, uploaderUserId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> OAuthApplication {
         var multipartParts: [SdkMultipartField] = []
         multipartParts.append(.file("file", file))
-        if let uploaderUserId {
+        if let uploaderUserId = uploaderUserId {
             multipartParts.append(.scalar("uploader_user_id", uploaderUserId))
         }
         let multipart = sdkEncodeMultipart(multipartParts)
 
-        return try await (sdkRequest(
-            "PUT",
-            ["/oauth_applications/", sdkEncodePathSegment(sdkWireString(oauthApplicationId)), "/logo"].joined(),
-            config: config,
-            rawBody: multipart.data,
-            contentType: multipart.contentType,
-            decoder: .json,
-            operationId: "UploadOAuthApplicationLogo",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "413": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("PUT", ["/oauth_applications/", sdkEncodePathSegment(sdkWireString(oauthApplicationId)), "/logo"].joined(), config: config, rawBody: multipart.data, contentType: multipart.contentType, decoder: .json, operationId: "UploadOAuthApplicationLogo", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "413": ClerkErrors.self])).data
     }
 }

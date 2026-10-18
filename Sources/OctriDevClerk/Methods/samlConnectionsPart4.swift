@@ -6,27 +6,14 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension SamlConnectionsMethods {
-    /// Fetches the SAML Connection whose ID matches the provided `saml_connection_id` in the path. Deprecated: Use the
-    /// Enterprise Connections API instead. This endpoint will be removed in future versions.
+extension SamlConnectionsMethods {
+    /// Fetches the SAML Connection whose ID matches the provided `saml_connection_id` in the path. Deprecated: Use the Enterprise Connections API instead. This endpoint will be removed in future versions.
     ///
     /// - Parameters:
     /// - samlConnectionId: The ID of the SAML Connection
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    static func getSamlConnection(
-        config: ClientConfig,
-        samlConnectionId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SAMLConnection {
-        try await (sdkRequest(
-            "GET",
-            ["/saml_connections/", sdkEncodePathSegment(sdkWireString(samlConnectionId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "GetSAMLConnection",
-            options: requestOptions,
-            errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func getSamlConnection(config: ClientConfig, samlConnectionId: String, requestOptions: RequestOptions? = nil) async throws -> SAMLConnection {
+        return try (await sdkRequest("GET", ["/saml_connections/", sdkEncodePathSegment(sdkWireString(samlConnectionId))].joined(), config: config, decoder: .json, operationId: "GetSAMLConnection", options: requestOptions, errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

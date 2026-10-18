@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension PhoneNumbersMethods {
-    /// Creates a phone number for a user. Provide `user_id` and an E.164-formatted `phone_number`; set `verified` to
-    /// true before reserving the number for multi-factor authentication. A 200 response returns the created phone
-    /// number and its verification, linkage, and reservation details.
+extension PhoneNumbersMethods {
+    /// Creates a phone number for a user. Provide `user_id` and an E.164-formatted `phone_number`; set `verified` to true before reserving the number for multi-factor authentication. A 200 response returns the created phone number and its verification, linkage, and reservation details.
     ///
     /// Create a new phone number
     ///
@@ -24,38 +22,9 @@ public extension PhoneNumbersMethods {
     ///   multi-factor authentication. The phone number must also be verified. If
     ///   there are no other reserved second factors, the phone number will be set as
     ///   the default second factor.
-    static func createPhoneNumber(
-        config: ClientConfig,
-        userId: String,
-        phoneNumber: String,
-        verified: SdkOptional<Bool>? = nil,
-        primary: SdkOptional<Bool>? = nil,
-        reservedForSecondFactor: SdkOptional<Bool>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> PhoneNumber {
-        let requestBody = CreatePhoneNumberRequestBody(
-            userId: userId,
-            phoneNumber: phoneNumber,
-            verified: verified,
-            primary: primary,
-            reservedForSecondFactor: reservedForSecondFactor
-        )
+    public static func createPhoneNumber(config: ClientConfig, userId: String, phoneNumber: String, verified: SdkOptional<Bool>? = nil, primary: SdkOptional<Bool>? = nil, reservedForSecondFactor: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> PhoneNumber {
+        let requestBody = CreatePhoneNumberRequestBody(userId: userId, phoneNumber: phoneNumber, verified: verified, primary: primary, reservedForSecondFactor: reservedForSecondFactor)
 
-        return try await (sdkRequest(
-            "POST",
-            "/phone_numbers",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreatePhoneNumber",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/phone_numbers", config: config, body: requestBody, decoder: .json, operationId: "CreatePhoneNumber", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

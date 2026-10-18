@@ -6,33 +6,12 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension UsersMethods {
-    /// Sets the given user's password as no longer compromised. The user will no longer be prompted to reset their
-    /// password on their next sign-in. If the user is in reserved-email password quarantine, the quarantine is
-    /// preserved and the returned user will still have `requires_password_reset` set to `true`. Reserved-email password
-    /// quarantine can only be cleared by completing a password reset or changing/removing the password.
+extension UsersMethods {
+    /// Sets the given user's password as no longer compromised. The user will no longer be prompted to reset their password on their next sign-in. If the user is in reserved-email password quarantine, the quarantine is preserved and the returned user will still have `requires_password_reset` set to `true`. Reserved-email password quarantine can only be cleared by completing a password reset or changing/removing the password.
     ///
     /// - Parameters:
     /// - userId: The ID of the user to unset the compromised status for
-    static func unsetUserPasswordCompromised(
-        config: ClientConfig,
-        userId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> User {
-        try await (sdkRequest(
-            "POST",
-            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/password/unset_compromised"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "UnsetUserPasswordCompromised",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+    public static func unsetUserPasswordCompromised(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> User {
+        return try (await sdkRequest("POST", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/password/unset_compromised"].joined(), config: config, decoder: .json, operationId: "UnsetUserPasswordCompromised", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

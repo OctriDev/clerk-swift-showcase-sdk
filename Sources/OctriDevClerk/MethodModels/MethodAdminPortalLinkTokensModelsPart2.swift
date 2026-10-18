@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-/// Canonical adminPortalLinkTokens operation model declarations
+// Canonical adminPortalLinkTokens operation model declarations
 public struct CreateAdminPortalLinkTokenResponseErrorsItemX3c9fb682: Codable {
     /// - Example: "some details about the error"
     public var message: String
@@ -22,43 +22,29 @@ public struct CreateAdminPortalLinkTokenResponseErrorsItemX3c9fb682: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CreateAdminPortalLinkTokenResponseErrorsItemX3c9fb682 {
-    init(from decoder: Decoder) throws {
+extension CreateAdminPortalLinkTokenResponseErrorsItemX3c9fb682 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension CreateAdminPortalLinkTokenResponseErrorsItemX3c9fb682 {
-    init(message: String, longMessage: String, code: String) {
+extension CreateAdminPortalLinkTokenResponseErrorsItemX3c9fb682 {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -71,27 +57,21 @@ public struct RevokeAdminPortalLinkTokenResponseXd4967f5c: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RevokeAdminPortalLinkTokenResponseXd4967f5c {
-    init(from decoder: Decoder) throws {
+extension RevokeAdminPortalLinkTokenResponseXd4967f5c {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension RevokeAdminPortalLinkTokenResponseXd4967f5c {
-    init(errors: [RevokeAdminPortalLinkTokenResponseErrorsItem]) {
+extension RevokeAdminPortalLinkTokenResponseXd4967f5c {
+    public init(errors: [RevokeAdminPortalLinkTokenResponseErrorsItem]) {
         self.errors = errors
     }
 }
@@ -110,43 +90,29 @@ public struct RevokeAdminPortalLinkTokenResponseErrorsItemX98525a63: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RevokeAdminPortalLinkTokenResponseErrorsItemX98525a63 {
-    init(from decoder: Decoder) throws {
+extension RevokeAdminPortalLinkTokenResponseErrorsItemX98525a63 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension RevokeAdminPortalLinkTokenResponseErrorsItemX98525a63 {
-    init(message: String, longMessage: String, code: String) {
+extension RevokeAdminPortalLinkTokenResponseErrorsItemX98525a63 {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -166,43 +132,29 @@ public struct RevokeAdminPortalLinkTokenResponseErrorsItem: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RevokeAdminPortalLinkTokenResponseErrorsItem {
-    init(from decoder: Decoder) throws {
+extension RevokeAdminPortalLinkTokenResponseErrorsItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension RevokeAdminPortalLinkTokenResponseErrorsItem {
-    init(message: String, longMessage: String, code: String) {
+extension RevokeAdminPortalLinkTokenResponseErrorsItem {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -222,43 +174,29 @@ public struct CreateAdminPortalLinkTokenResponseErrorsItemXf322de09: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CreateAdminPortalLinkTokenResponseErrorsItemXf322de09 {
-    init(from decoder: Decoder) throws {
+extension CreateAdminPortalLinkTokenResponseErrorsItemXf322de09 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension CreateAdminPortalLinkTokenResponseErrorsItemXf322de09 {
-    init(message: String, longMessage: String, code: String) {
+extension CreateAdminPortalLinkTokenResponseErrorsItemXf322de09 {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -271,27 +209,21 @@ public struct RevokeAdminPortalLinkTokenResponseXe8272a97: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RevokeAdminPortalLinkTokenResponseXe8272a97 {
-    init(from decoder: Decoder) throws {
+extension RevokeAdminPortalLinkTokenResponseXe8272a97 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension RevokeAdminPortalLinkTokenResponseXe8272a97 {
-    init(errors: [RevokeAdminPortalLinkTokenResponseErrorsItemX98525a63]) {
+extension RevokeAdminPortalLinkTokenResponseXe8272a97 {
+    public init(errors: [RevokeAdminPortalLinkTokenResponseErrorsItemX98525a63]) {
         self.errors = errors
     }
 }

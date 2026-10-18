@@ -6,77 +6,26 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension EmailAddressesMethods {
-    /// Sends a one-time code to the given email address so that a backend can verify the user controls it (for example,
-    /// in a custom, backend-driven sign-in flow). The code is tracked on its own verification; confirm it with
-    /// attempt_verification.
+extension EmailAddressesMethods {
+    /// Sends a one-time code to the given email address so that a backend can verify the user controls it (for example, in a custom, backend-driven sign-in flow). The code is tracked on its own verification; confirm it with attempt_verification.
     ///
     /// - Parameters:
     /// - emailAddressId: The ID of the email address to send the verification code
     ///   to
-    static func prepareEmailAddressVerification(
-        config: ClientConfig,
-        emailAddressId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> VerificationResponse {
-        try await (sdkRequest(
-            "POST",
-            ["/email_addresses/", sdkEncodePathSegment(sdkWireString(emailAddressId)), "/prepare_verification"]
-                .joined(),
-            config: config,
-            decoder: .json,
-            operationId: "PrepareEmailAddressVerification",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "429": ClerkErrors.self,
-                "500": ClerkErrors.self,
-            ]
-        )).data
+    public static func prepareEmailAddressVerification(config: ClientConfig, emailAddressId: String, requestOptions: RequestOptions? = nil) async throws -> VerificationResponse {
+        return try (await sdkRequest("POST", ["/email_addresses/", sdkEncodePathSegment(sdkWireString(emailAddressId)), "/prepare_verification"].joined(), config: config, decoder: .json, operationId: "PrepareEmailAddressVerification", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "429": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 
-    /// Checks a one-time code against the verification identified by verification_id, and returns the verification with
-    /// its updated status (`verified`, `unverified`, `expired`, or `failed`) and attempt count, so a backend driving
-    /// its own frontend can react on every attempt — an incorrect or expired code is reported through the status, not
-    /// as an error. Resubmitting a verification whose code was already accepted is rejected with a
-    /// `verification_already_verified` error. If the code is correct and the email address is not already verified, it
-    /// is also marked as verified as a side effect (just as it would be in a frontend verification flow); an already
-    /// verified email address is left unchanged. It never creates a session; to sign the user in afterwards, mint a
-    /// sign-in token.
+    /// Checks a one-time code against the verification identified by verification_id, and returns the verification with its updated status (`verified`, `unverified`, `expired`, or `failed`) and attempt count, so a backend driving its own frontend can react on every attempt — an incorrect or expired code is reported through the status, not as an error. Resubmitting a verification whose code was already accepted is rejected with a `verification_already_verified` error. If the code is correct and the email address is not already verified, it is also marked as verified as a side effect (just as it would be in a frontend verification flow); an already verified email address is left unchanged. It never creates a session; to sign the user in afterwards, mint a sign-in token.
     ///
     /// - Parameters:
     /// - emailAddressId: The ID of the email address whose code is being verified
     /// - verificationId: The ID of the verification to check, such as one returned
     ///   by prepare_verification
     /// - code: The verification code that was sent to the email address
-    static func attemptEmailAddressVerification(
-        config: ClientConfig,
-        emailAddressId: String,
-        verificationId: String,
-        code: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> VerificationResponse {
+    public static func attemptEmailAddressVerification(config: ClientConfig, emailAddressId: String, verificationId: String, code: String, requestOptions: RequestOptions? = nil) async throws -> VerificationResponse {
         let requestBody = AttemptEmailAddressVerificationRequestBody(verificationId: verificationId, code: code)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/email_addresses/", sdkEncodePathSegment(sdkWireString(emailAddressId)), "/attempt_verification"]
-                .joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "AttemptEmailAddressVerification",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "500": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/email_addresses/", sdkEncodePathSegment(sdkWireString(emailAddressId)), "/attempt_verification"].joined(), config: config, body: requestBody, decoder: .json, operationId: "AttemptEmailAddressVerification", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 }

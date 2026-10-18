@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedSession domain models
+// SharedSession domain models
 /// Typed representation of the `SessionActivityResponse` API schema.
 public struct SessionActivityResponse: Codable {
     /// Required `string` value serialized in the `object` wire field.
@@ -37,59 +37,35 @@ public struct SessionActivityResponse: Codable {
         case country
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SessionActivityResponse {
-    init(from decoder: Decoder) throws {
+extension SessionActivityResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
+            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.isMobile) else {
-            throw SdkValidationError(
-                field: "is_mobile",
-                code: "required",
-                message: "Validation failed for 'is_mobile': value is required"
-            )
+            throw SdkValidationError(field: "is_mobile", code: "required", message: "Validation failed for 'is_mobile': value is required")
         }
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        isMobile = try container.sdkDecodeRequired(.isMobile)
-        deviceType = try container.sdkDecodeIfPresent(.deviceType)
-        browserName = try container.sdkDecodeIfPresent(.browserName)
-        browserVersion = try container.sdkDecodeIfPresent(.browserVersion)
-        ipAddress = try container.sdkDecodeIfPresent(.ipAddress)
-        city = try container.sdkDecodeIfPresent(.city)
-        country = try container.sdkDecodeIfPresent(.country)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.isMobile = try container.sdkDecodeRequired(.isMobile)
+        self.deviceType = try container.sdkDecodeIfPresent(.deviceType)
+        self.browserName = try container.sdkDecodeIfPresent(.browserName)
+        self.browserVersion = try container.sdkDecodeIfPresent(.browserVersion)
+        self.ipAddress = try container.sdkDecodeIfPresent(.ipAddress)
+        self.city = try container.sdkDecodeIfPresent(.city)
+        self.country = try container.sdkDecodeIfPresent(.country)
     }
 }
 
-public extension SessionActivityResponse {
-    init(
-        object: String,
-        id: String,
-        isMobile: Bool,
-        deviceType: String? = nil,
-        browserName: String? = nil,
-        browserVersion: String? = nil,
-        ipAddress: String? = nil,
-        city: String? = nil,
-        country: String? = nil
-    ) {
+extension SessionActivityResponse {
+    public init(object: String, id: String, isMobile: Bool, deviceType: String? = nil, browserName: String? = nil, browserVersion: String? = nil, ipAddress: String? = nil, city: String? = nil, country: String? = nil) {
         (self.object, self.id) = (object, id)
         (self.isMobile, self.deviceType) = (isMobile, deviceType)
         (self.browserName, self.browserVersion) = (browserName, browserVersion)
@@ -107,30 +83,28 @@ public struct SessionTask: Codable {
         case key
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SessionTask {
-    init(from decoder: Decoder) throws {
+extension SessionTask {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.key) else {
-            throw SdkValidationError(
-                field: "key",
-                code: "required",
-                message: "Validation failed for 'key': value is required"
-            )
+            throw SdkValidationError(field: "key", code: "required", message: "Validation failed for 'key': value is required")
         }
-        key = try container.sdkDecodeRequired(.key)
+        self.key = try container.sdkDecodeRequired(.key)
     }
 }
 
-public extension SessionTask {
-    init(key: String) {
+extension SessionTask {
+    public init(key: String) {
         self.key = key
     }
 }
+
+
+
+
 
 /// Typed representation of the `Session` API schema.
 public struct Session: Codable {
@@ -180,48 +154,31 @@ public struct Session: Codable {
         case tasks
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension Session {
-    init(from decoder: Decoder) throws {
+extension Session {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        userId = try container.sdkDecodeRequired(.userId)
-        clientId = try container.sdkDecodeRequired(.clientId)
-        status = try container.sdkDecodeRequired(.status)
-        lastActiveAt = try container.sdkDecodeRequired(.lastActiveAt)
-        expireAt = try container.sdkDecodeRequired(.expireAt)
-        abandonAt = try container.sdkDecodeRequired(.abandonAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        actor = try container.sdkDecodeIfPresent(.actor)
-        lastActiveOrganizationId = try container.sdkDecodeIfPresent(.lastActiveOrganizationId)
-        latestActivity = try container.sdkDecodeIfPresent(.latestActivity)
-        tasks = try container.sdkDecodeIfPresent(.tasks)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.userId = try container.sdkDecodeRequired(.userId)
+        self.clientId = try container.sdkDecodeRequired(.clientId)
+        self.status = try container.sdkDecodeRequired(.status)
+        self.lastActiveAt = try container.sdkDecodeRequired(.lastActiveAt)
+        self.expireAt = try container.sdkDecodeRequired(.expireAt)
+        self.abandonAt = try container.sdkDecodeRequired(.abandonAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.actor = try container.sdkDecodeIfPresent(.actor)
+        self.lastActiveOrganizationId = try container.sdkDecodeIfPresent(.lastActiveOrganizationId)
+        self.latestActivity = try container.sdkDecodeIfPresent(.latestActivity)
+        self.tasks = try container.sdkDecodeIfPresent(.tasks)
     }
 }
 
-public extension Session {
-    init(
-        object: SessionObject,
-        id: String,
-        userId: String,
-        clientId: String,
-        status: SessionStatus,
-        lastActiveAt: Int,
-        expireAt: Int,
-        abandonAt: Int,
-        updatedAt: Int,
-        createdAt: Int,
-        actor: [String: JSONValue]? = nil,
-        lastActiveOrganizationId: String? = nil,
-        latestActivity: SessionActivityResponse? = nil,
-        tasks: [SessionTask]? = nil
-    ) {
+extension Session {
+    public init(object: SessionObject, id: String, userId: String, clientId: String, status: SessionStatus, lastActiveAt: Int, expireAt: Int, abandonAt: Int, updatedAt: Int, createdAt: Int, actor: [String: JSONValue]? = nil, lastActiveOrganizationId: String? = nil, latestActivity: SessionActivityResponse? = nil, tasks: [SessionTask]? = nil) {
         (self.object, self.id) = (object, id)
         (self.userId, self.clientId) = (userId, clientId)
         (self.status, self.lastActiveAt) = (status, lastActiveAt)
@@ -236,10 +193,7 @@ public extension Session {
 public struct SessionStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let active = SessionStatus(rawValue: "active")
     public static let revoked = SessionStatus(rawValue: "revoked")
     public static let ended = SessionStatus(rawValue: "ended")
@@ -251,7 +205,7 @@ public struct SessionStatus: RawRepresentable, Hashable, Codable, Sendable, SdkW
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -264,15 +218,12 @@ public struct SessionStatus: RawRepresentable, Hashable, Codable, Sendable, SdkW
 public struct SessionObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let session = SessionObject(rawValue: "session")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

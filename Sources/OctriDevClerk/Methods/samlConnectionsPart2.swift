@@ -6,11 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension SamlConnectionsMethods {
-    /// Returns the list of SAML Connections for an instance. Results can be paginated using the optional `limit` and
-    /// `offset` query parameters. The SAML Connections are ordered by descending creation date and the most recent will
-    /// be returned first. Deprecated: Use the Enterprise Connections API instead. This endpoint will be removed in
-    /// future versions.
+extension SamlConnectionsMethods {
+    /// Returns the list of SAML Connections for an instance. Results can be paginated using the optional `limit` and `offset` query parameters. The SAML Connections are ordered by descending creation date and the most recent will be returned first. Deprecated: Use the Enterprise Connections API instead. This endpoint will be removed in future versions.
     ///
     /// - Parameters:
     /// - limit: Applies a limit to the number of results returned. Can be used for
@@ -30,38 +27,21 @@ public extension SamlConnectionsMethods {
     ///   to 100 organization IDs.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    static func listSamlConnections(
-        config: ClientConfig,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        query: String? = nil,
-        orderBy: String? = nil,
-        organizationId: [String]? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SAMLConnections {
-        if let limit {
+    public static func listSamlConnections(config: ClientConfig, limit: Int? = nil, offset: Int? = nil, query: String? = nil, orderBy: String? = nil, organizationId: [String]? = nil, requestOptions: RequestOptions? = nil) async throws -> SAMLConnections {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/saml_connections",
-            config: config,
-            query: [
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-                SdkQueryParameter("query", value: query),
-                SdkQueryParameter("order_by", value: orderBy),
-                SdkQueryParameter("organization_id", values: organizationId, style: "form", explode: true),
-            ],
-            decoder: .json,
-            operationId: "ListSAMLConnections",
-            options: requestOptions,
-            errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", "/saml_connections", config: config, query: [
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+            SdkQueryParameter("query", value: query),
+            SdkQueryParameter("order_by", value: orderBy),
+            SdkQueryParameter("organization_id", values: organizationId, style: "form", explode: true),
+        ], decoder: .json, operationId: "ListSAMLConnections", options: requestOptions, errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BillingMethods {
-    /// Creates a custom price for a billing plan. Custom prices allow you to offer different pricing to specific
-    /// customers while maintaining the same plan structure.
+extension BillingMethods {
+    /// Creates a custom price for a billing plan. Custom prices allow you to offer different pricing to specific customers while maintaining the same plan structure.
     ///
     /// - Parameters:
     /// - planId: The ID of the plan this price belongs to.
@@ -21,40 +20,9 @@ public extension BillingMethods {
     /// - description: An optional description for this custom price.
     /// - supportedBillingPeriods: Which billing periods this price supports.
     ///   Inferred from amounts if omitted.
-    static func createBillingPrice(
-        config: ClientConfig,
-        planId: String,
-        amount: Int?,
-        currency: String? = nil,
-        annualMonthlyAmount: SdkOptional<Int>? = nil,
-        description: String? = nil,
-        supportedBillingPeriods: CreateBillingPriceRequestSupportedBillingPeriods? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> BillingPriceResponse {
-        let requestBody = CreateBillingPriceRequestBody(
-            planId: planId,
-            amount: amount,
-            currency: currency,
-            annualMonthlyAmount: annualMonthlyAmount,
-            description: description,
-            supportedBillingPeriods: supportedBillingPeriods
-        )
+    public static func createBillingPrice(config: ClientConfig, planId: String, amount: Int?, currency: String? = nil, annualMonthlyAmount: SdkOptional<Int>? = nil, description: String? = nil, supportedBillingPeriods: CreateBillingPriceRequestSupportedBillingPeriods? = nil, requestOptions: RequestOptions? = nil) async throws -> BillingPriceResponse {
+        let requestBody = CreateBillingPriceRequestBody(planId: planId, amount: amount, currency: currency, annualMonthlyAmount: annualMonthlyAmount, description: description, supportedBillingPeriods: supportedBillingPeriods)
 
-        return try await (sdkRequest(
-            "POST",
-            "/billing/prices",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateBillingPrice",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-                "500": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/billing/prices", config: config, body: requestBody, decoder: .json, operationId: "CreateBillingPrice", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 }

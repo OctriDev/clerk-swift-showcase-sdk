@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SCIMDirectories domain models
+// SCIMDirectories domain models
 public typealias SCIMDirectories = [SCIMDirectory]
 
 public typealias SCIMGroupRoleMappings = [SCIMGroupRoleMapping]
@@ -52,44 +52,29 @@ public struct SCIMGroupRoleMapping: Codable {
         case role
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SCIMGroupRoleMapping {
-    init(from decoder: Decoder) throws {
+extension SCIMGroupRoleMapping {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        scimDirectoryId = try container.sdkDecodeRequired(.scimDirectoryId)
-        directoryId = try container.sdkDecodeRequired(.directoryId)
-        scimGroupId = try container.sdkDecodeRequired(.scimGroupId)
-        directoryGroupId = try container.sdkDecodeRequired(.directoryGroupId)
-        scimGroupDisplayName = try container.sdkDecodeRequired(.scimGroupDisplayName)
-        directoryGroupDisplayName = try container.sdkDecodeRequired(.directoryGroupDisplayName)
-        precedence = try container.sdkDecodeRequired(.precedence)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        role = try container.sdkDecodeIfPresent(.role)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.scimDirectoryId = try container.sdkDecodeRequired(.scimDirectoryId)
+        self.directoryId = try container.sdkDecodeRequired(.directoryId)
+        self.scimGroupId = try container.sdkDecodeRequired(.scimGroupId)
+        self.directoryGroupId = try container.sdkDecodeRequired(.directoryGroupId)
+        self.scimGroupDisplayName = try container.sdkDecodeRequired(.scimGroupDisplayName)
+        self.directoryGroupDisplayName = try container.sdkDecodeRequired(.directoryGroupDisplayName)
+        self.precedence = try container.sdkDecodeRequired(.precedence)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.role = try container.sdkDecodeIfPresent(.role)
     }
 }
 
-public extension SCIMGroupRoleMapping {
-    init(
-        object: SCIMGroupRoleMappingObject,
-        id: String,
-        scimDirectoryId: String,
-        directoryId: String,
-        scimGroupId: String,
-        directoryGroupId: String,
-        scimGroupDisplayName: String,
-        directoryGroupDisplayName: String,
-        precedence: Int,
-        createdAt: Int,
-        updatedAt: Int,
-        role: Role? = nil
-    ) {
+extension SCIMGroupRoleMapping {
+    public init(object: SCIMGroupRoleMappingObject, id: String, scimDirectoryId: String, directoryId: String, scimGroupId: String, directoryGroupId: String, scimGroupDisplayName: String, directoryGroupDisplayName: String, precedence: Int, createdAt: Int, updatedAt: Int, role: Role? = nil) {
         (self.object, self.id) = (object, id)
         (self.scimDirectoryId, self.directoryId) = (scimDirectoryId, directoryId)
         (self.scimGroupId, self.directoryGroupId) = (scimGroupId, directoryGroupId)
@@ -147,46 +132,30 @@ public struct SCIMDirectory: Codable {
         case apiKey = "api_key"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SCIMDirectory {
-    init(from decoder: Decoder) throws {
+extension SCIMDirectory {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        name = try container.sdkDecodeRequired(.name)
-        endpointUrl = try container.sdkDecodeRequired(.endpointUrl)
-        provider = try container.sdkDecodeRequired(.provider)
-        enabled = try container.sdkDecodeRequired(.enabled)
-        groupRoleMappingEnabled = try container.sdkDecodeRequired(.groupRoleMappingEnabled)
-        attributeMapping = try container.sdkDecodeRequired(.attributeMapping)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        enterpriseConnectionId = try container.sdkDecodeIfPresent(.enterpriseConnectionId)
-        customAttributes = try container.sdkDecodeIfPresent(.customAttributes)
-        apiKey = try container.sdkDecodeIfPresent(.apiKey)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.endpointUrl = try container.sdkDecodeRequired(.endpointUrl)
+        self.provider = try container.sdkDecodeRequired(.provider)
+        self.enabled = try container.sdkDecodeRequired(.enabled)
+        self.groupRoleMappingEnabled = try container.sdkDecodeRequired(.groupRoleMappingEnabled)
+        self.attributeMapping = try container.sdkDecodeRequired(.attributeMapping)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.enterpriseConnectionId = try container.sdkDecodeIfPresent(.enterpriseConnectionId)
+        self.customAttributes = try container.sdkDecodeIfPresent(.customAttributes)
+        self.apiKey = try container.sdkDecodeIfPresent(.apiKey)
     }
 }
 
-public extension SCIMDirectory {
-    init(
-        object: SCIMDirectoryObject,
-        id: String,
-        name: String,
-        endpointUrl: String,
-        provider: String,
-        enabled: Bool,
-        groupRoleMappingEnabled: Bool,
-        attributeMapping: [String: String],
-        createdAt: Int,
-        updatedAt: Int,
-        enterpriseConnectionId: String? = nil,
-        customAttributes: [SCIMDirectoryCustomAttributesItem]? = nil,
-        apiKey: String? = nil
-    ) {
+extension SCIMDirectory {
+    public init(object: SCIMDirectoryObject, id: String, name: String, endpointUrl: String, provider: String, enabled: Bool, groupRoleMappingEnabled: Bool, attributeMapping: [String: String], createdAt: Int, updatedAt: Int, enterpriseConnectionId: String? = nil, customAttributes: [SCIMDirectoryCustomAttributesItem]? = nil, apiKey: String? = nil) {
         (self.object, self.id) = (object, id)
         (self.name, self.endpointUrl) = (name, endpointUrl)
         (self.provider, self.enabled) = (provider, enabled)
@@ -209,35 +178,25 @@ public struct SCIMDirectoryList: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SCIMDirectoryList {
-    init(from decoder: Decoder) throws {
+extension SCIMDirectoryList {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
+            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.totalCount = try container.sdkDecodeRequired(.totalCount)
     }
 }
 
-public extension SCIMDirectoryList {
-    init(data: SCIMDirectories, totalCount: Int) {
+extension SCIMDirectoryList {
+    public init(data: SCIMDirectories, totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -257,43 +216,29 @@ public struct SCIMGroupRoleMappingDeleted: Codable {
         case deleted
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SCIMGroupRoleMappingDeleted {
-    init(from decoder: Decoder) throws {
+extension SCIMGroupRoleMappingDeleted {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
+            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.deleted) else {
-            throw SdkValidationError(
-                field: "deleted",
-                code: "required",
-                message: "Validation failed for 'deleted': value is required"
-            )
+            throw SdkValidationError(field: "deleted", code: "required", message: "Validation failed for 'deleted': value is required")
         }
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        deleted = try container.sdkDecodeRequired(.deleted)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.deleted = try container.sdkDecodeRequired(.deleted)
     }
 }
 
-public extension SCIMGroupRoleMappingDeleted {
-    init(object: SCIMGroupRoleMappingDeletedObject, id: String, deleted: Bool) {
+extension SCIMGroupRoleMappingDeleted {
+    public init(object: SCIMGroupRoleMappingDeletedObject, id: String, deleted: Bool) {
         (self.object, self.id) = (object, id)
         self.deleted = deleted
     }
@@ -325,32 +270,25 @@ public struct SCIMDirectoryCustomAttributesItem: Codable {
     }
 
     init() {
-        (name, key, ssoPath, scimPath, directoryPath) = (nil, nil, nil, nil, nil)
-        multiValued = nil
+        (self.name, self.key, self.ssoPath, self.scimPath, self.directoryPath) = (nil, nil, nil, nil, nil)
+        self.multiValued = nil
     }
 }
 
-public extension SCIMDirectoryCustomAttributesItem {
-    init(from decoder: Decoder) throws {
+extension SCIMDirectoryCustomAttributesItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try container.sdkDecodeIfPresent(.name)
-        key = try container.sdkDecodeIfPresent(.key)
-        ssoPath = try container.sdkDecodeIfPresent(.ssoPath)
-        scimPath = try container.sdkDecodeIfPresent(.scimPath)
-        directoryPath = try container.sdkDecodeIfPresent(.directoryPath)
-        multiValued = try container.sdkDecodeIfPresent(.multiValued)
+        self.name = try container.sdkDecodeIfPresent(.name)
+        self.key = try container.sdkDecodeIfPresent(.key)
+        self.ssoPath = try container.sdkDecodeIfPresent(.ssoPath)
+        self.scimPath = try container.sdkDecodeIfPresent(.scimPath)
+        self.directoryPath = try container.sdkDecodeIfPresent(.directoryPath)
+        self.multiValued = try container.sdkDecodeIfPresent(.multiValued)
     }
 }
 
-public extension SCIMDirectoryCustomAttributesItem {
-    init(
-        name: String? = nil,
-        key: String? = nil,
-        ssoPath: String? = nil,
-        scimPath: String? = nil,
-        directoryPath: String? = nil,
-        multiValued: Bool? = nil
-    ) {
+extension SCIMDirectoryCustomAttributesItem {
+    public init(name: String? = nil, key: String? = nil, ssoPath: String? = nil, scimPath: String? = nil, directoryPath: String? = nil, multiValued: Bool? = nil) {
         self.init()
         (self.name, self.key) = (name, key)
         (self.ssoPath, self.scimPath) = (ssoPath, scimPath)
@@ -370,35 +308,25 @@ public struct SCIMGroupRoleMappingList: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SCIMGroupRoleMappingList {
-    init(from decoder: Decoder) throws {
+extension SCIMGroupRoleMappingList {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
+            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.totalCount = try container.sdkDecodeRequired(.totalCount)
     }
 }
 
-public extension SCIMGroupRoleMappingList {
-    init(data: SCIMGroupRoleMappings, totalCount: Int) {
+extension SCIMGroupRoleMappingList {
+    public init(data: SCIMGroupRoleMappings, totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -407,15 +335,12 @@ public extension SCIMGroupRoleMappingList {
 public struct SCIMGroupRoleMappingObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let scimGroupRoleMapping = SCIMGroupRoleMappingObject(rawValue: "scim_group_role_mapping")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -428,15 +353,12 @@ public struct SCIMGroupRoleMappingObject: RawRepresentable, Hashable, Codable, S
 public struct SCIMGroupRoleMappingDeletedObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let scimGroupRoleMapping = SCIMGroupRoleMappingDeletedObject(rawValue: "scim_group_role_mapping")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -449,15 +371,12 @@ public struct SCIMGroupRoleMappingDeletedObject: RawRepresentable, Hashable, Cod
 public struct SCIMDirectoryObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let scimDirectory = SCIMDirectoryObject(rawValue: "scim_directory")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

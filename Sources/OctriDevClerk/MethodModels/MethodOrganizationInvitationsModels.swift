@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-/// Canonical organizationInvitations operation model declarations
+// Canonical organizationInvitations operation model declarations
 public struct CreateOrganizationInvitationBulkRequestBodyItem: Codable {
     /// The email address of the new member that is going to be invited to the organization
     public var emailAddress: String
@@ -44,75 +44,40 @@ public struct CreateOrganizationInvitationBulkRequestBodyItem: Codable {
         case notify
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CreateOrganizationInvitationBulkRequestBodyItem {
-    init(from decoder: Decoder) throws {
+extension CreateOrganizationInvitationBulkRequestBodyItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.emailAddress) else {
-            throw SdkValidationError(
-                field: "email_address",
-                code: "required",
-                message: "Validation failed for 'email_address': value is required"
-            )
+            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
         }
         guard container.contains(.role) else {
-            throw SdkValidationError(
-                field: "role",
-                code: "required",
-                message: "Validation failed for 'role': value is required"
-            )
+            throw SdkValidationError(field: "role", code: "required", message: "Validation failed for 'role': value is required")
         }
-        emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        role = try container.sdkDecodeRequired(.role)
-        inviterUserId = try container.sdkDecodeIfPresent(.inviterUserId)
-        publicMetadata = try container.sdkDecodeIfPresent(.publicMetadata)
-        privateMetadata = try container.sdkDecodeIfPresent(.privateMetadata)
-        redirectUrl = try container.sdkDecodeIfPresent(.redirectUrl)
-        expiresInDays = try container.sdkDecodeIfPresent(.expiresInDays)
-        notify = try container.sdkDecodeIfPresent(.notify)
-        if let value = expiresInDays {
-            try validateRange(
-                "expires_in_days",
-                Double(value),
-                min: 1,
-                max: 365,
-                exclusiveMin: nil,
-                exclusiveMax: nil,
-                multipleOf: nil
-            )
+        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        self.role = try container.sdkDecodeRequired(.role)
+        self.inviterUserId = try container.sdkDecodeIfPresent(.inviterUserId)
+        self.publicMetadata = try container.sdkDecodeIfPresent(.publicMetadata)
+        self.privateMetadata = try container.sdkDecodeIfPresent(.privateMetadata)
+        self.redirectUrl = try container.sdkDecodeIfPresent(.redirectUrl)
+        self.expiresInDays = try container.sdkDecodeIfPresent(.expiresInDays)
+        self.notify = try container.sdkDecodeIfPresent(.notify)
+        if let value = self.expiresInDays {
+            try validateRange("expires_in_days", Double(value), min: 1, max: 365, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
         }
     }
 }
 
-public extension CreateOrganizationInvitationBulkRequestBodyItem {
-    init(
-        emailAddress: String,
-        role: String,
-        inviterUserId: String? = nil,
-        publicMetadata: [String: JSONValue]? = nil,
-        privateMetadata: [String: JSONValue]? = nil,
-        redirectUrl: String? = nil,
-        expiresInDays: Int? = nil,
-        notify: Bool? = nil
-    ) throws {
+extension CreateOrganizationInvitationBulkRequestBodyItem {
+    public init(emailAddress: String, role: String, inviterUserId: String? = nil, publicMetadata: [String: JSONValue]? = nil, privateMetadata: [String: JSONValue]? = nil, redirectUrl: String? = nil, expiresInDays: Int? = nil, notify: Bool? = nil) throws {
         (self.emailAddress, self.role) = (emailAddress, role)
         (self.inviterUserId, self.publicMetadata) = (inviterUserId, publicMetadata)
         (self.privateMetadata, self.redirectUrl) = (privateMetadata, redirectUrl)
         (self.expiresInDays, self.notify) = (expiresInDays, notify)
         if let value = self.expiresInDays {
-            try validateRange(
-                "expires_in_days",
-                Double(value),
-                min: 1,
-                max: 365,
-                exclusiveMin: nil,
-                exclusiveMax: nil,
-                multipleOf: nil
-            )
+            try validateRange("expires_in_days", Double(value), min: 1, max: 365, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
         }
     }
 }

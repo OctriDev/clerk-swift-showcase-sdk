@@ -6,39 +6,17 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension MachinesMethods {
-    /// Creates a new machine scope, allowing the specified machine to access another machine. Maximum of 150 scopes per
-    /// machine.
+extension MachinesMethods {
+    /// Creates a new machine scope, allowing the specified machine to access another machine. Maximum of 150 scopes per machine.
     ///
     /// - Parameters:
     /// - machineId: The ID of the machine that will have access to another machine
     /// - toMachineId: The ID of the machine that will be scoped to the current
     ///   machine
-    static func createMachineScope(
-        config: ClientConfig,
-        machineId: String,
-        toMachineId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> MachineScope {
+    public static func createMachineScope(config: ClientConfig, machineId: String, toMachineId: String, requestOptions: RequestOptions? = nil) async throws -> MachineScope {
         let requestBody = CreateMachineScopeRequestBody(toMachineId: toMachineId)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/machines/", sdkEncodePathSegment(sdkWireString(machineId)), "/scopes"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateMachineScope",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "409": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/machines/", sdkEncodePathSegment(sdkWireString(machineId)), "/scopes"].joined(), config: config, body: requestBody, decoder: .json, operationId: "CreateMachineScope", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 
     /// Deletes a machine scope, removing access from one machine to another.
@@ -46,31 +24,7 @@ public extension MachinesMethods {
     /// - Parameters:
     /// - machineId: The ID of the machine that has access to another machine
     /// - otherMachineId: The ID of the machine that is being accessed
-    static func deleteMachineScope(
-        config: ClientConfig,
-        machineId: String,
-        otherMachineId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> MachineScopeDeleted {
-        try await (sdkRequest(
-            "DELETE",
-            [
-                "/machines/",
-                sdkEncodePathSegment(sdkWireString(machineId)),
-                "/scopes/",
-                sdkEncodePathSegment(sdkWireString(otherMachineId)),
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DeleteMachineScope",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+    public static func deleteMachineScope(config: ClientConfig, machineId: String, otherMachineId: String, requestOptions: RequestOptions? = nil) async throws -> MachineScopeDeleted {
+        return try (await sdkRequest("DELETE", ["/machines/", sdkEncodePathSegment(sdkWireString(machineId)), "/scopes/", sdkEncodePathSegment(sdkWireString(otherMachineId))].joined(), config: config, decoder: .json, operationId: "DeleteMachineScope", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

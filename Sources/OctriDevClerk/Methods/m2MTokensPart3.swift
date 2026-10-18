@@ -6,37 +6,22 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension M2MTokensMethods {
-    /// Lists stored opaque-format M2M tokens for a specific machine; stateless JWT-format tokens are not included. Use
-    /// `revoked` and `expired` to filter the results, and `limit` and `offset` to control pagination. Authenticate with
-    /// a Machine Secret Key to retrieve tokens for its machine, or a Clerk Secret Key to retrieve tokens for any
-    /// machine in the instance.
+extension M2MTokensMethods {
+    /// Lists stored opaque-format M2M tokens for a specific machine; stateless JWT-format tokens are not included. Use `revoked` and `expired` to filter the results, and `limit` and `offset` to control pagination. Authenticate with a Machine Secret Key to retrieve tokens for its machine, or a Clerk Secret Key to retrieve tokens for any machine in the instance.
     ///
-    /// Fetches M2M tokens for a specific machine. Only tokens created with the opaque token format are returned by this
-    /// endpoint. JWT-format M2M tokens are stateless and are not stored. This endpoint can be authenticated by either a
-    /// Machine Secret Key or by a Clerk Secret Key. - When fetching M2M tokens with a Machine Secret Key, only tokens
-    /// associated with the authenticated machine can be retrieved. - When fetching M2M tokens with a Clerk Secret Key,
-    /// tokens for any machine in the instance can be retrieved.
-    static func getM2MTokens(
-        config: ClientConfig,
-        subject: String,
-        revoked: Bool? = nil,
-        expired: Bool? = nil,
-        limit: Double? = nil,
-        offset: Double? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> GetM2MTokensResponse {
+    /// Fetches M2M tokens for a specific machine. Only tokens created with the opaque token format are returned by this endpoint. JWT-format M2M tokens are stateless and are not stored. This endpoint can be authenticated by either a Machine Secret Key or by a Clerk Secret Key. - When fetching M2M tokens with a Machine Secret Key, only tokens associated with the authenticated machine can be retrieved. - When fetching M2M tokens with a Clerk Secret Key, tokens for any machine in the instance can be retrieved.
+    public static func getM2MTokens(config: ClientConfig, subject: String, revoked: Bool? = nil, expired: Bool? = nil, limit: Double? = nil, offset: Double? = nil, requestOptions: RequestOptions? = nil) async throws -> GetM2MTokensResponse {
         try sdkValidatePattern("subject", subject, sdkPattern12d38cea1316)
 
-        if let limit {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 100)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest("GET", "/m2m_tokens", config: config, query: [
+        return try (await sdkRequest("GET", "/m2m_tokens", config: config, query: [
             SdkQueryParameter("subject", value: subject),
             SdkQueryParameter("revoked", value: revoked),
             SdkQueryParameter("expired", value: expired),
@@ -45,59 +30,23 @@ public extension M2MTokensMethods {
         ], decoder: .json, operationId: "getM2MTokens", options: requestOptions)).data
     }
 
-    /// Revokes a stored opaque-format M2M token. Use `m2m_token_id` to identify the token and optionally provide a
-    /// `revocation_reason`. JWT-format M2M tokens are stateless and cannot be revoked; a Machine Secret Key can revoke
-    /// only tokens managed by its machine, while a Clerk Secret Key can revoke any token in the instance.
+    /// Revokes a stored opaque-format M2M token. Use `m2m_token_id` to identify the token and optionally provide a `revocation_reason`. JWT-format M2M tokens are stateless and cannot be revoked; a Machine Secret Key can revoke only tokens managed by its machine, while a Clerk Secret Key can revoke any token in the instance.
     ///
-    /// Revokes a M2M Token. This endpoint only revokes stored opaque-format M2M tokens. JWT-format M2M tokens are
-    /// stateless and cannot be revoked. This endpoint can be authenticated by either a Machine Secret Key or by a Clerk
-    /// Secret Key. - When revoking a M2M Token with a Machine Secret Key, the token must managed by the Machine
-    /// associated with the Machine Secret Key. - When revoking a M2M Token with a Clerk Secret Key, any token on the
-    /// Instance can be revoked.
-    static func revokeM2MToken(
-        config: ClientConfig,
-        m2mTokenId: String,
-        revocationReason: SdkOptional<String>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> RevokeM2MTokenResponse {
+    /// Revokes a M2M Token. This endpoint only revokes stored opaque-format M2M tokens. JWT-format M2M tokens are stateless and cannot be revoked. This endpoint can be authenticated by either a Machine Secret Key or by a Clerk Secret Key. - When revoking a M2M Token with a Machine Secret Key, the token must managed by the Machine associated with the Machine Secret Key. - When revoking a M2M Token with a Clerk Secret Key, any token on the Instance can be revoked.
+    public static func revokeM2MToken(config: ClientConfig, m2mTokenId: String, revocationReason: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> RevokeM2MTokenResponse {
         try sdkValidatePattern("m2m_token_id", m2mTokenId, sdkPattern9b1015ec46ca)
 
         let requestBody = RevokeM2MTokenRequestBody(revocationReason: revocationReason)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/m2m_tokens/", sdkEncodePathSegment(sdkWireString(m2mTokenId)), "/revoke"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "revokeM2MToken",
-            options: requestOptions
-        )).data
+        return try (await sdkRequest("POST", ["/m2m_tokens/", sdkEncodePathSegment(sdkWireString(m2mTokenId)), "/revoke"].joined(), config: config, body: requestBody, decoder: .json, operationId: "revokeM2MToken", options: requestOptions)).data
     }
 
-    /// Verifies an M2M token and returns its token details when valid. Supply the token in the `token` field. A Machine
-    /// Secret Key can verify a token only when it grants access to that machine, while a Clerk Secret Key can verify
-    /// any token in the instance.
+    /// Verifies an M2M token and returns its token details when valid. Supply the token in the `token` field. A Machine Secret Key can verify a token only when it grants access to that machine, while a Clerk Secret Key can verify any token in the instance.
     ///
-    /// Verifies a M2M Token. This endpoint can be authenticated by either a Machine Secret Key or by a Clerk Secret
-    /// Key. - When verifying a M2M Token with a Machine Secret Key, the token must be granted access to the Machine
-    /// associated with the Machine Secret Key. - When verifying a M2M Token with a Clerk Secret Key, any token on the
-    /// Instance can be verified.
-    static func verifyM2MToken(
-        config: ClientConfig,
-        token: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> VerifyM2MTokenResponse {
+    /// Verifies a M2M Token. This endpoint can be authenticated by either a Machine Secret Key or by a Clerk Secret Key. - When verifying a M2M Token with a Machine Secret Key, the token must be granted access to the Machine associated with the Machine Secret Key. - When verifying a M2M Token with a Clerk Secret Key, any token on the Instance can be verified.
+    public static func verifyM2MToken(config: ClientConfig, token: String, requestOptions: RequestOptions? = nil) async throws -> VerifyM2MTokenResponse {
         let requestBody = VerifyM2MTokenRequestBody(token: token)
 
-        return try await (sdkRequest(
-            "POST",
-            "/m2m_tokens/verify",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "verifyM2MToken",
-            options: requestOptions
-        )).data
+        return try (await sdkRequest("POST", "/m2m_tokens/verify", config: config, body: requestBody, decoder: .json, operationId: "verifyM2MToken", options: requestOptions)).data
     }
 }

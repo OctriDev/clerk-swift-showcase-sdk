@@ -3,21 +3,18 @@
 
 import Foundation
 
-/// SharedCommerce domain models
+// SharedCommerce domain models
 /// The billing period for this subscription item.
 public struct CommerceSubscriptionItemPlanPeriod: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let month = CommerceSubscriptionItemPlanPeriod(rawValue: "month")
     public static let annual = CommerceSubscriptionItemPlanPeriod(rawValue: "annual")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -30,16 +27,13 @@ public struct CommerceSubscriptionItemPlanPeriod: RawRepresentable, Hashable, Co
 public struct CommercePaymentMethodResponseStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let active = CommercePaymentMethodResponseStatus(rawValue: "active")
     public static let disconnected = CommercePaymentMethodResponseStatus(rawValue: "disconnected")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -52,10 +46,7 @@ public struct CommercePaymentMethodResponseStatus: RawRepresentable, Hashable, C
 public struct CommerceSubscriptionItemStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let active = CommerceSubscriptionItemStatus(rawValue: "active")
     public static let canceled = CommerceSubscriptionItemStatus(rawValue: "canceled")
     public static let expired = CommerceSubscriptionItemStatus(rawValue: "expired")
@@ -67,7 +58,7 @@ public struct CommerceSubscriptionItemStatus: RawRepresentable, Hashable, Codabl
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -77,21 +68,17 @@ public struct CommerceSubscriptionItemStatus: RawRepresentable, Hashable, Codabl
 }
 
 /// The payment method type.
-public struct CommercePaymentMethodResponsePaymentType: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct CommercePaymentMethodResponsePaymentType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let card = CommercePaymentMethodResponsePaymentType(rawValue: "card")
     public static let link = CommercePaymentMethodResponsePaymentType(rawValue: "link")
     public static let payerCredits = CommercePaymentMethodResponsePaymentType(rawValue: "payer-credits")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -104,15 +91,12 @@ public struct CommercePaymentMethodResponsePaymentType: RawRepresentable, Hashab
 public struct CommercePayerResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let commercePayer = CommercePayerResponseObject(rawValue: "commerce_payer")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -125,15 +109,12 @@ public struct CommercePayerResponseObject: RawRepresentable, Hashable, Codable, 
 public struct CommerceSubscriptionItemObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let commerceSubscriptionItem = CommerceSubscriptionItemObject(rawValue: "commerce_subscription_item")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -146,15 +127,12 @@ public struct CommerceSubscriptionItemObject: RawRepresentable, Hashable, Codabl
 public struct CommercePlanObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let commercePlan = CommercePlanObject(rawValue: "commerce_plan")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

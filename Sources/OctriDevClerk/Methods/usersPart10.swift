@@ -6,11 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension UsersMethods {
-    /// Update a user's metadata attributes by merging existing values with the provided parameters. This endpoint
-    /// behaves differently than the *Update a user* endpoint. Metadata values will not be replaced entirely. Instead, a
-    /// deep merge will be performed. Deep means that any nested JSON objects will be merged as well. You can remove
-    /// metadata keys at any level by setting their value to `null`.
+extension UsersMethods {
+    /// Update a user's metadata attributes by merging existing values with the provided parameters. This endpoint behaves differently than the *Update a user* endpoint. Metadata values will not be replaced entirely. Instead, a deep merge will be performed. Deep means that any nested JSON objects will be merged as well. You can remove metadata keys at any level by setting their value to `null`.
     ///
     /// - Parameters:
     /// - userId: The ID of the user whose metadata will be updated and merged
@@ -22,29 +19,9 @@ public extension UsersMethods {
     ///   the Frontend and Backend APIs. The new object will be merged with the
     ///   existing value. Note: Since this data can be modified from the frontend, it
     ///   is not guaranteed to be safe.
-    static func updateUserMetadata(
-        config: ClientConfig,
-        userId: String,
-        publicMetadata: [String: JSONValue]? = nil,
-        privateMetadata: [String: JSONValue]? = nil,
-        unsafeMetadata: [String: JSONValue]? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> User {
-        let requestBody = UpdateUserMetadataRequestBody(
-            publicMetadata: publicMetadata,
-            privateMetadata: privateMetadata,
-            unsafeMetadata: unsafeMetadata
-        )
+    public static func updateUserMetadata(config: ClientConfig, userId: String, publicMetadata: [String: JSONValue]? = nil, privateMetadata: [String: JSONValue]? = nil, unsafeMetadata: [String: JSONValue]? = nil, requestOptions: RequestOptions? = nil) async throws -> User {
+        let requestBody = UpdateUserMetadataRequestBody(publicMetadata: publicMetadata, privateMetadata: privateMetadata, unsafeMetadata: unsafeMetadata)
 
-        return try await (sdkRequest(
-            "PATCH",
-            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/metadata"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "UpdateUserMetadata",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("PATCH", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/metadata"].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateUserMetadata", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

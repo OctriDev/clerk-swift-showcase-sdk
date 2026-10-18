@@ -20,35 +20,29 @@ struct UpdateEnterpriseConnectionRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(domains, forKey: SdkCodingKey("domains"))
-        try keyedContainer.encodeIfPresent(active, forKey: SdkCodingKey("active"))
-        try keyedContainer.encodeIfPresent(syncUserAttributes, forKey: SdkCodingKey("sync_user_attributes"))
-        try keyedContainer.encodeIfPresent(
-            disableAdditionalIdentifications,
-            forKey: SdkCodingKey("disable_additional_identifications")
-        )
-        try keyedContainer.encodeIfPresent(
-            allowOrganizationAccountLinking,
-            forKey: SdkCodingKey("allow_organization_account_linking")
-        )
-        try keyedContainer.encodeIfPresent(organizationId, forKey: SdkCodingKey("organization_id"))
-        try keyedContainer.encodeIfPresent(saml, forKey: SdkCodingKey("saml"))
-        try keyedContainer.encodeIfPresent(oidc, forKey: SdkCodingKey("oidc"))
-        try keyedContainer.encodeIfPresent(customAttributes, forKey: SdkCodingKey("custom_attributes"))
+        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.domains, forKey: SdkCodingKey("domains"))
+        try keyedContainer.encodeIfPresent(self.active, forKey: SdkCodingKey("active"))
+        try keyedContainer.encodeIfPresent(self.syncUserAttributes, forKey: SdkCodingKey("sync_user_attributes"))
+        try keyedContainer.encodeIfPresent(self.disableAdditionalIdentifications, forKey: SdkCodingKey("disable_additional_identifications"))
+        try keyedContainer.encodeIfPresent(self.allowOrganizationAccountLinking, forKey: SdkCodingKey("allow_organization_account_linking"))
+        try keyedContainer.encodeIfPresent(self.organizationId, forKey: SdkCodingKey("organization_id"))
+        try keyedContainer.encodeIfPresent(self.saml, forKey: SdkCodingKey("saml"))
+        try keyedContainer.encodeIfPresent(self.oidc, forKey: SdkCodingKey("oidc"))
+        try keyedContainer.encodeIfPresent(self.customAttributes, forKey: SdkCodingKey("custom_attributes"))
     }
 
     init(options: EnterpriseConnectionsMethods.UpdateEnterpriseConnectionOptions) {
-        name = options.name
-        domains = options.domains
-        active = options.active
-        syncUserAttributes = options.syncUserAttributes
-        disableAdditionalIdentifications = options.disableAdditionalIdentifications
-        allowOrganizationAccountLinking = options.allowOrganizationAccountLinking
-        organizationId = options.organizationId
-        saml = options.saml
-        oidc = options.oidc
-        customAttributes = options.customAttributes
+        self.name = options.name
+        self.domains = options.domains
+        self.active = options.active
+        self.syncUserAttributes = options.syncUserAttributes
+        self.disableAdditionalIdentifications = options.disableAdditionalIdentifications
+        self.allowOrganizationAccountLinking = options.allowOrganizationAccountLinking
+        self.organizationId = options.organizationId
+        self.saml = options.saml
+        self.oidc = options.oidc
+        self.customAttributes = options.customAttributes
     }
 }
 
@@ -57,7 +51,7 @@ struct CreateSsoBypassAllowlistUserRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(userId, forKey: SdkCodingKey("user_id"))
+        try keyedContainer.encode(self.userId, forKey: SdkCodingKey("user_id"))
     }
 }
 
@@ -71,15 +65,12 @@ struct CreateAgentTaskRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(onBehalfOf, forKey: SdkCodingKey("on_behalf_of"))
-        try keyedContainer.encode(permissions, forKey: SdkCodingKey("permissions"))
-        try keyedContainer.encode(agentName, forKey: SdkCodingKey("agent_name"))
-        try keyedContainer.encode(taskDescription, forKey: SdkCodingKey("task_description"))
-        try keyedContainer.encode(redirectUrl, forKey: SdkCodingKey("redirect_url"))
-        try keyedContainer.encodeIfPresent(
-            sessionMaxDurationInSeconds,
-            forKey: SdkCodingKey("session_max_duration_in_seconds")
-        )
+        try keyedContainer.encode(self.onBehalfOf, forKey: SdkCodingKey("on_behalf_of"))
+        try keyedContainer.encode(self.permissions, forKey: SdkCodingKey("permissions"))
+        try keyedContainer.encode(self.agentName, forKey: SdkCodingKey("agent_name"))
+        try keyedContainer.encode(self.taskDescription, forKey: SdkCodingKey("task_description"))
+        try keyedContainer.encode(self.redirectUrl, forKey: SdkCodingKey("redirect_url"))
+        try keyedContainer.encodeIfPresent(self.sessionMaxDurationInSeconds, forKey: SdkCodingKey("session_max_duration_in_seconds"))
     }
 }
 
@@ -89,8 +80,8 @@ struct CreateWaitlistEntryRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(emailAddress, forKey: SdkCodingKey("email_address"))
-        try keyedContainer.encodeIfPresent(notify, forKey: SdkCodingKey("notify"))
+        try keyedContainer.encode(self.emailAddress, forKey: SdkCodingKey("email_address"))
+        try keyedContainer.encodeIfPresent(self.notify, forKey: SdkCodingKey("notify"))
     }
 }
 
@@ -99,7 +90,7 @@ struct InviteWaitlistEntryRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(ignoreExisting, forKey: SdkCodingKey("ignore_existing"))
+        try keyedContainer.encodeIfPresent(self.ignoreExisting, forKey: SdkCodingKey("ignore_existing"))
     }
 }
 
@@ -113,12 +104,12 @@ struct CreateBillingPriceRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(planId, forKey: SdkCodingKey("plan_id"))
-        try keyedContainer.encode(amount, forKey: SdkCodingKey("amount"))
-        try keyedContainer.encodeIfPresent(currency, forKey: SdkCodingKey("currency"))
-        try keyedContainer.encodeIfPresent(annualMonthlyAmount, forKey: SdkCodingKey("annual_monthly_amount"))
-        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
-        try keyedContainer.encodeIfPresent(supportedBillingPeriods, forKey: SdkCodingKey("supported_billing_periods"))
+        try keyedContainer.encode(self.planId, forKey: SdkCodingKey("plan_id"))
+        try keyedContainer.encode(self.amount, forKey: SdkCodingKey("amount"))
+        try keyedContainer.encodeIfPresent(self.currency, forKey: SdkCodingKey("currency"))
+        try keyedContainer.encodeIfPresent(self.annualMonthlyAmount, forKey: SdkCodingKey("annual_monthly_amount"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(self.supportedBillingPeriods, forKey: SdkCodingKey("supported_billing_periods"))
     }
 }
 
@@ -127,7 +118,7 @@ struct ExtendBillingSubscriptionItemFreeTrialRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(extendTo, forKey: SdkCodingKey("extend_to"))
+        try keyedContainer.encode(self.extendTo, forKey: SdkCodingKey("extend_to"))
     }
 }
 
@@ -137,8 +128,8 @@ struct CreateBillingPriceTransitionRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(fromPriceId, forKey: SdkCodingKey("from_price_id"))
-        try keyedContainer.encode(toPriceId, forKey: SdkCodingKey("to_price_id"))
+        try keyedContainer.encode(self.fromPriceId, forKey: SdkCodingKey("from_price_id"))
+        try keyedContainer.encode(self.toPriceId, forKey: SdkCodingKey("to_price_id"))
     }
 }
 
@@ -147,7 +138,7 @@ struct ApplyBillingSubscriptionItemDiscountRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(discountId, forKey: SdkCodingKey("discount_id"))
+        try keyedContainer.encode(self.discountId, forKey: SdkCodingKey("discount_id"))
     }
 }
 
@@ -158,9 +149,9 @@ struct CreateOrganizationPermissionRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encode(key, forKey: SdkCodingKey("key"))
-        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encode(self.key, forKey: SdkCodingKey("key"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
     }
 }
 
@@ -171,9 +162,9 @@ struct UpdateOrganizationPermissionRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(key, forKey: SdkCodingKey("key"))
-        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.key, forKey: SdkCodingKey("key"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
     }
 }
 
@@ -188,13 +179,13 @@ struct CreateRoleSetRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encode(defaultRoleKey, forKey: SdkCodingKey("default_role_key"))
-        try keyedContainer.encode(creatorRoleKey, forKey: SdkCodingKey("creator_role_key"))
-        try keyedContainer.encode(roles, forKey: SdkCodingKey("roles"))
-        try keyedContainer.encodeIfPresent(key, forKey: SdkCodingKey("key"))
-        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
-        try keyedContainer.encodeIfPresent(type, forKey: SdkCodingKey("type"))
+        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encode(self.defaultRoleKey, forKey: SdkCodingKey("default_role_key"))
+        try keyedContainer.encode(self.creatorRoleKey, forKey: SdkCodingKey("creator_role_key"))
+        try keyedContainer.encode(self.roles, forKey: SdkCodingKey("roles"))
+        try keyedContainer.encodeIfPresent(self.key, forKey: SdkCodingKey("key"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(self.type, forKey: SdkCodingKey("type"))
     }
 }
 
@@ -208,11 +199,11 @@ struct UpdateRoleSetRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(key, forKey: SdkCodingKey("key"))
-        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
-        try keyedContainer.encodeIfPresent(type, forKey: SdkCodingKey("type"))
-        try keyedContainer.encodeIfPresent(defaultRoleKey, forKey: SdkCodingKey("default_role_key"))
-        try keyedContainer.encodeIfPresent(creatorRoleKey, forKey: SdkCodingKey("creator_role_key"))
+        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.key, forKey: SdkCodingKey("key"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(self.type, forKey: SdkCodingKey("type"))
+        try keyedContainer.encodeIfPresent(self.defaultRoleKey, forKey: SdkCodingKey("default_role_key"))
+        try keyedContainer.encodeIfPresent(self.creatorRoleKey, forKey: SdkCodingKey("creator_role_key"))
     }
 }

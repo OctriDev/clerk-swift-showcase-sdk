@@ -17,9 +17,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.machines.rotateSecretKey(
-                machineId: decoded("\"machine-1\""),
-                previousTokenTtl: decoded("0")
-            )
+            machineId: decoded("\"machine-1\""),
+            previousTokenTtl: decoded("0")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -64,8 +64,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.oAuthApplications.rotateSecret(
-                oauthApplicationId: decoded("\"oauth_application-1\"")
-            )
+            oauthApplicationId: decoded("\"oauth_application-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -110,8 +110,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.scimDirectories.rotateApiKey(
-                scimDirectoryId: decoded("\"scim_directory-1\"")
-            )
+            scimDirectoryId: decoded("\"scim_directory-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 401)
@@ -157,9 +157,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.setPasswordCompromised(
-                userId: decoded("\"user-1\""),
-                revokeAllSessions: decoded("false")
-            )
+            userId: decoded("\"user-1\""),
+            revokeAllSessions: decoded("false")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -205,9 +205,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.setProfileImage(
-                userId: decoded("\"user-1\""),
-                file: SdkUploadFile(data: Data("sample".utf8), filename: "sample.bin")
-            )
+            userId: decoded("\"user-1\""),
+            file: SdkUploadFile(data: Data("sample".utf8), filename: "sample.bin")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -254,10 +254,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.emailSmsTemplates.toggleTemplateDelivery(
-                templateType: decoded("\"email\""),
-                slug: decoded("\"slug\""),
-                deliveredByClerk: decoded("false")
-            )
+            templateType: decoded("\"email\""),
+            slug: decoded("\"slug\""),
+            deliveredByClerk: decoded("false")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -302,8 +302,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.unban(
-                userId: decoded("\"user-1\"")
-            )
+            userId: decoded("\"user-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 402)
@@ -348,8 +348,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.unbanBulk(
-                userIds: decoded("[\"user_ids\"]")
-            )
+            userIds: decoded("[\"user_ids\"]")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -394,8 +394,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.unlock(
-                userId: decoded("\"user-1\"")
-            )
+            userId: decoded("\"user-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -440,8 +440,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.unsetPasswordCompromised(
-                userId: decoded("\"user-1\"")
-            )
+            userId: decoded("\"user-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -514,13 +514,13 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.directories.update(
-                directoryId: decoded("\"directory-1\""),
-                name: decoded("\"Example Name\""),
-                enabled: decoded("false"),
-                provider: decoded("\"provider\""),
-                attributeMapping: decoded("{\"key\":\"key\"}"),
-                groupRoleMappingEnabled: decoded("false")
-            )
+            directoryId: decoded("\"directory-1\""),
+            name: decoded("\"Example Name\""),
+            enabled: decoded("false"),
+            provider: decoded("\"provider\""),
+            attributeMapping: decoded("{\"key\":\"key\"}"),
+            groupRoleMappingEnabled: decoded("false")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)

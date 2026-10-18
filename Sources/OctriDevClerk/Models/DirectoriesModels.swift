@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Directories domain models
+// Directories domain models
 public typealias Directories = [Directory]
 
 public typealias DirectoryGroupRoleMappings = [DirectoryGroupRoleMapping]
@@ -20,35 +20,25 @@ public struct DirectoryList: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension DirectoryList {
-    init(from decoder: Decoder) throws {
+extension DirectoryList {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
+            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.totalCount = try container.sdkDecodeRequired(.totalCount)
     }
 }
 
-public extension DirectoryList {
-    init(data: Directories, totalCount: Int) {
+extension DirectoryList {
+    public init(data: Directories, totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -100,46 +90,30 @@ public struct Directory: Codable {
         case apiKey = "api_key"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension Directory {
-    init(from decoder: Decoder) throws {
+extension Directory {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        name = try container.sdkDecodeRequired(.name)
-        endpointUrl = try container.sdkDecodeRequired(.endpointUrl)
-        provider = try container.sdkDecodeRequired(.provider)
-        enabled = try container.sdkDecodeRequired(.enabled)
-        groupRoleMappingEnabled = try container.sdkDecodeRequired(.groupRoleMappingEnabled)
-        attributeMapping = try container.sdkDecodeRequired(.attributeMapping)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        enterpriseConnectionId = try container.sdkDecodeIfPresent(.enterpriseConnectionId)
-        customAttributes = try container.sdkDecodeIfPresent(.customAttributes)
-        apiKey = try container.sdkDecodeIfPresent(.apiKey)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.endpointUrl = try container.sdkDecodeRequired(.endpointUrl)
+        self.provider = try container.sdkDecodeRequired(.provider)
+        self.enabled = try container.sdkDecodeRequired(.enabled)
+        self.groupRoleMappingEnabled = try container.sdkDecodeRequired(.groupRoleMappingEnabled)
+        self.attributeMapping = try container.sdkDecodeRequired(.attributeMapping)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.enterpriseConnectionId = try container.sdkDecodeIfPresent(.enterpriseConnectionId)
+        self.customAttributes = try container.sdkDecodeIfPresent(.customAttributes)
+        self.apiKey = try container.sdkDecodeIfPresent(.apiKey)
     }
 }
 
-public extension Directory {
-    init(
-        object: DirectoryObject,
-        id: String,
-        name: String,
-        endpointUrl: String,
-        provider: String,
-        enabled: Bool,
-        groupRoleMappingEnabled: Bool,
-        attributeMapping: [String: String],
-        createdAt: Int,
-        updatedAt: Int,
-        enterpriseConnectionId: String? = nil,
-        customAttributes: [DirectoryCustomAttributesItem]? = nil,
-        apiKey: String? = nil
-    ) {
+extension Directory {
+    public init(object: DirectoryObject, id: String, name: String, endpointUrl: String, provider: String, enabled: Bool, groupRoleMappingEnabled: Bool, attributeMapping: [String: String], createdAt: Int, updatedAt: Int, enterpriseConnectionId: String? = nil, customAttributes: [DirectoryCustomAttributesItem]? = nil, apiKey: String? = nil) {
         (self.object, self.id) = (object, id)
         (self.name, self.endpointUrl) = (name, endpointUrl)
         (self.provider, self.enabled) = (provider, enabled)
@@ -162,35 +136,25 @@ public struct DirectoryGroupRoleMappingList: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension DirectoryGroupRoleMappingList {
-    init(from decoder: Decoder) throws {
+extension DirectoryGroupRoleMappingList {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
+            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.totalCount = try container.sdkDecodeRequired(.totalCount)
     }
 }
 
-public extension DirectoryGroupRoleMappingList {
-    init(data: DirectoryGroupRoleMappings, totalCount: Int) {
+extension DirectoryGroupRoleMappingList {
+    public init(data: DirectoryGroupRoleMappings, totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -238,44 +202,29 @@ public struct DirectoryGroupRoleMapping: Codable {
         case role
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension DirectoryGroupRoleMapping {
-    init(from decoder: Decoder) throws {
+extension DirectoryGroupRoleMapping {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        directoryId = try container.sdkDecodeRequired(.directoryId)
-        scimDirectoryId = try container.sdkDecodeRequired(.scimDirectoryId)
-        directoryGroupId = try container.sdkDecodeRequired(.directoryGroupId)
-        scimGroupId = try container.sdkDecodeRequired(.scimGroupId)
-        directoryGroupDisplayName = try container.sdkDecodeRequired(.directoryGroupDisplayName)
-        scimGroupDisplayName = try container.sdkDecodeRequired(.scimGroupDisplayName)
-        precedence = try container.sdkDecodeRequired(.precedence)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        role = try container.sdkDecodeIfPresent(.role)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.directoryId = try container.sdkDecodeRequired(.directoryId)
+        self.scimDirectoryId = try container.sdkDecodeRequired(.scimDirectoryId)
+        self.directoryGroupId = try container.sdkDecodeRequired(.directoryGroupId)
+        self.scimGroupId = try container.sdkDecodeRequired(.scimGroupId)
+        self.directoryGroupDisplayName = try container.sdkDecodeRequired(.directoryGroupDisplayName)
+        self.scimGroupDisplayName = try container.sdkDecodeRequired(.scimGroupDisplayName)
+        self.precedence = try container.sdkDecodeRequired(.precedence)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.role = try container.sdkDecodeIfPresent(.role)
     }
 }
 
-public extension DirectoryGroupRoleMapping {
-    init(
-        object: DirectoryGroupRoleMappingObject,
-        id: String,
-        directoryId: String,
-        scimDirectoryId: String,
-        directoryGroupId: String,
-        scimGroupId: String,
-        directoryGroupDisplayName: String,
-        scimGroupDisplayName: String,
-        precedence: Int,
-        createdAt: Int,
-        updatedAt: Int,
-        role: Role? = nil
-    ) {
+extension DirectoryGroupRoleMapping {
+    public init(object: DirectoryGroupRoleMappingObject, id: String, directoryId: String, scimDirectoryId: String, directoryGroupId: String, scimGroupId: String, directoryGroupDisplayName: String, scimGroupDisplayName: String, precedence: Int, createdAt: Int, updatedAt: Int, role: Role? = nil) {
         (self.object, self.id) = (object, id)
         (self.directoryId, self.scimDirectoryId) = (directoryId, scimDirectoryId)
         (self.directoryGroupId, self.scimGroupId) = (directoryGroupId, scimGroupId)
@@ -312,32 +261,25 @@ public struct DirectoryCustomAttributesItem: Codable {
     }
 
     init() {
-        (name, key, ssoPath, scimPath, directoryPath) = (nil, nil, nil, nil, nil)
-        multiValued = nil
+        (self.name, self.key, self.ssoPath, self.scimPath, self.directoryPath) = (nil, nil, nil, nil, nil)
+        self.multiValued = nil
     }
 }
 
-public extension DirectoryCustomAttributesItem {
-    init(from decoder: Decoder) throws {
+extension DirectoryCustomAttributesItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try container.sdkDecodeIfPresent(.name)
-        key = try container.sdkDecodeIfPresent(.key)
-        ssoPath = try container.sdkDecodeIfPresent(.ssoPath)
-        scimPath = try container.sdkDecodeIfPresent(.scimPath)
-        directoryPath = try container.sdkDecodeIfPresent(.directoryPath)
-        multiValued = try container.sdkDecodeIfPresent(.multiValued)
+        self.name = try container.sdkDecodeIfPresent(.name)
+        self.key = try container.sdkDecodeIfPresent(.key)
+        self.ssoPath = try container.sdkDecodeIfPresent(.ssoPath)
+        self.scimPath = try container.sdkDecodeIfPresent(.scimPath)
+        self.directoryPath = try container.sdkDecodeIfPresent(.directoryPath)
+        self.multiValued = try container.sdkDecodeIfPresent(.multiValued)
     }
 }
 
-public extension DirectoryCustomAttributesItem {
-    init(
-        name: String? = nil,
-        key: String? = nil,
-        ssoPath: String? = nil,
-        scimPath: String? = nil,
-        directoryPath: String? = nil,
-        multiValued: Bool? = nil
-    ) {
+extension DirectoryCustomAttributesItem {
+    public init(name: String? = nil, key: String? = nil, ssoPath: String? = nil, scimPath: String? = nil, directoryPath: String? = nil, multiValued: Bool? = nil) {
         self.init()
         (self.name, self.key) = (name, key)
         (self.ssoPath, self.scimPath) = (ssoPath, scimPath)
@@ -360,63 +302,44 @@ public struct DirectoryGroupRoleMappingDeleted: Codable {
         case deleted
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension DirectoryGroupRoleMappingDeleted {
-    init(from decoder: Decoder) throws {
+extension DirectoryGroupRoleMappingDeleted {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
+            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.deleted) else {
-            throw SdkValidationError(
-                field: "deleted",
-                code: "required",
-                message: "Validation failed for 'deleted': value is required"
-            )
+            throw SdkValidationError(field: "deleted", code: "required", message: "Validation failed for 'deleted': value is required")
         }
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        deleted = try container.sdkDecodeRequired(.deleted)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.deleted = try container.sdkDecodeRequired(.deleted)
     }
 }
 
-public extension DirectoryGroupRoleMappingDeleted {
-    init(object: DirectoryGroupRoleMappingDeletedObject, id: String, deleted: Bool) {
+extension DirectoryGroupRoleMappingDeleted {
+    public init(object: DirectoryGroupRoleMappingDeletedObject, id: String, deleted: Bool) {
         (self.object, self.id) = (object, id)
         self.deleted = deleted
     }
 }
 
 /// String representing the object's type.
-public struct DirectoryGroupRoleMappingDeletedObject: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct DirectoryGroupRoleMappingDeletedObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public static let directoryGroupRoleMapping =
-        DirectoryGroupRoleMappingDeletedObject(rawValue: "directory_group_role_mapping")
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let directoryGroupRoleMapping = DirectoryGroupRoleMappingDeletedObject(rawValue: "directory_group_role_mapping")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -429,15 +352,12 @@ public struct DirectoryGroupRoleMappingDeletedObject: RawRepresentable, Hashable
 public struct DirectoryObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let directory = DirectoryObject(rawValue: "directory")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -450,16 +370,12 @@ public struct DirectoryObject: RawRepresentable, Hashable, Codable, Sendable, Sd
 public struct DirectoryGroupRoleMappingObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public static let directoryGroupRoleMapping =
-        DirectoryGroupRoleMappingObject(rawValue: "directory_group_role_mapping")
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let directoryGroupRoleMapping = DirectoryGroupRoleMappingObject(rawValue: "directory_group_role_mapping")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

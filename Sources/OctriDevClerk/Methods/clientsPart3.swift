@@ -6,27 +6,14 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension ClientsMethods {
-    /// Retrieves the details of a client and its associated session information. Use `client_id` to look up the client
-    /// whose sessions and authentication state you need to inspect.
+extension ClientsMethods {
+    /// Retrieves the details of a client and its associated session information. Use `client_id` to look up the client whose sessions and authentication state you need to inspect.
     ///
     /// Returns the details of a client.
     ///
     /// - Parameters:
     /// - clientId: Client ID.
-    static func getClient(
-        config: ClientConfig,
-        clientId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Client {
-        try await (sdkRequest(
-            "GET",
-            ["/clients/", sdkEncodePathSegment(sdkWireString(clientId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "GetClient",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func getClient(config: ClientConfig, clientId: String, requestOptions: RequestOptions? = nil) async throws -> Client {
+        return try (await sdkRequest("GET", ["/clients/", sdkEncodePathSegment(sdkWireString(clientId))].joined(), config: config, decoder: .json, operationId: "GetClient", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

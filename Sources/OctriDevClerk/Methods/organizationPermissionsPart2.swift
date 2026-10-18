@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationPermissionsMethods {
+extension OrganizationPermissionsMethods {
     /// Retrieves all organization permissions for the given instance.
     ///
     /// - Parameters:
@@ -23,36 +23,20 @@ public extension OrganizationPermissionsMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    static func listOrganizationPermissions(
-        config: ClientConfig,
-        query: String? = nil,
-        orderBy: String? = nil,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Permissions {
-        if let limit {
+    public static func listOrganizationPermissions(config: ClientConfig, query: String? = nil, orderBy: String? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> Permissions {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/organization_permissions",
-            config: config,
-            query: [
-                SdkQueryParameter("query", value: query),
-                SdkQueryParameter("order_by", value: orderBy),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-            ],
-            decoder: .json,
-            operationId: "ListOrganizationPermissions",
-            options: requestOptions,
-            errors: ["401": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", "/organization_permissions", config: config, query: [
+            SdkQueryParameter("query", value: query),
+            SdkQueryParameter("order_by", value: orderBy),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "ListOrganizationPermissions", options: requestOptions, errors: ["401": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

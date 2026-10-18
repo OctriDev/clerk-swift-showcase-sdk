@@ -6,85 +6,34 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension ApiKeysMethods {
-    /// Deletes an API key identified by its ID. Supply the identifier using the `ak_` or `api_key_` prefix followed by
-    /// 32 hexadecimal characters. The response confirms that the key was deleted.
-    static func deleteApiKey(
-        config: ClientConfig,
-        apiKeyId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DeleteApiKeyResponse {
+extension ApiKeysMethods {
+    /// Deletes an API key identified by its ID. Supply the identifier using the `ak_` or `api_key_` prefix followed by 32 hexadecimal characters. The response confirms that the key was deleted.
+    public static func deleteApiKey(config: ClientConfig, apiKeyId: String, requestOptions: RequestOptions? = nil) async throws -> DeleteApiKeyResponse {
         try sdkValidatePattern("apiKeyID", apiKeyId, sdkPattern4f1a58be85d5)
 
-        return try await (sdkRequest(
-            "DELETE",
-            ["/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "deleteApiKey",
-            options: requestOptions
-        )).data
+        return try (await sdkRequest("DELETE", ["/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId))].joined(), config: config, decoder: .json, operationId: "deleteApiKey", options: requestOptions)).data
     }
 
-    /// Retrieves the secret for an API key by its identifier. Supply the key ID using the `ak_` or `api_key_` prefix
-    /// followed by 32 hexadecimal characters. Treat the returned secret as a credential.
-    static func getApiKeySecret(
-        config: ClientConfig,
-        apiKeyId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> GetApiKeySecretResponse {
+    /// Retrieves the secret for an API key by its identifier. Supply the key ID using the `ak_` or `api_key_` prefix followed by 32 hexadecimal characters. Treat the returned secret as a credential.
+    public static func getApiKeySecret(config: ClientConfig, apiKeyId: String, requestOptions: RequestOptions? = nil) async throws -> GetApiKeySecretResponse {
         try sdkValidatePattern("apiKeyID", apiKeyId, sdkPattern4f1a58be85d5)
 
-        return try await (sdkRequest(
-            "GET",
-            ["/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "/secret"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "getApiKeySecret",
-            options: requestOptions
-        )).data
+        return try (await sdkRequest("GET", ["/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "/secret"].joined(), config: config, decoder: .json, operationId: "getApiKeySecret", options: requestOptions)).data
     }
 
-    /// Revokes an API key identified by its ID. You can include `revocation_reason` to record why the key was revoked.
-    /// The response contains the API key's updated revocation state.
-    static func revokeApiKey(
-        config: ClientConfig,
-        apiKeyId: String,
-        revocationReason: SdkOptional<String>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> RevokeApiKeyResponse {
+    /// Revokes an API key identified by its ID. You can include `revocation_reason` to record why the key was revoked. The response contains the API key's updated revocation state.
+    public static func revokeApiKey(config: ClientConfig, apiKeyId: String, revocationReason: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> RevokeApiKeyResponse {
         try sdkValidatePattern("apiKeyID", apiKeyId, sdkPattern4f1a58be85d5)
 
         let requestBody = RevokeApiKeyRequestBody(revocationReason: revocationReason)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "/revoke"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "revokeApiKey",
-            options: requestOptions
-        )).data
+        return try (await sdkRequest("POST", ["/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "/revoke"].joined(), config: config, body: requestBody, decoder: .json, operationId: "revokeApiKey", options: requestOptions)).data
     }
 
-    /// Verifies an API key using its secret. Supply the key in the `secret` field to retrieve its metadata and status.
-    /// The response includes whether the key is revoked or expired and its associated subject and scopes.
-    static func verifyApiKey(
-        config: ClientConfig,
-        secret: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> VerifyApiKeyResponse {
+    /// Verifies an API key using its secret. Supply the key in the `secret` field to retrieve its metadata and status. The response includes whether the key is revoked or expired and its associated subject and scopes.
+    public static func verifyApiKey(config: ClientConfig, secret: String, requestOptions: RequestOptions? = nil) async throws -> VerifyApiKeyResponse {
         let requestBody = VerifyApiKeyRequestBody(secret: secret)
 
-        return try await (sdkRequest(
-            "POST",
-            "/api_keys/verify",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "verifyApiKey",
-            options: requestOptions
-        )).data
+        return try (await sdkRequest("POST", "/api_keys/verify", config: config, body: requestBody, decoder: .json, operationId: "verifyApiKey", options: requestOptions)).data
     }
 }
