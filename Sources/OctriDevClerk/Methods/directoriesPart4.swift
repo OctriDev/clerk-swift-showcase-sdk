@@ -27,7 +27,7 @@ extension DirectoriesMethods {
     ///
     /// - Parameters:
     /// - directoryId: The ID of the directory.
-    public static func listDirectoryGroupRoleMappings(config: ClientConfig, directoryId: String, requestOptions: RequestOptions? = nil) async throws -> ListDirectoryGroupRoleMappingsResponse {
+    public static func listDirectoryGroupRoleMappings(config: ClientConfig, directoryId: String, requestOptions: RequestOptions? = nil) async throws -> DirectoryGroupRoleMappingList {
         return try (await sdkRequest("GET", ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId)), "/group_role_mappings"].joined(), config: config, decoder: .json, operationId: "ListDirectoryGroupRoleMappings", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

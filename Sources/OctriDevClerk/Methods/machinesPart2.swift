@@ -22,7 +22,7 @@ extension MachinesMethods {
     ///   For example, to return machines in descending order by `created_at`, use
     ///   `-created_at`. If you don't use `+` or `-`, then `+` is implied. Defaults to
     ///   `-created_at`.
-    public static func listMachines(config: ClientConfig, limit: Int? = nil, offset: Int? = nil, query: String? = nil, orderBy: String? = nil, requestOptions: RequestOptions? = nil) async throws -> ListMachinesResponse {
+    public static func listMachines(config: ClientConfig, limit: Int? = nil, offset: Int? = nil, query: String? = nil, orderBy: String? = nil, requestOptions: RequestOptions? = nil) async throws -> MachineList {
         if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }

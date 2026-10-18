@@ -17,7 +17,7 @@ extension MachinesMethods {
     ///   to. Maximum of 150 scopes per machine.
     /// - defaultTokenTtl: The default time-to-live (TTL) in seconds for tokens
     ///   created by this machine. Must be at least 1 second.
-    public static func createMachine(config: ClientConfig, name: String, scopedMachines: [String]? = nil, defaultTokenTtl: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> CreateMachineResponse {
+    public static func createMachine(config: ClientConfig, name: String, scopedMachines: [String]? = nil, defaultTokenTtl: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> MachineCreated {
         try validateLength("name", name, min: 1, max: 255)
 
         if let scopedMachines = scopedMachines {

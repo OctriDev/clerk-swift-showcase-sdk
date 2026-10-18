@@ -4,56 +4,6 @@
 import Foundation
 
 // Billing domain models
-/// Fixed amount off when the effect is fixed_amount.
-public struct CommerceDiscountRedemptionResponseAmountOff: Codable {
-    /// The amount in cents.
-    public var amount: Int
-    /// The formatted amount as a string (e.g., "$49.99").
-    public var amountFormatted: String
-    /// The currency code (e.g., "USD").
-    public var currency: String
-    /// The currency symbol (e.g., "$").
-    public var currencySymbol: String
-
-    enum CodingKeys: String, CodingKey {
-        case amount
-        case amountFormatted = "amount_formatted"
-        case currency
-        case currencySymbol = "currency_symbol"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommerceDiscountRedemptionResponseAmountOff {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        guard container.contains(.amountFormatted) else {
-            throw SdkValidationError(field: "amount_formatted", code: "required", message: "Validation failed for 'amount_formatted': value is required")
-        }
-        guard container.contains(.currency) else {
-            throw SdkValidationError(field: "currency", code: "required", message: "Validation failed for 'currency': value is required")
-        }
-        guard container.contains(.currencySymbol) else {
-            throw SdkValidationError(field: "currency_symbol", code: "required", message: "Validation failed for 'currency_symbol': value is required")
-        }
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.amountFormatted = try container.sdkDecodeRequired(.amountFormatted)
-        self.currency = try container.sdkDecodeRequired(.currency)
-        self.currencySymbol = try container.sdkDecodeRequired(.currencySymbol)
-    }
-}
-
-extension CommerceDiscountRedemptionResponseAmountOff {
-    public init(amount: Int, amountFormatted: String, currency: String, currencySymbol: String) {
-        (self.amount, self.amountFormatted) = (amount, amountFormatted)
-        (self.currency, self.currencySymbol) = (currency, currencySymbol)
-    }
-}
-
 /// Typed representation of the `BillingPriceResponse` API schema.
 public struct BillingPriceResponse: Codable {
     /// String representing the object's type. Objects of the same type share the same value.
@@ -72,10 +22,10 @@ public struct BillingPriceResponse: Codable {
     public var amount: Int
     /// The monthly amount in cents when billed annually.
     public var annualMonthlyAmount: Int
-    /// Required API value serialized in the `fee` wire field.
-    public var fee: BillingPriceResponseFee?
-    /// Required API value serialized in the `annual_monthly_fee` wire field.
-    public var annualMonthlyFee: BillingPriceResponseAnnualMonthlyFee?
+    /// Required object value serialized in the `fee` wire field.
+    public var fee: CommerceMoneyResponse?
+    /// Required object value serialized in the `annual_monthly_fee` wire field.
+    public var annualMonthlyFee: CommerceMoneyResponse?
     /// Whether this price is the default price for its plan.
     public var isDefault: Bool
     /// Unix timestamp (milliseconds) of creation.
@@ -126,7 +76,7 @@ extension BillingPriceResponse {
 }
 
 extension BillingPriceResponse {
-    public init(object: BillingPriceResponseObject, id: String, planId: String, instanceId: String, currency: String, currencySymbol: String, amount: Int, annualMonthlyAmount: Int, fee: BillingPriceResponseFee?, annualMonthlyFee: BillingPriceResponseAnnualMonthlyFee?, isDefault: Bool, createdAt: Int, supportedBillingPeriods: BillingPriceResponseSupportedBillingPeriods, description: String? = nil) {
+    public init(object: BillingPriceResponseObject, id: String, planId: String, instanceId: String, currency: String, currencySymbol: String, amount: Int, annualMonthlyAmount: Int, fee: CommerceMoneyResponse?, annualMonthlyFee: CommerceMoneyResponse?, isDefault: Bool, createdAt: Int, supportedBillingPeriods: BillingPriceResponseSupportedBillingPeriods, description: String? = nil) {
         (self.object, self.id) = (object, id)
         (self.planId, self.instanceId) = (planId, instanceId)
         (self.currency, self.currencySymbol) = (currency, currencySymbol)
@@ -212,103 +162,6 @@ extension BillingStatementGroupsItem {
     public init(object: BillingStatementGroupsItemObject, timestamp: Int, items: [BillingPaymentAttempt]) {
         (self.object, self.timestamp) = (object, timestamp)
         self.items = items
-    }
-}
-
-/// The payment source associated with this subscription.
-public struct CommerceSubscriptionItem2PaymentSource: Codable {
-    /// String representing the object's type. Objects of the same type share the same value.
-    public var object: CommercePaymentSourceResponseObject
-    /// Unique identifier for the payment source.
-    public var id: String
-    /// Unique identifier for the payer.
-    public var payerId: String
-    /// The payment method type.
-    public var paymentMethod: CommercePaymentSourceResponsePaymentMethod
-    /// The payment gateway.
-    public var gateway: String
-    /// External ID in the payment gateway.
-    public var gatewayExternalId: String
-    /// Last 4 digits of the card (for card payment sources).
-    public var last4: String
-    /// Status of the payment source.
-    public var status: CommercePaymentSourceResponseStatus
-    /// Type of wallet (if applicable).
-    public var walletType: String
-    /// Type of card (if applicable).
-    public var cardType: String
-    /// Unix timestamp (in milliseconds) when the payment source was created.
-    public var createdAt: Int
-    /// Unix timestamp (in milliseconds) when the payment source was last updated.
-    public var updatedAt: Int
-    /// Whether this is the default payment source for the payer.
-    public var isDefault: Bool?
-    /// External account ID in the payment gateway.
-    public var gatewayExternalAccountId: String?
-    /// Card expiration year (for card payment sources).
-    public var expiryYear: Int?
-    /// Card expiration month (for card payment sources).
-    public var expiryMonth: Int?
-    /// Whether this payment source can be removed.
-    public var isRemovable: Bool?
-
-    enum CodingKeys: String, CodingKey {
-        case object
-        case id
-        case payerId = "payer_id"
-        case paymentMethod = "payment_method"
-        case gateway
-        case gatewayExternalId = "gateway_external_id"
-        case last4
-        case status
-        case walletType = "wallet_type"
-        case cardType = "card_type"
-        case createdAt = "created_at"
-        case updatedAt = "updated_at"
-        case isDefault = "is_default"
-        case gatewayExternalAccountId = "gateway_external_account_id"
-        case expiryYear = "expiry_year"
-        case expiryMonth = "expiry_month"
-        case isRemovable = "is_removable"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommerceSubscriptionItem2PaymentSource {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.payerId = try container.sdkDecodeRequired(.payerId)
-        self.paymentMethod = try container.sdkDecodeRequired(.paymentMethod)
-        self.gateway = try container.sdkDecodeRequired(.gateway)
-        self.gatewayExternalId = try container.sdkDecodeRequired(.gatewayExternalId)
-        self.last4 = try container.sdkDecodeRequired(.last4)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.walletType = try container.sdkDecodeRequired(.walletType)
-        self.cardType = try container.sdkDecodeRequired(.cardType)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.isDefault = try container.sdkDecodeIfPresent(.isDefault)
-        self.gatewayExternalAccountId = try container.sdkDecodeIfPresent(.gatewayExternalAccountId)
-        self.expiryYear = try container.sdkDecodeIfPresent(.expiryYear)
-        self.expiryMonth = try container.sdkDecodeIfPresent(.expiryMonth)
-        self.isRemovable = try container.sdkDecodeIfPresent(.isRemovable)
-    }
-}
-
-extension CommerceSubscriptionItem2PaymentSource {
-    public init(object: CommercePaymentSourceResponseObject, id: String, payerId: String, paymentMethod: CommercePaymentSourceResponsePaymentMethod, gateway: String, gatewayExternalId: String, last4: String, status: CommercePaymentSourceResponseStatus, walletType: String, cardType: String, createdAt: Int, updatedAt: Int, isDefault: Bool? = nil, gatewayExternalAccountId: String? = nil, expiryYear: Int? = nil, expiryMonth: Int? = nil, isRemovable: Bool? = nil) {
-        (self.object, self.id) = (object, id)
-        (self.payerId, self.paymentMethod) = (payerId, paymentMethod)
-        (self.gateway, self.gatewayExternalId) = (gateway, gatewayExternalId)
-        (self.last4, self.status) = (last4, status)
-        (self.walletType, self.cardType) = (walletType, cardType)
-        (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
-        (self.isDefault, self.gatewayExternalAccountId) = (isDefault, gatewayExternalAccountId)
-        (self.expiryYear, self.expiryMonth) = (expiryYear, expiryMonth)
-        self.isRemovable = isRemovable
     }
 }
 
@@ -404,7 +257,7 @@ public struct CommerceSubscriptionItem2: Codable {
     /// Unique identifier for the associated plan.
     public var planId: String
     /// The associated commerce plan.
-    public var plan: CommerceSubscriptionItem2Plan?
+    public var plan: CommercePlan2?
     /// The billing period for this subscription.
     public var planPeriod: CommerceSubscriptionItem2PlanPeriod
     /// Unique identifier for the payment source.
@@ -420,21 +273,21 @@ public struct CommerceSubscriptionItem2: Codable {
     /// Unix timestamp (in milliseconds) when the subscription was last updated.
     public var updatedAt: Int
     /// Credit information (only available in PaymentAttempt events).
-    public var credit: CommerceSubscriptionItem2Credit?
+    public var credit: CommerceSubscriptionCreditResponse?
     /// Unique identifier for the associated price
     public var priceId: String?
     /// The payment source associated with this subscription.
-    public var paymentSource: CommerceSubscriptionItem2PaymentSource?
+    public var paymentSource: CommercePaymentSourceResponse?
     /// Total amount paid over the lifetime of this subscription.
-    public var lifetimePaid: CommerceSubscriptionItem2LifetimePaid?
+    public var lifetimePaid: CommerceMoneyResponse?
     /// Current amount for this subscription.
-    public var amount: CommerceSubscriptionItem2Amount?
+    public var amount: CommerceMoneyResponse?
     /// Information about the next invoice.
-    public var nextInvoice: CommerceSubscriptionItem2NextInvoice?
+    public var nextInvoice: CommerceSubscriptionItemNextPaymentResponse?
     /// Information about the next payment.
-    public var nextPayment: CommerceSubscriptionItem2NextPayment?
+    public var nextPayment: CommerceSubscriptionItemNextPaymentResponse?
     /// The payer associated with this subscription.
-    public var payer: CommerceSubscriptionItem2Payer?
+    public var payer: CommercePayerResponse2?
     /// Unix timestamp (in milliseconds) when the current period started.
     public var periodStart: Int?
     /// Unix timestamp (in milliseconds) when the current period ends.
@@ -507,5 +360,156 @@ extension CommerceSubscriptionItem2 {
         self.canceledAt = try container.sdkDecodeIfPresent(.canceledAt)
         self.pastDueAt = try container.sdkDecodeIfPresent(.pastDueAt)
         self.endedAt = try container.sdkDecodeIfPresent(.endedAt)
+    }
+}
+
+extension CommerceSubscriptionItem2 {
+    public init(object: CommerceSubscriptionItem2Object, id: String, instanceId: String, status: CommerceSubscriptionItem2Status, planId: String, plan: CommercePlan2?, planPeriod: CommerceSubscriptionItem2PlanPeriod, paymentSourceId: String, payerId: String, isFreeTrial: Bool, prorationDate: String, createdAt: Int, updatedAt: Int, credit: CommerceSubscriptionCreditResponse? = nil, priceId: String? = nil, paymentSource: CommercePaymentSourceResponse? = nil, lifetimePaid: CommerceMoneyResponse? = nil, amount: CommerceMoneyResponse? = nil, nextInvoice: CommerceSubscriptionItemNextPaymentResponse? = nil, nextPayment: CommerceSubscriptionItemNextPaymentResponse? = nil, payer: CommercePayerResponse2? = nil, periodStart: Int? = nil, periodEnd: Int? = nil, canceledAt: Int? = nil, pastDueAt: Int? = nil, endedAt: Int? = nil) {
+        (self.object, self.id) = (object, id)
+        (self.instanceId, self.status) = (instanceId, status)
+        (self.planId, self.plan) = (planId, plan)
+        (self.planPeriod, self.paymentSourceId) = (planPeriod, paymentSourceId)
+        (self.payerId, self.isFreeTrial) = (payerId, isFreeTrial)
+        (self.prorationDate, self.createdAt) = (prorationDate, createdAt)
+        (self.updatedAt, self.credit) = (updatedAt, credit)
+        (self.priceId, self.paymentSource) = (priceId, paymentSource)
+        (self.lifetimePaid, self.amount) = (lifetimePaid, amount)
+        (self.nextInvoice, self.nextPayment) = (nextInvoice, nextPayment)
+        (self.payer, self.periodStart) = (payer, periodStart)
+        (self.periodEnd, self.canceledAt) = (periodEnd, canceledAt)
+        (self.pastDueAt, self.endedAt) = (pastDueAt, endedAt)
+    }
+}
+
+/// Typed representation of the `CommercePaymentSourceResponse` API schema.
+public struct CommercePaymentSourceResponse: Codable {
+    /// String representing the object's type. Objects of the same type share the same value.
+    public var object: CommercePaymentSourceResponseObject
+    /// Unique identifier for the payment source.
+    public var id: String
+    /// Unique identifier for the payer.
+    public var payerId: String
+    /// The payment method type.
+    public var paymentMethod: CommercePaymentSourceResponsePaymentMethod
+    /// The payment gateway.
+    public var gateway: String
+    /// External ID in the payment gateway.
+    public var gatewayExternalId: String
+    /// Last 4 digits of the card (for card payment sources).
+    public var last4: String
+    /// Status of the payment source.
+    public var status: CommercePaymentSourceResponseStatus
+    /// Type of wallet (if applicable).
+    public var walletType: String
+    /// Type of card (if applicable).
+    public var cardType: String
+    /// Unix timestamp (in milliseconds) when the payment source was created.
+    public var createdAt: Int
+    /// Unix timestamp (in milliseconds) when the payment source was last updated.
+    public var updatedAt: Int
+    /// Whether this is the default payment source for the payer.
+    public var isDefault: Bool?
+    /// External account ID in the payment gateway.
+    public var gatewayExternalAccountId: String?
+    /// Card expiration year (for card payment sources).
+    public var expiryYear: Int?
+    /// Card expiration month (for card payment sources).
+    public var expiryMonth: Int?
+    /// Whether this payment source can be removed.
+    public var isRemovable: Bool?
+
+    enum CodingKeys: String, CodingKey {
+        case object
+        case id
+        case payerId = "payer_id"
+        case paymentMethod = "payment_method"
+        case gateway
+        case gatewayExternalId = "gateway_external_id"
+        case last4
+        case status
+        case walletType = "wallet_type"
+        case cardType = "card_type"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case isDefault = "is_default"
+        case gatewayExternalAccountId = "gateway_external_account_id"
+        case expiryYear = "expiry_year"
+        case expiryMonth = "expiry_month"
+        case isRemovable = "is_removable"
+    }
+
+    private init(sdkCopy value: Self) { self = value }
+}
+
+extension CommercePaymentSourceResponse {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.payerId = try container.sdkDecodeRequired(.payerId)
+        self.paymentMethod = try container.sdkDecodeRequired(.paymentMethod)
+        self.gateway = try container.sdkDecodeRequired(.gateway)
+        self.gatewayExternalId = try container.sdkDecodeRequired(.gatewayExternalId)
+        self.last4 = try container.sdkDecodeRequired(.last4)
+        self.status = try container.sdkDecodeRequired(.status)
+        self.walletType = try container.sdkDecodeRequired(.walletType)
+        self.cardType = try container.sdkDecodeRequired(.cardType)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.isDefault = try container.sdkDecodeIfPresent(.isDefault)
+        self.gatewayExternalAccountId = try container.sdkDecodeIfPresent(.gatewayExternalAccountId)
+        self.expiryYear = try container.sdkDecodeIfPresent(.expiryYear)
+        self.expiryMonth = try container.sdkDecodeIfPresent(.expiryMonth)
+        self.isRemovable = try container.sdkDecodeIfPresent(.isRemovable)
+    }
+}
+
+extension CommercePaymentSourceResponse {
+    public init(object: CommercePaymentSourceResponseObject, id: String, payerId: String, paymentMethod: CommercePaymentSourceResponsePaymentMethod, gateway: String, gatewayExternalId: String, last4: String, status: CommercePaymentSourceResponseStatus, walletType: String, cardType: String, createdAt: Int, updatedAt: Int, isDefault: Bool? = nil, gatewayExternalAccountId: String? = nil, expiryYear: Int? = nil, expiryMonth: Int? = nil, isRemovable: Bool? = nil) {
+        (self.object, self.id) = (object, id)
+        (self.payerId, self.paymentMethod) = (payerId, paymentMethod)
+        (self.gateway, self.gatewayExternalId) = (gateway, gatewayExternalId)
+        (self.last4, self.status) = (last4, status)
+        (self.walletType, self.cardType) = (walletType, cardType)
+        (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
+        (self.isDefault, self.gatewayExternalAccountId) = (isDefault, gatewayExternalAccountId)
+        (self.expiryYear, self.expiryMonth) = (expiryYear, expiryMonth)
+        self.isRemovable = isRemovable
+    }
+}
+
+/// Typed representation of the `CommercePriceTransitionResponse` API schema.
+public struct CommercePriceTransitionResponse: Codable {
+    /// String representing the object's type. Objects of the same type share the same value.
+    public var object: CommercePriceTransitionResponseObject
+    /// Required object value serialized in the `subscription_item` wire field.
+    public var subscriptionItem: CommerceSubscriptionItem2
+    /// Required object value serialized in the `transition` wire field.
+    public var transition: CommercePriceTransitionDetails
+
+    enum CodingKeys: String, CodingKey {
+        case object
+        case subscriptionItem = "subscription_item"
+        case transition
+    }
+
+    private init(sdkCopy value: Self) { self = value }
+}
+
+extension CommercePriceTransitionResponse {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
+        }
+        guard container.contains(.subscriptionItem) else {
+            throw SdkValidationError(field: "subscription_item", code: "required", message: "Validation failed for 'subscription_item': value is required")
+        }
+        guard container.contains(.transition) else {
+            throw SdkValidationError(field: "transition", code: "required", message: "Validation failed for 'transition': value is required")
+        }
+        self.object = try container.sdkDecodeRequired(.object)
+        self.subscriptionItem = try container.sdkDecodeRequired(.subscriptionItem)
+        self.transition = try container.sdkDecodeRequired(.transition)
     }
 }

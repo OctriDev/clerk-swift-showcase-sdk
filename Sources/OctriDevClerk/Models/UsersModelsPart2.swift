@@ -4,174 +4,6 @@
 import Foundation
 
 // Users domain models
-/// Typed representation of the `VerificationOauth` API schema.
-public struct VerificationOauth: Codable {
-    /// Required enumerated value serialized in the `status` wire field.
-    public var status: VerificationOauthStatus
-    /// Required `string` value serialized in the `strategy` wire field.
-    public var strategy: String
-    /// Required `integer` value serialized in the `expire_at` wire field.
-    public var expireAt: Int
-    /// Required `integer` value serialized in the `attempts` wire field.
-    public var attempts: Int?
-    /// Optional enumerated value serialized in the `object` wire field.
-    public var object: VerificationOauthObject?
-    /// Optional `string` value serialized in the `external_verification_redirect_url` wire field.
-    public var externalVerificationRedirectUrl: String?
-    /// Optional object value serialized in the `error` wire field.
-    public var error: [String: JSONValue]?
-    /// Optional `string` value serialized in the `verified_at_client` wire field.
-    public var verifiedAtClient: String?
-
-    enum CodingKeys: String, CodingKey {
-        case status
-        case strategy
-        case expireAt = "expire_at"
-        case attempts
-        case object
-        case externalVerificationRedirectUrl = "external_verification_redirect_url"
-        case error
-        case verifiedAtClient = "verified_at_client"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension VerificationOauth {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.status) else {
-            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
-        }
-        guard container.contains(.strategy) else {
-            throw SdkValidationError(field: "strategy", code: "required", message: "Validation failed for 'strategy': value is required")
-        }
-        guard container.contains(.expireAt) else {
-            throw SdkValidationError(field: "expire_at", code: "required", message: "Validation failed for 'expire_at': value is required")
-        }
-        guard container.contains(.attempts) else {
-            throw SdkValidationError(field: "attempts", code: "required", message: "Validation failed for 'attempts': value is required")
-        }
-        self.status = try container.sdkDecodeRequired(.status)
-        self.strategy = try container.sdkDecodeRequired(.strategy)
-        self.expireAt = try container.sdkDecodeRequired(.expireAt)
-        self.attempts = try container.sdkDecodeNullable(.attempts)
-        self.object = try container.sdkDecodeIfPresent(.object)
-        self.externalVerificationRedirectUrl = try container.sdkDecodeIfPresent(.externalVerificationRedirectUrl)
-        self.error = try container.sdkDecodeIfPresent(.error)
-        self.verifiedAtClient = try container.sdkDecodeIfPresent(.verifiedAtClient)
-            try sdkValidatePattern("strategy", self.strategy, sdkPattern3e3dd5830d77)
-        if let value = self.object {
-            try sdkValidateRawEnum("object", value, VerificationOauthObject.allCases.map(\.rawValue))
-        }
-    }
-}
-
-extension VerificationOauth {
-    public init(status: VerificationOauthStatus, strategy: String, expireAt: Int, attempts: Int?, object: VerificationOauthObject? = nil, externalVerificationRedirectUrl: String? = nil, error: [String: JSONValue]? = nil, verifiedAtClient: String? = nil) throws {
-        (self.status, self.strategy) = (status, strategy)
-        (self.expireAt, self.attempts) = (expireAt, attempts)
-        (self.object, self.externalVerificationRedirectUrl) = (object, externalVerificationRedirectUrl)
-        (self.error, self.verifiedAtClient) = (error, verifiedAtClient)
-            try sdkValidatePattern("strategy", self.strategy, sdkPattern3e3dd5830d77)
-        if let value = self.object {
-            try sdkValidateRawEnum("object", value, VerificationOauthObject.allCases.map(\.rawValue))
-        }
-    }
-}
-
-/// The most recently updated directory link. Use directories for all links.
-public struct UserDirectory: Codable {
-    /// The user's resource ID in this directory.
-    public var id: String
-    /// Required `string` value serialized in the `directory_name` wire field.
-    public var directoryName: String
-    /// Required `string` value serialized in the `provider` wire field.
-    public var provider: String
-    /// Required `string` value serialized in the `enterprise_connection_id` wire field.
-    public var enterpriseConnectionId: String?
-    /// The ID of the directory the user is provisioned from.
-    public var directoryId: String
-    /// Whether the directory is currently enabled.
-    public var directoryEnabled: Bool
-    /// The user's external ID as reported by the directory, if any.
-    public var externalId: String?
-    /// Omitted when groups were not loaded; an empty array means no group memberships.
-    public var groups: [SCIMUserMetadataGroupsItem]?
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case directoryName = "directory_name"
-        case provider
-        case enterpriseConnectionId = "enterprise_connection_id"
-        case directoryId = "directory_id"
-        case directoryEnabled = "directory_enabled"
-        case externalId = "external_id"
-        case groups
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension UserDirectory {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.directoryName) else {
-            throw SdkValidationError(field: "directory_name", code: "required", message: "Validation failed for 'directory_name': value is required")
-        }
-        guard container.contains(.provider) else {
-            throw SdkValidationError(field: "provider", code: "required", message: "Validation failed for 'provider': value is required")
-        }
-        guard container.contains(.enterpriseConnectionId) else {
-            throw SdkValidationError(field: "enterprise_connection_id", code: "required", message: "Validation failed for 'enterprise_connection_id': value is required")
-        }
-        guard container.contains(.directoryId) else {
-            throw SdkValidationError(field: "directory_id", code: "required", message: "Validation failed for 'directory_id': value is required")
-        }
-        guard container.contains(.directoryEnabled) else {
-            throw SdkValidationError(field: "directory_enabled", code: "required", message: "Validation failed for 'directory_enabled': value is required")
-        }
-        guard container.contains(.externalId) else {
-            throw SdkValidationError(field: "external_id", code: "required", message: "Validation failed for 'external_id': value is required")
-        }
-        self.id = try container.sdkDecodeRequired(.id)
-        self.directoryName = try container.sdkDecodeRequired(.directoryName)
-        self.provider = try container.sdkDecodeRequired(.provider)
-        self.enterpriseConnectionId = try container.sdkDecodeNullable(.enterpriseConnectionId)
-        self.directoryId = try container.sdkDecodeRequired(.directoryId)
-        self.directoryEnabled = try container.sdkDecodeRequired(.directoryEnabled)
-        self.externalId = try container.sdkDecodeNullable(.externalId)
-        self.groups = try container.sdkDecodeIfPresent(.groups)
-    }
-}
-
-extension UserDirectory {
-    public init(id: String, directoryName: String, provider: String, enterpriseConnectionId: String?, directoryId: String, directoryEnabled: Bool, externalId: String?, groups: [SCIMUserMetadataGroupsItem]? = nil) {
-        (self.id, self.directoryName) = (id, directoryName)
-        (self.provider, self.enterpriseConnectionId) = (provider, enterpriseConnectionId)
-        (self.directoryId, self.directoryEnabled) = (directoryId, directoryEnabled)
-        (self.externalId, self.groups) = (externalId, groups)
-    }
-}
-
-/// Required object value serialized in the `groups[]` wire field.
-public struct SCIMUserMetadataGroupsItem: Codable {
-    /// Required `string` value serialized in the `id` wire field.
-    public var id: String
-    /// Required `string` value serialized in the `display_name` wire field.
-    public var displayName: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case displayName = "display_name"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
 extension SCIMUserMetadataGroupsItem {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -387,6 +219,125 @@ extension EnterpriseAccountEnterpriseConnection {
     }
 }
 
+/// Typed representation of the `TrustedDeviceList` API schema.
+public struct TrustedDeviceList: Codable {
+    /// Required array value serialized in the `data` wire field.
+    public var data: [TrustedDevice]
+    /// Total number of trusted devices
+    public var totalCount: Int
+
+    enum CodingKeys: String, CodingKey {
+        case data
+        case totalCount = "total_count"
+    }
+
+    private init(sdkCopy value: Self) { self = value }
+}
+
+extension TrustedDeviceList {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
+        }
+        self.data = try container.sdkDecodeRequired(.data)
+        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+extension TrustedDeviceList {
+    public init(data: [TrustedDevice], totalCount: Int) {
+        (self.data, self.totalCount) = (data, totalCount)
+    }
+}
+
+/// Typed representation of the `EnterpriseAccountConnection` API schema.
+public struct EnterpriseAccountConnection: Codable {
+    /// Required `string` value serialized in the `id` wire field.
+    public var id: String
+    /// Required `string` value serialized in the `protocol` wire field.
+    public var `protocol`: String
+    /// Required `string` value serialized in the `provider` wire field.
+    public var provider: String
+    /// Required `string` value serialized in the `name` wire field.
+    public var name: String
+    /// Required `string` value serialized in the `logo_public_url` wire field.
+    public var logoPublicUrl: String?
+    /// Required `boolean` value serialized in the `active` wire field.
+    public var active: Bool
+    /// Required `boolean` value serialized in the `sync_user_attributes` wire field.
+    public var syncUserAttributes: Bool
+    /// Required `boolean` value serialized in the `allow_subdomains` wire field.
+    public var allowSubdomains: Bool
+    /// Required `boolean` value serialized in the `allow_idp_initiated` wire field.
+    public var allowIdpInitiated: Bool
+    /// Required `boolean` value serialized in the `disable_additional_identifications` wire field.
+    public var disableAdditionalIdentifications: Bool
+    /// Unix timestamp of creation.
+    public var createdAt: Int
+    /// Unix timestamp of last update.
+    public var updatedAt: Int
+    /// Optional `string` value serialized in the `domain` wire field.
+    public var domain: String?
+    /// Optional array value serialized in the `domains` wire field.
+    public var domains: [String]?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case `protocol`
+        case provider
+        case name
+        case logoPublicUrl = "logo_public_url"
+        case active
+        case syncUserAttributes = "sync_user_attributes"
+        case allowSubdomains = "allow_subdomains"
+        case allowIdpInitiated = "allow_idp_initiated"
+        case disableAdditionalIdentifications = "disable_additional_identifications"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case domain
+        case domains
+    }
+
+    private init(sdkCopy value: Self) { self = value }
+}
+
+extension EnterpriseAccountConnection {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.`protocol` = try container.sdkDecodeRequired(.`protocol`)
+        self.provider = try container.sdkDecodeRequired(.provider)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.logoPublicUrl = try container.sdkDecodeNullable(.logoPublicUrl)
+        self.active = try container.sdkDecodeRequired(.active)
+        self.syncUserAttributes = try container.sdkDecodeRequired(.syncUserAttributes)
+        self.allowSubdomains = try container.sdkDecodeRequired(.allowSubdomains)
+        self.allowIdpInitiated = try container.sdkDecodeRequired(.allowIdpInitiated)
+        self.disableAdditionalIdentifications = try container.sdkDecodeRequired(.disableAdditionalIdentifications)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.domain = try container.sdkDecodeIfPresent(.domain)
+        self.domains = try container.sdkDecodeIfPresent(.domains)
+    }
+}
+
+extension EnterpriseAccountConnection {
+    public init(id: String, `protocol`: String, provider: String, name: String, logoPublicUrl: String?, active: Bool, syncUserAttributes: Bool, allowSubdomains: Bool, allowIdpInitiated: Bool, disableAdditionalIdentifications: Bool, createdAt: Int, updatedAt: Int, domain: String? = nil, domains: [String]? = nil) {
+        (self.id, self.`protocol`) = (id, `protocol`)
+        (self.provider, self.name) = (provider, name)
+        (self.logoPublicUrl, self.active) = (logoPublicUrl, active)
+        (self.syncUserAttributes, self.allowSubdomains) = (syncUserAttributes, allowSubdomains)
+        self.allowIdpInitiated = allowIdpInitiated
+        self.disableAdditionalIdentifications = disableAdditionalIdentifications
+        (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
+        (self.domain, self.domains) = (domain, domains)
+    }
+}
+
 /// Typed representation of the `VerificationPasskey` API schema.
 public struct VerificationPasskey: Codable {
     /// Required enumerated value serialized in the `status` wire field.
@@ -461,6 +412,47 @@ extension VerificationPasskey {
     }
 }
 
-public indirect enum VerificationOauthError {
-    case clerkError(ClerkError)
+/// Typed representation of the `SAMLAccountConnection` API schema.
+public struct SAMLAccountConnection: Codable {
+    /// Required `string` value serialized in the `id` wire field.
+    public var id: String
+    /// Required `string` value serialized in the `name` wire field.
+    public var name: String
+    /// Required `boolean` value serialized in the `active` wire field.
+    public var active: Bool
+    /// Required `string` value serialized in the `provider` wire field.
+    public var provider: String
+    /// Required `boolean` value serialized in the `sync_user_attributes` wire field.
+    public var syncUserAttributes: Bool
+    /// Unix timestamp of creation.
+    public var createdAt: Int
+    /// Unix timestamp of last update.
+    public var updatedAt: Int
+    /// Optional `string` value serialized in the `domain` wire field.
+    public var domain: String?
+    /// Optional array value serialized in the `domains` wire field.
+    public var domains: [String]?
+    /// Optional `boolean` value serialized in the `allow_subdomains` wire field.
+    public var allowSubdomains: Bool?
+    /// Optional `boolean` value serialized in the `allow_idp_initiated` wire field.
+    public var allowIdpInitiated: Bool?
+    /// Optional `boolean` value serialized in the `disable_additional_identifications` wire field.
+    public var disableAdditionalIdentifications: Bool?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case active
+        case provider
+        case syncUserAttributes = "sync_user_attributes"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case domain
+        case domains
+        case allowSubdomains = "allow_subdomains"
+        case allowIdpInitiated = "allow_idp_initiated"
+        case disableAdditionalIdentifications = "disable_additional_identifications"
+    }
+
+    private init(sdkCopy value: Self) { self = value }
 }

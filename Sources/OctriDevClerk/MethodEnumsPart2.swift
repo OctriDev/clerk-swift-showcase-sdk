@@ -82,24 +82,6 @@ public struct ListSessionsParameter: RawRepresentable, Hashable, Codable, Sendab
     }
 }
 
-/// String representing the object's type. Objects of the same type share the same value.
-public struct UpdateInstanceAuthConfigResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
-    public let rawValue: String
-
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let instanceSettings = UpdateInstanceAuthConfigResponseObject(rawValue: "instance_settings")
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(rawValue)
-    }
-}
-
 public struct CreateM2MTokenRequestBodyTokenFormat: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
@@ -189,6 +171,29 @@ public struct ReplaceUserEmailAddressRequestBodyIdentificationStatus: RawReprese
     public static let verified = ReplaceUserEmailAddressRequestBodyIdentificationStatus(rawValue: "verified")
     public static let reserved = ReplaceUserEmailAddressRequestBodyIdentificationStatus(rawValue: "reserved")
     public static let unverified = ReplaceUserEmailAddressRequestBodyIdentificationStatus(rawValue: "unverified")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// Optional parameter that lets a user with a second factor enabled complete the sign in without being prompted
+/// for it. When omitted, redeeming the token completes only the first factor, and the user must still complete
+/// their second factor. `fresh`: the second factor is treated as verified at sign in. The session token's `fva`
+/// claim reports a second factor age of 0. `stale`: the second factor is treated as unverified. The session
+/// token's `fva` claim reports the maximum second…
+public struct CreateSignInTokenRequestBodySecondFactorVerification: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let fresh = CreateSignInTokenRequestBodySecondFactorVerification(rawValue: "fresh")
+    public static let stale = CreateSignInTokenRequestBodySecondFactorVerification(rawValue: "stale")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()

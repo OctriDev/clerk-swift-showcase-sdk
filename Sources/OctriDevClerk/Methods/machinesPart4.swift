@@ -34,7 +34,7 @@ extension MachinesMethods {
     ///
     /// - Parameters:
     /// - machineId: The ID of the machine to delete
-    public static func deleteMachine(config: ClientConfig, machineId: String, requestOptions: RequestOptions? = nil) async throws -> DeleteMachineResponse {
+    public static func deleteMachine(config: ClientConfig, machineId: String, requestOptions: RequestOptions? = nil) async throws -> MachineDeleted {
         return try (await sdkRequest("DELETE", ["/machines/", sdkEncodePathSegment(sdkWireString(machineId))].joined(), config: config, decoder: .json, operationId: "DeleteMachine", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

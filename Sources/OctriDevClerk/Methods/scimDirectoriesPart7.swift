@@ -12,7 +12,7 @@ extension ScimDirectoriesMethods {
     /// - Parameters:
     /// - scimDirectoryId: The ID of the directory.
     /// - mappingId: The ID of the SCIM group role mapping to delete.
-    public static func deleteScimGroupRoleMapping(config: ClientConfig, scimDirectoryId: String, mappingId: String, requestOptions: RequestOptions? = nil) async throws -> DeleteSCIMGroupRoleMappingResponse {
+    public static func deleteScimGroupRoleMapping(config: ClientConfig, scimDirectoryId: String, mappingId: String, requestOptions: RequestOptions? = nil) async throws -> SCIMGroupRoleMappingDeleted {
         return try (await sdkRequest("DELETE", ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId)), "/group_role_mappings/", sdkEncodePathSegment(sdkWireString(mappingId))].joined(), config: config, decoder: .json, operationId: "DeleteSCIMGroupRoleMapping", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

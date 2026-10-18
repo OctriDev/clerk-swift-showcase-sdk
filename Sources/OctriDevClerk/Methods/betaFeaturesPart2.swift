@@ -23,7 +23,7 @@ extension BetaFeaturesMethods {
     /// - testMode: Toggles test mode for this instance, allowing the use of test
     ///   email addresses and phone numbers. Defaults to true for development
     ///   instances.
-    public static func updateInstanceAuthConfig(config: ClientConfig, restrictedToAllowlist: SdkOptional<Bool>? = nil, fromEmailAddress: SdkOptional<String>? = nil, progressiveSignUp: SdkOptional<Bool>? = nil, testMode: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> UpdateInstanceAuthConfigResponse {
+    public static func updateInstanceAuthConfig(config: ClientConfig, restrictedToAllowlist: SdkOptional<Bool>? = nil, fromEmailAddress: SdkOptional<String>? = nil, progressiveSignUp: SdkOptional<Bool>? = nil, testMode: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> InstanceSettings {
         let requestBody = UpdateInstanceAuthConfigRequestBody(restrictedToAllowlist: restrictedToAllowlist, fromEmailAddress: fromEmailAddress, progressiveSignUp: progressiveSignUp, testMode: testMode)
 
         return try (await sdkRequest("PATCH", "/beta_features/instance_settings", config: config, body: requestBody, decoder: .json, operationId: "UpdateInstanceAuthConfig", options: requestOptions, errors: ["402": ClerkErrors.self, "422": ClerkErrors.self])).data

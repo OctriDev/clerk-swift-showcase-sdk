@@ -4,186 +4,6 @@
 import Foundation
 
 // OrganizationDomains domain models
-/// Verification details for the underlying DNS domain ownership proof (TXT challenge or dashboard override). Null
-/// until ownership has been attempted.
-public struct OrganizationDomainOwnershipVerification: Codable {
-    /// Status of the verification. It can be `unverified`, `verified`, `failed`, or `expired`.
-    public var status: String
-    /// Name of the strategy used to verify the domain
-    public var strategy: String
-    /// How many attempts have been made to verify the domain
-    public var attempts: Int?
-    /// Unix timestamp of when the verification will expire
-    public var expireAt: Int?
-    /// Unix timestamp of when ownership was verified. Only populated on `ownership_verification`; null on
-    /// `affiliation_verification`.
-    public var verifiedAt: Int?
-
-    enum CodingKeys: String, CodingKey {
-        case status
-        case strategy
-        case attempts
-        case expireAt = "expire_at"
-        case verifiedAt = "verified_at"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OrganizationDomainOwnershipVerification {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.status) else {
-            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
-        }
-        guard container.contains(.strategy) else {
-            throw SdkValidationError(field: "strategy", code: "required", message: "Validation failed for 'strategy': value is required")
-        }
-        guard container.contains(.attempts) else {
-            throw SdkValidationError(field: "attempts", code: "required", message: "Validation failed for 'attempts': value is required")
-        }
-        guard container.contains(.expireAt) else {
-            throw SdkValidationError(field: "expire_at", code: "required", message: "Validation failed for 'expire_at': value is required")
-        }
-        guard container.contains(.verifiedAt) else {
-            throw SdkValidationError(field: "verified_at", code: "required", message: "Validation failed for 'verified_at': value is required")
-        }
-        self.status = try container.sdkDecodeRequired(.status)
-        self.strategy = try container.sdkDecodeRequired(.strategy)
-        self.attempts = try container.sdkDecodeNullable(.attempts)
-        self.expireAt = try container.sdkDecodeNullable(.expireAt)
-        self.verifiedAt = try container.sdkDecodeNullable(.verifiedAt)
-    }
-}
-
-extension OrganizationDomainOwnershipVerification {
-    public init(status: String, strategy: String, attempts: Int?, expireAt: Int?, verifiedAt: Int?) {
-        (self.status, self.strategy) = (status, strategy)
-        (self.attempts, self.expireAt) = (attempts, expireAt)
-        self.verifiedAt = verifiedAt
-    }
-}
-
-/// Deprecated alias for `affiliation_verification`. Kept for backward compatibility on the current API version;
-/// will be removed in the next API version. Prefer `affiliation_verification`.
-public struct OrganizationDomainVerificationXc622a7df: Codable {
-    /// Status of the verification. It can be `unverified`, `verified`, `failed`, or `expired`.
-    public var status: String
-    /// Name of the strategy used to verify the domain
-    public var strategy: String
-    /// How many attempts have been made to verify the domain
-    public var attempts: Int?
-    /// Unix timestamp of when the verification will expire
-    public var expireAt: Int?
-    /// Unix timestamp of when ownership was verified. Only populated on `ownership_verification`; null on
-    /// `affiliation_verification`.
-    public var verifiedAt: Int?
-
-    enum CodingKeys: String, CodingKey {
-        case status
-        case strategy
-        case attempts
-        case expireAt = "expire_at"
-        case verifiedAt = "verified_at"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OrganizationDomainVerificationXc622a7df {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.status) else {
-            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
-        }
-        guard container.contains(.strategy) else {
-            throw SdkValidationError(field: "strategy", code: "required", message: "Validation failed for 'strategy': value is required")
-        }
-        guard container.contains(.attempts) else {
-            throw SdkValidationError(field: "attempts", code: "required", message: "Validation failed for 'attempts': value is required")
-        }
-        guard container.contains(.expireAt) else {
-            throw SdkValidationError(field: "expire_at", code: "required", message: "Validation failed for 'expire_at': value is required")
-        }
-        guard container.contains(.verifiedAt) else {
-            throw SdkValidationError(field: "verified_at", code: "required", message: "Validation failed for 'verified_at': value is required")
-        }
-        self.status = try container.sdkDecodeRequired(.status)
-        self.strategy = try container.sdkDecodeRequired(.strategy)
-        self.attempts = try container.sdkDecodeNullable(.attempts)
-        self.expireAt = try container.sdkDecodeNullable(.expireAt)
-        self.verifiedAt = try container.sdkDecodeNullable(.verifiedAt)
-    }
-}
-
-extension OrganizationDomainVerificationXc622a7df {
-    public init(status: String, strategy: String, attempts: Int?, expireAt: Int?, verifiedAt: Int?) {
-        (self.status, self.strategy) = (status, strategy)
-        (self.attempts, self.expireAt) = (attempts, expireAt)
-        self.verifiedAt = verifiedAt
-    }
-}
-
-/// Verification details for the user-facing affiliation between the domain and the organization (e.g.
-/// affiliation_email_code).
-public struct OrganizationDomainAffiliationVerification: Codable {
-    /// Status of the verification. It can be `unverified`, `verified`, `failed`, or `expired`.
-    public var status: String
-    /// Name of the strategy used to verify the domain
-    public var strategy: String
-    /// How many attempts have been made to verify the domain
-    public var attempts: Int?
-    /// Unix timestamp of when the verification will expire
-    public var expireAt: Int?
-    /// Unix timestamp of when ownership was verified. Only populated on `ownership_verification`; null on
-    /// `affiliation_verification`.
-    public var verifiedAt: Int?
-
-    enum CodingKeys: String, CodingKey {
-        case status
-        case strategy
-        case attempts
-        case expireAt = "expire_at"
-        case verifiedAt = "verified_at"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OrganizationDomainAffiliationVerification {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.status) else {
-            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
-        }
-        guard container.contains(.strategy) else {
-            throw SdkValidationError(field: "strategy", code: "required", message: "Validation failed for 'strategy': value is required")
-        }
-        guard container.contains(.attempts) else {
-            throw SdkValidationError(field: "attempts", code: "required", message: "Validation failed for 'attempts': value is required")
-        }
-        guard container.contains(.expireAt) else {
-            throw SdkValidationError(field: "expire_at", code: "required", message: "Validation failed for 'expire_at': value is required")
-        }
-        guard container.contains(.verifiedAt) else {
-            throw SdkValidationError(field: "verified_at", code: "required", message: "Validation failed for 'verified_at': value is required")
-        }
-        self.status = try container.sdkDecodeRequired(.status)
-        self.strategy = try container.sdkDecodeRequired(.strategy)
-        self.attempts = try container.sdkDecodeNullable(.attempts)
-        self.expireAt = try container.sdkDecodeNullable(.expireAt)
-        self.verifiedAt = try container.sdkDecodeNullable(.verifiedAt)
-    }
-}
-
-extension OrganizationDomainAffiliationVerification {
-    public init(status: String, strategy: String, attempts: Int?, expireAt: Int?, verifiedAt: Int?) {
-        (self.status, self.strategy) = (status, strategy)
-        (self.attempts, self.expireAt) = (attempts, expireAt)
-        self.verifiedAt = verifiedAt
-    }
-}
-
 /// Typed representation of the `OrganizationDomains` API schema.
 public struct OrganizationDomains: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -278,61 +98,6 @@ extension OrganizationDomainVerification {
     }
 }
 
-/// Public organization data associated with this domain
-public struct OrganizationDomainPublicOrganizationData: Codable {
-    /// Required `string` value serialized in the `id` wire field.
-    public var id: String
-    /// Required `string` value serialized in the `name` wire field.
-    public var name: String
-    /// Required `string` value serialized in the `slug` wire field.
-    public var slug: String
-    /// Required `boolean` value serialized in the `has_image` wire field.
-    public var hasImage: Bool
-    /// Optional `string` value serialized in the `image_url` wire field.
-    public var imageUrl: String?
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case slug
-        case hasImage = "has_image"
-        case imageUrl = "image_url"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OrganizationDomainPublicOrganizationData {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.slug) else {
-            throw SdkValidationError(field: "slug", code: "required", message: "Validation failed for 'slug': value is required")
-        }
-        guard container.contains(.hasImage) else {
-            throw SdkValidationError(field: "has_image", code: "required", message: "Validation failed for 'has_image': value is required")
-        }
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.slug = try container.sdkDecodeRequired(.slug)
-        self.hasImage = try container.sdkDecodeRequired(.hasImage)
-        self.imageUrl = try container.sdkDecodeIfPresent(.imageUrl)
-    }
-}
-
-extension OrganizationDomainPublicOrganizationData {
-    public init(id: String, name: String, slug: String, hasImage: Bool, imageUrl: String? = nil) {
-        (self.id, self.name) = (id, name)
-        (self.slug, self.hasImage) = (slug, hasImage)
-        self.imageUrl = imageUrl
-    }
-}
-
 
 
 
@@ -354,13 +119,13 @@ public struct OrganizationDomain: Codable {
     public var affiliationEmailAddress: String?
     /// Verification details for the user-facing affiliation between the domain and the organization (e.g.
     /// affiliation_email_code).
-    public var affiliationVerification: [String: JSONValue]?
+    public var affiliationVerification: OrganizationDomainVerification?
     /// Verification details for the underlying DNS domain ownership proof (TXT challenge or dashboard override).
     /// Null until ownership has been attempted.
-    public var ownershipVerification: [String: JSONValue]?
+    public var ownershipVerification: OrganizationDomainVerification?
     /// Deprecated alias for `affiliation_verification`. Kept for backward compatibility on the current API version;
     /// will be removed in the next API version. Prefer `affiliation_verification`.
-    public var verification: [String: JSONValue]?
+    public var verification: OrganizationDomainVerification?
     /// Total number of pending invitations associated with this domain
     public var totalPendingInvitations: Int
     /// Total number of pending suggestions associated with this domain
@@ -370,7 +135,7 @@ public struct OrganizationDomain: Codable {
     /// Unix timestamp of the last update to the domain
     public var updatedAt: Int
     /// Public organization data associated with this domain
-    public var publicOrganizationData: [String: JSONValue]?
+    public var publicOrganizationData: OrganizationInvitationPublicOrganizationData?
 
     enum CodingKeys: String, CodingKey {
         case object
@@ -413,7 +178,7 @@ extension OrganizationDomain {
 }
 
 extension OrganizationDomain {
-    public init(object: OrganizationDomainObject, id: String, organizationId: String, name: String, enrollmentMode: OrganizationDomainEnrollmentMode, affiliationEmailAddress: String?, affiliationVerification: [String: JSONValue]?, ownershipVerification: [String: JSONValue]?, verification: [String: JSONValue]?, totalPendingInvitations: Int, totalPendingSuggestions: Int, createdAt: Int, updatedAt: Int, publicOrganizationData: [String: JSONValue]? = nil) {
+    public init(object: OrganizationDomainObject, id: String, organizationId: String, name: String, enrollmentMode: OrganizationDomainEnrollmentMode, affiliationEmailAddress: String?, affiliationVerification: OrganizationDomainVerification?, ownershipVerification: OrganizationDomainVerification?, verification: OrganizationDomainVerification?, totalPendingInvitations: Int, totalPendingSuggestions: Int, createdAt: Int, updatedAt: Int, publicOrganizationData: OrganizationInvitationPublicOrganizationData? = nil) {
         (self.object, self.id) = (object, id)
         (self.organizationId, self.name) = (organizationId, name)
         (self.enrollmentMode, self.affiliationEmailAddress) = (enrollmentMode, affiliationEmailAddress)

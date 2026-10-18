@@ -32,7 +32,7 @@ extension UsersMethods {
     /// - userId: The ID of the user whose trusted devices are returned
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public static func listUserTrustedDevices(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> ListUserTrustedDevicesResponse {
+    public static func listUserTrustedDevices(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> TrustedDeviceList {
         return try (await sdkRequest("GET", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/trusted_devices"].joined(), config: config, decoder: .json, operationId: "ListUserTrustedDevices", options: requestOptions, errors: ["403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 }

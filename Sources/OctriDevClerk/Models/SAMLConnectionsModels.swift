@@ -4,42 +4,6 @@
 import Foundation
 
 // SAMLConnections domain models
-public indirect enum SAMLConnection {
-    case jsonValue(JSONValue)
-    case jsonValue1(JSONValue)
-}
-
-extension SAMLConnection: Codable {
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for SAMLConnection")
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
-    }
-}
-
-extension SAMLConnection {
-    static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(JSONValue.self) { return .jsonValue(value) }
-        if let value = try? container.decode(JSONValue.self) { return .jsonValue1(value) }
-        return nil
-    }
-}
-
-extension SAMLConnection {
-    func encodeGroup1(to encoder: Encoder) throws -> Bool {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .jsonValue(value): try container.encode(value); return true
-        case let .jsonValue1(value): try container.encode(value); return true
-        }
-    }
-}
-
 /// Required object value serialized in the `idp_certificates[]` wire field.
 public struct SAMLConnectionIdpCertificatesItem: Codable {
     /// The X.509 certificate, base64 DER without PEM armor
@@ -165,6 +129,171 @@ extension SAMLConnectionAttributeMapping {
     public init(userId: String, emailAddress: String, firstName: String, lastName: String) {
         (self.userId, self.emailAddress) = (userId, emailAddress)
         (self.firstName, self.lastName) = (firstName, lastName)
+    }
+}
+
+/// Typed representation of the `SAMLConnection` API schema.
+public struct SAMLConnection: Codable {
+    /// Required enumerated value serialized in the `object` wire field.
+    public var object: SAMLConnectionObject
+    /// Required `string` value serialized in the `id` wire field.
+    public var id: String
+    /// Required `string` value serialized in the `name` wire field.
+    public var name: String
+    /// Required `string` value serialized in the `idp_entity_id` wire field.
+    public var idpEntityId: String?
+    /// Required `string` value serialized in the `idp_sso_url` wire field.
+    public var idpSsoUrl: String?
+    /// Required `string` value serialized in the `idp_certificate` wire field.
+    public var idpCertificate: String?
+    /// Unix timestamp (milliseconds) of the start of the IdP certificate validity window (X.509 NotBefore). Null
+    /// when no certificate is configured.
+    public var idpCertificateIssuedAt: Int?
+    /// Unix timestamp (milliseconds) of the end of the IdP certificate validity window (X.509 NotAfter). Null when
+    /// no certificate is configured.
+    public var idpCertificateExpiresAt: Int?
+    /// Every IdP signing certificate the connection trusts, primary first. A SAML response verifies against any of
+    /// them.
+    public var idpCertificates: [SAMLConnectionIdpCertificatesItem]
+    /// Required `string` value serialized in the `acs_url` wire field.
+    public var acsUrl: String
+    /// Required `string` value serialized in the `sp_entity_id` wire field.
+    public var spEntityId: String
+    /// Required `string` value serialized in the `sp_metadata_url` wire field.
+    public var spMetadataUrl: String
+    /// Required `boolean` value serialized in the `active` wire field.
+    public var active: Bool
+    /// Required `string` value serialized in the `provider` wire field.
+    public var provider: String
+    /// Required `integer` value serialized in the `user_count` wire field.
+    public var userCount: Int
+    /// Required `boolean` value serialized in the `sync_user_attributes` wire field.
+    public var syncUserAttributes: Bool
+    /// Required `boolean` value serialized in the `allow_subdomains` wire field.
+    public var allowSubdomains: Bool
+    /// Required `boolean` value serialized in the `allow_idp_initiated` wire field.
+    public var allowIdpInitiated: Bool
+    /// Required `boolean` value serialized in the `disable_additional_identifications` wire field.
+    public var disableAdditionalIdentifications: Bool
+    /// Required `boolean` value serialized in the `allow_organization_account_linking` wire field.
+    public var allowOrganizationAccountLinking: Bool
+    /// Enable or deactivate ForceAuthn
+    public var forceAuthn: Bool
+    /// Configuration for the login_hint sent to the IdP on SSO sign-in
+    public var loginHint: SAMLConnectionLoginHint
+    /// Unix timestamp of creation.
+    public var createdAt: Int
+    /// Unix timestamp of last update.
+    public var updatedAt: Int
+    /// Optional `string` value serialized in the `domain` wire field.
+    public var domain: String?
+    /// Optional array value serialized in the `domains` wire field.
+    public var domains: [String]?
+    /// Optional `string` value serialized in the `idp_metadata_url` wire field.
+    public var idpMetadataUrl: String?
+    /// Optional `string` value serialized in the `idp_metadata` wire field.
+    public var idpMetadata: String?
+    /// Optional `string` value serialized in the `organization_id` wire field.
+    public var organizationId: String?
+    /// Optional object value serialized in the `attribute_mapping` wire field.
+    public var attributeMapping: SAMLConnectionAttributeMapping?
+    /// Optional `string` value serialized in the `enterprise_connection_id` wire field.
+    public var enterpriseConnectionId: String?
+
+    enum CodingKeys: String, CodingKey {
+        case object
+        case id
+        case name
+        case idpEntityId = "idp_entity_id"
+        case idpSsoUrl = "idp_sso_url"
+        case idpCertificate = "idp_certificate"
+        case idpCertificateIssuedAt = "idp_certificate_issued_at"
+        case idpCertificateExpiresAt = "idp_certificate_expires_at"
+        case idpCertificates = "idp_certificates"
+        case acsUrl = "acs_url"
+        case spEntityId = "sp_entity_id"
+        case spMetadataUrl = "sp_metadata_url"
+        case active
+        case provider
+        case userCount = "user_count"
+        case syncUserAttributes = "sync_user_attributes"
+        case allowSubdomains = "allow_subdomains"
+        case allowIdpInitiated = "allow_idp_initiated"
+        case disableAdditionalIdentifications = "disable_additional_identifications"
+        case allowOrganizationAccountLinking = "allow_organization_account_linking"
+        case forceAuthn = "force_authn"
+        case loginHint = "login_hint"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case domain
+        case domains
+        case idpMetadataUrl = "idp_metadata_url"
+        case idpMetadata = "idp_metadata"
+        case organizationId = "organization_id"
+        case attributeMapping = "attribute_mapping"
+        case enterpriseConnectionId = "enterprise_connection_id"
+    }
+
+    private init(sdkCopy value: Self) { self = value }
+}
+
+extension SAMLConnection {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.idpEntityId = try container.sdkDecodeNullable(.idpEntityId)
+        self.idpSsoUrl = try container.sdkDecodeNullable(.idpSsoUrl)
+        self.idpCertificate = try container.sdkDecodeNullable(.idpCertificate)
+        self.idpCertificateIssuedAt = try container.sdkDecodeNullable(.idpCertificateIssuedAt)
+        self.idpCertificateExpiresAt = try container.sdkDecodeNullable(.idpCertificateExpiresAt)
+        self.idpCertificates = try container.sdkDecodeRequired(.idpCertificates)
+        self.acsUrl = try container.sdkDecodeRequired(.acsUrl)
+        self.spEntityId = try container.sdkDecodeRequired(.spEntityId)
+        self.spMetadataUrl = try container.sdkDecodeRequired(.spMetadataUrl)
+        self.active = try container.sdkDecodeRequired(.active)
+        self.provider = try container.sdkDecodeRequired(.provider)
+        self.userCount = try container.sdkDecodeRequired(.userCount)
+        self.syncUserAttributes = try container.sdkDecodeRequired(.syncUserAttributes)
+        self.allowSubdomains = try container.sdkDecodeRequired(.allowSubdomains)
+        self.allowIdpInitiated = try container.sdkDecodeRequired(.allowIdpInitiated)
+        self.disableAdditionalIdentifications = try container.sdkDecodeRequired(.disableAdditionalIdentifications)
+        self.allowOrganizationAccountLinking = try container.sdkDecodeRequired(.allowOrganizationAccountLinking)
+        self.forceAuthn = try container.sdkDecodeRequired(.forceAuthn)
+        self.loginHint = try container.sdkDecodeRequired(.loginHint)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.domain = try container.sdkDecodeIfPresent(.domain)
+        self.domains = try container.sdkDecodeIfPresent(.domains)
+        self.idpMetadataUrl = try container.sdkDecodeIfPresent(.idpMetadataUrl)
+        self.idpMetadata = try container.sdkDecodeIfPresent(.idpMetadata)
+        self.organizationId = try container.sdkDecodeIfPresent(.organizationId)
+        self.attributeMapping = try container.sdkDecodeIfPresent(.attributeMapping)
+        self.enterpriseConnectionId = try container.sdkDecodeIfPresent(.enterpriseConnectionId)
+    }
+}
+
+extension SAMLConnection {
+    public init(object: SAMLConnectionObject, id: String, name: String, idpEntityId: String?, idpSsoUrl: String?, idpCertificate: String?, idpCertificateIssuedAt: Int?, idpCertificateExpiresAt: Int?, idpCertificates: [SAMLConnectionIdpCertificatesItem], acsUrl: String, spEntityId: String, spMetadataUrl: String, active: Bool, provider: String, userCount: Int, syncUserAttributes: Bool, allowSubdomains: Bool, allowIdpInitiated: Bool, disableAdditionalIdentifications: Bool, allowOrganizationAccountLinking: Bool, forceAuthn: Bool, loginHint: SAMLConnectionLoginHint, createdAt: Int, updatedAt: Int, domain: String? = nil, domains: [String]? = nil, idpMetadataUrl: String? = nil, idpMetadata: String? = nil, organizationId: String? = nil, attributeMapping: SAMLConnectionAttributeMapping? = nil, enterpriseConnectionId: String? = nil) {
+        (self.object, self.id) = (object, id)
+        (self.name, self.idpEntityId) = (name, idpEntityId)
+        (self.idpSsoUrl, self.idpCertificate) = (idpSsoUrl, idpCertificate)
+        self.idpCertificateIssuedAt = idpCertificateIssuedAt
+        (self.idpCertificateExpiresAt, self.idpCertificates) = (idpCertificateExpiresAt, idpCertificates)
+        (self.acsUrl, self.spEntityId) = (acsUrl, spEntityId)
+        (self.spMetadataUrl, self.active) = (spMetadataUrl, active)
+        (self.provider, self.userCount) = (provider, userCount)
+        (self.syncUserAttributes, self.allowSubdomains) = (syncUserAttributes, allowSubdomains)
+        self.allowIdpInitiated = allowIdpInitiated
+        self.disableAdditionalIdentifications = disableAdditionalIdentifications
+        self.allowOrganizationAccountLinking = allowOrganizationAccountLinking
+        (self.forceAuthn, self.loginHint) = (forceAuthn, loginHint)
+        (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
+        (self.domain, self.domains) = (domain, domains)
+        (self.idpMetadataUrl, self.idpMetadata) = (idpMetadataUrl, idpMetadata)
+        (self.organizationId, self.attributeMapping) = (organizationId, attributeMapping)
+        self.enterpriseConnectionId = enterpriseConnectionId
     }
 }
 

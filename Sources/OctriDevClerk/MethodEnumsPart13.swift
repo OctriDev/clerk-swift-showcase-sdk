@@ -6,213 +6,204 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-struct UpdateOAuthApplicationRequestBody: Encodable {
+struct UpdateEnterpriseConnectionRequestBody: Encodable {
     var name: SdkOptional<String>?
-    var redirectUris: SdkOptional<[String]>?
-    var callbackUrl: SdkOptional<String>?
-    var scopes: SdkOptional<String>?
-    var consentScreenEnabled: SdkOptional<Bool>?
-    var pkceRequired: SdkOptional<Bool>?
-    var audienceUri: SdkOptional<String>?
-    var tokenExchangeEnabled: Bool?
-    var adoptAudienceResource: Bool?
-    var deviceAuthorizationGrantEnabled: SdkOptional<Bool>?
-    var `public`: SdkOptional<Bool>?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(self.redirectUris, forKey: SdkCodingKey("redirect_uris"))
-        try keyedContainer.encodeIfPresent(self.callbackUrl, forKey: SdkCodingKey("callback_url"))
-        try keyedContainer.encodeIfPresent(self.scopes, forKey: SdkCodingKey("scopes"))
-        try keyedContainer.encodeIfPresent(self.consentScreenEnabled, forKey: SdkCodingKey("consent_screen_enabled"))
-        try keyedContainer.encodeIfPresent(self.pkceRequired, forKey: SdkCodingKey("pkce_required"))
-        try keyedContainer.encodeIfPresent(self.audienceUri, forKey: SdkCodingKey("audience_uri"))
-        try keyedContainer.encodeIfPresent(self.tokenExchangeEnabled, forKey: SdkCodingKey("token_exchange_enabled"))
-        try keyedContainer.encodeIfPresent(self.adoptAudienceResource, forKey: SdkCodingKey("adopt_audience_resource"))
-        try keyedContainer.encodeIfPresent(self.deviceAuthorizationGrantEnabled, forKey: SdkCodingKey("device_authorization_grant_enabled"))
-        try keyedContainer.encodeIfPresent(self.`public`, forKey: SdkCodingKey("public"))
-    }
-
-    init(options: OAuthApplicationsMethods.UpdateOAuthApplicationOptions) {
-        self.name = options.name
-        self.redirectUris = options.redirectUris
-        self.callbackUrl = options.callbackUrl
-        self.scopes = options.scopes
-        self.consentScreenEnabled = options.consentScreenEnabled
-        self.pkceRequired = options.pkceRequired
-        self.audienceUri = options.audienceUri
-        self.tokenExchangeEnabled = options.tokenExchangeEnabled
-        self.adoptAudienceResource = options.adoptAudienceResource
-        self.deviceAuthorizationGrantEnabled = options.deviceAuthorizationGrantEnabled
-        self.`public` = options.`public`
-    }
-}
-
-struct RevokeOAuthApplicationTokenRequestBody: Encodable {
-    let token: String
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.token, forKey: SdkCodingKey("token"))
-    }
-}
-
-struct CreateSamlConnectionRequestBody: Encodable {
-    let name: String
-    let provider: CreateSAMLConnectionRequestBodyProvider
-    var domain: String?
-    var domains: [String]?
-    var idpEntityId: SdkOptional<String>?
-    var idpSsoUrl: SdkOptional<String>?
-    var idpCertificate: SdkOptional<String>?
-    var idpCertificates: [String]?
-    var idpMetadataUrl: SdkOptional<String>?
-    var idpMetadata: SdkOptional<String>?
-    var organizationId: SdkOptional<String>?
-    var attributeMapping: SdkOptional<CreateSAMLConnectionRequestBodyAttributeMapping>?
-    var forceAuthn: Bool?
-    var loginHint: SdkOptional<CreateSAMLConnectionRequestBodyLoginHint>?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encode(self.provider, forKey: SdkCodingKey("provider"))
-        try keyedContainer.encodeIfPresent(self.domain, forKey: SdkCodingKey("domain"))
-        try keyedContainer.encodeIfPresent(self.domains, forKey: SdkCodingKey("domains"))
-        try keyedContainer.encodeIfPresent(self.idpEntityId, forKey: SdkCodingKey("idp_entity_id"))
-        try keyedContainer.encodeIfPresent(self.idpSsoUrl, forKey: SdkCodingKey("idp_sso_url"))
-        try keyedContainer.encodeIfPresent(self.idpCertificate, forKey: SdkCodingKey("idp_certificate"))
-        try keyedContainer.encodeIfPresent(self.idpCertificates, forKey: SdkCodingKey("idp_certificates"))
-        try keyedContainer.encodeIfPresent(self.idpMetadataUrl, forKey: SdkCodingKey("idp_metadata_url"))
-        try keyedContainer.encodeIfPresent(self.idpMetadata, forKey: SdkCodingKey("idp_metadata"))
-        try keyedContainer.encodeIfPresent(self.organizationId, forKey: SdkCodingKey("organization_id"))
-        try keyedContainer.encodeIfPresent(self.attributeMapping, forKey: SdkCodingKey("attribute_mapping"))
-        try keyedContainer.encodeIfPresent(self.forceAuthn, forKey: SdkCodingKey("force_authn"))
-        try keyedContainer.encodeIfPresent(self.loginHint, forKey: SdkCodingKey("login_hint"))
-    }
-
-    init(options: SamlConnectionsMethods.CreateSAMLConnectionOptions) {
-        self.name = options.name
-        self.provider = options.provider
-        self.domain = options.domain
-        self.domains = options.domains
-        self.idpEntityId = options.idpEntityId
-        self.idpSsoUrl = options.idpSsoUrl
-        self.idpCertificate = options.idpCertificate
-        self.idpCertificates = options.idpCertificates
-        self.idpMetadataUrl = options.idpMetadataUrl
-        self.idpMetadata = options.idpMetadata
-        self.organizationId = options.organizationId
-        self.attributeMapping = options.attributeMapping
-        self.forceAuthn = options.forceAuthn
-        self.loginHint = options.loginHint
-    }
-}
-
-struct UpdateSamlConnectionRequestBody: Encodable {
-    var name: SdkOptional<String>?
-    var domain: SdkOptional<String>?
     var domains: SdkOptional<[String]>?
-    var idpEntityId: SdkOptional<String>?
-    var idpSsoUrl: SdkOptional<String>?
-    var idpCertificate: SdkOptional<String>?
-    var idpCertificates: [String]?
-    var idpMetadataUrl: SdkOptional<String>?
-    var idpMetadata: SdkOptional<String>?
-    var organizationId: SdkOptional<String>?
-    var attributeMapping: SdkOptional<UpdateSAMLConnectionRequestBodyAttributeMapping>?
     var active: SdkOptional<Bool>?
     var syncUserAttributes: SdkOptional<Bool>?
-    var allowSubdomains: SdkOptional<Bool>?
-    var allowIdpInitiated: SdkOptional<Bool>?
     var disableAdditionalIdentifications: SdkOptional<Bool>?
     var allowOrganizationAccountLinking: SdkOptional<Bool>?
-    var forceAuthn: Bool?
-    var loginHint: SdkOptional<UpdateSAMLConnectionRequestBodyLoginHint>?
-    var consentVerifiedDomainsDeletion: SdkOptional<Bool>?
+    var organizationId: SdkOptional<String>?
+    var saml: SdkOptional<UpdateEnterpriseConnectionRequestBodySaml>?
+    var oidc: SdkOptional<UpdateEnterpriseConnectionRequestBodyOidc>?
+    var customAttributes: SdkOptional<[UpdateEnterpriseConnectionRequestBodyCustomAttributesItem]>?
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
         try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(self.domain, forKey: SdkCodingKey("domain"))
         try keyedContainer.encodeIfPresent(self.domains, forKey: SdkCodingKey("domains"))
-        try keyedContainer.encodeIfPresent(self.idpEntityId, forKey: SdkCodingKey("idp_entity_id"))
-        try keyedContainer.encodeIfPresent(self.idpSsoUrl, forKey: SdkCodingKey("idp_sso_url"))
-        try keyedContainer.encodeIfPresent(self.idpCertificate, forKey: SdkCodingKey("idp_certificate"))
-        try keyedContainer.encodeIfPresent(self.idpCertificates, forKey: SdkCodingKey("idp_certificates"))
-        try keyedContainer.encodeIfPresent(self.idpMetadataUrl, forKey: SdkCodingKey("idp_metadata_url"))
-        try keyedContainer.encodeIfPresent(self.idpMetadata, forKey: SdkCodingKey("idp_metadata"))
-        try keyedContainer.encodeIfPresent(self.organizationId, forKey: SdkCodingKey("organization_id"))
-        try keyedContainer.encodeIfPresent(self.attributeMapping, forKey: SdkCodingKey("attribute_mapping"))
         try keyedContainer.encodeIfPresent(self.active, forKey: SdkCodingKey("active"))
         try keyedContainer.encodeIfPresent(self.syncUserAttributes, forKey: SdkCodingKey("sync_user_attributes"))
-        try keyedContainer.encodeIfPresent(self.allowSubdomains, forKey: SdkCodingKey("allow_subdomains"))
-        try keyedContainer.encodeIfPresent(self.allowIdpInitiated, forKey: SdkCodingKey("allow_idp_initiated"))
         try keyedContainer.encodeIfPresent(self.disableAdditionalIdentifications, forKey: SdkCodingKey("disable_additional_identifications"))
         try keyedContainer.encodeIfPresent(self.allowOrganizationAccountLinking, forKey: SdkCodingKey("allow_organization_account_linking"))
-        try keyedContainer.encodeIfPresent(self.forceAuthn, forKey: SdkCodingKey("force_authn"))
-        try keyedContainer.encodeIfPresent(self.loginHint, forKey: SdkCodingKey("login_hint"))
-        try keyedContainer.encodeIfPresent(self.consentVerifiedDomainsDeletion, forKey: SdkCodingKey("consent_verified_domains_deletion"))
-    }
-
-    init(options: SamlConnectionsMethods.UpdateSAMLConnectionOptions) {
-        self.name = options.name
-        self.domain = options.domain
-        self.domains = options.domains
-        self.idpEntityId = options.idpEntityId
-        self.idpSsoUrl = options.idpSsoUrl
-        self.idpCertificate = options.idpCertificate
-        self.idpCertificates = options.idpCertificates
-        self.idpMetadataUrl = options.idpMetadataUrl
-        self.idpMetadata = options.idpMetadata
-        self.organizationId = options.organizationId
-        self.attributeMapping = options.attributeMapping
-        self.active = options.active
-        self.syncUserAttributes = options.syncUserAttributes
-        self.allowSubdomains = options.allowSubdomains
-        self.allowIdpInitiated = options.allowIdpInitiated
-        self.disableAdditionalIdentifications = options.disableAdditionalIdentifications
-        self.allowOrganizationAccountLinking = options.allowOrganizationAccountLinking
-        self.forceAuthn = options.forceAuthn
-        self.loginHint = options.loginHint
-        self.consentVerifiedDomainsDeletion = options.consentVerifiedDomainsDeletion
-    }
-}
-
-struct CreateEnterpriseConnectionRequestBody: Encodable {
-    let name: String
-    let provider: CreateEnterpriseConnectionRequestBodyProvider
-    let domains: [String]
-    var organizationId: SdkOptional<String>?
-    var allowOrganizationAccountLinking: SdkOptional<Bool>?
-    var active: SdkOptional<Bool>?
-    var saml: SdkOptional<CreateEnterpriseConnectionRequestBodySaml>?
-    var oidc: SdkOptional<CreateEnterpriseConnectionRequestBodyOidc>?
-    var customAttributes: [CreateEnterpriseConnectionRequestBodyCustomAttributesItem]?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encode(self.provider, forKey: SdkCodingKey("provider"))
-        try keyedContainer.encode(self.domains, forKey: SdkCodingKey("domains"))
         try keyedContainer.encodeIfPresent(self.organizationId, forKey: SdkCodingKey("organization_id"))
-        try keyedContainer.encodeIfPresent(self.allowOrganizationAccountLinking, forKey: SdkCodingKey("allow_organization_account_linking"))
-        try keyedContainer.encodeIfPresent(self.active, forKey: SdkCodingKey("active"))
         try keyedContainer.encodeIfPresent(self.saml, forKey: SdkCodingKey("saml"))
         try keyedContainer.encodeIfPresent(self.oidc, forKey: SdkCodingKey("oidc"))
         try keyedContainer.encodeIfPresent(self.customAttributes, forKey: SdkCodingKey("custom_attributes"))
     }
 
-    init(options: EnterpriseConnectionsMethods.CreateEnterpriseConnectionOptions) {
+    init(options: EnterpriseConnectionsMethods.UpdateEnterpriseConnectionOptions) {
         self.name = options.name
-        self.provider = options.provider
         self.domains = options.domains
-        self.organizationId = options.organizationId
-        self.allowOrganizationAccountLinking = options.allowOrganizationAccountLinking
         self.active = options.active
+        self.syncUserAttributes = options.syncUserAttributes
+        self.disableAdditionalIdentifications = options.disableAdditionalIdentifications
+        self.allowOrganizationAccountLinking = options.allowOrganizationAccountLinking
+        self.organizationId = options.organizationId
         self.saml = options.saml
         self.oidc = options.oidc
         self.customAttributes = options.customAttributes
+    }
+}
+
+struct CreateSsoBypassAllowlistUserRequestBody: Encodable {
+    let userId: String
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.userId, forKey: SdkCodingKey("user_id"))
+    }
+}
+
+struct CreateAgentTaskRequestBody: Encodable {
+    let onBehalfOf: CreateAgentTaskRequestBodyOnBehalfOf
+    let permissions: CreateAgentTaskRequestBodyPermissions
+    let agentName: String
+    let taskDescription: String
+    let redirectUrl: String
+    var sessionMaxDurationInSeconds: Int?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.onBehalfOf, forKey: SdkCodingKey("on_behalf_of"))
+        try keyedContainer.encode(self.permissions, forKey: SdkCodingKey("permissions"))
+        try keyedContainer.encode(self.agentName, forKey: SdkCodingKey("agent_name"))
+        try keyedContainer.encode(self.taskDescription, forKey: SdkCodingKey("task_description"))
+        try keyedContainer.encode(self.redirectUrl, forKey: SdkCodingKey("redirect_url"))
+        try keyedContainer.encodeIfPresent(self.sessionMaxDurationInSeconds, forKey: SdkCodingKey("session_max_duration_in_seconds"))
+    }
+}
+
+struct CreateWaitlistEntryRequestBody: Encodable {
+    let emailAddress: String
+    var notify: SdkOptional<Bool>?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.emailAddress, forKey: SdkCodingKey("email_address"))
+        try keyedContainer.encodeIfPresent(self.notify, forKey: SdkCodingKey("notify"))
+    }
+}
+
+struct InviteWaitlistEntryRequestBody: Encodable {
+    var ignoreExisting: SdkOptional<Bool>?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encodeIfPresent(self.ignoreExisting, forKey: SdkCodingKey("ignore_existing"))
+    }
+}
+
+struct CreateBillingPriceRequestBody: Encodable {
+    let planId: String
+    let amount: Int?
+    var currency: String?
+    var annualMonthlyAmount: SdkOptional<Int>?
+    var description: String?
+    var supportedBillingPeriods: CreateBillingPriceRequestSupportedBillingPeriods?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.planId, forKey: SdkCodingKey("plan_id"))
+        try keyedContainer.encode(self.amount, forKey: SdkCodingKey("amount"))
+        try keyedContainer.encodeIfPresent(self.currency, forKey: SdkCodingKey("currency"))
+        try keyedContainer.encodeIfPresent(self.annualMonthlyAmount, forKey: SdkCodingKey("annual_monthly_amount"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(self.supportedBillingPeriods, forKey: SdkCodingKey("supported_billing_periods"))
+    }
+}
+
+struct ExtendBillingSubscriptionItemFreeTrialRequestBody: Encodable {
+    let extendTo: Date
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.extendTo, forKey: SdkCodingKey("extend_to"))
+    }
+}
+
+struct CreateBillingPriceTransitionRequestBody: Encodable {
+    let fromPriceId: String
+    let toPriceId: String
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.fromPriceId, forKey: SdkCodingKey("from_price_id"))
+        try keyedContainer.encode(self.toPriceId, forKey: SdkCodingKey("to_price_id"))
+    }
+}
+
+struct ApplyBillingSubscriptionItemDiscountRequestBody: Encodable {
+    let discountId: String
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.discountId, forKey: SdkCodingKey("discount_id"))
+    }
+}
+
+struct CreateOrganizationPermissionRequestBody: Encodable {
+    let name: String
+    let key: String
+    var description: String?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encode(self.key, forKey: SdkCodingKey("key"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
+    }
+}
+
+struct UpdateOrganizationPermissionRequestBody: Encodable {
+    var name: String?
+    var key: String?
+    var description: String?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.key, forKey: SdkCodingKey("key"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
+    }
+}
+
+struct CreateRoleSetRequestBody: Encodable {
+    let name: String
+    let defaultRoleKey: String
+    let creatorRoleKey: String
+    let roles: [String]
+    var key: String?
+    var description: SdkOptional<String>?
+    var type: CreateRoleSetRequestBodyType?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encode(self.defaultRoleKey, forKey: SdkCodingKey("default_role_key"))
+        try keyedContainer.encode(self.creatorRoleKey, forKey: SdkCodingKey("creator_role_key"))
+        try keyedContainer.encode(self.roles, forKey: SdkCodingKey("roles"))
+        try keyedContainer.encodeIfPresent(self.key, forKey: SdkCodingKey("key"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(self.type, forKey: SdkCodingKey("type"))
+    }
+}
+
+struct UpdateRoleSetRequestBody: Encodable {
+    var name: SdkOptional<String>?
+    var key: SdkOptional<String>?
+    var description: SdkOptional<String>?
+    var type: SdkOptional<UpdateRoleSetRequestBodyType>?
+    var defaultRoleKey: SdkOptional<String>?
+    var creatorRoleKey: SdkOptional<String>?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.key, forKey: SdkCodingKey("key"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(self.type, forKey: SdkCodingKey("type"))
+        try keyedContainer.encodeIfPresent(self.defaultRoleKey, forKey: SdkCodingKey("default_role_key"))
+        try keyedContainer.encodeIfPresent(self.creatorRoleKey, forKey: SdkCodingKey("creator_role_key"))
     }
 }

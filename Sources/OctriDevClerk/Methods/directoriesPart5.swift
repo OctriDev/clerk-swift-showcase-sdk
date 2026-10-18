@@ -35,7 +35,7 @@ extension DirectoriesMethods {
     /// - directoryId: The ID of the directory.
     /// - mappings: The desired set of mappings. Array order sets precedence
     ///   (1-indexed). An empty array clears all mappings.
-    public static func replaceDirectoryGroupRoleMappings(config: ClientConfig, directoryId: String, mappings: [ReplaceDirectoryGroupRoleMappingsRequestBodyMappingsItem], requestOptions: RequestOptions? = nil) async throws -> ListDirectoryGroupRoleMappingsResponse {
+    public static func replaceDirectoryGroupRoleMappings(config: ClientConfig, directoryId: String, mappings: [ReplaceDirectoryGroupRoleMappingsRequestBodyMappingsItem], requestOptions: RequestOptions? = nil) async throws -> DirectoryGroupRoleMappingList {
         let requestBody = ReplaceDirectoryGroupRoleMappingsRequestBody(mappings: mappings)
 
         return try (await sdkRequest("PUT", ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId)), "/group_role_mappings"].joined(), config: config, body: requestBody, decoder: .json, operationId: "ReplaceDirectoryGroupRoleMappings", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data

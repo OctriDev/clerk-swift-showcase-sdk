@@ -10,7 +10,7 @@ public class DirectoriesNamespace {
     }
 
 /// Returns a list of all directories for the instance.
-    public func list(limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> ListDirectoriesResponse {
+    public func list(limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> DirectoryList {
         return try await DirectoriesMethods.listDirectories(config: config, limit: limit, offset: offset, requestOptions: requestOptions)
     }
 
@@ -46,7 +46,7 @@ public class DirectoriesNamespace {
     }
 
 /// Returns the list of directory group to organization role mappings for a directory, ordered by precedence.
-    public func listGroupRoleMappings(directoryId: String, requestOptions: RequestOptions? = nil) async throws -> ListDirectoryGroupRoleMappingsResponse {
+    public func listGroupRoleMappings(directoryId: String, requestOptions: RequestOptions? = nil) async throws -> DirectoryGroupRoleMappingList {
         return try await DirectoriesMethods.listDirectoryGroupRoleMappings(config: config, directoryId: directoryId, requestOptions: requestOptions)
     }
 
@@ -58,12 +58,12 @@ public class DirectoriesNamespace {
 
 extension DirectoriesNamespace {
 /// Replaces the entire set of directory group role mappings for a directory. The position of each item in the `mappings` array determines its precedence (the first item gets precedence 1). Passing an empty array removes all mappings. Mappings can be replaced while group role mapping is disabled on the directory, but they only take effect once it is enabled.
-    public func replaceGroupRoleMappings(directoryId: String, mappings: [ReplaceDirectoryGroupRoleMappingsRequestBodyMappingsItem], requestOptions: RequestOptions? = nil) async throws -> ListDirectoryGroupRoleMappingsResponse {
+    public func replaceGroupRoleMappings(directoryId: String, mappings: [ReplaceDirectoryGroupRoleMappingsRequestBodyMappingsItem], requestOptions: RequestOptions? = nil) async throws -> DirectoryGroupRoleMappingList {
         return try await DirectoriesMethods.replaceDirectoryGroupRoleMappings(config: config, directoryId: directoryId, mappings: mappings, requestOptions: requestOptions)
     }
 
 /// Deletes a single directory group role mapping. Mappings can be deleted while group role mapping is disabled on the directory, but the change only takes effect once it is enabled.
-    public func deleteGroupRoleMapping(directoryId: String, mappingId: String, requestOptions: RequestOptions? = nil) async throws -> DeleteDirectoryGroupRoleMappingResponse {
+    public func deleteGroupRoleMapping(directoryId: String, mappingId: String, requestOptions: RequestOptions? = nil) async throws -> DirectoryGroupRoleMappingDeleted {
         return try await DirectoriesMethods.deleteDirectoryGroupRoleMapping(config: config, directoryId: directoryId, mappingId: mappingId, requestOptions: requestOptions)
     }
 }

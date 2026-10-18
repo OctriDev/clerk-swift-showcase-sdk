@@ -19,7 +19,7 @@ extension ScimDirectoriesMethods {
     ///
     /// - Parameters:
     /// - scimDirectoryId: The ID of the directory.
-    public static func listScimGroupRoleMappings(config: ClientConfig, scimDirectoryId: String, requestOptions: RequestOptions? = nil) async throws -> ListSCIMGroupRoleMappingsResponse {
+    public static func listScimGroupRoleMappings(config: ClientConfig, scimDirectoryId: String, requestOptions: RequestOptions? = nil) async throws -> SCIMGroupRoleMappingList {
         return try (await sdkRequest("GET", ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId)), "/group_role_mappings"].joined(), config: config, decoder: .json, operationId: "ListSCIMGroupRoleMappings", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

@@ -29,7 +29,7 @@ extension UsersNamespace {
 /// Returns the active trusted devices enrolled by the user.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public func listTrustedDevices(userId: String, requestOptions: RequestOptions? = nil) async throws -> ListUserTrustedDevicesResponse {
+    public func listTrustedDevices(userId: String, requestOptions: RequestOptions? = nil) async throws -> TrustedDeviceList {
         return try await UsersMethods.listUserTrustedDevices(config: config, userId: userId, requestOptions: requestOptions)
     }
 
@@ -41,7 +41,7 @@ extension UsersNamespace {
     }
 
 /// Returns the active biometric credentials enrolled by the user.
-    public func listBiometricCredentials(userId: String, requestOptions: RequestOptions? = nil) async throws -> ListUserBiometricCredentialsResponse {
+    public func listBiometricCredentials(userId: String, requestOptions: RequestOptions? = nil) async throws -> BiometricCredentialList {
         return try await UsersMethods.listUserBiometricCredentials(config: config, userId: userId, requestOptions: requestOptions)
     }
 
@@ -113,7 +113,7 @@ public class InvitationsNamespace {
     }
 
 /// Revokes the given invitation. Revoking an invitation will prevent the user from using the invitation link that was sent to them. However, it doesn't prevent the user from signing up if they follow the sign up flow. Only active (i.e. non-revoked) invitations can be revoked.
-    public func revoke(invitationId: String, requestOptions: RequestOptions? = nil) async throws -> RevokeInvitationResponse {
+    public func revoke(invitationId: String, requestOptions: RequestOptions? = nil) async throws -> InvitationRevoked {
         return try await InvitationsMethods.revokeInvitation(config: config, invitationId: invitationId, requestOptions: requestOptions)
     }
 }

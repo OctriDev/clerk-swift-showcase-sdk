@@ -4,60 +4,10 @@
 import Foundation
 
 // SharedBilling domain models
-/// Proration details from passed subscription time
-public struct BillingDiscountsResponseProration: Codable {
-    /// Credit amount with formatting
-    public var amount: CommerceMoneyResponse
-    /// Number of days that have passed in the billing cycle
-    public var cycleDaysPassed: Int
-    /// Total number of days in the billing cycle
-    public var cycleDaysTotal: Int
-    /// Percentage of the billing cycle that has passed
-    public var cyclePassedPercent: Double
-
-    enum CodingKeys: String, CodingKey {
-        case amount
-        case cycleDaysPassed = "cycle_days_passed"
-        case cycleDaysTotal = "cycle_days_total"
-        case cyclePassedPercent = "cycle_passed_percent"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BillingDiscountsResponseProration {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        guard container.contains(.cycleDaysPassed) else {
-            throw SdkValidationError(field: "cycle_days_passed", code: "required", message: "Validation failed for 'cycle_days_passed': value is required")
-        }
-        guard container.contains(.cycleDaysTotal) else {
-            throw SdkValidationError(field: "cycle_days_total", code: "required", message: "Validation failed for 'cycle_days_total': value is required")
-        }
-        guard container.contains(.cyclePassedPercent) else {
-            throw SdkValidationError(field: "cycle_passed_percent", code: "required", message: "Validation failed for 'cycle_passed_percent': value is required")
-        }
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.cycleDaysPassed = try container.sdkDecodeRequired(.cycleDaysPassed)
-        self.cycleDaysTotal = try container.sdkDecodeRequired(.cycleDaysTotal)
-        self.cyclePassedPercent = try container.sdkDecodeRequired(.cyclePassedPercent)
-    }
-}
-
-extension BillingDiscountsResponseProration {
-    public init(amount: CommerceMoneyResponse, cycleDaysPassed: Int, cycleDaysTotal: Int, cyclePassedPercent: Double) {
-        (self.amount, self.cycleDaysPassed) = (amount, cycleDaysPassed)
-        (self.cycleDaysTotal, self.cyclePassedPercent) = (cycleDaysTotal, cyclePassedPercent)
-    }
-}
-
 /// Typed representation of the `BillingDiscountsResponse` API schema.
 public struct BillingDiscountsResponse: Codable {
     /// Proration details from passed subscription time
-    public var proration: [String: JSONValue]?
+    public var proration: BillingProrationDiscountDetail?
     /// Total discounts applied
     public var total: CommerceMoneyResponse
 
@@ -84,7 +34,7 @@ extension BillingDiscountsResponse {
 }
 
 extension BillingDiscountsResponse {
-    public init(proration: [String: JSONValue]?, total: CommerceMoneyResponse) {
+    public init(proration: BillingProrationDiscountDetail?, total: CommerceMoneyResponse) {
         (self.proration, self.total) = (proration, total)
     }
 }

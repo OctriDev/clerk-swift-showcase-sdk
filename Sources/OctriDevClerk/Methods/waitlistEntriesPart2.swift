@@ -19,7 +19,7 @@ extension WaitlistEntriesMethods {
     /// - orderBy: Specify the order of results. Supported values are: -
     ///   `created_at` - `email_address` - `invited_at` Use `+` for ascending or `-`
     ///   for descending order. Defaults to `-created_at`.
-    public static func listWaitlistEntries(config: ClientConfig, limit: Int? = nil, offset: Int? = nil, query: String? = nil, status: ListWaitlistEntriesParameter? = nil, orderBy: String? = nil, requestOptions: RequestOptions? = nil) async throws -> ListWaitlistEntriesResponse {
+    public static func listWaitlistEntries(config: ClientConfig, limit: Int? = nil, offset: Int? = nil, query: String? = nil, status: ListWaitlistEntriesParameter? = nil, orderBy: String? = nil, requestOptions: RequestOptions? = nil) async throws -> WaitlistEntries {
         if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }

@@ -6,170 +6,211 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-struct ReplaceUserEmailAddressRequestBody: Encodable {
-    let emailAddress: String
-    var identificationStatus: ReplaceUserEmailAddressRequestBodyIdentificationStatus?
-    var notifyPrimaryEmailAddressChanged: SdkOptional<Bool>?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.emailAddress, forKey: SdkCodingKey("email_address"))
-        try keyedContainer.encodeIfPresent(self.identificationStatus, forKey: SdkCodingKey("identification_status"))
-        try keyedContainer.encodeIfPresent(self.notifyPrimaryEmailAddressChanged, forKey: SdkCodingKey("notify_primary_email_address_changed"))
-    }
-}
-
-struct CreatePhoneNumberRequestBody: Encodable {
-    let userId: String
-    let phoneNumber: String
-    var verified: SdkOptional<Bool>?
-    var primary: SdkOptional<Bool>?
-    var reservedForSecondFactor: SdkOptional<Bool>?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.userId, forKey: SdkCodingKey("user_id"))
-        try keyedContainer.encode(self.phoneNumber, forKey: SdkCodingKey("phone_number"))
-        try keyedContainer.encodeIfPresent(self.verified, forKey: SdkCodingKey("verified"))
-        try keyedContainer.encodeIfPresent(self.primary, forKey: SdkCodingKey("primary"))
-        try keyedContainer.encodeIfPresent(self.reservedForSecondFactor, forKey: SdkCodingKey("reserved_for_second_factor"))
-    }
-}
-
-struct UpdatePhoneNumberRequestBody: Encodable {
-    var verified: SdkOptional<Bool>?
-    var primary: SdkOptional<Bool>?
-    var reservedForSecondFactor: SdkOptional<Bool>?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.verified, forKey: SdkCodingKey("verified"))
-        try keyedContainer.encodeIfPresent(self.primary, forKey: SdkCodingKey("primary"))
-        try keyedContainer.encodeIfPresent(self.reservedForSecondFactor, forKey: SdkCodingKey("reserved_for_second_factor"))
-    }
-}
-
-struct AttemptPhoneNumberVerificationRequestBody: Encodable {
-    let verificationId: String
-    let code: String
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.verificationId, forKey: SdkCodingKey("verification_id"))
-        try keyedContainer.encode(self.code, forKey: SdkCodingKey("code"))
-    }
-}
-
-struct ReplaceUserPhoneNumberRequestBody: Encodable {
-    let phoneNumber: String
-    var identificationStatus: ReplaceUserPhoneNumberRequestBodyIdentificationStatus?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.phoneNumber, forKey: SdkCodingKey("phone_number"))
-        try keyedContainer.encodeIfPresent(self.identificationStatus, forKey: SdkCodingKey("identification_status"))
-    }
-}
-
-struct CreateSessionRequestBody: Encodable {
-    let userId: String
-    var activeOrganizationId: String?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.userId, forKey: SdkCodingKey("user_id"))
-        try keyedContainer.encodeIfPresent(self.activeOrganizationId, forKey: SdkCodingKey("active_organization_id"))
-    }
-}
-
-struct RefreshSessionRequestBody: Encodable {
-    let expiredToken: String
-    let refreshToken: String
-    let requestOrigin: String
-    var requestHeaders: SdkOptional<[String: JSONValue]>?
-    var format: SdkOptional<RefreshSessionRequestBodyFormat>?
-    var requestOriginatingIp: SdkOptional<String>?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.expiredToken, forKey: SdkCodingKey("expired_token"))
-        try keyedContainer.encode(self.refreshToken, forKey: SdkCodingKey("refresh_token"))
-        try keyedContainer.encode(self.requestOrigin, forKey: SdkCodingKey("request_origin"))
-        try keyedContainer.encodeIfPresent(self.requestHeaders, forKey: SdkCodingKey("request_headers"))
-        try keyedContainer.encodeIfPresent(self.format, forKey: SdkCodingKey("format"))
-        try keyedContainer.encodeIfPresent(self.requestOriginatingIp, forKey: SdkCodingKey("request_originating_ip"))
-    }
-}
-
-struct CreateSessionTokenRequestBody: Encodable {
-    var expiresInSeconds: SdkOptional<Int>?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.expiresInSeconds, forKey: SdkCodingKey("expires_in_seconds"))
-    }
-}
-
-struct CreateSessionTokenFromTemplateRequestBody: Encodable {
-    var expiresInSeconds: SdkOptional<Int>?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.expiresInSeconds, forKey: SdkCodingKey("expires_in_seconds"))
-    }
-}
-
-struct UpsertTemplateRequestBody: Encodable {
-    var name: String?
-    var subject: SdkOptional<String>?
-    var markup: SdkOptional<String>?
-    var body: String?
-    var deliveredByClerk: SdkOptional<Bool>?
-    var fromEmailName: String?
-    var replyToEmailName: String?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(self.subject, forKey: SdkCodingKey("subject"))
-        try keyedContainer.encodeIfPresent(self.markup, forKey: SdkCodingKey("markup"))
-        try keyedContainer.encodeIfPresent(self.body, forKey: SdkCodingKey("body"))
-        try keyedContainer.encodeIfPresent(self.deliveredByClerk, forKey: SdkCodingKey("delivered_by_clerk"))
-        try keyedContainer.encodeIfPresent(self.fromEmailName, forKey: SdkCodingKey("from_email_name"))
-        try keyedContainer.encodeIfPresent(self.replyToEmailName, forKey: SdkCodingKey("reply_to_email_name"))
-    }
-
-    init(options: EmailSmsTemplatesMethods.UpsertTemplateOptions) {
-        self.name = options.name
-        self.subject = options.subject
-        self.markup = options.markup
-        self.body = options.body
-        self.deliveredByClerk = options.deliveredByClerk
-        self.fromEmailName = options.fromEmailName
-        self.replyToEmailName = options.replyToEmailName
-    }
-}
-
-struct PreviewTemplateRequestBody: Encodable {
-    var subject: SdkOptional<String>?
-    var body: String?
-    var fromEmailName: String?
-    var replyToEmailName: String?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(self.subject, forKey: SdkCodingKey("subject"))
-        try keyedContainer.encodeIfPresent(self.body, forKey: SdkCodingKey("body"))
-        try keyedContainer.encodeIfPresent(self.fromEmailName, forKey: SdkCodingKey("from_email_name"))
-        try keyedContainer.encodeIfPresent(self.replyToEmailName, forKey: SdkCodingKey("reply_to_email_name"))
-    }
-}
-
 struct ToggleTemplateDeliveryRequestBody: Encodable {
     var deliveredByClerk: Bool?
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
         try keyedContainer.encodeIfPresent(self.deliveredByClerk, forKey: SdkCodingKey("delivered_by_clerk"))
+    }
+}
+
+struct CreateUserRequestBody: Encodable {
+    var externalId: SdkOptional<String>?
+    var firstName: SdkOptional<String>?
+    var lastName: SdkOptional<String>?
+    var locale: SdkOptional<String>?
+    var timezone: SdkOptional<String>?
+    var emailAddress: [String]?
+    var emailAddressIdentificationStatus: [CreateUserRequestBodyEmailAddressIdentificationStatusItem]?
+    var phoneNumber: [String]?
+    var phoneNumberIdentificationStatus: [CreateUserRequestBodyPhoneNumberIdentificationStatusItem]?
+    var web3Wallet: [String]?
+    var username: SdkOptional<String>?
+    var password: SdkOptional<String>?
+    var passwordDigest: SdkOptional<String>?
+    var passwordHasher: PasswordHasher?
+    var skipPasswordChecks: SdkOptional<Bool>?
+    var skipPasswordRequirement: SdkOptional<Bool>?
+    var skipRestrictionChecks: SdkOptional<Bool>?
+    var totpSecret: SdkOptional<String>?
+    var backupCodes: [String]?
+    var publicMetadata: [String: JSONValue]?
+    var privateMetadata: [String: JSONValue]?
+    var unsafeMetadata: [String: JSONValue]?
+    var deleteSelfEnabled: SdkOptional<Bool>?
+    var legalAcceptedAt: SdkOptional<String>?
+    var skipLegalChecks: SdkOptional<Bool>?
+    var skipUserRequirement: SdkOptional<Bool>?
+    var createOrganizationEnabled: SdkOptional<Bool>?
+    var createOrganizationsLimit: SdkOptional<Int>?
+    var createdAt: SdkOptional<String>?
+    var bypassClientTrust: SdkOptional<Bool>?
+    var banned: SdkOptional<Bool>?
+    var locked: SdkOptional<Bool>?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encodeIfPresent(self.externalId, forKey: SdkCodingKey("external_id"))
+        try keyedContainer.encodeIfPresent(self.firstName, forKey: SdkCodingKey("first_name"))
+        try keyedContainer.encodeIfPresent(self.lastName, forKey: SdkCodingKey("last_name"))
+        try keyedContainer.encodeIfPresent(self.locale, forKey: SdkCodingKey("locale"))
+        try keyedContainer.encodeIfPresent(self.timezone, forKey: SdkCodingKey("timezone"))
+        try keyedContainer.encodeIfPresent(self.emailAddress, forKey: SdkCodingKey("email_address"))
+        try keyedContainer.encodeIfPresent(self.emailAddressIdentificationStatus, forKey: SdkCodingKey("email_address_identification_status"))
+        try keyedContainer.encodeIfPresent(self.phoneNumber, forKey: SdkCodingKey("phone_number"))
+        try keyedContainer.encodeIfPresent(self.phoneNumberIdentificationStatus, forKey: SdkCodingKey("phone_number_identification_status"))
+        try keyedContainer.encodeIfPresent(self.web3Wallet, forKey: SdkCodingKey("web3_wallet"))
+        try keyedContainer.encodeIfPresent(self.username, forKey: SdkCodingKey("username"))
+        try keyedContainer.encodeIfPresent(self.password, forKey: SdkCodingKey("password"))
+        try keyedContainer.encodeIfPresent(self.passwordDigest, forKey: SdkCodingKey("password_digest"))
+        try keyedContainer.encodeIfPresent(self.passwordHasher, forKey: SdkCodingKey("password_hasher"))
+        try keyedContainer.encodeIfPresent(self.skipPasswordChecks, forKey: SdkCodingKey("skip_password_checks"))
+        try keyedContainer.encodeIfPresent(self.skipPasswordRequirement, forKey: SdkCodingKey("skip_password_requirement"))
+        try keyedContainer.encodeIfPresent(self.skipRestrictionChecks, forKey: SdkCodingKey("skip_restriction_checks"))
+        try keyedContainer.encodeIfPresent(self.totpSecret, forKey: SdkCodingKey("totp_secret"))
+        try keyedContainer.encodeIfPresent(self.backupCodes, forKey: SdkCodingKey("backup_codes"))
+        try keyedContainer.encodeIfPresent(self.publicMetadata, forKey: SdkCodingKey("public_metadata"))
+        try keyedContainer.encodeIfPresent(self.privateMetadata, forKey: SdkCodingKey("private_metadata"))
+        try keyedContainer.encodeIfPresent(self.unsafeMetadata, forKey: SdkCodingKey("unsafe_metadata"))
+        try keyedContainer.encodeIfPresent(self.deleteSelfEnabled, forKey: SdkCodingKey("delete_self_enabled"))
+        try keyedContainer.encodeIfPresent(self.legalAcceptedAt, forKey: SdkCodingKey("legal_accepted_at"))
+        try keyedContainer.encodeIfPresent(self.skipLegalChecks, forKey: SdkCodingKey("skip_legal_checks"))
+        try keyedContainer.encodeIfPresent(self.skipUserRequirement, forKey: SdkCodingKey("skip_user_requirement"))
+        try keyedContainer.encodeIfPresent(self.createOrganizationEnabled, forKey: SdkCodingKey("create_organization_enabled"))
+        try keyedContainer.encodeIfPresent(self.createOrganizationsLimit, forKey: SdkCodingKey("create_organizations_limit"))
+        try keyedContainer.encodeIfPresent(self.createdAt, forKey: SdkCodingKey("created_at"))
+        try keyedContainer.encodeIfPresent(self.bypassClientTrust, forKey: SdkCodingKey("bypass_client_trust"))
+        try keyedContainer.encodeIfPresent(self.banned, forKey: SdkCodingKey("banned"))
+        try keyedContainer.encodeIfPresent(self.locked, forKey: SdkCodingKey("locked"))
+    }
+
+    init(options: UsersMethods.CreateUserOptions) {
+        self.externalId = options.externalId
+        self.firstName = options.firstName
+        self.lastName = options.lastName
+        self.locale = options.locale
+        self.timezone = options.timezone
+        self.emailAddress = options.emailAddress
+        self.emailAddressIdentificationStatus = options.emailAddressIdentificationStatus
+        self.phoneNumber = options.phoneNumber
+        self.phoneNumberIdentificationStatus = options.phoneNumberIdentificationStatus
+        self.web3Wallet = options.web3Wallet
+        self.username = options.username
+        self.password = options.password
+        self.passwordDigest = options.passwordDigest
+        self.passwordHasher = options.passwordHasher
+        self.skipPasswordChecks = options.skipPasswordChecks
+        self.skipPasswordRequirement = options.skipPasswordRequirement
+        self.skipRestrictionChecks = options.skipRestrictionChecks
+        self.totpSecret = options.totpSecret
+        self.backupCodes = options.backupCodes
+        self.publicMetadata = options.publicMetadata
+        self.privateMetadata = options.privateMetadata
+        self.unsafeMetadata = options.unsafeMetadata
+        self.deleteSelfEnabled = options.deleteSelfEnabled
+        self.legalAcceptedAt = options.legalAcceptedAt
+        self.skipLegalChecks = options.skipLegalChecks
+        self.skipUserRequirement = options.skipUserRequirement
+        self.createOrganizationEnabled = options.createOrganizationEnabled
+        self.createOrganizationsLimit = options.createOrganizationsLimit
+        self.createdAt = options.createdAt
+        self.bypassClientTrust = options.bypassClientTrust
+        self.banned = options.banned
+        self.locked = options.locked
+    }
+}
+
+struct UpdateUserRequestBody: Encodable {
+    var externalId: SdkOptional<String>?
+    var firstName: SdkOptional<String>?
+    var lastName: SdkOptional<String>?
+    var locale: SdkOptional<String>?
+    var timezone: SdkOptional<String>?
+    var primaryEmailAddressId: SdkOptional<String>?
+    var notifyPrimaryEmailAddressChanged: SdkOptional<Bool>?
+    var primaryPhoneNumberId: SdkOptional<String>?
+    var primaryWeb3WalletId: SdkOptional<String>?
+    var username: SdkOptional<String>?
+    var profileImageId: SdkOptional<String>?
+    var password: SdkOptional<String>?
+    var passwordDigest: String?
+    var passwordHasher: PasswordHasher?
+    var skipPasswordChecks: SdkOptional<Bool>?
+    var signOutOfOtherSessions: SdkOptional<Bool>?
+    var totpSecret: SdkOptional<String>?
+    var backupCodes: [String]?
+    var deleteSelfEnabled: SdkOptional<Bool>?
+    var createOrganizationEnabled: SdkOptional<Bool>?
+    var legalAcceptedAt: SdkOptional<String>?
+    var skipLegalChecks: SdkOptional<Bool>?
+    var createOrganizationsLimit: SdkOptional<Int>?
+    var createdAt: SdkOptional<String>?
+    var bypassClientTrust: SdkOptional<Bool>?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encodeIfPresent(self.externalId, forKey: SdkCodingKey("external_id"))
+        try keyedContainer.encodeIfPresent(self.firstName, forKey: SdkCodingKey("first_name"))
+        try keyedContainer.encodeIfPresent(self.lastName, forKey: SdkCodingKey("last_name"))
+        try keyedContainer.encodeIfPresent(self.locale, forKey: SdkCodingKey("locale"))
+        try keyedContainer.encodeIfPresent(self.timezone, forKey: SdkCodingKey("timezone"))
+        try keyedContainer.encodeIfPresent(self.primaryEmailAddressId, forKey: SdkCodingKey("primary_email_address_id"))
+        try keyedContainer.encodeIfPresent(self.notifyPrimaryEmailAddressChanged, forKey: SdkCodingKey("notify_primary_email_address_changed"))
+        try keyedContainer.encodeIfPresent(self.primaryPhoneNumberId, forKey: SdkCodingKey("primary_phone_number_id"))
+        try keyedContainer.encodeIfPresent(self.primaryWeb3WalletId, forKey: SdkCodingKey("primary_web3_wallet_id"))
+        try keyedContainer.encodeIfPresent(self.username, forKey: SdkCodingKey("username"))
+        try keyedContainer.encodeIfPresent(self.profileImageId, forKey: SdkCodingKey("profile_image_id"))
+        try keyedContainer.encodeIfPresent(self.password, forKey: SdkCodingKey("password"))
+        try keyedContainer.encodeIfPresent(self.passwordDigest, forKey: SdkCodingKey("password_digest"))
+        try keyedContainer.encodeIfPresent(self.passwordHasher, forKey: SdkCodingKey("password_hasher"))
+        try keyedContainer.encodeIfPresent(self.skipPasswordChecks, forKey: SdkCodingKey("skip_password_checks"))
+        try keyedContainer.encodeIfPresent(self.signOutOfOtherSessions, forKey: SdkCodingKey("sign_out_of_other_sessions"))
+        try keyedContainer.encodeIfPresent(self.totpSecret, forKey: SdkCodingKey("totp_secret"))
+        try keyedContainer.encodeIfPresent(self.backupCodes, forKey: SdkCodingKey("backup_codes"))
+        try keyedContainer.encodeIfPresent(self.deleteSelfEnabled, forKey: SdkCodingKey("delete_self_enabled"))
+        try keyedContainer.encodeIfPresent(self.createOrganizationEnabled, forKey: SdkCodingKey("create_organization_enabled"))
+        try keyedContainer.encodeIfPresent(self.legalAcceptedAt, forKey: SdkCodingKey("legal_accepted_at"))
+        try keyedContainer.encodeIfPresent(self.skipLegalChecks, forKey: SdkCodingKey("skip_legal_checks"))
+        try keyedContainer.encodeIfPresent(self.createOrganizationsLimit, forKey: SdkCodingKey("create_organizations_limit"))
+        try keyedContainer.encodeIfPresent(self.createdAt, forKey: SdkCodingKey("created_at"))
+        try keyedContainer.encodeIfPresent(self.bypassClientTrust, forKey: SdkCodingKey("bypass_client_trust"))
+    }
+
+    init(options: UsersMethods.UpdateUserOptions) {
+        self.externalId = options.externalId
+        self.firstName = options.firstName
+        self.lastName = options.lastName
+        self.locale = options.locale
+        self.timezone = options.timezone
+        self.primaryEmailAddressId = options.primaryEmailAddressId
+        self.notifyPrimaryEmailAddressChanged = options.notifyPrimaryEmailAddressChanged
+        self.primaryPhoneNumberId = options.primaryPhoneNumberId
+        self.primaryWeb3WalletId = options.primaryWeb3WalletId
+        self.username = options.username
+        self.profileImageId = options.profileImageId
+        self.password = options.password
+        self.passwordDigest = options.passwordDigest
+        self.passwordHasher = options.passwordHasher
+        self.skipPasswordChecks = options.skipPasswordChecks
+        self.signOutOfOtherSessions = options.signOutOfOtherSessions
+        self.totpSecret = options.totpSecret
+        self.backupCodes = options.backupCodes
+        self.deleteSelfEnabled = options.deleteSelfEnabled
+        self.createOrganizationEnabled = options.createOrganizationEnabled
+        self.legalAcceptedAt = options.legalAcceptedAt
+        self.skipLegalChecks = options.skipLegalChecks
+        self.createOrganizationsLimit = options.createOrganizationsLimit
+        self.createdAt = options.createdAt
+        self.bypassClientTrust = options.bypassClientTrust
+    }
+}
+
+struct BanUsersBulkRequestBody: Encodable {
+    let userIds: [String]
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.userIds, forKey: SdkCodingKey("user_ids"))
     }
 }

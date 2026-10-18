@@ -10,14 +10,14 @@ public class MachinesNamespace {
     }
 
 /// This request returns the list of machines for an instance. The machines are ordered by descending creation date (i.e. most recent machines will be returned first)
-    public func list(limit: Int? = nil, offset: Int? = nil, query: String? = nil, orderBy: String? = nil, requestOptions: RequestOptions? = nil) async throws -> ListMachinesResponse {
+    public func list(limit: Int? = nil, offset: Int? = nil, query: String? = nil, orderBy: String? = nil, requestOptions: RequestOptions? = nil) async throws -> MachineList {
         return try await MachinesMethods.listMachines(config: config, limit: limit, offset: offset, query: query, orderBy: orderBy, requestOptions: requestOptions)
     }
 
 /// Creates a new machine. Provide a `name` and optionally configure its machine scopes and default token TTL. The response includes the machine's secret key, so store it securely.
     ///
     /// Creates a new machine.
-    public func create(name: String, scopedMachines: [String]? = nil, defaultTokenTtl: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> CreateMachineResponse {
+    public func create(name: String, scopedMachines: [String]? = nil, defaultTokenTtl: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> MachineCreated {
         return try await MachinesMethods.createMachine(config: config, name: name, scopedMachines: scopedMachines, defaultTokenTtl: defaultTokenTtl, requestOptions: requestOptions)
     }
 
@@ -36,19 +36,19 @@ public class MachinesNamespace {
 /// Deletes a machine. Use its `machine_id` to identify the machine you want to remove. The response confirms deletion with the machine ID and a `deleted` value.
     ///
     /// Deletes a machine.
-    public func delete(machineId: String, requestOptions: RequestOptions? = nil) async throws -> DeleteMachineResponse {
+    public func delete(machineId: String, requestOptions: RequestOptions? = nil) async throws -> MachineDeleted {
         return try await MachinesMethods.deleteMachine(config: config, machineId: machineId, requestOptions: requestOptions)
     }
 
 /// Retrieves the secret key for a machine. Use the `machine_id` to identify which machine's key you need.
     ///
     /// Returns the secret key for a machine.
-    public func getSecretKey(machineId: String, requestOptions: RequestOptions? = nil) async throws -> GetMachineSecretKeyResponse {
+    public func getSecretKey(machineId: String, requestOptions: RequestOptions? = nil) async throws -> MachineSecretKey {
         return try await MachinesMethods.getMachineSecretKey(config: config, machineId: machineId, requestOptions: requestOptions)
     }
 
 /// Rotates the machine's secret key. When the secret key is rotated, make sure to update it in your machine/application. The previous secret key will remain valid for the duration specified by the previous_token_ttl parameter.
-    public func rotateSecretKey(machineId: String, previousTokenTtl: Int, requestOptions: RequestOptions? = nil) async throws -> GetMachineSecretKeyResponse {
+    public func rotateSecretKey(machineId: String, previousTokenTtl: Int, requestOptions: RequestOptions? = nil) async throws -> MachineSecretKey {
         return try await MachinesMethods.rotateMachineSecretKey(config: config, machineId: machineId, previousTokenTtl: previousTokenTtl, requestOptions: requestOptions)
     }
 
@@ -60,7 +60,7 @@ public class MachinesNamespace {
 
 extension MachinesNamespace {
 /// Deletes a machine scope, removing access from one machine to another.
-    public func deleteScope(machineId: String, otherMachineId: String, requestOptions: RequestOptions? = nil) async throws -> DeleteMachineScopeResponse {
+    public func deleteScope(machineId: String, otherMachineId: String, requestOptions: RequestOptions? = nil) async throws -> MachineScopeDeleted {
         return try await MachinesMethods.deleteMachineScope(config: config, machineId: machineId, otherMachineId: otherMachineId, requestOptions: requestOptions)
     }
 }

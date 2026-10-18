@@ -6,170 +6,6 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-/// String representing the object's type.
-public struct GetMachineSecretKeyResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
-    public let rawValue: String
-
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let machineSecretKey = GetMachineSecretKeyResponseObject(rawValue: "machine_secret_key")
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(rawValue)
-    }
-}
-
-public struct GetCommerceSubscriptionItemListParameterX60a426ca: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
-    public let rawValue: String
-
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let user = GetCommerceSubscriptionItemListParameterX60a426ca(rawValue: "user")
-    public static let org = GetCommerceSubscriptionItemListParameterX60a426ca(rawValue: "org")
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(rawValue)
-    }
-}
-
-public struct GetTemplateParameter: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
-    public let rawValue: String
-
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let email = GetTemplateParameter(rawValue: "email")
-    public static let sms = GetTemplateParameter(rawValue: "sms")
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(rawValue)
-    }
-}
-
-/// The identity provider (e.g. saml_custom, oidc_custom, oidc_github_enterprise, oidc_gitlab)
-public struct CreateEnterpriseConnectionRequestBodyProvider: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
-    public let rawValue: String
-
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let samlCustom = CreateEnterpriseConnectionRequestBodyProvider(rawValue: "saml_custom")
-    public static let samlOkta = CreateEnterpriseConnectionRequestBodyProvider(rawValue: "saml_okta")
-    public static let samlGoogle = CreateEnterpriseConnectionRequestBodyProvider(rawValue: "saml_google")
-    public static let samlMicrosoft = CreateEnterpriseConnectionRequestBodyProvider(rawValue: "saml_microsoft")
-    public static let oidcCustom = CreateEnterpriseConnectionRequestBodyProvider(rawValue: "oidc_custom")
-    public static let oidcGithubEnterprise = CreateEnterpriseConnectionRequestBodyProvider(rawValue: "oidc_github_enterprise")
-    public static let oidcGitlab = CreateEnterpriseConnectionRequestBodyProvider(rawValue: "oidc_gitlab")
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(rawValue)
-    }
-}
-
-public struct RevokeApiKeyResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
-    public let rawValue: String
-
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let apiKey = RevokeApiKeyResponseObject(rawValue: "api_key")
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(rawValue)
-    }
-}
-
-/// When password is required at the instance level, sets the preferred sign-in strategy surfaced to Clerk
-/// components. Has no effect when password is not required. Defaults to `password`. Set to an empty string to
-/// clear the override.
-public struct UpdateInstanceRequestBodyPreferredSignInStrategyWhenPasswordRequired: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
-    public let rawValue: String
-
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let password = UpdateInstanceRequestBodyPreferredSignInStrategyWhenPasswordRequired(rawValue: "password")
-    public static let otp = UpdateInstanceRequestBodyPreferredSignInStrategyWhenPasswordRequired(rawValue: "otp")
-    public static let unknown = UpdateInstanceRequestBodyPreferredSignInStrategyWhenPasswordRequired(rawValue: "")
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(rawValue)
-    }
-}
-
-/// Controls the login_hint sent to the IdP on SSO sign-in
-public struct CreateSAMLConnectionRequestBodyLoginHintMode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
-    public let rawValue: String
-
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let emailAddress = CreateSAMLConnectionRequestBodyLoginHintMode(rawValue: "email_address")
-    public static let customAttribute = CreateSAMLConnectionRequestBodyLoginHintMode(rawValue: "custom_attribute")
-    public static let off = CreateSAMLConnectionRequestBodyLoginHintMode(rawValue: "off")
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(rawValue)
-    }
-}
-
-public struct VerifyTOTPResponseCodeType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
-    public let rawValue: String
-
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let totp = VerifyTOTPResponseCodeType(rawValue: "totp")
-    public static let backupCode = VerifyTOTPResponseCodeType(rawValue: "backup_code")
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(rawValue)
-    }
-}
-
-struct VerifyClientRequestBody: Encodable {
-    let token: String
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.token, forKey: SdkCodingKey("token"))
-    }
-}
-
 struct CreateEmailAddressRequestBody: Encodable {
     let userId: String
     let emailAddress: String
@@ -208,5 +44,164 @@ struct AttemptEmailAddressVerificationRequestBody: Encodable {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
         try keyedContainer.encode(self.verificationId, forKey: SdkCodingKey("verification_id"))
         try keyedContainer.encode(self.code, forKey: SdkCodingKey("code"))
+    }
+}
+
+struct ReplaceUserEmailAddressRequestBody: Encodable {
+    let emailAddress: String
+    var identificationStatus: ReplaceUserEmailAddressRequestBodyIdentificationStatus?
+    var notifyPrimaryEmailAddressChanged: SdkOptional<Bool>?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.emailAddress, forKey: SdkCodingKey("email_address"))
+        try keyedContainer.encodeIfPresent(self.identificationStatus, forKey: SdkCodingKey("identification_status"))
+        try keyedContainer.encodeIfPresent(self.notifyPrimaryEmailAddressChanged, forKey: SdkCodingKey("notify_primary_email_address_changed"))
+    }
+}
+
+struct CreatePhoneNumberRequestBody: Encodable {
+    let userId: String
+    let phoneNumber: String
+    var verified: SdkOptional<Bool>?
+    var primary: SdkOptional<Bool>?
+    var reservedForSecondFactor: SdkOptional<Bool>?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.userId, forKey: SdkCodingKey("user_id"))
+        try keyedContainer.encode(self.phoneNumber, forKey: SdkCodingKey("phone_number"))
+        try keyedContainer.encodeIfPresent(self.verified, forKey: SdkCodingKey("verified"))
+        try keyedContainer.encodeIfPresent(self.primary, forKey: SdkCodingKey("primary"))
+        try keyedContainer.encodeIfPresent(self.reservedForSecondFactor, forKey: SdkCodingKey("reserved_for_second_factor"))
+    }
+}
+
+struct UpdatePhoneNumberRequestBody: Encodable {
+    var verified: SdkOptional<Bool>?
+    var primary: SdkOptional<Bool>?
+    var reservedForSecondFactor: SdkOptional<Bool>?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encodeIfPresent(self.verified, forKey: SdkCodingKey("verified"))
+        try keyedContainer.encodeIfPresent(self.primary, forKey: SdkCodingKey("primary"))
+        try keyedContainer.encodeIfPresent(self.reservedForSecondFactor, forKey: SdkCodingKey("reserved_for_second_factor"))
+    }
+}
+
+struct AttemptPhoneNumberVerificationRequestBody: Encodable {
+    let verificationId: String
+    let code: String
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.verificationId, forKey: SdkCodingKey("verification_id"))
+        try keyedContainer.encode(self.code, forKey: SdkCodingKey("code"))
+    }
+}
+
+struct ReplaceUserPhoneNumberRequestBody: Encodable {
+    let phoneNumber: String
+    var identificationStatus: ReplaceUserPhoneNumberRequestBodyIdentificationStatus?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.phoneNumber, forKey: SdkCodingKey("phone_number"))
+        try keyedContainer.encodeIfPresent(self.identificationStatus, forKey: SdkCodingKey("identification_status"))
+    }
+}
+
+struct CreateSessionRequestBody: Encodable {
+    let userId: String
+    var activeOrganizationId: String?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.userId, forKey: SdkCodingKey("user_id"))
+        try keyedContainer.encodeIfPresent(self.activeOrganizationId, forKey: SdkCodingKey("active_organization_id"))
+    }
+}
+
+struct RefreshSessionRequestBody: Encodable {
+    let expiredToken: String
+    let refreshToken: String
+    let requestOrigin: String
+    var requestHeaders: SdkOptional<[String: JSONValue]>?
+    var format: SdkOptional<RefreshSessionRequestBodyFormat>?
+    var requestOriginatingIp: SdkOptional<String>?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(self.expiredToken, forKey: SdkCodingKey("expired_token"))
+        try keyedContainer.encode(self.refreshToken, forKey: SdkCodingKey("refresh_token"))
+        try keyedContainer.encode(self.requestOrigin, forKey: SdkCodingKey("request_origin"))
+        try keyedContainer.encodeIfPresent(self.requestHeaders, forKey: SdkCodingKey("request_headers"))
+        try keyedContainer.encodeIfPresent(self.format, forKey: SdkCodingKey("format"))
+        try keyedContainer.encodeIfPresent(self.requestOriginatingIp, forKey: SdkCodingKey("request_originating_ip"))
+    }
+}
+
+struct CreateSessionTokenRequestBody: Encodable {
+    var expiresInSeconds: SdkOptional<Int>?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encodeIfPresent(self.expiresInSeconds, forKey: SdkCodingKey("expires_in_seconds"))
+    }
+}
+
+struct CreateSessionTokenFromTemplateRequestBody: Encodable {
+    var expiresInSeconds: SdkOptional<Int>?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encodeIfPresent(self.expiresInSeconds, forKey: SdkCodingKey("expires_in_seconds"))
+    }
+}
+
+struct UpsertTemplateRequestBody: Encodable {
+    var name: String?
+    var subject: SdkOptional<String>?
+    var markup: SdkOptional<String>?
+    var body: String?
+    var deliveredByClerk: SdkOptional<Bool>?
+    var fromEmailName: String?
+    var replyToEmailName: String?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.subject, forKey: SdkCodingKey("subject"))
+        try keyedContainer.encodeIfPresent(self.markup, forKey: SdkCodingKey("markup"))
+        try keyedContainer.encodeIfPresent(self.body, forKey: SdkCodingKey("body"))
+        try keyedContainer.encodeIfPresent(self.deliveredByClerk, forKey: SdkCodingKey("delivered_by_clerk"))
+        try keyedContainer.encodeIfPresent(self.fromEmailName, forKey: SdkCodingKey("from_email_name"))
+        try keyedContainer.encodeIfPresent(self.replyToEmailName, forKey: SdkCodingKey("reply_to_email_name"))
+    }
+
+    init(options: EmailSmsTemplatesMethods.UpsertTemplateOptions) {
+        self.name = options.name
+        self.subject = options.subject
+        self.markup = options.markup
+        self.body = options.body
+        self.deliveredByClerk = options.deliveredByClerk
+        self.fromEmailName = options.fromEmailName
+        self.replyToEmailName = options.replyToEmailName
+    }
+}
+
+struct PreviewTemplateRequestBody: Encodable {
+    var subject: SdkOptional<String>?
+    var body: String?
+    var fromEmailName: String?
+    var replyToEmailName: String?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encodeIfPresent(self.subject, forKey: SdkCodingKey("subject"))
+        try keyedContainer.encodeIfPresent(self.body, forKey: SdkCodingKey("body"))
+        try keyedContainer.encodeIfPresent(self.fromEmailName, forKey: SdkCodingKey("from_email_name"))
+        try keyedContainer.encodeIfPresent(self.replyToEmailName, forKey: SdkCodingKey("reply_to_email_name"))
     }
 }

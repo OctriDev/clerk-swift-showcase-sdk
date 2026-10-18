@@ -13,7 +13,7 @@ extension MachinesMethods {
     ///
     /// - Parameters:
     /// - machineId: The ID of the machine to retrieve the secret key for
-    public static func getMachineSecretKey(config: ClientConfig, machineId: String, requestOptions: RequestOptions? = nil) async throws -> GetMachineSecretKeyResponse {
+    public static func getMachineSecretKey(config: ClientConfig, machineId: String, requestOptions: RequestOptions? = nil) async throws -> MachineSecretKey {
         return try (await sdkRequest("GET", ["/machines/", sdkEncodePathSegment(sdkWireString(machineId)), "/secret_key"].joined(), config: config, decoder: .json, operationId: "GetMachineSecretKey", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 
@@ -25,7 +25,7 @@ extension MachinesMethods {
     ///   remain valid after rotation. This ensures a graceful transition period for
     ///   updating applications with the new secret key. Set to 0 to immediately
     ///   expire the previous key. Maximum value is 8 hours (28800 seconds).
-    public static func rotateMachineSecretKey(config: ClientConfig, machineId: String, previousTokenTtl: Int, requestOptions: RequestOptions? = nil) async throws -> GetMachineSecretKeyResponse {
+    public static func rotateMachineSecretKey(config: ClientConfig, machineId: String, previousTokenTtl: Int, requestOptions: RequestOptions? = nil) async throws -> MachineSecretKey {
         try validateRange("previous_token_ttl", Double(previousTokenTtl), min: 0, max: 28800)
 
         let requestBody = RotateMachineSecretKeyRequestBody(previousTokenTtl: previousTokenTtl)

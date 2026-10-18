@@ -30,7 +30,7 @@ extension InvitationsMethods {
     ///
     /// - Parameters:
     /// - invitationId: The ID of the invitation to be revoked
-    public static func revokeInvitation(config: ClientConfig, invitationId: String, requestOptions: RequestOptions? = nil) async throws -> RevokeInvitationResponse {
+    public static func revokeInvitation(config: ClientConfig, invitationId: String, requestOptions: RequestOptions? = nil) async throws -> InvitationRevoked {
         return try (await sdkRequest("POST", ["/invitations/", sdkEncodePathSegment(sdkWireString(invitationId)), "/revoke"].joined(), config: config, decoder: .json, operationId: "RevokeInvitation", options: requestOptions, errors: ["400": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

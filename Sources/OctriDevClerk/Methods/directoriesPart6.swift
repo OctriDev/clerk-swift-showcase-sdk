@@ -12,7 +12,7 @@ extension DirectoriesMethods {
     /// - Parameters:
     /// - directoryId: The ID of the directory.
     /// - mappingId: The ID of the directory group role mapping to delete.
-    public static func deleteDirectoryGroupRoleMapping(config: ClientConfig, directoryId: String, mappingId: String, requestOptions: RequestOptions? = nil) async throws -> DeleteDirectoryGroupRoleMappingResponse {
+    public static func deleteDirectoryGroupRoleMapping(config: ClientConfig, directoryId: String, mappingId: String, requestOptions: RequestOptions? = nil) async throws -> DirectoryGroupRoleMappingDeleted {
         return try (await sdkRequest("DELETE", ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId)), "/group_role_mappings/", sdkEncodePathSegment(sdkWireString(mappingId))].joined(), config: config, decoder: .json, operationId: "DeleteDirectoryGroupRoleMapping", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

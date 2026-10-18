@@ -14,7 +14,7 @@ extension PhoneNumbersMethods {
     /// - verificationId: The ID of the verification to check, such as one returned
     ///   by prepare_verification
     /// - code: The verification code that was sent to the phone number
-    public static func attemptPhoneNumberVerification(config: ClientConfig, phoneNumberId: String, verificationId: String, code: String, requestOptions: RequestOptions? = nil) async throws -> AttemptEmailAddressVerificationResponse {
+    public static func attemptPhoneNumberVerification(config: ClientConfig, phoneNumberId: String, verificationId: String, code: String, requestOptions: RequestOptions? = nil) async throws -> VerificationResponse {
         let requestBody = AttemptPhoneNumberVerificationRequestBody(verificationId: verificationId, code: code)
 
         return try (await sdkRequest("POST", ["/phone_numbers/", sdkEncodePathSegment(sdkWireString(phoneNumberId)), "/attempt_verification"].joined(), config: config, body: requestBody, decoder: .json, operationId: "AttemptPhoneNumberVerification", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self, "429": ClerkErrors.self, "500": ClerkErrors.self])).data

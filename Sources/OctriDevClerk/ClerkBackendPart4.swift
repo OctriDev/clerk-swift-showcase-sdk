@@ -12,7 +12,7 @@ public class BetaFeaturesNamespace {
 /// Updates instance authentication settings, including allowlist restrictions, the sender address for authentication emails, progressive sign-up, and test mode. Set `from_email_address` to an alphanumeric local part only; `restricted_to_allowlist` defaults to false when omitted, and test mode defaults to true for development instances.
     ///
     /// Updates the settings of an instance
-    public func updateInstanceAuthConfig(restrictedToAllowlist: SdkOptional<Bool>? = nil, fromEmailAddress: SdkOptional<String>? = nil, progressiveSignUp: SdkOptional<Bool>? = nil, testMode: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> UpdateInstanceAuthConfigResponse {
+    public func updateInstanceAuthConfig(restrictedToAllowlist: SdkOptional<Bool>? = nil, fromEmailAddress: SdkOptional<String>? = nil, progressiveSignUp: SdkOptional<Bool>? = nil, testMode: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> InstanceSettings {
         return try await BetaFeaturesMethods.updateInstanceAuthConfig(config: config, restrictedToAllowlist: restrictedToAllowlist, fromEmailAddress: fromEmailAddress, progressiveSignUp: progressiveSignUp, testMode: testMode, requestOptions: requestOptions)
     }
 

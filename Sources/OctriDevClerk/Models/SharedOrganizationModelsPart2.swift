@@ -5,125 +5,13 @@ import Foundation
 
 // SharedOrganization domain models
 extension OrganizationMembership {
-    public init(id: String, object: OrganizationMembershipObject, role: String, permissions: [String], publicMetadata: [String: JSONValue], organization: [String: JSONValue], createdAt: Int, updatedAt: Int, roleName: String? = nil, privateMetadata: [String: JSONValue]? = nil, publicUserData: OrganizationMembershipPublicUserData? = nil) {
+    public init(id: String, object: OrganizationMembershipObject, role: String, permissions: [String], publicMetadata: [String: JSONValue], organization: Organization, createdAt: Int, updatedAt: Int, roleName: String? = nil, privateMetadata: [String: JSONValue]? = nil, publicUserData: OrganizationMembershipPublicUserData? = nil) {
         (self.id, self.object) = (id, object)
         (self.role, self.permissions) = (role, permissions)
         (self.publicMetadata, self.organization) = (publicMetadata, organization)
         (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
         (self.roleName, self.privateMetadata) = (roleName, privateMetadata)
         self.publicUserData = publicUserData
-    }
-}
-
-/// Required object value serialized in the `organization` wire field.
-public struct OrganizationMembershipOrganization: Codable {
-    /// Required enumerated value serialized in the `object` wire field.
-    public var object: OrganizationObject
-    /// Required `string` value serialized in the `id` wire field.
-    public var id: String
-    /// Required `string` value serialized in the `name` wire field.
-    public var name: String
-    /// Required `string` value serialized in the `slug` wire field.
-    public var slug: String
-    /// Required `boolean` value serialized in the `has_image` wire field.
-    public var hasImage: Bool
-    /// Required `integer` value serialized in the `max_allowed_memberships` wire field.
-    public var maxAllowedMemberships: Int
-    /// Required `boolean` value serialized in the `admin_delete_enabled` wire field.
-    public var adminDeleteEnabled: Bool
-    /// Required object value serialized in the `public_metadata` wire field.
-    public var publicMetadata: [String: JSONValue]
-    /// Unix timestamp of creation.
-    public var createdAt: Int
-    /// Unix timestamp of last update.
-    public var updatedAt: Int
-    /// Optional `string` value serialized in the `image_url` wire field.
-    public var imageUrl: String?
-    /// Optional `integer` value serialized in the `members_count` wire field.
-    public var membersCount: Int?
-    /// Optional `boolean` value serialized in the `missing_member_with_elevated_permissions` wire field.
-    public var missingMemberWithElevatedPermissions: Bool?
-    /// Optional `integer` value serialized in the `pending_invitations_count` wire field.
-    public var pendingInvitationsCount: Int?
-    /// Whether this organization can configure self-serve enterprise SSO.
-    public var selfServeSsoEnabled: Bool?
-    /// Whether this organization can configure self-serve Directory Sync (SCIM).
-    public var selfServeDirectorySyncEnabled: Bool?
-    /// Optional object value serialized in the `private_metadata` wire field.
-    public var privateMetadata: [String: JSONValue]?
-    /// Optional `string` value serialized in the `created_by` wire field.
-    public var createdBy: String?
-    /// Unix timestamp of last activity.
-    public var lastActiveAt: Int?
-    /// The key of the role set assigned to this organization.
-    public var roleSetKey: String?
-
-    enum CodingKeys: String, CodingKey {
-        case object
-        case id
-        case name
-        case slug
-        case hasImage = "has_image"
-        case maxAllowedMemberships = "max_allowed_memberships"
-        case adminDeleteEnabled = "admin_delete_enabled"
-        case publicMetadata = "public_metadata"
-        case createdAt = "created_at"
-        case updatedAt = "updated_at"
-        case imageUrl = "image_url"
-        case membersCount = "members_count"
-        case missingMemberWithElevatedPermissions = "missing_member_with_elevated_permissions"
-        case pendingInvitationsCount = "pending_invitations_count"
-        case selfServeSsoEnabled = "self_serve_sso_enabled"
-        case selfServeDirectorySyncEnabled = "self_serve_directory_sync_enabled"
-        case privateMetadata = "private_metadata"
-        case createdBy = "created_by"
-        case lastActiveAt = "last_active_at"
-        case roleSetKey = "role_set_key"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OrganizationMembershipOrganization {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.slug = try container.sdkDecodeRequired(.slug)
-        self.hasImage = try container.sdkDecodeRequired(.hasImage)
-        self.maxAllowedMemberships = try container.sdkDecodeRequired(.maxAllowedMemberships)
-        self.adminDeleteEnabled = try container.sdkDecodeRequired(.adminDeleteEnabled)
-        self.publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.imageUrl = try container.sdkDecodeIfPresent(.imageUrl)
-        self.membersCount = try container.sdkDecodeIfPresent(.membersCount)
-        self.missingMemberWithElevatedPermissions = try container.sdkDecodeIfPresent(.missingMemberWithElevatedPermissions)
-        self.pendingInvitationsCount = try container.sdkDecodeIfPresent(.pendingInvitationsCount)
-        self.selfServeSsoEnabled = try container.sdkDecodeIfPresent(.selfServeSsoEnabled)
-        self.selfServeDirectorySyncEnabled = try container.sdkDecodeIfPresent(.selfServeDirectorySyncEnabled)
-        self.privateMetadata = try container.sdkDecodeIfPresent(.privateMetadata)
-        self.createdBy = try container.sdkDecodeIfPresent(.createdBy)
-        self.lastActiveAt = try container.sdkDecodeIfPresent(.lastActiveAt)
-        self.roleSetKey = try container.sdkDecodeIfPresent(.roleSetKey)
-    }
-}
-
-extension OrganizationMembershipOrganization {
-    public init(object: OrganizationObject, id: String, name: String, slug: String, hasImage: Bool, maxAllowedMemberships: Int, adminDeleteEnabled: Bool, publicMetadata: [String: JSONValue], createdAt: Int, updatedAt: Int, imageUrl: String? = nil, membersCount: Int? = nil, missingMemberWithElevatedPermissions: Bool? = nil, pendingInvitationsCount: Int? = nil, selfServeSsoEnabled: Bool? = nil, selfServeDirectorySyncEnabled: Bool? = nil, privateMetadata: [String: JSONValue]? = nil, createdBy: String? = nil, lastActiveAt: Int? = nil, roleSetKey: String? = nil) {
-        (self.object, self.id) = (object, id)
-        (self.name, self.slug) = (name, slug)
-        (self.hasImage, self.maxAllowedMemberships) = (hasImage, maxAllowedMemberships)
-        (self.adminDeleteEnabled, self.publicMetadata) = (adminDeleteEnabled, publicMetadata)
-        (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
-        (self.imageUrl, self.membersCount) = (imageUrl, membersCount)
-        self.missingMemberWithElevatedPermissions = missingMemberWithElevatedPermissions
-        self.pendingInvitationsCount = pendingInvitationsCount
-        self.selfServeSsoEnabled = selfServeSsoEnabled
-        self.selfServeDirectorySyncEnabled = selfServeDirectorySyncEnabled
-        (self.privateMetadata, self.createdBy) = (privateMetadata, createdBy)
-        (self.lastActiveAt, self.roleSetKey) = (lastActiveAt, roleSetKey)
     }
 }
 

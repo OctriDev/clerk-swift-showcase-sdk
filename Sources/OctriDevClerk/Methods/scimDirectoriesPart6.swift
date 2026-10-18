@@ -33,7 +33,7 @@ extension ScimDirectoriesMethods {
     /// - scimDirectoryId: The ID of the directory.
     /// - mappings: The desired set of mappings. Array order sets precedence
     ///   (1-indexed). An empty array clears all mappings.
-    public static func replaceScimGroupRoleMappings(config: ClientConfig, scimDirectoryId: String, mappings: [ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem], requestOptions: RequestOptions? = nil) async throws -> ListSCIMGroupRoleMappingsResponse {
+    public static func replaceScimGroupRoleMappings(config: ClientConfig, scimDirectoryId: String, mappings: [ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem], requestOptions: RequestOptions? = nil) async throws -> SCIMGroupRoleMappingList {
         let requestBody = ReplaceScimGroupRoleMappingsRequestBody(mappings: mappings)
 
         return try (await sdkRequest("PUT", ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId)), "/group_role_mappings"].joined(), config: config, body: requestBody, decoder: .json, operationId: "ReplaceSCIMGroupRoleMappings", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data

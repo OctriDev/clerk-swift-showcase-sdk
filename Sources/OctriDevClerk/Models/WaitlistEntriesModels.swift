@@ -4,99 +4,6 @@
 import Foundation
 
 // WaitlistEntries domain models
-/// Optional object value serialized in the `invitation` wire field.
-public struct WaitlistEntryInvitation: Codable {
-    /// Required enumerated value serialized in the `object` wire field.
-    public var object: InvitationObject
-    /// Required `string` value serialized in the `id` wire field.
-    public var id: String
-    /// Required `email`-formatted value serialized in the `email_address` wire field.
-    public var emailAddress: String
-    /// Required object value serialized in the `public_metadata` wire field.
-    public var publicMetadata: [String: JSONValue]
-    /// Required enumerated value serialized in the `status` wire field.
-    /// - Example: "pending"
-    public var status: InvitationStatus
-    /// Unix timestamp of creation.
-    public var createdAt: Int
-    /// Unix timestamp of last update.
-    public var updatedAt: Int
-    /// Optional `boolean` value serialized in the `revoked` wire field.
-    public var revoked: Bool?
-    /// Optional `string` value serialized in the `url` wire field.
-    public var url: String?
-    /// Unix timestamp of expiration.
-    public var expiresAt: Int?
-
-    enum CodingKeys: String, CodingKey {
-        case object
-        case id
-        case emailAddress = "email_address"
-        case publicMetadata = "public_metadata"
-        case status
-        case createdAt = "created_at"
-        case updatedAt = "updated_at"
-        case revoked
-        case url
-        case expiresAt = "expires_at"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension WaitlistEntryInvitation {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.emailAddress) else {
-            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
-        }
-        guard container.contains(.publicMetadata) else {
-            throw SdkValidationError(field: "public_metadata", code: "required", message: "Validation failed for 'public_metadata': value is required")
-        }
-        guard container.contains(.status) else {
-            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        guard container.contains(.updatedAt) else {
-            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        self.publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.revoked = try container.sdkDecodeIfPresent(.revoked)
-        self.url = try container.sdkDecodeIfPresent(.url)
-        self.expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
-            try sdkValidateEmail("email_address", self.emailAddress)
-    }
-}
-
-extension WaitlistEntryInvitation {
-    public init(object: InvitationObject, id: String, emailAddress: String, publicMetadata: [String: JSONValue], status: InvitationStatus, createdAt: Int, updatedAt: Int, revoked: Bool? = nil, url: String? = nil, expiresAt: Int? = nil) throws {
-        (self.object, self.id) = (object, id)
-        (self.emailAddress, self.publicMetadata) = (emailAddress, publicMetadata)
-        (self.status, self.createdAt) = (status, createdAt)
-        (self.updatedAt, self.revoked) = (updatedAt, revoked)
-        (self.url, self.expiresAt) = (url, expiresAt)
-            try sdkValidateEmail("email_address", self.emailAddress)
-    }
-}
-
-
-
-
-
 /// Typed representation of the `WaitlistEntry` API schema.
 public struct WaitlistEntry: Codable {
     /// Required enumerated value serialized in the `object` wire field.
@@ -116,7 +23,7 @@ public struct WaitlistEntry: Codable {
     /// unavailable for other actions.
     public var isLocked: Bool?
     /// Optional object value serialized in the `invitation` wire field.
-    public var invitation: [String: JSONValue]?
+    public var invitation: Invitation?
 
     enum CodingKeys: String, CodingKey {
         case object
@@ -166,12 +73,47 @@ extension WaitlistEntry {
 }
 
 extension WaitlistEntry {
-    public init(object: WaitlistEntryObject, id: String, emailAddress: String, status: WaitlistEntryStatus, createdAt: Int, updatedAt: Int, isLocked: Bool? = nil, invitation: [String: JSONValue]? = nil) throws {
+    public init(object: WaitlistEntryObject, id: String, emailAddress: String, status: WaitlistEntryStatus, createdAt: Int, updatedAt: Int, isLocked: Bool? = nil, invitation: Invitation? = nil) throws {
         (self.object, self.id) = (object, id)
         (self.emailAddress, self.status) = (emailAddress, status)
         (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
         (self.isLocked, self.invitation) = (isLocked, invitation)
             try sdkValidateEmail("email_address", self.emailAddress)
+    }
+}
+
+/// Typed representation of the `WaitlistEntries` API schema.
+public struct WaitlistEntries: Codable {
+    /// Required array value serialized in the `data` wire field.
+    public var data: [WaitlistEntry]
+    /// Total number of waitlist entries
+    public var totalCount: Int
+
+    enum CodingKeys: String, CodingKey {
+        case data
+        case totalCount = "total_count"
+    }
+
+    private init(sdkCopy value: Self) { self = value }
+}
+
+extension WaitlistEntries {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
+        }
+        self.data = try container.sdkDecodeRequired(.data)
+        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+extension WaitlistEntries {
+    public init(data: [WaitlistEntry], totalCount: Int) {
+        (self.data, self.totalCount) = (data, totalCount)
     }
 }
 

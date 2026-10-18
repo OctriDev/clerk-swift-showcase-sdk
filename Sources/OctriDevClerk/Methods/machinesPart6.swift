@@ -24,7 +24,7 @@ extension MachinesMethods {
     /// - Parameters:
     /// - machineId: The ID of the machine that has access to another machine
     /// - otherMachineId: The ID of the machine that is being accessed
-    public static func deleteMachineScope(config: ClientConfig, machineId: String, otherMachineId: String, requestOptions: RequestOptions? = nil) async throws -> DeleteMachineScopeResponse {
+    public static func deleteMachineScope(config: ClientConfig, machineId: String, otherMachineId: String, requestOptions: RequestOptions? = nil) async throws -> MachineScopeDeleted {
         return try (await sdkRequest("DELETE", ["/machines/", sdkEncodePathSegment(sdkWireString(machineId)), "/scopes/", sdkEncodePathSegment(sdkWireString(otherMachineId))].joined(), config: config, decoder: .json, operationId: "DeleteMachineScope", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

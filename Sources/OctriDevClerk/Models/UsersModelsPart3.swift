@@ -4,6 +4,61 @@
 import Foundation
 
 // Users domain models
+extension SAMLAccountConnection {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.id) else {
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
+        }
+        guard container.contains(.name) else {
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
+        }
+        guard container.contains(.active) else {
+            throw SdkValidationError(field: "active", code: "required", message: "Validation failed for 'active': value is required")
+        }
+        guard container.contains(.provider) else {
+            throw SdkValidationError(field: "provider", code: "required", message: "Validation failed for 'provider': value is required")
+        }
+        guard container.contains(.syncUserAttributes) else {
+            throw SdkValidationError(field: "sync_user_attributes", code: "required", message: "Validation failed for 'sync_user_attributes': value is required")
+        }
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
+        }
+        guard container.contains(.updatedAt) else {
+            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
+        }
+        self.id = try container.sdkDecodeRequired(.id)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.active = try container.sdkDecodeRequired(.active)
+        self.provider = try container.sdkDecodeRequired(.provider)
+        self.syncUserAttributes = try container.sdkDecodeRequired(.syncUserAttributes)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.domain = try container.sdkDecodeIfPresent(.domain)
+        self.domains = try container.sdkDecodeIfPresent(.domains)
+        self.allowSubdomains = try container.sdkDecodeIfPresent(.allowSubdomains)
+        self.allowIdpInitiated = try container.sdkDecodeIfPresent(.allowIdpInitiated)
+        self.disableAdditionalIdentifications = try container.sdkDecodeIfPresent(.disableAdditionalIdentifications)
+    }
+}
+
+extension SAMLAccountConnection {
+    public init(id: String, name: String, active: Bool, provider: String, syncUserAttributes: Bool, createdAt: Int, updatedAt: Int, domain: String? = nil, domains: [String]? = nil, allowSubdomains: Bool? = nil, allowIdpInitiated: Bool? = nil, disableAdditionalIdentifications: Bool? = nil) {
+        (self.id, self.name) = (id, name)
+        (self.active, self.provider) = (active, provider)
+        (self.syncUserAttributes, self.createdAt) = (syncUserAttributes, createdAt)
+        (self.updatedAt, self.domain) = (updatedAt, domain)
+        (self.domains, self.allowSubdomains) = (domains, allowSubdomains)
+        self.allowIdpInitiated = allowIdpInitiated
+        self.disableAdditionalIdentifications = disableAdditionalIdentifications
+    }
+}
+
+public indirect enum VerificationOauthError {
+    case clerkError(ClerkError)
+}
+
 extension VerificationOauthError: Codable {
 
     public init(from decoder: Decoder) throws {
@@ -404,55 +459,4 @@ extension VerificationGoogleOneTap {
             try sdkValidateRawEnum("object", value, VerificationGoogleOneTapObject.allCases.map(\.rawValue))
         }
     }
-}
-
-/// Typed representation of the `EnterpriseAccount` API schema.
-public struct EnterpriseAccount: Codable {
-    /// Required `string` value serialized in the `id` wire field.
-    public var id: String
-    /// String representing the object's type. Objects of the same type share the same value.
-    public var object: EnterpriseAccountObject
-    /// Required `string` value serialized in the `provider` wire field.
-    public var provider: String
-    /// Required `boolean` value serialized in the `active` wire field.
-    public var active: Bool
-    /// Required `string` value serialized in the `email_address` wire field.
-    public var emailAddress: String
-    /// Required object value serialized in the `verification` wire field.
-    public var verification: EnterpriseAccountVerification?
-    /// The authentication protocol used to sign in.
-    public var `protocol`: EnterpriseAccountProtocol?
-    /// Optional `string` value serialized in the `first_name` wire field.
-    public var firstName: String?
-    /// Optional `string` value serialized in the `last_name` wire field.
-    public var lastName: String?
-    /// The unique ID of the user in the external provider's system
-    public var providerUserId: String?
-    /// Optional `string` value serialized in the `enterprise_connection_id` wire field.
-    public var enterpriseConnectionId: String?
-    /// Optional object value serialized in the `public_metadata` wire field.
-    public var publicMetadata: [String: JSONValue]?
-    /// Optional object value serialized in the `enterprise_connection` wire field.
-    public var enterpriseConnection: [String: JSONValue]?
-    /// Unix timestamp of last authentication.
-    public var lastAuthenticatedAt: Int?
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case object
-        case provider
-        case active
-        case emailAddress = "email_address"
-        case verification
-        case `protocol`
-        case firstName = "first_name"
-        case lastName = "last_name"
-        case providerUserId = "provider_user_id"
-        case enterpriseConnectionId = "enterprise_connection_id"
-        case publicMetadata = "public_metadata"
-        case enterpriseConnection = "enterprise_connection"
-        case lastAuthenticatedAt = "last_authenticated_at"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
 }

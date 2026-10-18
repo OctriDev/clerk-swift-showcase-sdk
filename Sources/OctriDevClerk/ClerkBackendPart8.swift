@@ -157,7 +157,7 @@ public class ScimDirectoriesNamespace {
     }
 
 /// Returns a list of all directories for the instance.
-    public func list(limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> ListSCIMDirectoriesResponse {
+    public func list(limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> SCIMDirectoryList {
         return try await ScimDirectoriesMethods.listScimDirectories(config: config, limit: limit, offset: offset, requestOptions: requestOptions)
     }
 
@@ -193,7 +193,7 @@ public class ScimDirectoriesNamespace {
     }
 
 /// Returns the list of SCIM group to organization role mappings for a directory, ordered by precedence.
-    public func listScimGroupRoleMappings(scimDirectoryId: String, requestOptions: RequestOptions? = nil) async throws -> ListSCIMGroupRoleMappingsResponse {
+    public func listScimGroupRoleMappings(scimDirectoryId: String, requestOptions: RequestOptions? = nil) async throws -> SCIMGroupRoleMappingList {
         return try await ScimDirectoriesMethods.listScimGroupRoleMappings(config: config, scimDirectoryId: scimDirectoryId, requestOptions: requestOptions)
     }
 
@@ -205,12 +205,12 @@ public class ScimDirectoriesNamespace {
 
 extension ScimDirectoriesNamespace {
 /// Replaces the entire set of SCIM group role mappings for a directory. The position of each item in the `mappings` array determines its precedence (the first item gets precedence 1). Passing an empty array removes all mappings. Mappings can be replaced while group role mapping is disabled on the directory, but they only take effect once it is enabled.
-    public func replaceScimGroupRoleMappings(scimDirectoryId: String, mappings: [ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem], requestOptions: RequestOptions? = nil) async throws -> ListSCIMGroupRoleMappingsResponse {
+    public func replaceScimGroupRoleMappings(scimDirectoryId: String, mappings: [ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem], requestOptions: RequestOptions? = nil) async throws -> SCIMGroupRoleMappingList {
         return try await ScimDirectoriesMethods.replaceScimGroupRoleMappings(config: config, scimDirectoryId: scimDirectoryId, mappings: mappings, requestOptions: requestOptions)
     }
 
 /// Deletes a single SCIM group role mapping. Mappings can be deleted while group role mapping is disabled on the directory, but the change only takes effect once it is enabled.
-    public func deleteScimGroupRoleMapping(scimDirectoryId: String, mappingId: String, requestOptions: RequestOptions? = nil) async throws -> DeleteSCIMGroupRoleMappingResponse {
+    public func deleteScimGroupRoleMapping(scimDirectoryId: String, mappingId: String, requestOptions: RequestOptions? = nil) async throws -> SCIMGroupRoleMappingDeleted {
         return try await ScimDirectoriesMethods.deleteScimGroupRoleMapping(config: config, scimDirectoryId: scimDirectoryId, mappingId: mappingId, requestOptions: requestOptions)
     }
 }

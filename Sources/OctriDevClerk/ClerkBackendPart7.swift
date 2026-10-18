@@ -151,7 +151,7 @@ public class WaitlistEntriesNamespace {
     }
 
 /// Retrieve a list of waitlist entries for the instance. Entries are ordered by creation date in descending order by default. Supports filtering by email address or status and pagination with limit and offset parameters.
-    public func list(limit: Int? = nil, offset: Int? = nil, query: String? = nil, status: ListWaitlistEntriesParameter? = nil, orderBy: String? = nil, requestOptions: RequestOptions? = nil) async throws -> ListWaitlistEntriesResponse {
+    public func list(limit: Int? = nil, offset: Int? = nil, query: String? = nil, status: ListWaitlistEntriesParameter? = nil, orderBy: String? = nil, requestOptions: RequestOptions? = nil) async throws -> WaitlistEntries {
         return try await WaitlistEntriesMethods.listWaitlistEntries(config: config, limit: limit, offset: offset, query: query, status: status, orderBy: orderBy, requestOptions: requestOptions)
     }
 

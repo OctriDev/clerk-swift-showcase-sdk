@@ -22,7 +22,7 @@ extension UsersMethods {
     ///
     /// - Parameters:
     /// - userId: The ID of the user whose biometric credentials are returned
-    public static func listUserBiometricCredentials(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> ListUserBiometricCredentialsResponse {
+    public static func listUserBiometricCredentials(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> BiometricCredentialList {
         return try (await sdkRequest("GET", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/biometric_credentials"].joined(), config: config, decoder: .json, operationId: "ListUserBiometricCredentials", options: requestOptions, errors: ["403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 

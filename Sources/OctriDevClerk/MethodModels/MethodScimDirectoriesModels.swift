@@ -8,39 +8,6 @@ import Foundation
 #endif
 
 // Canonical scimDirectories operation model declarations
-public struct ListSCIMGroupRoleMappingsResponse: Codable {
-    public var data: SCIMGroupRoleMappings
-    /// Total number of SCIM group role mappings in the directory.
-    public var totalCount: Int
-
-    enum CodingKeys: String, CodingKey {
-        case data
-        case totalCount = "total_count"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ListSCIMGroupRoleMappingsResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
-    }
-}
-
-extension ListSCIMGroupRoleMappingsResponse {
-    public init(data: SCIMGroupRoleMappings, totalCount: Int) {
-        (self.data, self.totalCount) = (data, totalCount)
-    }
-}
-
 public struct CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem: Codable {
     /// The SCIM group ID from the identity provider.
     public var scimGroupId: String
@@ -93,81 +60,6 @@ extension CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem {
         if let value = self.precedence {
             try validateRange("precedence", Double(value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
         }
-    }
-}
-
-public struct DeleteSCIMGroupRoleMappingResponse: Codable {
-    /// String representing the object's type.
-    public var object: DeleteSCIMGroupRoleMappingResponseObject
-    /// The ID of the deleted SCIM group role mapping.
-    public var id: String
-    /// Whether the SCIM group role mapping was successfully deleted.
-    public var deleted: Bool
-
-    enum CodingKeys: String, CodingKey {
-        case object
-        case id
-        case deleted
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension DeleteSCIMGroupRoleMappingResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.deleted) else {
-            throw SdkValidationError(field: "deleted", code: "required", message: "Validation failed for 'deleted': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.deleted = try container.sdkDecodeRequired(.deleted)
-    }
-}
-
-extension DeleteSCIMGroupRoleMappingResponse {
-    public init(object: DeleteSCIMGroupRoleMappingResponseObject, id: String, deleted: Bool) {
-        (self.object, self.id) = (object, id)
-        self.deleted = deleted
-    }
-}
-
-public struct ListSCIMDirectoriesResponse: Codable {
-    public var data: SCIMDirectories
-    /// Total number of directories.
-    public var totalCount: Int
-
-    enum CodingKeys: String, CodingKey {
-        case data
-        case totalCount = "total_count"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ListSCIMDirectoriesResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
-    }
-}
-
-extension ListSCIMDirectoriesResponse {
-    public init(data: SCIMDirectories, totalCount: Int) {
-        (self.data, self.totalCount) = (data, totalCount)
     }
 }
 

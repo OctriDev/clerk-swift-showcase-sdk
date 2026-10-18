@@ -8,48 +8,6 @@ import Foundation
 #endif
 
 // Canonical directories operation model declarations
-public struct DeleteDirectoryGroupRoleMappingResponse: Codable {
-    /// String representing the object's type.
-    public var object: DeleteDirectoryGroupRoleMappingResponseObject
-    /// The ID of the deleted directory group role mapping.
-    public var id: String
-    /// Whether the directory group role mapping was successfully deleted.
-    public var deleted: Bool
-
-    enum CodingKeys: String, CodingKey {
-        case object
-        case id
-        case deleted
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension DeleteDirectoryGroupRoleMappingResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.deleted) else {
-            throw SdkValidationError(field: "deleted", code: "required", message: "Validation failed for 'deleted': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.deleted = try container.sdkDecodeRequired(.deleted)
-    }
-}
-
-extension DeleteDirectoryGroupRoleMappingResponse {
-    public init(object: DeleteDirectoryGroupRoleMappingResponseObject, id: String, deleted: Bool) {
-        (self.object, self.id) = (object, id)
-        self.deleted = deleted
-    }
-}
-
 public struct CreateDirectoryRequestBodyGroupRoleMappingsItem: Codable {
     /// The organization role ID to assign to members of the group.
     public var roleId: String
@@ -116,72 +74,6 @@ extension CreateDirectoryRequestBodyGroupRoleMappingsItem {
         if let value = self.precedence {
             try validateRange("precedence", Double(value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
         }
-    }
-}
-
-public struct ListDirectoryGroupRoleMappingsResponse: Codable {
-    public var data: DirectoryGroupRoleMappings
-    /// Total number of directory group role mappings in the directory.
-    public var totalCount: Int
-
-    enum CodingKeys: String, CodingKey {
-        case data
-        case totalCount = "total_count"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ListDirectoryGroupRoleMappingsResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
-    }
-}
-
-extension ListDirectoryGroupRoleMappingsResponse {
-    public init(data: DirectoryGroupRoleMappings, totalCount: Int) {
-        (self.data, self.totalCount) = (data, totalCount)
-    }
-}
-
-public struct ListDirectoriesResponse: Codable {
-    public var data: Directories
-    /// Total number of directories.
-    public var totalCount: Int
-
-    enum CodingKeys: String, CodingKey {
-        case data
-        case totalCount = "total_count"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ListDirectoriesResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
-    }
-}
-
-extension ListDirectoriesResponse {
-    public init(data: Directories, totalCount: Int) {
-        (self.data, self.totalCount) = (data, totalCount)
     }
 }
 

@@ -12,7 +12,7 @@ extension EmailAddressesMethods {
     /// - Parameters:
     /// - emailAddressId: The ID of the email address to send the verification code
     ///   to
-    public static func prepareEmailAddressVerification(config: ClientConfig, emailAddressId: String, requestOptions: RequestOptions? = nil) async throws -> AttemptEmailAddressVerificationResponse {
+    public static func prepareEmailAddressVerification(config: ClientConfig, emailAddressId: String, requestOptions: RequestOptions? = nil) async throws -> VerificationResponse {
         return try (await sdkRequest("POST", ["/email_addresses/", sdkEncodePathSegment(sdkWireString(emailAddressId)), "/prepare_verification"].joined(), config: config, decoder: .json, operationId: "PrepareEmailAddressVerification", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "429": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 
@@ -23,7 +23,7 @@ extension EmailAddressesMethods {
     /// - verificationId: The ID of the verification to check, such as one returned
     ///   by prepare_verification
     /// - code: The verification code that was sent to the email address
-    public static func attemptEmailAddressVerification(config: ClientConfig, emailAddressId: String, verificationId: String, code: String, requestOptions: RequestOptions? = nil) async throws -> AttemptEmailAddressVerificationResponse {
+    public static func attemptEmailAddressVerification(config: ClientConfig, emailAddressId: String, verificationId: String, code: String, requestOptions: RequestOptions? = nil) async throws -> VerificationResponse {
         let requestBody = AttemptEmailAddressVerificationRequestBody(verificationId: verificationId, code: code)
 
         return try (await sdkRequest("POST", ["/email_addresses/", sdkEncodePathSegment(sdkWireString(emailAddressId)), "/attempt_verification"].joined(), config: config, body: requestBody, decoder: .json, operationId: "AttemptEmailAddressVerification", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self])).data

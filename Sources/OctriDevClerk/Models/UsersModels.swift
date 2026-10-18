@@ -4,42 +4,6 @@
 import Foundation
 
 // Users domain models
-public indirect enum EnterpriseAccountConnection {
-    case jsonValue(JSONValue)
-    case jsonValue1(JSONValue)
-}
-
-extension EnterpriseAccountConnection: Codable {
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for EnterpriseAccountConnection")
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
-    }
-}
-
-extension EnterpriseAccountConnection {
-    static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(JSONValue.self) { return .jsonValue(value) }
-        if let value = try? container.decode(JSONValue.self) { return .jsonValue1(value) }
-        return nil
-    }
-}
-
-extension EnterpriseAccountConnection {
-    func encodeGroup1(to encoder: Encoder) throws -> Bool {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .jsonValue(value): try container.encode(value); return true
-        case let .jsonValue1(value): try container.encode(value); return true
-        }
-    }
-}
-
 public indirect enum EnterpriseAccountVerification {
     case verificationTicket(VerificationTicket)
     case verificationSaml(VerificationSaml)
@@ -179,42 +143,6 @@ extension ExternalAccountWithVerificationVerification {
 public typealias OAuthAccessToken = [OAuthAccessTokenItem]
 
 public typealias PasswordHasher = String
-
-public indirect enum SAMLAccountConnection {
-    case jsonValue(JSONValue)
-    case jsonValue1(JSONValue)
-}
-
-extension SAMLAccountConnection: Codable {
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for SAMLAccountConnection")
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
-    }
-}
-
-extension SAMLAccountConnection {
-    static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(JSONValue.self) { return .jsonValue(value) }
-        if let value = try? container.decode(JSONValue.self) { return .jsonValue1(value) }
-        return nil
-    }
-}
-
-extension SAMLAccountConnection {
-    func encodeGroup1(to encoder: Encoder) throws -> Bool {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .jsonValue(value): try container.encode(value); return true
-        case let .jsonValue1(value): try container.encode(value); return true
-        }
-    }
-}
 
 public indirect enum SAMLAccountVerification {
     case verificationSaml(VerificationSaml)
@@ -484,4 +412,95 @@ extension BiometricCredential {
         (self.name, self.lastUsedAt) = (name, lastUsedAt)
         self.revokedAt = revokedAt
     }
+}
+
+/// Typed representation of the `VerificationOauth` API schema.
+public struct VerificationOauth: Codable {
+    /// Required enumerated value serialized in the `status` wire field.
+    public var status: VerificationOauthStatus
+    /// Required `string` value serialized in the `strategy` wire field.
+    public var strategy: String
+    /// Required `integer` value serialized in the `expire_at` wire field.
+    public var expireAt: Int
+    /// Required `integer` value serialized in the `attempts` wire field.
+    public var attempts: Int?
+    /// Optional enumerated value serialized in the `object` wire field.
+    public var object: VerificationOauthObject?
+    /// Optional `string` value serialized in the `external_verification_redirect_url` wire field.
+    public var externalVerificationRedirectUrl: String?
+    /// Optional object value serialized in the `error` wire field.
+    public var error: [String: JSONValue]?
+    /// Optional `string` value serialized in the `verified_at_client` wire field.
+    public var verifiedAtClient: String?
+
+    enum CodingKeys: String, CodingKey {
+        case status
+        case strategy
+        case expireAt = "expire_at"
+        case attempts
+        case object
+        case externalVerificationRedirectUrl = "external_verification_redirect_url"
+        case error
+        case verifiedAtClient = "verified_at_client"
+    }
+
+    private init(sdkCopy value: Self) { self = value }
+}
+
+extension VerificationOauth {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.status) else {
+            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
+        }
+        guard container.contains(.strategy) else {
+            throw SdkValidationError(field: "strategy", code: "required", message: "Validation failed for 'strategy': value is required")
+        }
+        guard container.contains(.expireAt) else {
+            throw SdkValidationError(field: "expire_at", code: "required", message: "Validation failed for 'expire_at': value is required")
+        }
+        guard container.contains(.attempts) else {
+            throw SdkValidationError(field: "attempts", code: "required", message: "Validation failed for 'attempts': value is required")
+        }
+        self.status = try container.sdkDecodeRequired(.status)
+        self.strategy = try container.sdkDecodeRequired(.strategy)
+        self.expireAt = try container.sdkDecodeRequired(.expireAt)
+        self.attempts = try container.sdkDecodeNullable(.attempts)
+        self.object = try container.sdkDecodeIfPresent(.object)
+        self.externalVerificationRedirectUrl = try container.sdkDecodeIfPresent(.externalVerificationRedirectUrl)
+        self.error = try container.sdkDecodeIfPresent(.error)
+        self.verifiedAtClient = try container.sdkDecodeIfPresent(.verifiedAtClient)
+            try sdkValidatePattern("strategy", self.strategy, sdkPattern3e3dd5830d77)
+        if let value = self.object {
+            try sdkValidateRawEnum("object", value, VerificationOauthObject.allCases.map(\.rawValue))
+        }
+    }
+}
+
+extension VerificationOauth {
+    public init(status: VerificationOauthStatus, strategy: String, expireAt: Int, attempts: Int?, object: VerificationOauthObject? = nil, externalVerificationRedirectUrl: String? = nil, error: [String: JSONValue]? = nil, verifiedAtClient: String? = nil) throws {
+        (self.status, self.strategy) = (status, strategy)
+        (self.expireAt, self.attempts) = (expireAt, attempts)
+        (self.object, self.externalVerificationRedirectUrl) = (object, externalVerificationRedirectUrl)
+        (self.error, self.verifiedAtClient) = (error, verifiedAtClient)
+            try sdkValidatePattern("strategy", self.strategy, sdkPattern3e3dd5830d77)
+        if let value = self.object {
+            try sdkValidateRawEnum("object", value, VerificationOauthObject.allCases.map(\.rawValue))
+        }
+    }
+}
+
+/// Required object value serialized in the `groups[]` wire field.
+public struct SCIMUserMetadataGroupsItem: Codable {
+    /// Required `string` value serialized in the `id` wire field.
+    public var id: String
+    /// Required `string` value serialized in the `display_name` wire field.
+    public var displayName: String
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case displayName = "display_name"
+    }
+
+    private init(sdkCopy value: Self) { self = value }
 }

@@ -14,7 +14,7 @@ extension ScimDirectoriesMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    public static func listScimDirectories(config: ClientConfig, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> ListSCIMDirectoriesResponse {
+    public static func listScimDirectories(config: ClientConfig, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> SCIMDirectoryList {
         if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }

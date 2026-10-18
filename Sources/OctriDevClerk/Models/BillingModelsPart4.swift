@@ -4,472 +4,420 @@
 import Foundation
 
 // Billing domain models
-extension CommerceSubscriptionItem2Plan {
+/// When the new price takes effect.
+public struct CommercePriceTransitionDetailsEffectiveMode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let immediate = CommercePriceTransitionDetailsEffectiveMode(rawValue: "immediate")
+    public static let endOfPeriod = CommercePriceTransitionDetailsEffectiveMode(rawValue: "end_of_period")
+
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.fee = try container.sdkDecodeNullable(.fee)
-        self.annualMonthlyFee = try container.sdkDecodeNullable(.annualMonthlyFee)
-        self.annualFee = try container.sdkDecodeNullable(.annualFee)
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.amountFormatted = try container.sdkDecodeRequired(.amountFormatted)
-        self.annualMonthlyAmount = try container.sdkDecodeRequired(.annualMonthlyAmount)
-        self.annualMonthlyAmountFormatted = try container.sdkDecodeRequired(.annualMonthlyAmountFormatted)
-        self.annualAmount = try container.sdkDecodeRequired(.annualAmount)
-        self.annualAmountFormatted = try container.sdkDecodeRequired(.annualAmountFormatted)
-        self.currencySymbol = try container.sdkDecodeRequired(.currencySymbol)
-        self.currency = try container.sdkDecodeRequired(.currency)
-        self.description = try container.sdkDecodeRequired(.description)
-        self.productId = try container.sdkDecodeRequired(.productId)
-        self.isDefault = try container.sdkDecodeRequired(.isDefault)
-        self.isRecurring = try container.sdkDecodeRequired(.isRecurring)
-        self.publiclyVisible = try container.sdkDecodeRequired(.publiclyVisible)
-        self.hasBaseFee = try container.sdkDecodeRequired(.hasBaseFee)
-        self.payerType = try container.sdkDecodeRequired(.payerType)
-        self.forPayerType = try container.sdkDecodeRequired(.forPayerType)
-        self.slug = try container.sdkDecodeRequired(.slug)
-        self.avatarUrl = try container.sdkDecodeRequired(.avatarUrl)
-        self.features = try container.sdkDecodeRequired(.features)
-        self.period = try container.sdkDecodeIfPresent(.period)
-        self.interval = try container.sdkDecodeIfPresent(.interval)
-        self.freeTrialEnabled = try container.sdkDecodeIfPresent(.freeTrialEnabled)
-        self.freeTrialDays = try container.sdkDecodeIfPresent(.freeTrialDays)
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
 
-extension CommerceSubscriptionItem2Plan {
-    public init(object: CommercePlan2Object, id: String, name: String, fee: CommercePlan2Fee?, annualMonthlyFee: CommercePlan2AnnualMonthlyFee?, annualFee: CommercePlan2AnnualFee?, amount: Int, amountFormatted: String, annualMonthlyAmount: Int, annualMonthlyAmountFormatted: String, annualAmount: Int, annualAmountFormatted: String, currencySymbol: String, currency: String, description: String, productId: String, isDefault: Bool, isRecurring: Bool, publiclyVisible: Bool, hasBaseFee: Bool, payerType: [String], forPayerType: String, slug: String, avatarUrl: String, features: [FeatureResponse2], period: String? = nil, interval: Int? = nil, freeTrialEnabled: Bool? = nil, freeTrialDays: Int? = nil) {
-        (self.object, self.id) = (object, id)
-        (self.name, self.fee) = (name, fee)
-        (self.annualMonthlyFee, self.annualFee) = (annualMonthlyFee, annualFee)
-        (self.amount, self.amountFormatted) = (amount, amountFormatted)
-        self.annualMonthlyAmount = annualMonthlyAmount
-        self.annualMonthlyAmountFormatted = annualMonthlyAmountFormatted
-        (self.annualAmount, self.annualAmountFormatted) = (annualAmount, annualAmountFormatted)
-        (self.currencySymbol, self.currency) = (currencySymbol, currency)
-        (self.description, self.productId) = (description, productId)
-        (self.isDefault, self.isRecurring) = (isDefault, isRecurring)
-        (self.publiclyVisible, self.hasBaseFee) = (publiclyVisible, hasBaseFee)
-        (self.payerType, self.forPayerType) = (payerType, forPayerType)
-        (self.slug, self.avatarUrl) = (slug, avatarUrl)
-        (self.features, self.period) = (features, period)
-        (self.interval, self.freeTrialEnabled) = (interval, freeTrialEnabled)
-        self.freeTrialDays = freeTrialDays
-    }
-}
+/// String representing the object's type. Objects of the same type share the same value.
+public struct FeatureResponse2Object: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
 
-/// Typed representation of the `CommercePriceTransitionDetails` API schema.
-public struct CommercePriceTransitionDetails: Codable {
-    /// Required object value serialized in the `previous_plan` wire field.
-    public var previousPlan: CommercePlan2
-    /// Required object value serialized in the `previous_price` wire field.
-    public var previousPrice: BillingPriceResponse
-    /// Unix timestamp (milliseconds) when the new price takes effect.
-    public var effectiveAt: Int
-    /// When the new price takes effect.
-    public var effectiveMode: CommercePriceTransitionDetailsEffectiveMode
-    /// Whether an immediate charge was made.
-    public var chargedImmediately: Bool
-    /// The status of the previous subscription item after transition.
-    public var previousSubscriptionItemStatus: CommercePriceTransitionDetailsPreviousSubscriptionItemStatus
-    /// The ID of the previous subscription item.
-    public var previousSubscriptionItemId: String
-    /// Unix timestamp (milliseconds) for the next billing date.
-    public var nextBillingDate: Int?
-    /// Amount charged immediately, if any.
-    public var immediateCharge: CommercePriceTransitionDetailsImmediateCharge?
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let feature = FeatureResponse2Object(rawValue: "feature")
 
-    enum CodingKeys: String, CodingKey {
-        case previousPlan = "previous_plan"
-        case previousPrice = "previous_price"
-        case effectiveAt = "effective_at"
-        case effectiveMode = "effective_mode"
-        case chargedImmediately = "charged_immediately"
-        case previousSubscriptionItemStatus = "previous_subscription_item_status"
-        case previousSubscriptionItemId = "previous_subscription_item_id"
-        case nextBillingDate = "next_billing_date"
-        case immediateCharge = "immediate_charge"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommercePriceTransitionDetails {
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.previousPlan) else {
-            throw SdkValidationError(field: "previous_plan", code: "required", message: "Validation failed for 'previous_plan': value is required")
-        }
-        guard container.contains(.previousPrice) else {
-            throw SdkValidationError(field: "previous_price", code: "required", message: "Validation failed for 'previous_price': value is required")
-        }
-        guard container.contains(.effectiveAt) else {
-            throw SdkValidationError(field: "effective_at", code: "required", message: "Validation failed for 'effective_at': value is required")
-        }
-        guard container.contains(.effectiveMode) else {
-            throw SdkValidationError(field: "effective_mode", code: "required", message: "Validation failed for 'effective_mode': value is required")
-        }
-        guard container.contains(.chargedImmediately) else {
-            throw SdkValidationError(field: "charged_immediately", code: "required", message: "Validation failed for 'charged_immediately': value is required")
-        }
-        guard container.contains(.previousSubscriptionItemStatus) else {
-            throw SdkValidationError(field: "previous_subscription_item_status", code: "required", message: "Validation failed for 'previous_subscription_item_status': value is required")
-        }
-        guard container.contains(.previousSubscriptionItemId) else {
-            throw SdkValidationError(field: "previous_subscription_item_id", code: "required", message: "Validation failed for 'previous_subscription_item_id': value is required")
-        }
-        self.previousPlan = try container.sdkDecodeRequired(.previousPlan)
-        self.previousPrice = try container.sdkDecodeRequired(.previousPrice)
-        self.effectiveAt = try container.sdkDecodeRequired(.effectiveAt)
-        self.effectiveMode = try container.sdkDecodeRequired(.effectiveMode)
-        self.chargedImmediately = try container.sdkDecodeRequired(.chargedImmediately)
-        self.previousSubscriptionItemStatus = try container.sdkDecodeRequired(.previousSubscriptionItemStatus)
-        self.previousSubscriptionItemId = try container.sdkDecodeRequired(.previousSubscriptionItemId)
-        self.nextBillingDate = try container.sdkDecodeIfPresent(.nextBillingDate)
-        self.immediateCharge = try container.sdkDecodeIfPresent(.immediateCharge)
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
 
-extension CommercePriceTransitionDetails {
-    public init(previousPlan: CommercePlan2, previousPrice: BillingPriceResponse, effectiveAt: Int, effectiveMode: CommercePriceTransitionDetailsEffectiveMode, chargedImmediately: Bool, previousSubscriptionItemStatus: CommercePriceTransitionDetailsPreviousSubscriptionItemStatus, previousSubscriptionItemId: String, nextBillingDate: Int? = nil, immediateCharge: CommercePriceTransitionDetailsImmediateCharge? = nil) {
-        (self.previousPlan, self.previousPrice) = (previousPlan, previousPrice)
-        (self.effectiveAt, self.effectiveMode) = (effectiveAt, effectiveMode)
-        self.chargedImmediately = chargedImmediately
-        self.previousSubscriptionItemStatus = previousSubscriptionItemStatus
-        self.previousSubscriptionItemId = previousSubscriptionItemId
-        (self.nextBillingDate, self.immediateCharge) = (nextBillingDate, immediateCharge)
-    }
-}
+/// String representing the object's type. Objects of the same type share the same value.
+public struct CommerceSubscriptionItem2Object: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
 
-/// Typed representation of the `PaginatedBillingStatementResponse` API schema.
-public struct PaginatedBillingStatementResponse: Codable {
-    /// Array of billing statements.
-    public var data: [BillingStatement]
-    /// Total number of billing statements.
-    public var totalCount: Int
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let commerceSubscriptionItem = CommerceSubscriptionItem2Object(rawValue: "commerce_subscription_item")
 
-    enum CodingKeys: String, CodingKey {
-        case data
-        case totalCount = "total_count"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension PaginatedBillingStatementResponse {
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
 
-extension PaginatedBillingStatementResponse {
-    public init(data: [BillingStatement], totalCount: Int) {
-        (self.data, self.totalCount) = (data, totalCount)
-    }
-}
+/// String representing the object's type. Objects of the same type share the same value.
+public struct CommercePayerResponse2Object: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
 
-/// Typed representation of the `FeatureResponse2` API schema.
-public struct FeatureResponse2: Codable {
-    /// String representing the object's type. Objects of the same type share the same value.
-    public var object: FeatureResponse2Object
-    /// Unique identifier for the feature.
-    public var id: String
-    /// The name of the feature.
-    public var name: String
-    /// The description of the feature.
-    public var description: String
-    /// The URL-friendly slug for the feature.
-    public var slug: String
-    /// The URL of the feature's avatar image.
-    public var avatarUrl: String
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let commercePayer = CommercePayerResponse2Object(rawValue: "commerce_payer")
 
-    enum CodingKeys: String, CodingKey {
-        case object
-        case id
-        case name
-        case description
-        case slug
-        case avatarUrl = "avatar_url"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension FeatureResponse2 {
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.description) else {
-            throw SdkValidationError(field: "description", code: "required", message: "Validation failed for 'description': value is required")
-        }
-        guard container.contains(.slug) else {
-            throw SdkValidationError(field: "slug", code: "required", message: "Validation failed for 'slug': value is required")
-        }
-        guard container.contains(.avatarUrl) else {
-            throw SdkValidationError(field: "avatar_url", code: "required", message: "Validation failed for 'avatar_url': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.description = try container.sdkDecodeRequired(.description)
-        self.slug = try container.sdkDecodeRequired(.slug)
-        self.avatarUrl = try container.sdkDecodeRequired(.avatarUrl)
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
 
-extension FeatureResponse2 {
-    public init(object: FeatureResponse2Object, id: String, name: String, description: String, slug: String, avatarUrl: String) {
-        (self.object, self.id) = (object, id)
-        (self.name, self.description) = (name, description)
-        (self.slug, self.avatarUrl) = (slug, avatarUrl)
-    }
-}
+/// The billing period for this subscription.
+public struct CommerceSubscriptionItem2PlanPeriod: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
 
-/// Required API value serialized in the `annual_monthly_fee` wire field.
-public struct BillingPriceResponseAnnualMonthlyFee: Codable {
-    /// The amount in cents.
-    public var amount: Int
-    /// The formatted amount as a string (e.g., "$49.99").
-    public var amountFormatted: String
-    /// The currency code (e.g., "USD").
-    public var currency: String
-    /// The currency symbol (e.g., "$").
-    public var currencySymbol: String
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let month = CommerceSubscriptionItem2PlanPeriod(rawValue: "month")
+    public static let annual = CommerceSubscriptionItem2PlanPeriod(rawValue: "annual")
 
-    enum CodingKeys: String, CodingKey {
-        case amount
-        case amountFormatted = "amount_formatted"
-        case currency
-        case currencySymbol = "currency_symbol"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BillingPriceResponseAnnualMonthlyFee {
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        guard container.contains(.amountFormatted) else {
-            throw SdkValidationError(field: "amount_formatted", code: "required", message: "Validation failed for 'amount_formatted': value is required")
-        }
-        guard container.contains(.currency) else {
-            throw SdkValidationError(field: "currency", code: "required", message: "Validation failed for 'currency': value is required")
-        }
-        guard container.contains(.currencySymbol) else {
-            throw SdkValidationError(field: "currency_symbol", code: "required", message: "Validation failed for 'currency_symbol': value is required")
-        }
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.amountFormatted = try container.sdkDecodeRequired(.amountFormatted)
-        self.currency = try container.sdkDecodeRequired(.currency)
-        self.currencySymbol = try container.sdkDecodeRequired(.currencySymbol)
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
 
-extension BillingPriceResponseAnnualMonthlyFee {
-    public init(amount: Int, amountFormatted: String, currency: String, currencySymbol: String) {
-        (self.amount, self.amountFormatted) = (amount, amountFormatted)
-        (self.currency, self.currencySymbol) = (currency, currencySymbol)
-    }
-}
+/// Status of the payment source.
+public struct CommercePaymentSourceResponseStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
 
-/// Total amount paid over the lifetime of this subscription.
-public struct CommerceSubscriptionItem2LifetimePaid: Codable {
-    /// The amount in cents.
-    public var amount: Int
-    /// The formatted amount as a string (e.g., "$49.99").
-    public var amountFormatted: String
-    /// The currency code (e.g., "USD").
-    public var currency: String
-    /// The currency symbol (e.g., "$").
-    public var currencySymbol: String
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let active = CommercePaymentSourceResponseStatus(rawValue: "active")
+    public static let disconnected = CommercePaymentSourceResponseStatus(rawValue: "disconnected")
 
-    enum CodingKeys: String, CodingKey {
-        case amount
-        case amountFormatted = "amount_formatted"
-        case currency
-        case currencySymbol = "currency_symbol"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommerceSubscriptionItem2LifetimePaid {
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        guard container.contains(.amountFormatted) else {
-            throw SdkValidationError(field: "amount_formatted", code: "required", message: "Validation failed for 'amount_formatted': value is required")
-        }
-        guard container.contains(.currency) else {
-            throw SdkValidationError(field: "currency", code: "required", message: "Validation failed for 'currency': value is required")
-        }
-        guard container.contains(.currencySymbol) else {
-            throw SdkValidationError(field: "currency_symbol", code: "required", message: "Validation failed for 'currency_symbol': value is required")
-        }
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.amountFormatted = try container.sdkDecodeRequired(.amountFormatted)
-        self.currency = try container.sdkDecodeRequired(.currency)
-        self.currencySymbol = try container.sdkDecodeRequired(.currencySymbol)
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
 
-extension CommerceSubscriptionItem2LifetimePaid {
-    public init(amount: Int, amountFormatted: String, currency: String, currencySymbol: String) {
-        (self.amount, self.amountFormatted) = (amount, amountFormatted)
-        (self.currency, self.currencySymbol) = (currency, currencySymbol)
-    }
-}
+/// The current status of the payment attempt.
+public struct BillingPaymentAttemptStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
 
-/// Typed representation of the `CommercePlan2` API schema.
-public struct CommercePlan2: Codable {
-    /// String representing the object's type. Objects of the same type share the same value.
-    public var object: CommercePlan2Object
-    /// Unique identifier for the commerce plan.
-    public var id: String
-    /// The name of the commerce plan.
-    public var name: String
-    /// Required API value serialized in the `fee` wire field.
-    public var fee: CommercePlan2Fee?
-    /// Required API value serialized in the `annual_monthly_fee` wire field.
-    public var annualMonthlyFee: CommercePlan2AnnualMonthlyFee?
-    /// Required API value serialized in the `annual_fee` wire field.
-    public var annualFee: CommercePlan2AnnualFee?
-    /// The amount in cents for the plan.
-    public var amount: Int
-    /// The formatted amount as a string (e.g., "$49.99").
-    public var amountFormatted: String
-    /// The monthly amount in cents when billed annually.
-    public var annualMonthlyAmount: Int
-    /// The formatted annual monthly amount as a string.
-    public var annualMonthlyAmountFormatted: String
-    /// The total annual amount in cents.
-    public var annualAmount: Int
-    /// The formatted annual amount as a string.
-    public var annualAmountFormatted: String
-    /// The currency symbol (e.g., "$").
-    public var currencySymbol: String
-    /// The currency code (e.g., "USD").
-    public var currency: String
-    /// The description of the commerce plan.
-    public var description: String
-    /// The ID of the product this plan belongs to.
-    public var productId: String
-    /// Whether this is the default plan.
-    public var isDefault: Bool
-    /// Whether this is a recurring plan.
-    public var isRecurring: Bool
-    /// Whether this plan is publicly visible.
-    public var publiclyVisible: Bool
-    /// Whether this plan has a base fee.
-    public var hasBaseFee: Bool
-    /// The types of payers that can use this plan.
-    public var payerType: [String]
-    /// The payer type this plan is designed for.
-    public var forPayerType: String
-    /// The URL-friendly slug for the plan.
-    public var slug: String
-    /// The URL of the plan's avatar image.
-    public var avatarUrl: String
-    /// The features included in this plan.
-    public var features: [FeatureResponse2]
-    /// The billing period for the plan.
-    public var period: String?
-    /// The billing interval.
-    public var interval: Int?
-    /// Whether free trial is enabled for this plan.
-    public var freeTrialEnabled: Bool?
-    /// Number of free trial days for this plan.
-    public var freeTrialDays: Int?
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let pending = BillingPaymentAttemptStatus(rawValue: "pending")
+    public static let paid = BillingPaymentAttemptStatus(rawValue: "paid")
+    public static let failed = BillingPaymentAttemptStatus(rawValue: "failed")
 
-    enum CodingKeys: String, CodingKey {
-        case object
-        case id
-        case name
-        case fee
-        case annualMonthlyFee = "annual_monthly_fee"
-        case annualFee = "annual_fee"
-        case amount
-        case amountFormatted = "amount_formatted"
-        case annualMonthlyAmount = "annual_monthly_amount"
-        case annualMonthlyAmountFormatted = "annual_monthly_amount_formatted"
-        case annualAmount = "annual_amount"
-        case annualAmountFormatted = "annual_amount_formatted"
-        case currencySymbol = "currency_symbol"
-        case currency
-        case description
-        case productId = "product_id"
-        case isDefault = "is_default"
-        case isRecurring = "is_recurring"
-        case publiclyVisible = "publicly_visible"
-        case hasBaseFee = "has_base_fee"
-        case payerType = "payer_type"
-        case forPayerType = "for_payer_type"
-        case slug
-        case avatarUrl = "avatar_url"
-        case features
-        case period
-        case interval
-        case freeTrialEnabled = "free_trial_enabled"
-        case freeTrialDays = "free_trial_days"
-    }
-
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommercePlan2 {
     public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.fee = try container.sdkDecodeNullable(.fee)
-        self.annualMonthlyFee = try container.sdkDecodeNullable(.annualMonthlyFee)
-        self.annualFee = try container.sdkDecodeNullable(.annualFee)
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.amountFormatted = try container.sdkDecodeRequired(.amountFormatted)
-        self.annualMonthlyAmount = try container.sdkDecodeRequired(.annualMonthlyAmount)
-        self.annualMonthlyAmountFormatted = try container.sdkDecodeRequired(.annualMonthlyAmountFormatted)
-        self.annualAmount = try container.sdkDecodeRequired(.annualAmount)
-        self.annualAmountFormatted = try container.sdkDecodeRequired(.annualAmountFormatted)
-        self.currencySymbol = try container.sdkDecodeRequired(.currencySymbol)
-        self.currency = try container.sdkDecodeRequired(.currency)
-        self.description = try container.sdkDecodeRequired(.description)
-        self.productId = try container.sdkDecodeRequired(.productId)
-        self.isDefault = try container.sdkDecodeRequired(.isDefault)
-        self.isRecurring = try container.sdkDecodeRequired(.isRecurring)
-        self.publiclyVisible = try container.sdkDecodeRequired(.publiclyVisible)
-        self.hasBaseFee = try container.sdkDecodeRequired(.hasBaseFee)
-        self.payerType = try container.sdkDecodeRequired(.payerType)
-        self.forPayerType = try container.sdkDecodeRequired(.forPayerType)
-        self.slug = try container.sdkDecodeRequired(.slug)
-        self.avatarUrl = try container.sdkDecodeRequired(.avatarUrl)
-        self.features = try container.sdkDecodeRequired(.features)
-        self.period = try container.sdkDecodeIfPresent(.period)
-        self.interval = try container.sdkDecodeIfPresent(.interval)
-        self.freeTrialEnabled = try container.sdkDecodeIfPresent(.freeTrialEnabled)
-        self.freeTrialDays = try container.sdkDecodeIfPresent(.freeTrialDays)
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// The payment method type.
+public struct CommercePaymentSourceResponsePaymentMethod: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let card = CommercePaymentSourceResponsePaymentMethod(rawValue: "card")
+    public static let applePay = CommercePaymentSourceResponsePaymentMethod(rawValue: "apple_pay")
+    public static let googlePay = CommercePaymentSourceResponsePaymentMethod(rawValue: "google_pay")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// How the discount was applied to the subscription item.
+public struct CommerceDiscountRedemptionResponseSource: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let promotion = CommerceDiscountRedemptionResponseSource(rawValue: "promotion")
+    public static let manual = CommerceDiscountRedemptionResponseSource(rawValue: "manual")
+    public static let promoCode = CommerceDiscountRedemptionResponseSource(rawValue: "promo_code")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// String representing the object's type. Objects of the same type share the same value.
+public struct CommercePaymentSourceResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let commerceSource = CommercePaymentSourceResponseObject(rawValue: "commerce_source")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// String representing the object's type. Objects of the same type share the same value.
+public struct BillingPaymentAttemptObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let commercePayment = BillingPaymentAttemptObject(rawValue: "commerce_payment")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// String representing the object's type. Objects of the same type share the same value.
+public struct BillingStatementGroupsItemObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let commerceStatementGroup = BillingStatementGroupsItemObject(rawValue: "commerce_statement_group")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// Which billing periods this price supports.
+public struct BillingPriceResponseSupportedBillingPeriods: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let month = BillingPriceResponseSupportedBillingPeriods(rawValue: "month")
+    public static let annual = BillingPriceResponseSupportedBillingPeriods(rawValue: "annual")
+    public static let both = BillingPriceResponseSupportedBillingPeriods(rawValue: "both")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// Current status of the subscription item.
+public struct CommerceSubscriptionItem2Status: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let active = CommerceSubscriptionItem2Status(rawValue: "active")
+    public static let ended = CommerceSubscriptionItem2Status(rawValue: "ended")
+    public static let pastDue = CommerceSubscriptionItem2Status(rawValue: "past_due")
+    public static let upcoming = CommerceSubscriptionItem2Status(rawValue: "upcoming")
+    public static let incomplete = CommerceSubscriptionItem2Status(rawValue: "incomplete")
+    public static let abandoned = CommerceSubscriptionItem2Status(rawValue: "abandoned")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// String representing the object's type. Objects of the same type share the same value.
+public struct BillingStatementObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let commerceStatement = BillingStatementObject(rawValue: "commerce_statement")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// The current status of the statement.
+public struct BillingStatementStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let open = BillingStatementStatus(rawValue: "open")
+    public static let closed = BillingStatementStatus(rawValue: "closed")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// Current status of the discount redemption.
+public struct CommerceDiscountRedemptionResponseStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let active = CommerceDiscountRedemptionResponseStatus(rawValue: "active")
+    public static let exhausted = CommerceDiscountRedemptionResponseStatus(rawValue: "exhausted")
+    public static let removed = CommerceDiscountRedemptionResponseStatus(rawValue: "removed")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// String representing the object's type. Objects of the same type share the same value.
+public struct CommerceDiscountRedemptionResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let commerceDiscountRedemption = CommerceDiscountRedemptionResponseObject(rawValue: "commerce_discount_redemption")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// The status of the previous subscription item after transition.
+public struct CommercePriceTransitionDetailsPreviousSubscriptionItemStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let canceled = CommercePriceTransitionDetailsPreviousSubscriptionItemStatus(rawValue: "canceled")
+    public static let ended = CommercePriceTransitionDetailsPreviousSubscriptionItemStatus(rawValue: "ended")
+    public static let abandoned = CommercePriceTransitionDetailsPreviousSubscriptionItemStatus(rawValue: "abandoned")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// String representing the object's type. Objects of the same type share the same value.
+public struct CommercePriceTransitionResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let commercePriceTransition = CommercePriceTransitionResponseObject(rawValue: "commerce_price_transition")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// String representing the object's type. Objects of the same type share the same value.
+public struct BillingPriceResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let commercePrice = BillingPriceResponseObject(rawValue: "commerce_price")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// The snapshotted discount effect.
+public struct CommerceDiscountRedemptionResponseEffect: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let percentage = CommerceDiscountRedemptionResponseEffect(rawValue: "percentage")
+    public static let fixedAmount = CommerceDiscountRedemptionResponseEffect(rawValue: "fixed_amount")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        self.init(rawValue: try container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
