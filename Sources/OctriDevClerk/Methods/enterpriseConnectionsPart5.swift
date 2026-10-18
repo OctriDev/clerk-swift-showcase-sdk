@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension EnterpriseConnectionsMethods {
-    public struct UpdateEnterpriseConnectionOptions: Codable {
+public extension EnterpriseConnectionsMethods {
+    struct UpdateEnterpriseConnectionOptions: Codable {
         public var enterpriseConnectionId: String
         public var name: SdkOptional<String>?
         public var domains: SdkOptional<[String]>?
@@ -25,7 +25,10 @@ extension EnterpriseConnectionsMethods {
         }
     }
 
-    /// Updates the enterprise connection whose ID matches the provided `enterprise_connection_id` in the path. When enabling the connection (setting `active` to true), any existing verified organization domains that match the connection's domains (e.g. used for enrollment modes like automatic invitation) may be deleted so the connection can be enabled.
+    /// Updates the enterprise connection whose ID matches the provided `enterprise_connection_id` in the path. When
+    /// enabling the connection (setting `active` to true), any existing verified organization domains that match the
+    /// connection's domains (e.g. used for enrollment modes like automatic invitation) may be deleted so the connection
+    /// can be enabled.
     ///
     /// - Parameters:
     /// - enterpriseConnectionId: The ID of the enterprise connection to update
@@ -53,9 +56,28 @@ extension EnterpriseConnectionsMethods {
     /// - customAttributes: Custom attributes to map from the IdP to the user's
     ///   profile via SSO or SCIM provisioning. Requires the custom attributes feature
     ///   to be enabled for the instance.
-    public static func updateEnterpriseConnection(config: ClientConfig, options: UpdateEnterpriseConnectionOptions, requestOptions: RequestOptions? = nil) async throws -> EnterpriseConnection {
+    static func updateEnterpriseConnection(
+        config: ClientConfig,
+        options: UpdateEnterpriseConnectionOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> EnterpriseConnection {
         let requestBody = UpdateEnterpriseConnectionRequestBody(options: options)
 
-        return try (await sdkRequest("PATCH", ["/enterprise_connections/", sdkEncodePathSegment(sdkWireString(options.enterpriseConnectionId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateEnterpriseConnection", options: requestOptions, errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            ["/enterprise_connections/", sdkEncodePathSegment(sdkWireString(options.enterpriseConnectionId))].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdateEnterpriseConnection",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "402": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 }

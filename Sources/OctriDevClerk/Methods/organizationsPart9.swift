@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OrganizationsMethods {
-    /// Increases or decreases the credit balance for the specified organization. Each adjustment is recorded as a ledger entry. The idempotency_key parameter ensures that duplicate requests are safely handled.
+public extension OrganizationsMethods {
+    /// Increases or decreases the credit balance for the specified organization. Each adjustment is recorded as a
+    /// ledger entry. The idempotency_key parameter ensures that duplicate requests are safely handled.
     ///
     /// - Parameters:
     /// - organizationId: The ID of the organization whose credit balance to adjust
@@ -17,9 +18,41 @@ extension OrganizationsMethods {
     ///   once. Repeated requests with the same key return the original ledger entry.
     /// - currency: The currency code (e.g. "USD"). Defaults to USD if not provided.
     /// - note: An optional note to attach to the ledger entry.
-    public static func adjustOrganizationBillingCreditBalance(config: ClientConfig, organizationId: String, amount: Int, action: AdjustCreditBalanceRequestAction, idempotencyKey: String, currency: String? = nil, note: String? = nil, requestOptions: RequestOptions? = nil) async throws -> CommerceCreditLedgerResponse {
-        let requestBody = AdjustOrganizationBillingCreditBalanceRequestBody(amount: amount, action: action, idempotencyKey: idempotencyKey, currency: currency, note: note)
+    static func adjustOrganizationBillingCreditBalance(
+        config: ClientConfig,
+        organizationId: String,
+        amount: Int,
+        action: AdjustCreditBalanceRequestAction,
+        idempotencyKey: String,
+        currency: String? = nil,
+        note: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CommerceCreditLedgerResponse {
+        let requestBody = AdjustOrganizationBillingCreditBalanceRequestBody(
+            amount: amount,
+            action: action,
+            idempotencyKey: idempotencyKey,
+            currency: currency,
+            note: note
+        )
 
-        return try (await sdkRequest("POST", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/billing/credits"].joined(), config: config, body: requestBody, decoder: .json, operationId: "AdjustOrganizationBillingCreditBalance", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/billing/credits"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "AdjustOrganizationBillingCreditBalance",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "409": ClerkErrors.self,
+                "422": ClerkErrors.self,
+                "500": ClerkErrors.self,
+            ]
+        )).data
     }
 }

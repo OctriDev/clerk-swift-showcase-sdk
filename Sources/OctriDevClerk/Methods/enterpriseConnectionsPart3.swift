@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension EnterpriseConnectionsMethods {
-    public struct CreateEnterpriseConnectionOptions: Codable {
+public extension EnterpriseConnectionsMethods {
+    struct CreateEnterpriseConnectionOptions: Codable {
         public var name: String
         public var provider: CreateEnterpriseConnectionRequestBodyProvider
         public var domains: [String]
@@ -25,7 +25,10 @@ extension EnterpriseConnectionsMethods {
         }
     }
 
-    /// Creates a new enterprise connection for an identity provider and associates it with one or more domains. Supply `name`, `provider`, and at least one valid fully qualified domain name in `domains`; choose `saml` or `oidc` settings to configure the connection for the selected provider. When `active` is true, provide IdP metadata in `saml` for SAML connections.
+    /// Creates a new enterprise connection for an identity provider and associates it with one or more domains. Supply
+    /// `name`, `provider`, and at least one valid fully qualified domain name in `domains`; choose `saml` or `oidc`
+    /// settings to configure the connection for the selected provider. When `active` is true, provide IdP metadata in
+    /// `saml` for SAML connections.
     ///
     /// Create a new enterprise connection.
     ///
@@ -52,11 +55,30 @@ extension EnterpriseConnectionsMethods {
     /// - customAttributes: Custom attributes to map from the IdP to the user's
     ///   profile via SSO or SCIM provisioning. Requires the custom attributes feature
     ///   to be enabled for the instance.
-    public static func createEnterpriseConnection(config: ClientConfig, options: CreateEnterpriseConnectionOptions, requestOptions: RequestOptions? = nil) async throws -> EnterpriseConnection {
+    static func createEnterpriseConnection(
+        config: ClientConfig,
+        options: CreateEnterpriseConnectionOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> EnterpriseConnection {
         try validateItems("domains", options.domains, min: 1)
 
         let requestBody = CreateEnterpriseConnectionRequestBody(options: options)
 
-        return try (await sdkRequest("POST", "/enterprise_connections", config: config, body: requestBody, decoder: .json, operationId: "CreateEnterpriseConnection", options: requestOptions, errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/enterprise_connections",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "CreateEnterpriseConnection",
+            options: requestOptions,
+            errors: [
+                "402": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "409": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 }

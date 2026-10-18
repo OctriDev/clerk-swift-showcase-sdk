@@ -3,7 +3,7 @@
 
 import Foundation
 
-// WaitlistEntries domain models
+/// WaitlistEntries domain models
 /// Typed representation of the `WaitlistEntry` API schema.
 public struct WaitlistEntry: Codable {
     /// Required enumerated value serialized in the `object` wire field.
@@ -36,49 +36,84 @@ public struct WaitlistEntry: Codable {
         case invitation
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension WaitlistEntry {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.emailAddress) else {
-            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
-        }
-        guard container.contains(.status) else {
-            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        guard container.contains(.updatedAt) else {
-            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.isLocked = try container.sdkDecodeIfPresent(.isLocked)
-        self.invitation = try container.sdkDecodeIfPresent(.invitation)
-            try sdkValidateEmail("email_address", self.emailAddress)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension WaitlistEntry {
-    public init(object: WaitlistEntryObject, id: String, emailAddress: String, status: WaitlistEntryStatus, createdAt: Int, updatedAt: Int, isLocked: Bool? = nil, invitation: Invitation? = nil) throws {
+public extension WaitlistEntry {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.emailAddress) else {
+            throw SdkValidationError(
+                field: "email_address",
+                code: "required",
+                message: "Validation failed for 'email_address': value is required"
+            )
+        }
+        guard container.contains(.status) else {
+            throw SdkValidationError(
+                field: "status",
+                code: "required",
+                message: "Validation failed for 'status': value is required"
+            )
+        }
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        guard container.contains(.updatedAt) else {
+            throw SdkValidationError(
+                field: "updated_at",
+                code: "required",
+                message: "Validation failed for 'updated_at': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        status = try container.sdkDecodeRequired(.status)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        isLocked = try container.sdkDecodeIfPresent(.isLocked)
+        invitation = try container.sdkDecodeIfPresent(.invitation)
+        try sdkValidateEmail("email_address", emailAddress)
+    }
+}
+
+public extension WaitlistEntry {
+    init(
+        object: WaitlistEntryObject,
+        id: String,
+        emailAddress: String,
+        status: WaitlistEntryStatus,
+        createdAt: Int,
+        updatedAt: Int,
+        isLocked: Bool? = nil,
+        invitation: Invitation? = nil
+    ) throws {
         (self.object, self.id) = (object, id)
         (self.emailAddress, self.status) = (emailAddress, status)
         (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
         (self.isLocked, self.invitation) = (isLocked, invitation)
-            try sdkValidateEmail("email_address", self.emailAddress)
+        try sdkValidateEmail("email_address", self.emailAddress)
     }
 }
 
@@ -94,25 +129,35 @@ public struct WaitlistEntries: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension WaitlistEntries {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension WaitlistEntries {
-    public init(data: [WaitlistEntry], totalCount: Int) {
+public extension WaitlistEntries {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension WaitlistEntries {
+    init(data: [WaitlistEntry], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -121,7 +166,10 @@ extension WaitlistEntries {
 public struct WaitlistEntryStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let pending = WaitlistEntryStatus(rawValue: "pending")
     public static let invited = WaitlistEntryStatus(rawValue: "invited")
     public static let rejected = WaitlistEntryStatus(rawValue: "rejected")
@@ -129,7 +177,7 @@ public struct WaitlistEntryStatus: RawRepresentable, Hashable, Codable, Sendable
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -142,12 +190,15 @@ public struct WaitlistEntryStatus: RawRepresentable, Hashable, Codable, Sendable
 public struct WaitlistEntryObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let waitlistEntry = WaitlistEntryObject(rawValue: "waitlist_entry")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension InstanceSettingsMethods {
-    public struct UpdateInstanceOAuthApplicationSettingsOptions: Codable {
+public extension InstanceSettingsMethods {
+    struct UpdateInstanceOAuthApplicationSettingsOptions: Codable {
         public var dynamicOauthClientRegistration: SdkOptional<Bool>?
         public var dynamicClientAllowedScopes: SdkOptional<[String]>?
         public var defaultScopes: SdkOptional<[String]>?
@@ -55,9 +55,22 @@ extension InstanceSettingsMethods {
     ///   recorded implicitly allowed CIMD clients are rejected on future client
     ///   lookups. Explicitly allowed clients remain accepted. This does not revoke
     ///   previously issued access tokens.
-    public static func updateInstanceOAuthApplicationSettings(config: ClientConfig, options: UpdateInstanceOAuthApplicationSettingsOptions, requestOptions: RequestOptions? = nil) async throws -> OAuthApplicationSettings {
+    static func updateInstanceOAuthApplicationSettings(
+        config: ClientConfig,
+        options: UpdateInstanceOAuthApplicationSettingsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OAuthApplicationSettings {
         let requestBody = UpdateInstanceOAuthApplicationSettingsRequestBody(options: options)
 
-        return try (await sdkRequest("PATCH", "/instance/oauth_application_settings", config: config, body: requestBody, decoder: .json, operationId: "UpdateInstanceOAuthApplicationSettings", options: requestOptions, errors: ["422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            "/instance/oauth_application_settings",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdateInstanceOAuthApplicationSettings",
+            options: requestOptions,
+            errors: ["422": ClerkErrors.self]
+        )).data
     }
 }

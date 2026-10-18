@@ -9,68 +9,209 @@ public class BillingNamespace {
         self.config = config
     }
 
-/// Returns a list of all billing plans for the instance. The plans are returned sorted by creation date, with the newest plans appearing first. This includes both free and paid plans. Pagination is supported.
-    public func getCommercePlanList(paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, payerType: GetCommercePlanListParameter? = nil, requestOptions: RequestOptions? = nil) async throws -> PaginatedCommercePlanResponse {
-        return try await BillingMethods.getCommercePlanList(config: config, paginated: paginated, limit: limit, offset: offset, payerType: payerType, requestOptions: requestOptions)
+    /// Returns a list of all billing plans for the instance. The plans are returned sorted by creation date, with the
+    /// newest plans appearing first. This includes both free and paid plans. Pagination is supported.
+    public func getCommercePlanList(
+        paginated: Bool? = nil,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        payerType: GetCommercePlanListParameter? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> PaginatedCommercePlanResponse {
+        try await BillingMethods.getCommercePlanList(
+            config: config,
+            paginated: paginated,
+            limit: limit,
+            offset: offset,
+            payerType: payerType,
+            requestOptions: requestOptions
+        )
     }
 
-/// Returns a list of all prices for the instance. The prices are returned sorted by amount ascending, then by creation date descending. This includes both default and custom prices. Pagination is supported.
-    public func getPriceList(paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, planId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> PaginatedBillingPriceResponse {
-        return try await BillingMethods.getBillingPriceList(config: config, paginated: paginated, limit: limit, offset: offset, planId: planId, requestOptions: requestOptions)
+    /// Returns a list of all prices for the instance. The prices are returned sorted by amount ascending, then by
+    /// creation date descending. This includes both default and custom prices. Pagination is supported.
+    public func getPriceList(
+        paginated: Bool? = nil,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        planId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> PaginatedBillingPriceResponse {
+        try await BillingMethods.getBillingPriceList(
+            config: config,
+            paginated: paginated,
+            limit: limit,
+            offset: offset,
+            planId: planId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Creates a custom price for a billing plan. Custom prices allow you to offer different pricing to specific customers while maintaining the same plan structure.
-    public func createPrice(planId: String, amount: Int?, currency: String? = nil, annualMonthlyAmount: SdkOptional<Int>? = nil, description: String? = nil, supportedBillingPeriods: CreateBillingPriceRequestSupportedBillingPeriods? = nil, requestOptions: RequestOptions? = nil) async throws -> BillingPriceResponse {
-        return try await BillingMethods.createBillingPrice(config: config, planId: planId, amount: amount, currency: currency, annualMonthlyAmount: annualMonthlyAmount, description: description, supportedBillingPeriods: supportedBillingPeriods, requestOptions: requestOptions)
+    /// Creates a custom price for a billing plan. Custom prices allow you to offer different pricing to specific
+    /// customers while maintaining the same plan structure.
+    public func createPrice(
+        planId: String,
+        amount: Int?,
+        currency: String? = nil,
+        annualMonthlyAmount: SdkOptional<Int>? = nil,
+        description: String? = nil,
+        supportedBillingPeriods: CreateBillingPriceRequestSupportedBillingPeriods? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BillingPriceResponse {
+        try await BillingMethods.createBillingPrice(
+            config: config,
+            planId: planId,
+            amount: amount,
+            currency: currency,
+            annualMonthlyAmount: annualMonthlyAmount,
+            description: description,
+            supportedBillingPeriods: supportedBillingPeriods,
+            requestOptions: requestOptions
+        )
     }
 
-/// Returns a list of all subscription items for the instance. The subscription items are returned sorted by creation date, with the newest appearing first. This includes subscriptions for both users and organizations. Pagination is supported.
-    public func getCommerceSubscriptionItemList(options: BillingMethods.GetCommerceSubscriptionItemListOptions, requestOptions: RequestOptions? = nil) async throws -> PaginatedCommerceSubscriptionItemResponse {
-        return try await BillingMethods.getCommerceSubscriptionItemList(config: config, options: options, requestOptions: requestOptions)
+    /// Returns a list of all subscription items for the instance. The subscription items are returned sorted by
+    /// creation date, with the newest appearing first. This includes subscriptions for both users and organizations.
+    /// Pagination is supported.
+    public func getCommerceSubscriptionItemList(
+        options: BillingMethods.GetCommerceSubscriptionItemListOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> PaginatedCommerceSubscriptionItemResponse {
+        try await BillingMethods.getCommerceSubscriptionItemList(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Cancel a specific subscription item. The subscription item can be canceled immediately or at the end of the current billing period.
-    public func cancelCommerceSubscriptionItem(subscriptionItemId: String, endNow: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> CommerceSubscriptionItem {
-        return try await BillingMethods.cancelCommerceSubscriptionItem(config: config, subscriptionItemId: subscriptionItemId, endNow: endNow, requestOptions: requestOptions)
+    /// Cancel a specific subscription item. The subscription item can be canceled immediately or at the end of the
+    /// current billing period.
+    public func cancelCommerceSubscriptionItem(
+        subscriptionItemId: String,
+        endNow: Bool? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CommerceSubscriptionItem {
+        try await BillingMethods.cancelCommerceSubscriptionItem(
+            config: config,
+            subscriptionItemId: subscriptionItemId,
+            endNow: endNow,
+            requestOptions: requestOptions
+        )
     }
 
-/// Extends the free trial period for a specific subscription item to the specified timestamp. The subscription item must be currently in a free trial period, and the plan must support free trials. The timestamp must be in the future and not more than 365 days from the end of the current trial period This operation is idempotent - repeated requests with the same timestamp will not change the trial period.
-    public func extendSubscriptionItemFreeTrial(subscriptionItemId: String, extendTo: Date, requestOptions: RequestOptions? = nil) async throws -> CommerceSubscriptionItem2 {
-        return try await BillingMethods.extendBillingSubscriptionItemFreeTrial(config: config, subscriptionItemId: subscriptionItemId, extendTo: extendTo, requestOptions: requestOptions)
+    /// Extends the free trial period for a specific subscription item to the specified timestamp. The subscription item
+    /// must be currently in a free trial period, and the plan must support free trials. The timestamp must be in the
+    /// future and not more than 365 days from the end of the current trial period This operation is idempotent -
+    /// repeated requests with the same timestamp will not change the trial period.
+    public func extendSubscriptionItemFreeTrial(
+        subscriptionItemId: String,
+        extendTo: Date,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CommerceSubscriptionItem2 {
+        try await BillingMethods.extendBillingSubscriptionItemFreeTrial(
+            config: config,
+            subscriptionItemId: subscriptionItemId,
+            extendTo: extendTo,
+            requestOptions: requestOptions
+        )
     }
 
-/// Creates a price transition for the specified subscription item. This may create an upcoming subscription item or activate immediately depending on plan and payer rules.
-    public func createPriceTransition(subscriptionItemId: String, fromPriceId: String, toPriceId: String, requestOptions: RequestOptions? = nil) async throws -> CommercePriceTransitionResponse {
-        return try await BillingMethods.createBillingPriceTransition(config: config, subscriptionItemId: subscriptionItemId, fromPriceId: fromPriceId, toPriceId: toPriceId, requestOptions: requestOptions)
+    /// Creates a price transition for the specified subscription item. This may create an upcoming subscription item or
+    /// activate immediately depending on plan and payer rules.
+    public func createPriceTransition(
+        subscriptionItemId: String,
+        fromPriceId: String,
+        toPriceId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CommercePriceTransitionResponse {
+        try await BillingMethods.createBillingPriceTransition(
+            config: config,
+            subscriptionItemId: subscriptionItemId,
+            fromPriceId: fromPriceId,
+            toPriceId: toPriceId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Applies an existing discount to a subscription item. Manual application is an override path: self-serve distribution rules are not enforced. At most one active discount is allowed per subscription item; applying a different discount replaces the currently active one. Re-applying the same active discount returns a conflict.
-    public func applySubscriptionItemDiscount(subscriptionItemId: String, discountId: String, requestOptions: RequestOptions? = nil) async throws -> CommerceDiscountRedemptionResponse {
-        return try await BillingMethods.applyBillingSubscriptionItemDiscount(config: config, subscriptionItemId: subscriptionItemId, discountId: discountId, requestOptions: requestOptions)
+    /// Applies an existing discount to a subscription item. Manual application is an override path: self-serve
+    /// distribution rules are not enforced. At most one active discount is allowed per subscription item; applying a
+    /// different discount replaces the currently active one. Re-applying the same active discount returns a conflict.
+    public func applySubscriptionItemDiscount(
+        subscriptionItemId: String,
+        discountId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CommerceDiscountRedemptionResponse {
+        try await BillingMethods.applyBillingSubscriptionItemDiscount(
+            config: config,
+            subscriptionItemId: subscriptionItemId,
+            discountId: discountId,
+            requestOptions: requestOptions
+        )
     }
 }
 
-extension BillingNamespace {
-/// Removes the active discount from a subscription item. The discount_id must match the subscription item's currently active discount.
-    public func removeSubscriptionItemDiscount(subscriptionItemId: String, discountId: String, requestOptions: RequestOptions? = nil) async throws -> CommerceDiscountRedemptionResponse {
-        return try await BillingMethods.removeBillingSubscriptionItemDiscount(config: config, subscriptionItemId: subscriptionItemId, discountId: discountId, requestOptions: requestOptions)
+public extension BillingNamespace {
+    /// Removes the active discount from a subscription item. The discount_id must match the subscription item's
+    /// currently active discount.
+    func removeSubscriptionItemDiscount(
+        subscriptionItemId: String,
+        discountId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CommerceDiscountRedemptionResponse {
+        try await BillingMethods.removeBillingSubscriptionItemDiscount(
+            config: config,
+            subscriptionItemId: subscriptionItemId,
+            discountId: discountId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Returns a list of all billing statements for the instance. The statements are returned sorted by creation date, with the newest statements appearing first. Pagination is supported.
-    public func getStatementList(paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> PaginatedBillingStatementResponse {
-        return try await BillingMethods.getBillingStatementList(config: config, paginated: paginated, limit: limit, offset: offset, requestOptions: requestOptions)
+    /// Returns a list of all billing statements for the instance. The statements are returned sorted by creation date,
+    /// with the newest statements appearing first. Pagination is supported.
+    func getStatementList(
+        paginated: Bool? = nil,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> PaginatedBillingStatementResponse {
+        try await BillingMethods.getBillingStatementList(
+            config: config,
+            paginated: paginated,
+            limit: limit,
+            offset: offset,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a billing statement by its unique identifier. Use `statementID` to inspect the statement’s payer, current status, totals, and grouped items.
+    /// Retrieves a billing statement by its unique identifier. Use `statementID` to inspect the statement’s payer,
+    /// current status, totals, and grouped items.
     ///
     /// Retrieves the details of a billing statement.
-    public func getStatement(statementId: String, requestOptions: RequestOptions? = nil) async throws -> BillingStatement {
-        return try await BillingMethods.getBillingStatement(config: config, statementId: statementId, requestOptions: requestOptions)
+    func getStatement(statementId: String, requestOptions: RequestOptions? = nil) async throws -> BillingStatement {
+        try await BillingMethods.getBillingStatement(
+            config: config,
+            statementId: statementId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Returns a list of all payment attempts for a specific billing statement. The payment attempts are returned sorted by creation date, with the newest payment attempts appearing first. Pagination is supported.
-    public func getStatementPaymentAttempts(statementId: String, paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> PaginatedBillingPaymentAttemptResponse {
-        return try await BillingMethods.getBillingStatementPaymentAttempts(config: config, statementId: statementId, paginated: paginated, limit: limit, offset: offset, requestOptions: requestOptions)
+    /// Returns a list of all payment attempts for a specific billing statement. The payment attempts are returned
+    /// sorted by creation date, with the newest payment attempts appearing first. Pagination is supported.
+    func getStatementPaymentAttempts(
+        statementId: String,
+        paginated: Bool? = nil,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> PaginatedBillingPaymentAttemptResponse {
+        try await BillingMethods.getBillingStatementPaymentAttempts(
+            config: config,
+            statementId: statementId,
+            paginated: paginated,
+            limit: limit,
+            offset: offset,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -80,29 +221,74 @@ public class OrganizationPermissionsNamespace {
         self.config = config
     }
 
-/// Retrieves all organization permissions for the given instance.
-    public func list(query: String? = nil, orderBy: String? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> Permissions {
-        return try await OrganizationPermissionsMethods.listOrganizationPermissions(config: config, query: query, orderBy: orderBy, limit: limit, offset: offset, requestOptions: requestOptions)
+    /// Retrieves all organization permissions for the given instance.
+    public func list(
+        query: String? = nil,
+        orderBy: String? = nil,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Permissions {
+        try await OrganizationPermissionsMethods.listOrganizationPermissions(
+            config: config,
+            query: query,
+            orderBy: orderBy,
+            limit: limit,
+            offset: offset,
+            requestOptions: requestOptions
+        )
     }
 
-/// Creates a new organization permission for the given instance.
-    public func create(name: String, key: String, description: String? = nil, requestOptions: RequestOptions? = nil) async throws -> Permission {
-        return try await OrganizationPermissionsMethods.createOrganizationPermission(config: config, name: name, key: key, description: description, requestOptions: requestOptions)
+    /// Creates a new organization permission for the given instance.
+    public func create(
+        name: String,
+        key: String,
+        description: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Permission {
+        try await OrganizationPermissionsMethods.createOrganizationPermission(
+            config: config,
+            name: name,
+            key: key,
+            description: description,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves the details of an organization permission.
+    /// Retrieves the details of an organization permission.
     public func get(permissionId: String, requestOptions: RequestOptions? = nil) async throws -> Permission {
-        return try await OrganizationPermissionsMethods.getOrganizationPermission(config: config, permissionId: permissionId, requestOptions: requestOptions)
+        try await OrganizationPermissionsMethods.getOrganizationPermission(
+            config: config,
+            permissionId: permissionId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates the properties of an existing organization permission. System permissions cannot be updated.
-    public func update(permissionId: String, name: String? = nil, key: String? = nil, description: String? = nil, requestOptions: RequestOptions? = nil) async throws -> Permission {
-        return try await OrganizationPermissionsMethods.updateOrganizationPermission(config: config, permissionId: permissionId, name: name, key: key, description: description, requestOptions: requestOptions)
+    /// Updates the properties of an existing organization permission. System permissions cannot be updated.
+    public func update(
+        permissionId: String,
+        name: String? = nil,
+        key: String? = nil,
+        description: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Permission {
+        try await OrganizationPermissionsMethods.updateOrganizationPermission(
+            config: config,
+            permissionId: permissionId,
+            name: name,
+            key: key,
+            description: description,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes an organization permission. System permissions cannot be deleted.
+    /// Deletes an organization permission. System permissions cannot be deleted.
     public func delete(permissionId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try await OrganizationPermissionsMethods.deleteOrganizationPermission(config: config, permissionId: permissionId, requestOptions: requestOptions)
+        try await OrganizationPermissionsMethods.deleteOrganizationPermission(
+            config: config,
+            permissionId: permissionId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -112,41 +298,141 @@ public class RoleSetsNamespace {
         self.config = config
     }
 
-/// Returns a list of role sets for the instance. Results can be paginated using the optional `limit` and `offset` query parameters. The role sets are ordered by descending creation date by default.
-    public func list(query: String? = nil, orderBy: String? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> RoleSets {
-        return try await RoleSetsMethods.listRoleSets(config: config, query: query, orderBy: orderBy, limit: limit, offset: offset, requestOptions: requestOptions)
+    /// Returns a list of role sets for the instance. Results can be paginated using the optional `limit` and `offset`
+    /// query parameters. The role sets are ordered by descending creation date by default.
+    public func list(
+        query: String? = nil,
+        orderBy: String? = nil,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> RoleSets {
+        try await RoleSetsMethods.listRoleSets(
+            config: config,
+            query: query,
+            orderBy: orderBy,
+            limit: limit,
+            offset: offset,
+            requestOptions: requestOptions
+        )
     }
 
-/// Creates a new role set with the given name and roles. The key must be unique for the instance and start with the 'role_set:' prefix, followed by lowercase alphanumeric characters and underscores only. You must provide at least one role and specify a default role key and creator role key.
-    public func create(name: String, defaultRoleKey: String, creatorRoleKey: String, roles: [String], key: String? = nil, description: SdkOptional<String>? = nil, type: CreateRoleSetRequestBodyType? = nil, requestOptions: RequestOptions? = nil) async throws -> RoleSet {
-        return try await RoleSetsMethods.createRoleSet(config: config, name: name, defaultRoleKey: defaultRoleKey, creatorRoleKey: creatorRoleKey, roles: roles, key: key, description: description, type: type, requestOptions: requestOptions)
+    /// Creates a new role set with the given name and roles. The key must be unique for the instance and start with the
+    /// 'role_set:' prefix, followed by lowercase alphanumeric characters and underscores only. You must provide at
+    /// least one role and specify a default role key and creator role key.
+    public func create(
+        name: String,
+        defaultRoleKey: String,
+        creatorRoleKey: String,
+        roles: [String],
+        key: String? = nil,
+        description: SdkOptional<String>? = nil,
+        type: CreateRoleSetRequestBodyType? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> RoleSet {
+        try await RoleSetsMethods.createRoleSet(
+            config: config,
+            name: name,
+            defaultRoleKey: defaultRoleKey,
+            creatorRoleKey: creatorRoleKey,
+            roles: roles,
+            key: key,
+            description: description,
+            type: type,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves a role set by its key or ID, including its roles and organization-member defaults. Use `role_set_key_or_id` to identify the role set; the response also includes its type and creation and update timestamps.
+    /// Retrieves a role set by its key or ID, including its roles and organization-member defaults. Use
+    /// `role_set_key_or_id` to identify the role set; the response also includes its type and creation and update
+    /// timestamps.
     ///
     /// Retrieves an existing role set by its key or ID.
     public func get(roleSetKeyOrId: String, requestOptions: RequestOptions? = nil) async throws -> RoleSet {
-        return try await RoleSetsMethods.getRoleSet(config: config, roleSetKeyOrId: roleSetKeyOrId, requestOptions: requestOptions)
+        try await RoleSetsMethods.getRoleSet(
+            config: config,
+            roleSetKeyOrId: roleSetKeyOrId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates an existing role set. You can update the name, key, description, type, default role, or creator role. All parameters are optional - you can update only the fields you want to change.
-    public func update(roleSetKeyOrId: String, name: SdkOptional<String>? = nil, key: SdkOptional<String>? = nil, description: SdkOptional<String>? = nil, type: SdkOptional<UpdateRoleSetRequestBodyType>? = nil, defaultRoleKey: SdkOptional<String>? = nil, creatorRoleKey: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> RoleSet {
-        return try await RoleSetsMethods.updateRoleSet(config: config, roleSetKeyOrId: roleSetKeyOrId, name: name, key: key, description: description, type: type, defaultRoleKey: defaultRoleKey, creatorRoleKey: creatorRoleKey, requestOptions: requestOptions)
+    /// Updates an existing role set. You can update the name, key, description, type, default role, or creator role.
+    /// All parameters are optional - you can update only the fields you want to change.
+    public func update(
+        roleSetKeyOrId: String,
+        name: SdkOptional<String>? = nil,
+        key: SdkOptional<String>? = nil,
+        description: SdkOptional<String>? = nil,
+        type: SdkOptional<UpdateRoleSetRequestBodyType>? = nil,
+        defaultRoleKey: SdkOptional<String>? = nil,
+        creatorRoleKey: SdkOptional<String>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> RoleSet {
+        try await RoleSetsMethods.updateRoleSet(
+            config: config,
+            roleSetKeyOrId: roleSetKeyOrId,
+            name: name,
+            key: key,
+            description: description,
+            type: type,
+            defaultRoleKey: defaultRoleKey,
+            creatorRoleKey: creatorRoleKey,
+            requestOptions: requestOptions
+        )
     }
 
-/// Replaces a role set with another role set. This is functionally equivalent to deleting the role set but allows for atomic replacement with migration support. Organizations using this role set will be migrated to the destination role set.
-    public func replace(roleSetKeyOrId: String, destRoleSetKey: String, reassignmentMappings: ReassignmentMappings? = nil, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try await RoleSetsMethods.replaceRoleSet(config: config, roleSetKeyOrId: roleSetKeyOrId, destRoleSetKey: destRoleSetKey, reassignmentMappings: reassignmentMappings, requestOptions: requestOptions)
+    /// Replaces a role set with another role set. This is functionally equivalent to deleting the role set but allows
+    /// for atomic replacement with migration support. Organizations using this role set will be migrated to the
+    /// destination role set.
+    public func replace(
+        roleSetKeyOrId: String,
+        destRoleSetKey: String,
+        reassignmentMappings: ReassignmentMappings? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeletedObject {
+        try await RoleSetsMethods.replaceRoleSet(
+            config: config,
+            roleSetKeyOrId: roleSetKeyOrId,
+            destRoleSetKey: destRoleSetKey,
+            reassignmentMappings: reassignmentMappings,
+            requestOptions: requestOptions
+        )
     }
 
-/// Adds one or more roles to an existing role set. You can optionally update the default role or creator role when adding new roles.
-    public func addRolesTo(roleSetKeyOrId: String, roleKeys: [String], defaultRoleKey: String? = nil, creatorRoleKey: String? = nil, requestOptions: RequestOptions? = nil) async throws -> RoleSet {
-        return try await RoleSetsMethods.addRolesToRoleSet(config: config, roleSetKeyOrId: roleSetKeyOrId, roleKeys: roleKeys, defaultRoleKey: defaultRoleKey, creatorRoleKey: creatorRoleKey, requestOptions: requestOptions)
+    /// Adds one or more roles to an existing role set. You can optionally update the default role or creator role when
+    /// adding new roles.
+    public func addRolesTo(
+        roleSetKeyOrId: String,
+        roleKeys: [String],
+        defaultRoleKey: String? = nil,
+        creatorRoleKey: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> RoleSet {
+        try await RoleSetsMethods.addRolesToRoleSet(
+            config: config,
+            roleSetKeyOrId: roleSetKeyOrId,
+            roleKeys: roleKeys,
+            defaultRoleKey: defaultRoleKey,
+            creatorRoleKey: creatorRoleKey,
+            requestOptions: requestOptions
+        )
     }
 
-/// Replaces a role in a role set with another role. This atomically removes the source role and reassigns any members to the destination role.
-    public func replaceRoleIn(roleSetKeyOrId: String, roleKey: String, toRoleKey: String, requestOptions: RequestOptions? = nil) async throws -> RoleSet {
-        return try await RoleSetsMethods.replaceRoleInRoleSet(config: config, roleSetKeyOrId: roleSetKeyOrId, roleKey: roleKey, toRoleKey: toRoleKey, requestOptions: requestOptions)
+    /// Replaces a role in a role set with another role. This atomically removes the source role and reassigns any
+    /// members to the destination role.
+    public func replaceRoleIn(
+        roleSetKeyOrId: String,
+        roleKey: String,
+        toRoleKey: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> RoleSet {
+        try await RoleSetsMethods.replaceRoleInRoleSet(
+            config: config,
+            roleSetKeyOrId: roleSetKeyOrId,
+            roleKey: roleKey,
+            toRoleKey: toRoleKey,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -156,61 +442,165 @@ public class ScimDirectoriesNamespace {
         self.config = config
     }
 
-/// Returns a list of all directories for the instance.
-    public func list(limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> SCIMDirectoryList {
-        return try await ScimDirectoriesMethods.listScimDirectories(config: config, limit: limit, offset: offset, requestOptions: requestOptions)
+    /// Returns a list of all directories for the instance.
+    public func list(
+        limit: Int? = nil,
+        offset: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SCIMDirectoryList {
+        try await ScimDirectoriesMethods.listScimDirectories(
+            config: config,
+            limit: limit,
+            offset: offset,
+            requestOptions: requestOptions
+        )
     }
 
-/// Creates a SCIM directory for the instance and associates it with an enterprise connection. Supply `enterprise_connection_id` and `provider`; you can also include group-to-role mappings to create with the directory. The created directory response includes its SCIM endpoint URL and API key.
+    /// Creates a SCIM directory for the instance and associates it with an enterprise connection. Supply
+    /// `enterprise_connection_id` and `provider`; you can also include group-to-role mappings to create with the
+    /// directory. The created directory response includes its SCIM endpoint URL and API key.
     ///
     /// Create a new directory for the instance.
-    public func create(enterpriseConnectionId: String, provider: String, name: String? = nil, groupRoleMappings: [CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem]? = nil, requestOptions: RequestOptions? = nil) async throws -> SCIMDirectory {
-        return try await ScimDirectoriesMethods.createScimDirectory(config: config, enterpriseConnectionId: enterpriseConnectionId, provider: provider, name: name, groupRoleMappings: groupRoleMappings, requestOptions: requestOptions)
+    public func create(
+        enterpriseConnectionId: String,
+        provider: String,
+        name: String? = nil,
+        groupRoleMappings: [CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SCIMDirectory {
+        try await ScimDirectoriesMethods.createScimDirectory(
+            config: config,
+            enterpriseConnectionId: enterpriseConnectionId,
+            provider: provider,
+            name: name,
+            groupRoleMappings: groupRoleMappings,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves the configuration for a SCIM directory. Use its identifier to look up details such as its provider, endpoint URL, enabled state, and attribute mappings.
+    /// Retrieves the configuration for a SCIM directory. Use its identifier to look up details such as its provider,
+    /// endpoint URL, enabled state, and attribute mappings.
     ///
     /// Returns the details of a directory.
     public func get(scimDirectoryId: String, requestOptions: RequestOptions? = nil) async throws -> SCIMDirectory {
-        return try await ScimDirectoriesMethods.getScimDirectory(config: config, scimDirectoryId: scimDirectoryId, requestOptions: requestOptions)
+        try await ScimDirectoriesMethods.getScimDirectory(
+            config: config,
+            scimDirectoryId: scimDirectoryId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates the configuration of a SCIM directory. Supply only the settings you want to change; `attribute_mapping` entries are merged, and setting a key to `null` removes it from the mapping.
+    /// Updates the configuration of a SCIM directory. Supply only the settings you want to change; `attribute_mapping`
+    /// entries are merged, and setting a key to `null` removes it from the mapping.
     ///
     /// Updates a directory.
-    public func update(scimDirectoryId: String, name: String? = nil, enabled: Bool? = nil, provider: String? = nil, attributeMapping: [String: String?]? = nil, groupRoleMappingEnabled: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> SCIMDirectory {
-        return try await ScimDirectoriesMethods.updateScimDirectory(config: config, scimDirectoryId: scimDirectoryId, name: name, enabled: enabled, provider: provider, attributeMapping: attributeMapping, groupRoleMappingEnabled: groupRoleMappingEnabled, requestOptions: requestOptions)
+    public func update(
+        scimDirectoryId: String,
+        name: String? = nil,
+        enabled: Bool? = nil,
+        provider: String? = nil,
+        attributeMapping: [String: String?]? = nil,
+        groupRoleMappingEnabled: Bool? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SCIMDirectory {
+        try await ScimDirectoriesMethods.updateScimDirectory(
+            config: config,
+            scimDirectoryId: scimDirectoryId,
+            name: name,
+            enabled: enabled,
+            provider: provider,
+            attributeMapping: attributeMapping,
+            groupRoleMappingEnabled: groupRoleMappingEnabled,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes a directory and stops provisioning for it. SCIM requests authenticated with the directory's API key are rejected afterwards.
+    /// Deletes a directory and stops provisioning for it. SCIM requests authenticated with the directory's API key are
+    /// rejected afterwards.
     public func delete(scimDirectoryId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try await ScimDirectoriesMethods.deleteScimDirectory(config: config, scimDirectoryId: scimDirectoryId, requestOptions: requestOptions)
+        try await ScimDirectoriesMethods.deleteScimDirectory(
+            config: config,
+            scimDirectoryId: scimDirectoryId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Generates a new API key for the directory and returns it in the `api_key` field. This is the only way to obtain the key after creation, so make sure to update it in your identity provider. The previous key remains valid for a short grace period before it expires.
-    public func rotateApiKey(scimDirectoryId: String, requestOptions: RequestOptions? = nil) async throws -> SCIMDirectory {
-        return try await ScimDirectoriesMethods.rotateScimDirectoryApiKey(config: config, scimDirectoryId: scimDirectoryId, requestOptions: requestOptions)
+    /// Generates a new API key for the directory and returns it in the `api_key` field. This is the only way to obtain
+    /// the key after creation, so make sure to update it in your identity provider. The previous key remains valid for
+    /// a short grace period before it expires.
+    public func rotateApiKey(
+        scimDirectoryId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SCIMDirectory {
+        try await ScimDirectoriesMethods.rotateScimDirectoryApiKey(
+            config: config,
+            scimDirectoryId: scimDirectoryId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Returns the list of SCIM group to organization role mappings for a directory, ordered by precedence.
-    public func listScimGroupRoleMappings(scimDirectoryId: String, requestOptions: RequestOptions? = nil) async throws -> SCIMGroupRoleMappingList {
-        return try await ScimDirectoriesMethods.listScimGroupRoleMappings(config: config, scimDirectoryId: scimDirectoryId, requestOptions: requestOptions)
+    /// Returns the list of SCIM group to organization role mappings for a directory, ordered by precedence.
+    public func listScimGroupRoleMappings(
+        scimDirectoryId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SCIMGroupRoleMappingList {
+        try await ScimDirectoriesMethods.listScimGroupRoleMappings(
+            config: config,
+            scimDirectoryId: scimDirectoryId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Creates a new SCIM group to organization role mapping for a directory. Mappings can be created while group role mapping is disabled on the directory, but they only take effect once it is enabled.
-    public func createScimGroupRoleMapping(scimDirectoryId: String, scimGroupId: String, roleId: String, precedence: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> SCIMGroupRoleMapping {
-        return try await ScimDirectoriesMethods.createScimGroupRoleMapping(config: config, scimDirectoryId: scimDirectoryId, scimGroupId: scimGroupId, roleId: roleId, precedence: precedence, requestOptions: requestOptions)
+    /// Creates a new SCIM group to organization role mapping for a directory. Mappings can be created while group role
+    /// mapping is disabled on the directory, but they only take effect once it is enabled.
+    public func createScimGroupRoleMapping(
+        scimDirectoryId: String,
+        scimGroupId: String,
+        roleId: String,
+        precedence: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SCIMGroupRoleMapping {
+        try await ScimDirectoriesMethods.createScimGroupRoleMapping(
+            config: config,
+            scimDirectoryId: scimDirectoryId,
+            scimGroupId: scimGroupId,
+            roleId: roleId,
+            precedence: precedence,
+            requestOptions: requestOptions
+        )
     }
 }
 
-extension ScimDirectoriesNamespace {
-/// Replaces the entire set of SCIM group role mappings for a directory. The position of each item in the `mappings` array determines its precedence (the first item gets precedence 1). Passing an empty array removes all mappings. Mappings can be replaced while group role mapping is disabled on the directory, but they only take effect once it is enabled.
-    public func replaceScimGroupRoleMappings(scimDirectoryId: String, mappings: [ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem], requestOptions: RequestOptions? = nil) async throws -> SCIMGroupRoleMappingList {
-        return try await ScimDirectoriesMethods.replaceScimGroupRoleMappings(config: config, scimDirectoryId: scimDirectoryId, mappings: mappings, requestOptions: requestOptions)
+public extension ScimDirectoriesNamespace {
+    /// Replaces the entire set of SCIM group role mappings for a directory. The position of each item in the `mappings`
+    /// array determines its precedence (the first item gets precedence 1). Passing an empty array removes all mappings.
+    /// Mappings can be replaced while group role mapping is disabled on the directory, but they only take effect once
+    /// it is enabled.
+    func replaceScimGroupRoleMappings(
+        scimDirectoryId: String,
+        mappings: [ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem],
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SCIMGroupRoleMappingList {
+        try await ScimDirectoriesMethods.replaceScimGroupRoleMappings(
+            config: config,
+            scimDirectoryId: scimDirectoryId,
+            mappings: mappings,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes a single SCIM group role mapping. Mappings can be deleted while group role mapping is disabled on the directory, but the change only takes effect once it is enabled.
-    public func deleteScimGroupRoleMapping(scimDirectoryId: String, mappingId: String, requestOptions: RequestOptions? = nil) async throws -> SCIMGroupRoleMappingDeleted {
-        return try await ScimDirectoriesMethods.deleteScimGroupRoleMapping(config: config, scimDirectoryId: scimDirectoryId, mappingId: mappingId, requestOptions: requestOptions)
+    /// Deletes a single SCIM group role mapping. Mappings can be deleted while group role mapping is disabled on the
+    /// directory, but the change only takes effect once it is enabled.
+    func deleteScimGroupRoleMapping(
+        scimDirectoryId: String,
+        mappingId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SCIMGroupRoleMappingDeleted {
+        try await ScimDirectoriesMethods.deleteScimGroupRoleMapping(
+            config: config,
+            scimDirectoryId: scimDirectoryId,
+            mappingId: mappingId,
+            requestOptions: requestOptions
+        )
     }
 }

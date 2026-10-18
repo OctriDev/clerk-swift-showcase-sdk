@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OAuthApplicationsMethods {
-    public struct UpdateOAuthApplicationOptions: Codable {
+public extension OAuthApplicationsMethods {
+    struct UpdateOAuthApplicationOptions: Codable {
         public var oauthApplicationId: String
         public var name: SdkOptional<String>?
         public var redirectUris: SdkOptional<[String]>?
@@ -26,7 +26,9 @@ extension OAuthApplicationsMethods {
         }
     }
 
-    /// Updates an existing OAuth application with the properties you provide. Use `scopes` to replace the application's complete built-in and custom scope ceiling, rather than adding individual scopes. Include required built-in scopes and use custom scope keys from the instance OAuth scope catalog.
+    /// Updates an existing OAuth application with the properties you provide. Use `scopes` to replace the application's
+    /// complete built-in and custom scope ceiling, rather than adding individual scopes. Include required built-in
+    /// scopes and use custom scope keys from the instance OAuth scope catalog.
     ///
     /// Updates an existing OAuth application
     ///
@@ -63,7 +65,11 @@ extension OAuthApplicationsMethods {
     ///   setting unchanged.
     /// - `public`: If true, this client is public and you can use the Proof Key of
     ///   Code Exchange (PKCE) flow.
-    public static func updateOAuthApplication(config: ClientConfig, options: UpdateOAuthApplicationOptions, requestOptions: RequestOptions? = nil) async throws -> OAuthApplication {
+    static func updateOAuthApplication(
+        config: ClientConfig,
+        options: UpdateOAuthApplicationOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OAuthApplication {
         if let callbackUrl = options.callbackUrl?.valueOrNil {
             try validateLength("callback_url", callbackUrl, max: 1024)
         }
@@ -74,6 +80,15 @@ extension OAuthApplicationsMethods {
 
         let requestBody = UpdateOAuthApplicationRequestBody(options: options)
 
-        return try (await sdkRequest("PATCH", ["/oauth_applications/", sdkEncodePathSegment(sdkWireString(options.oauthApplicationId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateOAuthApplication", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            ["/oauth_applications/", sdkEncodePathSegment(sdkWireString(options.oauthApplicationId))].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdateOAuthApplication",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

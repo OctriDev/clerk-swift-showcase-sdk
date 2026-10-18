@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Clients domain models
+/// Clients domain models
 /// Typed representation of the `Client` API schema.
 public struct Client: Codable {
     /// String representing the object's type. Objects of the same type share the same value.
@@ -40,27 +40,40 @@ public struct Client: Codable {
         case createdAt = "created_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension Client {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.sessionIds = try container.sdkDecodeRequired(.sessionIds)
-        self.sessions = try container.sdkDecodeRequired(.sessions)
-        self.signInId = try container.sdkDecodeNullable(.signInId)
-        self.signUpId = try container.sdkDecodeNullable(.signUpId)
-        self.lastActiveSessionId = try container.sdkDecodeNullable(.lastActiveSessionId)
-        self.lastAuthenticationStrategy = try container.sdkDecodeNullable(.lastAuthenticationStrategy)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension Client {
-    public init(object: ClientObject, id: String, sessionIds: [String], sessions: [Session], signInId: String?, signUpId: String?, lastActiveSessionId: String?, lastAuthenticationStrategy: String?, updatedAt: Int, createdAt: Int) {
+public extension Client {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        sessionIds = try container.sdkDecodeRequired(.sessionIds)
+        sessions = try container.sdkDecodeRequired(.sessions)
+        signInId = try container.sdkDecodeNullable(.signInId)
+        signUpId = try container.sdkDecodeNullable(.signUpId)
+        lastActiveSessionId = try container.sdkDecodeNullable(.lastActiveSessionId)
+        lastAuthenticationStrategy = try container.sdkDecodeNullable(.lastAuthenticationStrategy)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+    }
+}
+
+public extension Client {
+    init(
+        object: ClientObject,
+        id: String,
+        sessionIds: [String],
+        sessions: [Session],
+        signInId: String?,
+        signUpId: String?,
+        lastActiveSessionId: String?,
+        lastAuthenticationStrategy: String?,
+        updatedAt: Int,
+        createdAt: Int
+    ) {
         (self.object, self.id) = (object, id)
         (self.sessionIds, self.sessions) = (sessionIds, sessions)
         (self.signInId, self.signUpId) = (signInId, signUpId)
@@ -74,12 +87,15 @@ extension Client {
 public struct ClientObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let client = ClientObject(rawValue: "client")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

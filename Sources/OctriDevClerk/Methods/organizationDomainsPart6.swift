@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OrganizationDomainsMethods {
-    public struct ListAllOrganizationDomainsOptions: Codable {
+public extension OrganizationDomainsMethods {
+    struct ListAllOrganizationDomainsOptions: Codable {
         public var organizationId: String?
         public var verified: ListAllOrganizationDomainsParameter?
         public var enrollmentMode: [ListAllOrganizationDomainsParameterItem]?
@@ -20,7 +20,10 @@ extension OrganizationDomainsMethods {
         public init() {}
     }
 
-    /// Retrieves a list of all organization domains within the current instance. This endpoint can be used to list all domains across all organizations or filter domains by organization, verification status, enrollment mode, or search query. The response includes pagination information and details about each domain including its verification status, enrollment mode, and associated counts.
+    /// Retrieves a list of all organization domains within the current instance. This endpoint can be used to list all
+    /// domains across all organizations or filter domains by organization, verification status, enrollment mode, or
+    /// search query. The response includes pagination information and details about each domain including its
+    /// verification status, enrollment mode, and associated counts.
     ///
     /// - Parameters:
     /// - organizationId: The ID of the organization to filter domains by
@@ -46,7 +49,11 @@ extension OrganizationDomainsMethods {
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
     /// - limit: Applies a limit to the number of results returned. Can be used for
     ///   paginating the results together with `offset`.
-    public static func listAllOrganizationDomains(config: ClientConfig, options: ListAllOrganizationDomainsOptions, requestOptions: RequestOptions? = nil) async throws -> OrganizationDomains {
+    static func listAllOrganizationDomains(
+        config: ClientConfig,
+        options: ListAllOrganizationDomainsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationDomains {
         if let offset = options.offset {
             try validateRange("offset", Double(offset), min: 0)
         }
@@ -55,15 +62,24 @@ extension OrganizationDomainsMethods {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        return try (await sdkRequest("GET", "/organization_domains", config: config, query: [
-            SdkQueryParameter("organization_id", value: options.organizationId),
-            SdkQueryParameter("verified", value: options.verified),
-            SdkQueryParameter("enrollment_mode", values: options.enrollmentMode, style: "form", explode: false),
-            SdkQueryParameter("query", value: options.query),
-            SdkQueryParameter("domains", values: options.domains, style: "form", explode: true),
-            SdkQueryParameter("order_by", value: options.orderBy),
-            SdkQueryParameter("offset", value: options.offset),
-            SdkQueryParameter("limit", value: options.limit),
-        ], decoder: .json, operationId: "ListAllOrganizationDomains", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/organization_domains",
+            config: config,
+            query: [
+                SdkQueryParameter("organization_id", value: options.organizationId),
+                SdkQueryParameter("verified", value: options.verified),
+                SdkQueryParameter("enrollment_mode", values: options.enrollmentMode, style: "form", explode: false),
+                SdkQueryParameter("query", value: options.query),
+                SdkQueryParameter("domains", values: options.domains, style: "form", explode: true),
+                SdkQueryParameter("order_by", value: options.orderBy),
+                SdkQueryParameter("offset", value: options.offset),
+                SdkQueryParameter("limit", value: options.limit),
+            ],
+            decoder: .json,
+            operationId: "ListAllOrganizationDomains",
+            options: requestOptions,
+            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }
