@@ -51,7 +51,7 @@ public extension MachinesMethods {
         machineId: String,
         otherMachineId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> DeleteMachineScopeResponse {
+    ) async throws -> MachineScopeDeleted {
         try await (sdkRequest(
             "DELETE",
             [

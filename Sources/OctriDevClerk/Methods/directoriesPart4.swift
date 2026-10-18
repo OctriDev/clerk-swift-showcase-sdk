@@ -58,7 +58,7 @@ public extension DirectoriesMethods {
         config: ClientConfig,
         directoryId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListDirectoryGroupRoleMappingsResponse {
+    ) async throws -> DirectoryGroupRoleMappingList {
         try await (sdkRequest(
             "GET",
             ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId)), "/group_role_mappings"].joined(),

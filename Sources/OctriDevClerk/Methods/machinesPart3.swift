@@ -24,7 +24,7 @@ public extension MachinesMethods {
         scopedMachines: [String]? = nil,
         defaultTokenTtl: Int? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> CreateMachineResponse {
+    ) async throws -> MachineCreated {
         try validateLength("name", name, min: 1, max: 255)
 
         if let scopedMachines {

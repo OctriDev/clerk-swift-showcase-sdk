@@ -33,7 +33,7 @@ public extension BetaFeaturesMethods {
         progressiveSignUp: SdkOptional<Bool>? = nil,
         testMode: SdkOptional<Bool>? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> UpdateInstanceAuthConfigResponse {
+    ) async throws -> InstanceSettings {
         let requestBody = UpdateInstanceAuthConfigRequestBody(
             restrictedToAllowlist: restrictedToAllowlist,
             fromEmailAddress: fromEmailAddress,

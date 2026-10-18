@@ -18,7 +18,7 @@ public extension ScimDirectoriesMethods {
         scimDirectoryId: String,
         mappingId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> DeleteSCIMGroupRoleMappingResponse {
+    ) async throws -> SCIMGroupRoleMappingDeleted {
         try await (sdkRequest(
             "DELETE",
             [

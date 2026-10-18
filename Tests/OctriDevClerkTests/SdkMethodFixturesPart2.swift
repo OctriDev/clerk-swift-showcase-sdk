@@ -5,6 +5,15 @@ import Foundation
 @testable import OctriDevClerk
 import XCTest
 
+let sdkMethodFixture31Expected = String(
+    data: Data(base64Encoded: [
+        "eyJlcnJvcnMiOlt7Im1lc3NhZ2UiOiJleGFtcGxlIHRleHQiLCJsb25nX21lc3NhZ2UiOiJleGFtcGxl",
+        "IHRleHQiLCJjb2RlIjoiY29kZSIsIm1ldGEiOnt9fV0sIm1ldGEiOnt9LCJjbGVya190cmFjZV9pZCI6",
+        "ImNsZXJrX3RyYWNlLTEifQ==",
+    ].joined())!,
+    encoding: .utf8
+)!
+
 let sdkMethodFixture32Expected = String(
     data: Data(base64Encoded: [
         "eyJvYmplY3QiOiJhcGlfa2V5IiwiaWQiOiJha18zYmVlY2M5YzYwYWRiNWY5Yjg1MGU5MWE4ZWUxZTk5",
@@ -637,15 +646,6 @@ let sdkMethodFixture64Expected = String(
         "bWV0YWRhdGEiOnt9LCJwcml2YXRlX21ldGFkYXRhIjp7fSwiY3JlYXRlZF9ieSI6ImNyZWF0ZWRfYnki",
         "LCJjcmVhdGVkX2F0IjoxLCJ1cGRhdGVkX2F0IjoxLCJsYXN0X2FjdGl2ZV9hdCI6MSwicm9sZV9zZXRf",
         "a2V5Ijoicm9sZV9zZXRfa2V5In0=",
-    ].joined())!,
-    encoding: .utf8
-)!
-
-let sdkMethodFixture65Expected = String(
-    data: Data(base64Encoded: [
-        "eyJlcnJvcnMiOlt7Im1lc3NhZ2UiOiJleGFtcGxlIHRleHQiLCJsb25nX21lc3NhZ2UiOiJleGFtcGxl",
-        "IHRleHQiLCJjb2RlIjoiY29kZSIsIm1ldGEiOnt9fV0sIm1ldGEiOnt9LCJjbGVya190cmFjZV9pZCI6",
-        "ImNsZXJrX3RyYWNlLTEifQ==",
     ].joined())!,
     encoding: .utf8
 )!

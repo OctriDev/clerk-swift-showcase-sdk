@@ -37,7 +37,7 @@ public extension ScimDirectoriesMethods {
         config: ClientConfig,
         scimDirectoryId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListSCIMGroupRoleMappingsResponse {
+    ) async throws -> SCIMGroupRoleMappingList {
         try await (sdkRequest(
             "GET",
             ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId)), "/group_role_mappings"]

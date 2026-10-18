@@ -4,632 +4,161 @@
 import Foundation
 
 /// SharedCommerce domain models
-/// Typed representation of the `CommercePlan` API schema.
-public struct CommercePlan: Codable {
-    /// String representing the object's type. Objects of the same type share the same value.
-    public var object: CommercePlanObject
-    /// Unique identifier for the plan.
-    public var id: String
-    /// The name of the plan.
-    public var name: String
-    /// Required API value serialized in the `fee` wire field.
-    public var fee: CommercePlanFee?
-    /// Required API value serialized in the `annual_monthly_fee` wire field.
-    public var annualMonthlyFee: CommercePlanAnnualMonthlyFee?
-    /// Required API value serialized in the `annual_fee` wire field.
-    public var annualFee: CommercePlanAnnualFee?
-    /// The description of the plan.
-    public var description: String?
-    /// The ID of the product this plan belongs to.
-    public var productId: String
-    /// Whether this is the default plan.
-    public var isDefault: Bool
-    /// Whether this is a recurring plan.
-    public var isRecurring: Bool
-    /// Whether this plan is publicly visible.
-    public var publiclyVisible: Bool
-    /// Whether this plan has a base fee.
-    public var hasBaseFee: Bool
-    /// The payer type this plan is designed for.
-    public var forPayerType: String
-    /// The URL-friendly slug for the plan.
-    public var slug: String
-    /// The URL of the plan's avatar image.
-    public var avatarUrl: String?
-    /// Whether free trial is enabled for this plan.
-    public var freeTrialEnabled: Bool
-    /// Number of free trial days for this plan.
-    public var freeTrialDays: Int?
-    /// The features included in this plan.
-    public var features: [FeatureResponse]?
-    /// Per-unit pricing tiers for this plan (for example, seats)
-    public var unitPrices: [CommercePlanUnitPrice]?
+/// The billing period for this subscription item.
+public struct CommerceSubscriptionItemPlanPeriod: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
 
-    enum CodingKeys: String, CodingKey {
-        case object
-        case id
-        case name
-        case fee
-        case annualMonthlyFee = "annual_monthly_fee"
-        case annualFee = "annual_fee"
-        case description
-        case productId = "product_id"
-        case isDefault = "is_default"
-        case isRecurring = "is_recurring"
-        case publiclyVisible = "publicly_visible"
-        case hasBaseFee = "has_base_fee"
-        case forPayerType = "for_payer_type"
-        case slug
-        case avatarUrl = "avatar_url"
-        case freeTrialEnabled = "free_trial_enabled"
-        case freeTrialDays = "free_trial_days"
-        case features
-        case unitPrices = "unit_prices"
+    public init(rawValue: String) {
+        self.rawValue = rawValue
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
+    public static let month = CommerceSubscriptionItemPlanPeriod(rawValue: "month")
+    public static let annual = CommerceSubscriptionItemPlanPeriod(rawValue: "annual")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(rawValue: container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
 
-public extension CommercePlan {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        name = try container.sdkDecodeRequired(.name)
-        fee = try container.sdkDecodeNullable(.fee)
-        annualMonthlyFee = try container.sdkDecodeNullable(.annualMonthlyFee)
-        annualFee = try container.sdkDecodeNullable(.annualFee)
-        description = try container.sdkDecodeNullable(.description)
-        productId = try container.sdkDecodeRequired(.productId)
-        isDefault = try container.sdkDecodeRequired(.isDefault)
-        isRecurring = try container.sdkDecodeRequired(.isRecurring)
-        publiclyVisible = try container.sdkDecodeRequired(.publiclyVisible)
-        hasBaseFee = try container.sdkDecodeRequired(.hasBaseFee)
-        forPayerType = try container.sdkDecodeRequired(.forPayerType)
-        slug = try container.sdkDecodeRequired(.slug)
-        avatarUrl = try container.sdkDecodeNullable(.avatarUrl)
-        freeTrialEnabled = try container.sdkDecodeRequired(.freeTrialEnabled)
-        freeTrialDays = try container.sdkDecodeNullable(.freeTrialDays)
-        features = try container.sdkDecodeIfPresent(.features)
-        unitPrices = try container.sdkDecodeIfPresent(.unitPrices)
+/// Status of the payment method.
+public struct CommercePaymentMethodResponseStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let active = CommercePaymentMethodResponseStatus(rawValue: "active")
+    public static let disconnected = CommercePaymentMethodResponseStatus(rawValue: "disconnected")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(rawValue: container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
 
-public extension CommercePlan {
-    init(
-        object: CommercePlanObject,
-        id: String,
-        name: String,
-        fee: CommercePlanFee?,
-        annualMonthlyFee: CommercePlanAnnualMonthlyFee?,
-        annualFee: CommercePlanAnnualFee?,
-        description: String?,
-        productId: String,
-        isDefault: Bool,
-        isRecurring: Bool,
-        publiclyVisible: Bool,
-        hasBaseFee: Bool,
-        forPayerType: String,
-        slug: String,
-        avatarUrl: String?,
-        freeTrialEnabled: Bool,
-        freeTrialDays: Int?,
-        features: [FeatureResponse]? = nil,
-        unitPrices: [CommercePlanUnitPrice]? = nil
-    ) {
-        (self.object, self.id) = (object, id)
-        (self.name, self.fee) = (name, fee)
-        (self.annualMonthlyFee, self.annualFee) = (annualMonthlyFee, annualFee)
-        (self.description, self.productId) = (description, productId)
-        (self.isDefault, self.isRecurring) = (isDefault, isRecurring)
-        (self.publiclyVisible, self.hasBaseFee) = (publiclyVisible, hasBaseFee)
-        (self.forPayerType, self.slug) = (forPayerType, slug)
-        (self.avatarUrl, self.freeTrialEnabled) = (avatarUrl, freeTrialEnabled)
-        (self.freeTrialDays, self.features) = (freeTrialDays, features)
-        self.unitPrices = unitPrices
+/// Current status of the subscription item.
+public struct CommerceSubscriptionItemStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let active = CommerceSubscriptionItemStatus(rawValue: "active")
+    public static let canceled = CommerceSubscriptionItemStatus(rawValue: "canceled")
+    public static let expired = CommerceSubscriptionItemStatus(rawValue: "expired")
+    public static let ended = CommerceSubscriptionItemStatus(rawValue: "ended")
+    public static let pastDue = CommerceSubscriptionItemStatus(rawValue: "past_due")
+    public static let upcoming = CommerceSubscriptionItemStatus(rawValue: "upcoming")
+    public static let incomplete = CommerceSubscriptionItemStatus(rawValue: "incomplete")
+    public static let abandoned = CommerceSubscriptionItemStatus(rawValue: "abandoned")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(rawValue: container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
 
-/// Information about the next payment.
-public struct CommerceSubscriptionItemNextPayment: Codable {
-    /// Base plan fee for the next payment. Does not include per-unit (e.g. seat) charges; see `totals.grand_total`
-    /// for the full amount.
-    public var amount: CommerceSubscriptionItemNextPaymentResponseAmount?
-    /// Unix timestamp (in milliseconds) for the next payment date.
-    public var date: Int?
-    /// Per-unit total breakdown (for example, seats) for the next payment.
-    public var perUnitTotals: [CommercePerUnitTotal]?
-    /// Breakdown of the recurring amount that will be billed at renewal (base fee + per-unit charges). Tax and
-    /// credits are not previewed.
-    public var totals: CommerceSubscriptionItemNextPaymentResponseTotals?
+/// The payment method type.
+public struct CommercePaymentMethodResponsePaymentType: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
+    public let rawValue: String
 
-    enum CodingKeys: String, CodingKey {
-        case amount
-        case date
-        case perUnitTotals = "per_unit_totals"
-        case totals
+    public init(rawValue: String) {
+        self.rawValue = rawValue
     }
 
-    init() {
-        (amount, date, perUnitTotals, totals) = (nil, nil, nil, nil)
-    }
-}
+    public static let card = CommercePaymentMethodResponsePaymentType(rawValue: "card")
+    public static let link = CommercePaymentMethodResponsePaymentType(rawValue: "link")
+    public static let payerCredits = CommercePaymentMethodResponsePaymentType(rawValue: "payer-credits")
 
-public extension CommerceSubscriptionItemNextPayment {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        amount = try container.sdkDecodeIfPresent(.amount)
-        date = try container.sdkDecodeIfPresent(.date)
-        perUnitTotals = try container.sdkDecodeIfPresent(.perUnitTotals)
-        totals = try container.sdkDecodeIfPresent(.totals)
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(rawValue: container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
 
-public extension CommerceSubscriptionItemNextPayment {
-    init(
-        amount: CommerceSubscriptionItemNextPaymentResponseAmount? = nil,
-        date: Int? = nil,
-        perUnitTotals: [CommercePerUnitTotal]? = nil,
-        totals: CommerceSubscriptionItemNextPaymentResponseTotals? = nil
-    ) {
-        self.init()
-        (self.amount, self.date) = (amount, date)
-        (self.perUnitTotals, self.totals) = (perUnitTotals, totals)
+/// String representing the object's type. Objects of the same type share the same value.
+public struct CommercePayerResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let commercePayer = CommercePayerResponseObject(rawValue: "commerce_payer")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(rawValue: container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
 
-/// Typed representation of the `CommercePlanUnitPrice` API schema.
-public struct CommercePlanUnitPrice: Codable {
-    /// Name of the billable unit (for example, seats)
-    public var name: String
-    /// Number of units included in each pricing block
-    public var blockSize: Int
-    /// Tiered pricing configuration for this unit
-    public var tiers: [CommercePlanUnitPriceTier]
+/// String representing the object's type. Objects of the same type share the same value.
+public struct CommerceSubscriptionItemObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
 
-    enum CodingKeys: String, CodingKey {
-        case name
-        case blockSize = "block_size"
-        case tiers
+    public init(rawValue: String) {
+        self.rawValue = rawValue
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
-}
+    public static let commerceSubscriptionItem = CommerceSubscriptionItemObject(rawValue: "commerce_subscription_item")
 
-public extension CommercePlanUnitPrice {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
-        }
-        guard container.contains(.blockSize) else {
-            throw SdkValidationError(
-                field: "block_size",
-                code: "required",
-                message: "Validation failed for 'block_size': value is required"
-            )
-        }
-        guard container.contains(.tiers) else {
-            throw SdkValidationError(
-                field: "tiers",
-                code: "required",
-                message: "Validation failed for 'tiers': value is required"
-            )
-        }
-        name = try container.sdkDecodeRequired(.name)
-        blockSize = try container.sdkDecodeRequired(.blockSize)
-        tiers = try container.sdkDecodeRequired(.tiers)
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(rawValue: container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
 
-public extension CommercePlanUnitPrice {
-    init(name: String, blockSize: Int, tiers: [CommercePlanUnitPriceTier]) {
-        (self.name, self.blockSize) = (name, blockSize)
-        self.tiers = tiers
-    }
-}
+/// String representing the object's type. Objects of the same type share the same value.
+public struct CommercePlanObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
 
-/// Typed representation of the `CommerceSubscriptionItemNextPaymentResponse` API schema.
-public struct CommerceSubscriptionItemNextPaymentResponse: Codable {
-    /// Base plan fee for the next payment. Does not include per-unit (e.g. seat) charges; see `totals.grand_total`
-    /// for the full amount.
-    public var amount: CommerceSubscriptionItemNextPaymentResponseAmount?
-    /// Unix timestamp (in milliseconds) for the next payment date.
-    public var date: Int?
-    /// Per-unit total breakdown (for example, seats) for the next payment.
-    public var perUnitTotals: [CommercePerUnitTotal]?
-    /// Breakdown of the recurring amount that will be billed at renewal (base fee + per-unit charges). Tax and
-    /// credits are not previewed.
-    public var totals: CommerceSubscriptionItemNextPaymentResponseTotals?
-
-    enum CodingKeys: String, CodingKey {
-        case amount
-        case date
-        case perUnitTotals = "per_unit_totals"
-        case totals
+    public init(rawValue: String) {
+        self.rawValue = rawValue
     }
 
-    init() {
-        (amount, date, perUnitTotals, totals) = (nil, nil, nil, nil)
-    }
-}
+    public static let commercePlan = CommercePlanObject(rawValue: "commerce_plan")
 
-public extension CommerceSubscriptionItemNextPaymentResponse {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        amount = try container.sdkDecodeIfPresent(.amount)
-        date = try container.sdkDecodeIfPresent(.date)
-        perUnitTotals = try container.sdkDecodeIfPresent(.perUnitTotals)
-        totals = try container.sdkDecodeIfPresent(.totals)
-    }
-}
-
-public extension CommerceSubscriptionItemNextPaymentResponse {
-    init(
-        amount: CommerceSubscriptionItemNextPaymentResponseAmount? = nil,
-        date: Int? = nil,
-        perUnitTotals: [CommercePerUnitTotal]? = nil,
-        totals: CommerceSubscriptionItemNextPaymentResponseTotals? = nil
-    ) {
-        self.init()
-        (self.amount, self.date) = (amount, date)
-        (self.perUnitTotals, self.totals) = (perUnitTotals, totals)
-    }
-}
-
-/// Typed representation of the `CommerceDiscountsResponse` API schema.
-public struct CommerceDiscountsResponse: Codable {
-    /// Required API value serialized in the `proration` wire field.
-    public var proration: CommerceDiscountsResponseProration?
-    /// Required object value serialized in the `total` wire field.
-    public var total: CommerceMoneyResponse
-
-    enum CodingKeys: String, CodingKey {
-        case proration
-        case total
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(rawValue: container.decode(String.self))
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
-}
-
-public extension CommerceDiscountsResponse {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.proration) else {
-            throw SdkValidationError(
-                field: "proration",
-                code: "required",
-                message: "Validation failed for 'proration': value is required"
-            )
-        }
-        guard container.contains(.total) else {
-            throw SdkValidationError(
-                field: "total",
-                code: "required",
-                message: "Validation failed for 'total': value is required"
-            )
-        }
-        proration = try container.sdkDecodeNullable(.proration)
-        total = try container.sdkDecodeRequired(.total)
-    }
-}
-
-public extension CommerceDiscountsResponse {
-    init(proration: CommerceDiscountsResponseProration?, total: CommerceMoneyResponse) {
-        (self.proration, self.total) = (proration, total)
-    }
-}
-
-/// Required API value serialized in the `fee` wire field.
-public struct CommercePlanFee: Codable {
-    /// The amount in cents.
-    public var amount: Int
-    /// The formatted amount as a string (e.g., "$49.99").
-    public var amountFormatted: String
-    /// The currency code (e.g., "USD").
-    public var currency: String
-    /// The currency symbol (e.g., "$").
-    public var currencySymbol: String
-
-    enum CodingKeys: String, CodingKey {
-        case amount
-        case amountFormatted = "amount_formatted"
-        case currency
-        case currencySymbol = "currency_symbol"
-    }
-
-    private init(sdkCopy value: Self) {
-        self = value
-    }
-}
-
-public extension CommercePlanFee {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(
-                field: "amount",
-                code: "required",
-                message: "Validation failed for 'amount': value is required"
-            )
-        }
-        guard container.contains(.amountFormatted) else {
-            throw SdkValidationError(
-                field: "amount_formatted",
-                code: "required",
-                message: "Validation failed for 'amount_formatted': value is required"
-            )
-        }
-        guard container.contains(.currency) else {
-            throw SdkValidationError(
-                field: "currency",
-                code: "required",
-                message: "Validation failed for 'currency': value is required"
-            )
-        }
-        guard container.contains(.currencySymbol) else {
-            throw SdkValidationError(
-                field: "currency_symbol",
-                code: "required",
-                message: "Validation failed for 'currency_symbol': value is required"
-            )
-        }
-        amount = try container.sdkDecodeRequired(.amount)
-        amountFormatted = try container.sdkDecodeRequired(.amountFormatted)
-        currency = try container.sdkDecodeRequired(.currency)
-        currencySymbol = try container.sdkDecodeRequired(.currencySymbol)
-    }
-}
-
-public extension CommercePlanFee {
-    init(amount: Int, amountFormatted: String, currency: String, currencySymbol: String) {
-        (self.amount, self.amountFormatted) = (amount, amountFormatted)
-        (self.currency, self.currencySymbol) = (currency, currencySymbol)
-    }
-}
-
-/// The current credit balance. Null when the payer has never had credits.
-public struct CommerceCreditBalanceResponseBalance: Codable {
-    /// The amount in cents.
-    public var amount: Int
-    /// The formatted amount as a string (e.g., "$49.99").
-    public var amountFormatted: String
-    /// The currency code (e.g., "USD").
-    public var currency: String
-    /// The currency symbol (e.g., "$").
-    public var currencySymbol: String
-
-    enum CodingKeys: String, CodingKey {
-        case amount
-        case amountFormatted = "amount_formatted"
-        case currency
-        case currencySymbol = "currency_symbol"
-    }
-
-    private init(sdkCopy value: Self) {
-        self = value
-    }
-}
-
-public extension CommerceCreditBalanceResponseBalance {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(
-                field: "amount",
-                code: "required",
-                message: "Validation failed for 'amount': value is required"
-            )
-        }
-        guard container.contains(.amountFormatted) else {
-            throw SdkValidationError(
-                field: "amount_formatted",
-                code: "required",
-                message: "Validation failed for 'amount_formatted': value is required"
-            )
-        }
-        guard container.contains(.currency) else {
-            throw SdkValidationError(
-                field: "currency",
-                code: "required",
-                message: "Validation failed for 'currency': value is required"
-            )
-        }
-        guard container.contains(.currencySymbol) else {
-            throw SdkValidationError(
-                field: "currency_symbol",
-                code: "required",
-                message: "Validation failed for 'currency_symbol': value is required"
-            )
-        }
-        amount = try container.sdkDecodeRequired(.amount)
-        amountFormatted = try container.sdkDecodeRequired(.amountFormatted)
-        currency = try container.sdkDecodeRequired(.currency)
-        currencySymbol = try container.sdkDecodeRequired(.currencySymbol)
-    }
-}
-
-public extension CommerceCreditBalanceResponseBalance {
-    init(amount: Int, amountFormatted: String, currency: String, currencySymbol: String) {
-        (self.amount, self.amountFormatted) = (amount, amountFormatted)
-        (self.currency, self.currencySymbol) = (currency, currencySymbol)
-    }
-}
-
-/// Required API value serialized in the `proration` wire field.
-public struct CommerceDiscountsResponseProration: Codable {
-    /// Required object value serialized in the `amount` wire field.
-    public var amount: CommerceMoneyResponse
-    /// Required `int64`-formatted value serialized in the `cycle_days_passed` wire field.
-    public var cycleDaysPassed: Int
-    /// Required `int64`-formatted value serialized in the `cycle_days_total` wire field.
-    public var cycleDaysTotal: Int
-    /// Required `float`-formatted value serialized in the `cycle_passed_percent` wire field.
-    public var cyclePassedPercent: Double
-
-    enum CodingKeys: String, CodingKey {
-        case amount
-        case cycleDaysPassed = "cycle_days_passed"
-        case cycleDaysTotal = "cycle_days_total"
-        case cyclePassedPercent = "cycle_passed_percent"
-    }
-
-    private init(sdkCopy value: Self) {
-        self = value
-    }
-}
-
-public extension CommerceDiscountsResponseProration {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(
-                field: "amount",
-                code: "required",
-                message: "Validation failed for 'amount': value is required"
-            )
-        }
-        guard container.contains(.cycleDaysPassed) else {
-            throw SdkValidationError(
-                field: "cycle_days_passed",
-                code: "required",
-                message: "Validation failed for 'cycle_days_passed': value is required"
-            )
-        }
-        guard container.contains(.cycleDaysTotal) else {
-            throw SdkValidationError(
-                field: "cycle_days_total",
-                code: "required",
-                message: "Validation failed for 'cycle_days_total': value is required"
-            )
-        }
-        guard container.contains(.cyclePassedPercent) else {
-            throw SdkValidationError(
-                field: "cycle_passed_percent",
-                code: "required",
-                message: "Validation failed for 'cycle_passed_percent': value is required"
-            )
-        }
-        amount = try container.sdkDecodeRequired(.amount)
-        cycleDaysPassed = try container.sdkDecodeRequired(.cycleDaysPassed)
-        cycleDaysTotal = try container.sdkDecodeRequired(.cycleDaysTotal)
-        cyclePassedPercent = try container.sdkDecodeRequired(.cyclePassedPercent)
-    }
-}
-
-public extension CommerceDiscountsResponseProration {
-    init(amount: CommerceMoneyResponse, cycleDaysPassed: Int, cycleDaysTotal: Int, cyclePassedPercent: Double) {
-        (self.amount, self.cycleDaysPassed) = (amount, cycleDaysPassed)
-        (self.cycleDaysTotal, self.cyclePassedPercent) = (cycleDaysTotal, cyclePassedPercent)
-    }
-}
-
-/// Required API value serialized in the `proration` wire field.
-public struct CommerceCreditsResponseProration: Codable {
-    /// Required object value serialized in the `amount` wire field.
-    public var amount: CommerceMoneyResponse
-    /// Required `int64`-formatted value serialized in the `cycle_days_remaining` wire field.
-    public var cycleDaysRemaining: Int
-    /// Required `int64`-formatted value serialized in the `cycle_days_total` wire field.
-    public var cycleDaysTotal: Int
-    /// Required `double`-formatted value serialized in the `cycle_remaining_percent` wire field.
-    public var cycleRemainingPercent: Double
-
-    enum CodingKeys: String, CodingKey {
-        case amount
-        case cycleDaysRemaining = "cycle_days_remaining"
-        case cycleDaysTotal = "cycle_days_total"
-        case cycleRemainingPercent = "cycle_remaining_percent"
-    }
-
-    private init(sdkCopy value: Self) {
-        self = value
-    }
-}
-
-public extension CommerceCreditsResponseProration {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(
-                field: "amount",
-                code: "required",
-                message: "Validation failed for 'amount': value is required"
-            )
-        }
-        guard container.contains(.cycleDaysRemaining) else {
-            throw SdkValidationError(
-                field: "cycle_days_remaining",
-                code: "required",
-                message: "Validation failed for 'cycle_days_remaining': value is required"
-            )
-        }
-        guard container.contains(.cycleDaysTotal) else {
-            throw SdkValidationError(
-                field: "cycle_days_total",
-                code: "required",
-                message: "Validation failed for 'cycle_days_total': value is required"
-            )
-        }
-        guard container.contains(.cycleRemainingPercent) else {
-            throw SdkValidationError(
-                field: "cycle_remaining_percent",
-                code: "required",
-                message: "Validation failed for 'cycle_remaining_percent': value is required"
-            )
-        }
-        amount = try container.sdkDecodeRequired(.amount)
-        cycleDaysRemaining = try container.sdkDecodeRequired(.cycleDaysRemaining)
-        cycleDaysTotal = try container.sdkDecodeRequired(.cycleDaysTotal)
-        cycleRemainingPercent = try container.sdkDecodeRequired(.cycleRemainingPercent)
-    }
-}
-
-public extension CommerceCreditsResponseProration {
-    init(amount: CommerceMoneyResponse, cycleDaysRemaining: Int, cycleDaysTotal: Int, cycleRemainingPercent: Double) {
-        (self.amount, self.cycleDaysRemaining) = (amount, cycleDaysRemaining)
-        (self.cycleDaysTotal, self.cycleRemainingPercent) = (cycleDaysTotal, cycleRemainingPercent)
-    }
-}
-
-/// Typed representation of the `CommerceTotalsResponse` API schema.
-public struct CommerceTotalsResponse: Codable {
-    /// Required object value serialized in the `subtotal` wire field.
-    public var subtotal: CommerceMoneyResponse
-    /// Required object value serialized in the `base_fee` wire field.
-    public var baseFee: CommerceMoneyResponse
-    /// Required object value serialized in the `tax_total` wire field.
-    public var taxTotal: CommerceMoneyResponse
-    /// Required object value serialized in the `grand_total` wire field.
-    public var grandTotal: CommerceMoneyResponse
-    /// Optional array value serialized in the `per_unit_totals` wire field.
-    public var perUnitTotals: [CommercePerUnitTotal]?
-    /// Optional API value serialized in the `credits` wire field.
-    public var credits: CommerceTotalsResponseCredits?
-    /// Optional API value serialized in the `discounts` wire field.
-    public var discounts: CommerceTotalsResponseDiscounts?
-
-    enum CodingKeys: String, CodingKey {
-        case subtotal
-        case baseFee = "base_fee"
-        case taxTotal = "tax_total"
-        case grandTotal = "grand_total"
-        case perUnitTotals = "per_unit_totals"
-        case credits
-        case discounts
-    }
-
-    private init(sdkCopy value: Self) {
-        self = value
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }

@@ -30,7 +30,7 @@ public extension MachinesMethods {
         query: String? = nil,
         orderBy: String? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListMachinesResponse {
+    ) async throws -> MachineList {
         if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }

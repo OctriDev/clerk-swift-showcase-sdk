@@ -17,7 +17,7 @@ public class MachinesNamespace {
         query: String? = nil,
         orderBy: String? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListMachinesResponse {
+    ) async throws -> MachineList {
         try await MachinesMethods.listMachines(
             config: config,
             limit: limit,
@@ -37,7 +37,7 @@ public class MachinesNamespace {
         scopedMachines: [String]? = nil,
         defaultTokenTtl: Int? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> CreateMachineResponse {
+    ) async throws -> MachineCreated {
         try await MachinesMethods.createMachine(
             config: config,
             name: name,
@@ -75,7 +75,7 @@ public class MachinesNamespace {
     /// deletion with the machine ID and a `deleted` value.
     ///
     /// Deletes a machine.
-    public func delete(machineId: String, requestOptions: RequestOptions? = nil) async throws -> DeleteMachineResponse {
+    public func delete(machineId: String, requestOptions: RequestOptions? = nil) async throws -> MachineDeleted {
         try await MachinesMethods.deleteMachine(config: config, machineId: machineId, requestOptions: requestOptions)
     }
 
@@ -85,7 +85,7 @@ public class MachinesNamespace {
     public func getSecretKey(
         machineId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> GetMachineSecretKeyResponse {
+    ) async throws -> MachineSecretKey {
         try await MachinesMethods.getMachineSecretKey(
             config: config,
             machineId: machineId,
@@ -100,7 +100,7 @@ public class MachinesNamespace {
         machineId: String,
         previousTokenTtl: Int,
         requestOptions: RequestOptions? = nil
-    ) async throws -> GetMachineSecretKeyResponse {
+    ) async throws -> MachineSecretKey {
         try await MachinesMethods.rotateMachineSecretKey(
             config: config,
             machineId: machineId,
@@ -131,7 +131,7 @@ public extension MachinesNamespace {
         machineId: String,
         otherMachineId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> DeleteMachineScopeResponse {
+    ) async throws -> MachineScopeDeleted {
         try await MachinesMethods.deleteMachineScope(
             config: config,
             machineId: machineId,

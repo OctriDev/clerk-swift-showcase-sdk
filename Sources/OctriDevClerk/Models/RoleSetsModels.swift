@@ -4,250 +4,6 @@
 import Foundation
 
 /// RoleSets domain models
-/// The role assigned to the creator of an organization
-public struct RoleSetCreatorRole: Codable {
-    /// Required enumerated value serialized in the `object` wire field.
-    public var object: RoleSetItemObject
-    /// The unique identifier of the role
-    public var id: String
-    /// The name of the role
-    public var name: String
-    /// The key of the role (e.g., "org:admin", "org:member")
-    public var key: String
-    /// Optional description of the role
-    public var description: String?
-    /// Unix timestamp of role creation
-    public var createdAt: Int
-    /// Unix timestamp of last role update
-    public var updatedAt: Int
-    /// The number of members assigned to this role within the role set
-    public var membersCount: Int?
-    /// Whether this role has any members assigned within the role set
-    public var hasMembers: Bool?
-
-    enum CodingKeys: String, CodingKey {
-        case object
-        case id
-        case name
-        case key
-        case description
-        case createdAt = "created_at"
-        case updatedAt = "updated_at"
-        case membersCount = "members_count"
-        case hasMembers = "has_members"
-    }
-
-    private init(sdkCopy value: Self) {
-        self = value
-    }
-}
-
-public extension RoleSetCreatorRole {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
-        }
-        guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
-        }
-        guard container.contains(.key) else {
-            throw SdkValidationError(
-                field: "key",
-                code: "required",
-                message: "Validation failed for 'key': value is required"
-            )
-        }
-        guard container.contains(.description) else {
-            throw SdkValidationError(
-                field: "description",
-                code: "required",
-                message: "Validation failed for 'description': value is required"
-            )
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(
-                field: "created_at",
-                code: "required",
-                message: "Validation failed for 'created_at': value is required"
-            )
-        }
-        guard container.contains(.updatedAt) else {
-            throw SdkValidationError(
-                field: "updated_at",
-                code: "required",
-                message: "Validation failed for 'updated_at': value is required"
-            )
-        }
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        name = try container.sdkDecodeRequired(.name)
-        key = try container.sdkDecodeRequired(.key)
-        description = try container.sdkDecodeNullable(.description)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        membersCount = try container.sdkDecodeIfPresent(.membersCount)
-        hasMembers = try container.sdkDecodeIfPresent(.hasMembers)
-    }
-}
-
-public extension RoleSetCreatorRole {
-    init(
-        object: RoleSetItemObject,
-        id: String,
-        name: String,
-        key: String,
-        description: String?,
-        createdAt: Int,
-        updatedAt: Int,
-        membersCount: Int? = nil,
-        hasMembers: Bool? = nil
-    ) {
-        (self.object, self.id) = (object, id)
-        (self.name, self.key) = (name, key)
-        (self.description, self.createdAt) = (description, createdAt)
-        (self.updatedAt, self.membersCount) = (updatedAt, membersCount)
-        self.hasMembers = hasMembers
-    }
-}
-
-/// The default role assigned to new organization members
-public struct RoleSetDefaultRole: Codable {
-    /// Required enumerated value serialized in the `object` wire field.
-    public var object: RoleSetItemObject
-    /// The unique identifier of the role
-    public var id: String
-    /// The name of the role
-    public var name: String
-    /// The key of the role (e.g., "org:admin", "org:member")
-    public var key: String
-    /// Optional description of the role
-    public var description: String?
-    /// Unix timestamp of role creation
-    public var createdAt: Int
-    /// Unix timestamp of last role update
-    public var updatedAt: Int
-    /// The number of members assigned to this role within the role set
-    public var membersCount: Int?
-    /// Whether this role has any members assigned within the role set
-    public var hasMembers: Bool?
-
-    enum CodingKeys: String, CodingKey {
-        case object
-        case id
-        case name
-        case key
-        case description
-        case createdAt = "created_at"
-        case updatedAt = "updated_at"
-        case membersCount = "members_count"
-        case hasMembers = "has_members"
-    }
-
-    private init(sdkCopy value: Self) {
-        self = value
-    }
-}
-
-public extension RoleSetDefaultRole {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
-        }
-        guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
-        }
-        guard container.contains(.key) else {
-            throw SdkValidationError(
-                field: "key",
-                code: "required",
-                message: "Validation failed for 'key': value is required"
-            )
-        }
-        guard container.contains(.description) else {
-            throw SdkValidationError(
-                field: "description",
-                code: "required",
-                message: "Validation failed for 'description': value is required"
-            )
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(
-                field: "created_at",
-                code: "required",
-                message: "Validation failed for 'created_at': value is required"
-            )
-        }
-        guard container.contains(.updatedAt) else {
-            throw SdkValidationError(
-                field: "updated_at",
-                code: "required",
-                message: "Validation failed for 'updated_at': value is required"
-            )
-        }
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        name = try container.sdkDecodeRequired(.name)
-        key = try container.sdkDecodeRequired(.key)
-        description = try container.sdkDecodeNullable(.description)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        membersCount = try container.sdkDecodeIfPresent(.membersCount)
-        hasMembers = try container.sdkDecodeIfPresent(.hasMembers)
-    }
-}
-
-public extension RoleSetDefaultRole {
-    init(
-        object: RoleSetItemObject,
-        id: String,
-        name: String,
-        key: String,
-        description: String?,
-        createdAt: Int,
-        updatedAt: Int,
-        membersCount: Int? = nil,
-        hasMembers: Bool? = nil
-    ) {
-        (self.object, self.id) = (object, id)
-        (self.name, self.key) = (name, key)
-        (self.description, self.createdAt) = (description, createdAt)
-        (self.updatedAt, self.membersCount) = (updatedAt, membersCount)
-        self.hasMembers = hasMembers
-    }
-}
-
 /// Typed representation of the `RoleSets` API schema.
 public struct RoleSets: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -536,11 +292,11 @@ public struct RoleSet: Codable {
     /// Unix timestamp of last role set update
     public var updatedAt: Int
     /// The default role assigned to new organization members
-    public var defaultRole: RoleSetDefaultRole?
+    public var defaultRole: RoleSetItem?
     /// The role assigned to the creator of an organization
-    public var creatorRole: RoleSetCreatorRole?
+    public var creatorRole: RoleSetItem?
     /// Active migration information, only present when status is "enqueued" or "in_progress"
-    public var roleSetMigration: RoleSetRoleSetMigration?
+    public var roleSetMigration: RoleSetMigration?
 
     enum CodingKeys: String, CodingKey {
         case object
@@ -591,9 +347,9 @@ public extension RoleSet {
         type: RoleSetType,
         createdAt: Int,
         updatedAt: Int,
-        defaultRole: RoleSetDefaultRole? = nil,
-        creatorRole: RoleSetCreatorRole? = nil,
-        roleSetMigration: RoleSetRoleSetMigration? = nil
+        defaultRole: RoleSetItem? = nil,
+        creatorRole: RoleSetItem? = nil,
+        roleSetMigration: RoleSetMigration? = nil
     ) {
         (self.object, self.id) = (object, id)
         (self.name, self.key) = (name, key)
@@ -601,5 +357,90 @@ public extension RoleSet {
         (self.type, self.createdAt) = (type, createdAt)
         (self.updatedAt, self.defaultRole) = (updatedAt, defaultRole)
         (self.creatorRole, self.roleSetMigration) = (creatorRole, roleSetMigration)
+    }
+}
+
+/// Required enumerated value serialized in the `object` wire field.
+public struct RoleSetObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let roleSet = RoleSetObject(rawValue: "role_set")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(rawValue: container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// Required enumerated value serialized in the `object` wire field.
+public struct RoleSetItemObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let roleSetItem = RoleSetItemObject(rawValue: "role_set_item")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(rawValue: container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// Required enumerated value serialized in the `object` wire field.
+public struct RoleSetMigrationObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let roleSetMigration = RoleSetMigrationObject(rawValue: "role_set_migration")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(rawValue: container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// The type of the role set ("initial" or "custom")
+public struct RoleSetType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let initial = RoleSetType(rawValue: "initial")
+    public static let custom = RoleSetType(rawValue: "custom")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(rawValue: container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }

@@ -6,33 +6,6 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-/// Optional parameter that lets a user with a second factor enabled complete the sign in without being prompted
-/// for it. When omitted, redeeming the token completes only the first factor, and the user must still complete
-/// their second factor. `fresh`: the second factor is treated as verified at sign in. The session token's `fva`
-/// claim reports a second factor age of 0. `stale`: the second factor is treated as unverified. The session
-/// token's `fva` claim reports the maximum second…
-public struct CreateSignInTokenRequestBodySecondFactorVerification: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
-    public let rawValue: String
-
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public static let fresh = CreateSignInTokenRequestBodySecondFactorVerification(rawValue: "fresh")
-    public static let stale = CreateSignInTokenRequestBodySecondFactorVerification(rawValue: "stale")
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(rawValue)
-    }
-}
-
 public struct ListAllOrganizationDomainsParameter: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
@@ -225,6 +198,48 @@ public struct DeleteApiKeyResponseObject: RawRepresentable, Hashable, Codable, S
     }
 
     public static let apiKey = DeleteApiKeyResponseObject(rawValue: "api_key")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(rawValue: container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+/// Set to "initial" to make this the default role set for new organizations. Only one role set can be "initial"
+/// per instance; setting this will change any existing initial role set to "custom".
+public struct UpdateRoleSetRequestBodyType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let initial = UpdateRoleSetRequestBodyType(rawValue: "initial")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(rawValue: container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
+    }
+}
+
+public struct CreateM2MTokenResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let machineToMachineToken = CreateM2MTokenResponseObject(rawValue: "machine_to_machine_token")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()

@@ -44,7 +44,7 @@ public extension UsersMethods {
         config: ClientConfig,
         userId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListUserBiometricCredentialsResponse {
+    ) async throws -> BiometricCredentialList {
         try await (sdkRequest(
             "GET",
             ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/biometric_credentials"].joined(),

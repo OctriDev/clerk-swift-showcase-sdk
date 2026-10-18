@@ -71,7 +71,7 @@ public extension InvitationsMethods {
         config: ClientConfig,
         invitationId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> RevokeInvitationResponse {
+    ) async throws -> InvitationRevoked {
         try await (sdkRequest(
             "POST",
             ["/invitations/", sdkEncodePathSegment(sdkWireString(invitationId)), "/revoke"].joined(),

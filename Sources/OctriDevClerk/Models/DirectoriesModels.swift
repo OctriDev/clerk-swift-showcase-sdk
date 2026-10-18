@@ -8,6 +8,51 @@ public typealias Directories = [Directory]
 
 public typealias DirectoryGroupRoleMappings = [DirectoryGroupRoleMapping]
 
+/// Typed representation of the `DirectoryList` API schema.
+public struct DirectoryList: Codable {
+    /// Required array value serialized in the `data` wire field.
+    public var data: Directories
+    /// Total number of directories.
+    public var totalCount: Int
+
+    enum CodingKeys: String, CodingKey {
+        case data
+        case totalCount = "total_count"
+    }
+
+    private init(sdkCopy value: Self) {
+        self = value
+    }
+}
+
+public extension DirectoryList {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension DirectoryList {
+    init(data: Directories, totalCount: Int) {
+        (self.data, self.totalCount) = (data, totalCount)
+    }
+}
+
 /// A directory configuration for provisioning users from an identity provider.
 public struct Directory: Codable {
     /// String representing the object's type. Always "directory".
@@ -102,6 +147,51 @@ public extension Directory {
         (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
         (self.enterpriseConnectionId, self.customAttributes) = (enterpriseConnectionId, customAttributes)
         self.apiKey = apiKey
+    }
+}
+
+/// Typed representation of the `DirectoryGroupRoleMappingList` API schema.
+public struct DirectoryGroupRoleMappingList: Codable {
+    /// Required array value serialized in the `data` wire field.
+    public var data: DirectoryGroupRoleMappings
+    /// Total number of directory group role mappings in the directory.
+    public var totalCount: Int
+
+    enum CodingKeys: String, CodingKey {
+        case data
+        case totalCount = "total_count"
+    }
+
+    private init(sdkCopy value: Self) {
+        self = value
+    }
+}
+
+public extension DirectoryGroupRoleMappingList {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension DirectoryGroupRoleMappingList {
+    init(data: DirectoryGroupRoleMappings, totalCount: Int) {
+        (self.data, self.totalCount) = (data, totalCount)
     }
 }
 
@@ -252,6 +342,86 @@ public extension DirectoryCustomAttributesItem {
         (self.name, self.key) = (name, key)
         (self.ssoPath, self.scimPath) = (ssoPath, scimPath)
         (self.directoryPath, self.multiValued) = (directoryPath, multiValued)
+    }
+}
+
+/// Typed representation of the `DirectoryGroupRoleMappingDeleted` API schema.
+public struct DirectoryGroupRoleMappingDeleted: Codable {
+    /// String representing the object's type.
+    public var object: DirectoryGroupRoleMappingDeletedObject
+    /// The ID of the deleted directory group role mapping.
+    public var id: String
+    /// Whether the directory group role mapping was successfully deleted.
+    public var deleted: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case object
+        case id
+        case deleted
+    }
+
+    private init(sdkCopy value: Self) {
+        self = value
+    }
+}
+
+public extension DirectoryGroupRoleMappingDeleted {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.deleted) else {
+            throw SdkValidationError(
+                field: "deleted",
+                code: "required",
+                message: "Validation failed for 'deleted': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        deleted = try container.sdkDecodeRequired(.deleted)
+    }
+}
+
+public extension DirectoryGroupRoleMappingDeleted {
+    init(object: DirectoryGroupRoleMappingDeletedObject, id: String, deleted: Bool) {
+        (self.object, self.id) = (object, id)
+        self.deleted = deleted
+    }
+}
+
+/// String representing the object's type.
+public struct DirectoryGroupRoleMappingDeletedObject: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
+    public let rawValue: String
+
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let directoryGroupRoleMapping =
+        DirectoryGroupRoleMappingDeletedObject(rawValue: "directory_group_role_mapping")
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(rawValue: container.decode(String.self))
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(rawValue)
     }
 }
 

@@ -447,7 +447,7 @@ public class ScimDirectoriesNamespace {
         limit: Int? = nil,
         offset: Int? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListSCIMDirectoriesResponse {
+    ) async throws -> SCIMDirectoryList {
         try await ScimDirectoriesMethods.listScimDirectories(
             config: config,
             limit: limit,
@@ -543,7 +543,7 @@ public class ScimDirectoriesNamespace {
     public func listScimGroupRoleMappings(
         scimDirectoryId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListSCIMGroupRoleMappingsResponse {
+    ) async throws -> SCIMGroupRoleMappingList {
         try await ScimDirectoriesMethods.listScimGroupRoleMappings(
             config: config,
             scimDirectoryId: scimDirectoryId,
@@ -580,7 +580,7 @@ public extension ScimDirectoriesNamespace {
         scimDirectoryId: String,
         mappings: [ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem],
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListSCIMGroupRoleMappingsResponse {
+    ) async throws -> SCIMGroupRoleMappingList {
         try await ScimDirectoriesMethods.replaceScimGroupRoleMappings(
             config: config,
             scimDirectoryId: scimDirectoryId,
@@ -595,7 +595,7 @@ public extension ScimDirectoriesNamespace {
         scimDirectoryId: String,
         mappingId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> DeleteSCIMGroupRoleMappingResponse {
+    ) async throws -> SCIMGroupRoleMappingDeleted {
         try await ScimDirectoriesMethods.deleteScimGroupRoleMapping(
             config: config,
             scimDirectoryId: scimDirectoryId,

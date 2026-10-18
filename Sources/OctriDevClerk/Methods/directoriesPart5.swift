@@ -72,7 +72,7 @@ public extension DirectoriesMethods {
         directoryId: String,
         mappings: [ReplaceDirectoryGroupRoleMappingsRequestBodyMappingsItem],
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListDirectoryGroupRoleMappingsResponse {
+    ) async throws -> DirectoryGroupRoleMappingList {
         let requestBody = ReplaceDirectoryGroupRoleMappingsRequestBody(mappings: mappings)
 
         return try await (sdkRequest(

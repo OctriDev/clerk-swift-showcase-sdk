@@ -21,7 +21,7 @@ public class BetaFeaturesNamespace {
         progressiveSignUp: SdkOptional<Bool>? = nil,
         testMode: SdkOptional<Bool>? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> UpdateInstanceAuthConfigResponse {
+    ) async throws -> InstanceSettings {
         try await BetaFeaturesMethods.updateInstanceAuthConfig(
             config: config,
             restrictedToAllowlist: restrictedToAllowlist,

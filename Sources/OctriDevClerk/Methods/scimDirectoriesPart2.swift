@@ -19,7 +19,7 @@ public extension ScimDirectoriesMethods {
         limit: Int? = nil,
         offset: Int? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListSCIMDirectoriesResponse {
+    ) async throws -> SCIMDirectoryList {
         if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }

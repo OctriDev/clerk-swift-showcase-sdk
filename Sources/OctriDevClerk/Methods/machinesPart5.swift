@@ -17,7 +17,7 @@ public extension MachinesMethods {
         config: ClientConfig,
         machineId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> GetMachineSecretKeyResponse {
+    ) async throws -> MachineSecretKey {
         try await (sdkRequest(
             "GET",
             ["/machines/", sdkEncodePathSegment(sdkWireString(machineId)), "/secret_key"].joined(),
@@ -44,7 +44,7 @@ public extension MachinesMethods {
         machineId: String,
         previousTokenTtl: Int,
         requestOptions: RequestOptions? = nil
-    ) async throws -> GetMachineSecretKeyResponse {
+    ) async throws -> MachineSecretKey {
         try validateRange("previous_token_ttl", Double(previousTokenTtl), min: 0, max: 28800)
 
         let requestBody = RotateMachineSecretKeyRequestBody(previousTokenTtl: previousTokenTtl)

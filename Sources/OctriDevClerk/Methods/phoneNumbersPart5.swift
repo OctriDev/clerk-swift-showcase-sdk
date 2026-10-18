@@ -32,7 +32,7 @@ public extension PhoneNumbersMethods {
         verificationId: String,
         code: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> AttemptEmailAddressVerificationResponse {
+    ) async throws -> VerificationResponse {
         let requestBody = AttemptPhoneNumberVerificationRequestBody(verificationId: verificationId, code: code)
 
         return try await (sdkRequest(

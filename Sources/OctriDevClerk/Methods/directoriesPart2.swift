@@ -19,7 +19,7 @@ public extension DirectoriesMethods {
         limit: Int? = nil,
         offset: Int? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListDirectoriesResponse {
+    ) async throws -> DirectoryList {
         if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }

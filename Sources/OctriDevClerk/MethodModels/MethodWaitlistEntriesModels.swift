@@ -8,49 +8,6 @@ import Foundation
 #endif
 
 /// Canonical waitlistEntries operation model declarations
-public struct ListWaitlistEntriesResponse: Codable {
-    public var data: [WaitlistEntry]
-    /// Total number of waitlist entries
-    public var totalCount: Int
-
-    enum CodingKeys: String, CodingKey {
-        case data
-        case totalCount = "total_count"
-    }
-
-    private init(sdkCopy value: Self) {
-        self = value
-    }
-}
-
-public extension ListWaitlistEntriesResponse {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
-        }
-        data = try container.sdkDecodeRequired(.data)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
-    }
-}
-
-public extension ListWaitlistEntriesResponse {
-    init(data: [WaitlistEntry], totalCount: Int) {
-        (self.data, self.totalCount) = (data, totalCount)
-    }
-}
-
 public struct CreateBulkWaitlistEntriesRequestBodyItem: Codable {
     /// The email address to add to the waitlist
     public var emailAddress: String

@@ -57,7 +57,7 @@ public extension PhoneNumbersMethods {
         config: ClientConfig,
         phoneNumberId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> AttemptEmailAddressVerificationResponse {
+    ) async throws -> VerificationResponse {
         try await (sdkRequest(
             "POST",
             ["/phone_numbers/", sdkEncodePathSegment(sdkWireString(phoneNumberId)), "/prepare_verification"].joined(),

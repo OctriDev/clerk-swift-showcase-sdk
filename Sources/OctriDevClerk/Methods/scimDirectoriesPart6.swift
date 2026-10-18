@@ -69,7 +69,7 @@ public extension ScimDirectoriesMethods {
         scimDirectoryId: String,
         mappings: [ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem],
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListSCIMGroupRoleMappingsResponse {
+    ) async throws -> SCIMGroupRoleMappingList {
         let requestBody = ReplaceScimGroupRoleMappingsRequestBody(mappings: mappings)
 
         return try await (sdkRequest(

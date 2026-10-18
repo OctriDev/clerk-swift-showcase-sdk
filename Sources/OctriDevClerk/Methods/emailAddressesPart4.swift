@@ -18,7 +18,7 @@ public extension EmailAddressesMethods {
         config: ClientConfig,
         emailAddressId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> AttemptEmailAddressVerificationResponse {
+    ) async throws -> VerificationResponse {
         try await (sdkRequest(
             "POST",
             ["/email_addresses/", sdkEncodePathSegment(sdkWireString(emailAddressId)), "/prepare_verification"]
@@ -58,7 +58,7 @@ public extension EmailAddressesMethods {
         verificationId: String,
         code: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> AttemptEmailAddressVerificationResponse {
+    ) async throws -> VerificationResponse {
         let requestBody = AttemptEmailAddressVerificationRequestBody(verificationId: verificationId, code: code)
 
         return try await (sdkRequest(

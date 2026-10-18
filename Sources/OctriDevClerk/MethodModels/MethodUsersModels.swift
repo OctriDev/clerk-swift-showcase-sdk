@@ -8,49 +8,6 @@ import Foundation
 #endif
 
 /// Canonical users operation model declarations
-public struct ListUserBiometricCredentialsResponse: Codable {
-    public var data: [BiometricCredential]
-    /// Total number of biometric credentials
-    public var totalCount: Int
-
-    enum CodingKeys: String, CodingKey {
-        case data
-        case totalCount = "total_count"
-    }
-
-    private init(sdkCopy value: Self) {
-        self = value
-    }
-}
-
-public extension ListUserBiometricCredentialsResponse {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
-        }
-        data = try container.sdkDecodeRequired(.data)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
-    }
-}
-
-public extension ListUserBiometricCredentialsResponse {
-    init(data: [BiometricCredential], totalCount: Int) {
-        (self.data, self.totalCount) = (data, totalCount)
-    }
-}
-
 public struct VerifyTOTPResponse: Codable {
     public var verified: Bool?
     public var codeType: VerifyTOTPResponseCodeType?
@@ -77,49 +34,6 @@ public extension VerifyTOTPResponse {
     init(verified: Bool? = nil, codeType: VerifyTOTPResponseCodeType? = nil) {
         self.init()
         (self.verified, self.codeType) = (verified, codeType)
-    }
-}
-
-public struct ListUserTrustedDevicesResponse: Codable {
-    public var data: [TrustedDevice]
-    /// Total number of trusted devices
-    public var totalCount: Int
-
-    enum CodingKeys: String, CodingKey {
-        case data
-        case totalCount = "total_count"
-    }
-
-    private init(sdkCopy value: Self) {
-        self = value
-    }
-}
-
-public extension ListUserTrustedDevicesResponse {
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
-        }
-        data = try container.sdkDecodeRequired(.data)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
-    }
-}
-
-public extension ListUserTrustedDevicesResponse {
-    init(data: [TrustedDevice], totalCount: Int) {
-        (self.data, self.totalCount) = (data, totalCount)
     }
 }
 

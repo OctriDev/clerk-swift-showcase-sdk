@@ -60,7 +60,7 @@ public extension MachinesMethods {
         config: ClientConfig,
         machineId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> DeleteMachineResponse {
+    ) async throws -> MachineDeleted {
         try await (sdkRequest(
             "DELETE",
             ["/machines/", sdkEncodePathSegment(sdkWireString(machineId))].joined(),

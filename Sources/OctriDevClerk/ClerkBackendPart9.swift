@@ -14,7 +14,7 @@ public class DirectoriesNamespace {
         limit: Int? = nil,
         offset: Int? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListDirectoriesResponse {
+    ) async throws -> DirectoryList {
         try await DirectoriesMethods.listDirectories(
             config: config,
             limit: limit,
@@ -108,7 +108,7 @@ public class DirectoriesNamespace {
     public func listGroupRoleMappings(
         directoryId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListDirectoryGroupRoleMappingsResponse {
+    ) async throws -> DirectoryGroupRoleMappingList {
         try await DirectoriesMethods.listDirectoryGroupRoleMappings(
             config: config,
             directoryId: directoryId,
@@ -147,7 +147,7 @@ public extension DirectoriesNamespace {
         directoryId: String,
         mappings: [ReplaceDirectoryGroupRoleMappingsRequestBodyMappingsItem],
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListDirectoryGroupRoleMappingsResponse {
+    ) async throws -> DirectoryGroupRoleMappingList {
         try await DirectoriesMethods.replaceDirectoryGroupRoleMappings(
             config: config,
             directoryId: directoryId,
@@ -162,7 +162,7 @@ public extension DirectoriesNamespace {
         directoryId: String,
         mappingId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> DeleteDirectoryGroupRoleMappingResponse {
+    ) async throws -> DirectoryGroupRoleMappingDeleted {
         try await DirectoriesMethods.deleteDirectoryGroupRoleMapping(
             config: config,
             directoryId: directoryId,

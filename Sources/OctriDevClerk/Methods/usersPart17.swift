@@ -68,7 +68,7 @@ public extension UsersMethods {
         config: ClientConfig,
         userId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListUserTrustedDevicesResponse {
+    ) async throws -> TrustedDeviceList {
         try await (sdkRequest(
             "GET",
             ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/trusted_devices"].joined(),

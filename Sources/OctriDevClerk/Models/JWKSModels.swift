@@ -17,6 +17,11 @@ public indirect enum JWKSKeysItem {
 extension JWKSKeysItem: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
+        if let raw = try? container.decode(JSONValue.self) {
+            if let value = Self.decodeLossless1(from: container, raw) {
+                self = value; return
+            }
+        }
         if let value = Self.decodeGroup1(from: container) {
             self = value; return
         }
@@ -27,6 +32,33 @@ extension JWKSKeysItem: Codable {
         if try encodeGroup1(to: encoder) {
             return
         }
+    }
+}
+
+extension JWKSKeysItem {
+    static func decodeLossless1(from container: SingleValueDecodingContainer, _ raw: JSONValue) -> Self? {
+        if let value = try? container.decode(JWKSEd25519PublicKey.self), sdkKeepsEveryKey(value, of: raw) {
+            return .jWksEd25519PublicKey(value)
+        }
+        if let value = try? container.decode(JWKSEcdsaPublicKey.self), sdkKeepsEveryKey(value, of: raw) {
+            return .jWksEcdsaPublicKey(value)
+        }
+        if let value = try? container.decode(JWKSRsaPublicKey.self), sdkKeepsEveryKey(value, of: raw) {
+            return .jWksRsaPublicKey(value)
+        }
+        if let value = try? container.decode(JWKSEd25519PrivateKey.self), sdkKeepsEveryKey(value, of: raw) {
+            return .jWksEd25519PrivateKey(value)
+        }
+        if let value = try? container.decode(JWKSEcdsaPrivateKey.self), sdkKeepsEveryKey(value, of: raw) {
+            return .jWksEcdsaPrivateKey(value)
+        }
+        if let value = try? container.decode(JWKSRsaPrivateKey.self), sdkKeepsEveryKey(value, of: raw) {
+            return .jWksRsaPrivateKey(value)
+        }
+        if let value = try? container.decode(JWKSSymmetricKey.self), sdkKeepsEveryKey(value, of: raw) {
+            return .jWksSymmetricKey(value)
+        }
+        return nil
     }
 }
 

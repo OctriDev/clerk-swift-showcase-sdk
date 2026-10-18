@@ -564,7 +564,7 @@ public struct OrganizationMembership: Codable {
     /// Metadata saved on the organization membership, accessible from both Frontend and Backend APIs
     public var publicMetadata: [String: JSONValue]
     /// Required object value serialized in the `organization` wire field.
-    public var organization: [String: JSONValue]
+    public var organization: Organization
     /// Unix timestamp of creation.
     public var createdAt: Int
     /// Unix timestamp of last update.

@@ -6,167 +6,24 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-struct ReplaceRoleSetRequestBody: Encodable {
-    let destRoleSetKey: String
-    var reassignmentMappings: ReassignmentMappings?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(destRoleSetKey, forKey: SdkCodingKey("dest_role_set_key"))
-        try keyedContainer.encodeIfPresent(reassignmentMappings, forKey: SdkCodingKey("reassignment_mappings"))
-    }
-}
-
-struct AddRolesToRoleSetRequestBody: Encodable {
-    let roleKeys: [String]
-    var defaultRoleKey: String?
-    var creatorRoleKey: String?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(roleKeys, forKey: SdkCodingKey("role_keys"))
-        try keyedContainer.encodeIfPresent(defaultRoleKey, forKey: SdkCodingKey("default_role_key"))
-        try keyedContainer.encodeIfPresent(creatorRoleKey, forKey: SdkCodingKey("creator_role_key"))
-    }
-}
-
-struct ReplaceRoleInRoleSetRequestBody: Encodable {
-    let roleKey: String
-    let toRoleKey: String
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(roleKey, forKey: SdkCodingKey("role_key"))
-        try keyedContainer.encode(toRoleKey, forKey: SdkCodingKey("to_role_key"))
-    }
-}
-
-struct CreateScimDirectoryRequestBody: Encodable {
-    let enterpriseConnectionId: String
-    let provider: String
-    var name: String?
-    var groupRoleMappings: [CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem]?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(enterpriseConnectionId, forKey: SdkCodingKey("enterprise_connection_id"))
-        try keyedContainer.encode(provider, forKey: SdkCodingKey("provider"))
-        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(groupRoleMappings, forKey: SdkCodingKey("group_role_mappings"))
-    }
-}
-
-struct UpdateScimDirectoryRequestBody: Encodable {
-    var name: String?
-    var enabled: Bool?
-    var provider: String?
-    var attributeMapping: [String: String?]?
-    var groupRoleMappingEnabled: Bool?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(enabled, forKey: SdkCodingKey("enabled"))
-        try keyedContainer.encodeIfPresent(provider, forKey: SdkCodingKey("provider"))
-        try keyedContainer.encodeIfPresent(attributeMapping, forKey: SdkCodingKey("attribute_mapping"))
-        try keyedContainer.encodeIfPresent(groupRoleMappingEnabled, forKey: SdkCodingKey("group_role_mapping_enabled"))
-    }
-}
-
-struct CreateScimGroupRoleMappingRequestBody: Encodable {
-    let scimGroupId: String
-    let roleId: String
-    var precedence: Int?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(scimGroupId, forKey: SdkCodingKey("scim_group_id"))
-        try keyedContainer.encode(roleId, forKey: SdkCodingKey("role_id"))
-        try keyedContainer.encodeIfPresent(precedence, forKey: SdkCodingKey("precedence"))
-    }
-}
-
-struct ReplaceScimGroupRoleMappingsRequestBody: Encodable {
-    let mappings: [ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem]
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(mappings, forKey: SdkCodingKey("mappings"))
-    }
-}
-
-struct CreateDirectoryRequestBody: Encodable {
-    let enterpriseConnectionId: String
-    let provider: String
-    var name: String?
-    var groupRoleMappings: [CreateDirectoryRequestBodyGroupRoleMappingsItem]?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(enterpriseConnectionId, forKey: SdkCodingKey("enterprise_connection_id"))
-        try keyedContainer.encode(provider, forKey: SdkCodingKey("provider"))
-        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(groupRoleMappings, forKey: SdkCodingKey("group_role_mappings"))
-    }
-}
-
-struct UpdateDirectoryRequestBody: Encodable {
-    var name: String?
-    var enabled: Bool?
-    var provider: String?
-    var attributeMapping: [String: String?]?
-    var groupRoleMappingEnabled: Bool?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(enabled, forKey: SdkCodingKey("enabled"))
-        try keyedContainer.encodeIfPresent(provider, forKey: SdkCodingKey("provider"))
-        try keyedContainer.encodeIfPresent(attributeMapping, forKey: SdkCodingKey("attribute_mapping"))
-        try keyedContainer.encodeIfPresent(groupRoleMappingEnabled, forKey: SdkCodingKey("group_role_mapping_enabled"))
-    }
-}
-
-struct CreateDirectoryGroupRoleMappingRequestBody: Encodable {
-    let roleId: String
-    var directoryGroupId: String?
-    var scimGroupId: String?
-    var precedence: Int?
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(roleId, forKey: SdkCodingKey("role_id"))
-        try keyedContainer.encodeIfPresent(directoryGroupId, forKey: SdkCodingKey("directory_group_id"))
-        try keyedContainer.encodeIfPresent(scimGroupId, forKey: SdkCodingKey("scim_group_id"))
-        try keyedContainer.encodeIfPresent(precedence, forKey: SdkCodingKey("precedence"))
-    }
-}
-
-struct ReplaceDirectoryGroupRoleMappingsRequestBody: Encodable {
-    let mappings: [ReplaceDirectoryGroupRoleMappingsRequestBodyMappingsItem]
-
-    func encode(to encoder: Encoder) throws {
-        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(mappings, forKey: SdkCodingKey("mappings"))
-    }
-}
-
-struct CreateAdminPortalLinkTokenRequestBody: Encodable {
-    var organizationId: String?
-    var itContactId: String?
+struct UpdateApiKeyRequestBody: Encodable {
+    var claims: SdkOptional<JSONValue>?
     var scopes: [String]?
-    var secondsUntilExpiration: Int?
+    var description: SdkOptional<String>?
+    var subject: String?
+    var secondsUntilExpiration: SdkOptional<Double>?
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(organizationId, forKey: SdkCodingKey("organization_id"))
-        try keyedContainer.encodeIfPresent(itContactId, forKey: SdkCodingKey("it_contact_id"))
+        try keyedContainer.encodeIfPresent(claims, forKey: SdkCodingKey("claims"))
         try keyedContainer.encodeIfPresent(scopes, forKey: SdkCodingKey("scopes"))
+        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(subject, forKey: SdkCodingKey("subject"))
         try keyedContainer.encodeIfPresent(secondsUntilExpiration, forKey: SdkCodingKey("seconds_until_expiration"))
     }
 }
 
-struct RevokeAdminPortalLinkTokenRequestBody: Encodable {
+struct RevokeApiKeyRequestBody: Encodable {
     var revocationReason: SdkOptional<String>?
 
     func encode(to encoder: Encoder) throws {
@@ -175,36 +32,55 @@ struct RevokeAdminPortalLinkTokenRequestBody: Encodable {
     }
 }
 
-struct CreateApiKeyRequestBody: Encodable {
-    let name: String
-    let subject: String
-    var type: String?
-    var description: SdkOptional<String>?
-    var claims: SdkOptional<JSONValue>?
-    var scopes: [String]?
-    var createdBy: SdkOptional<String>?
-    var secondsUntilExpiration: SdkOptional<Double>?
+struct VerifyApiKeyRequestBody: Encodable {
+    let secret: String
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encode(subject, forKey: SdkCodingKey("subject"))
-        try keyedContainer.encodeIfPresent(type, forKey: SdkCodingKey("type"))
-        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
-        try keyedContainer.encodeIfPresent(claims, forKey: SdkCodingKey("claims"))
-        try keyedContainer.encodeIfPresent(scopes, forKey: SdkCodingKey("scopes"))
-        try keyedContainer.encodeIfPresent(createdBy, forKey: SdkCodingKey("created_by"))
-        try keyedContainer.encodeIfPresent(secondsUntilExpiration, forKey: SdkCodingKey("seconds_until_expiration"))
+        try keyedContainer.encode(secret, forKey: SdkCodingKey("secret"))
     }
+}
 
-    init(options: ApiKeysMethods.CreateApiKeyOptions) {
-        name = options.name
-        subject = options.subject
-        type = options.type
-        description = options.description
-        claims = options.claims
-        scopes = options.scopes
-        createdBy = options.createdBy
-        secondsUntilExpiration = options.secondsUntilExpiration
+struct CreateM2MTokenRequestBody: Encodable {
+    var tokenFormat: CreateM2MTokenRequestBodyTokenFormat?
+    var secondsUntilExpiration: SdkOptional<Double>?
+    var claims: SdkOptional<JSONValue>?
+    var minRemainingTtlSeconds: Int?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encodeIfPresent(tokenFormat, forKey: SdkCodingKey("token_format"))
+        try keyedContainer.encodeIfPresent(secondsUntilExpiration, forKey: SdkCodingKey("seconds_until_expiration"))
+        try keyedContainer.encodeIfPresent(claims, forKey: SdkCodingKey("claims"))
+        try keyedContainer.encodeIfPresent(minRemainingTtlSeconds, forKey: SdkCodingKey("min_remaining_ttl_seconds"))
+    }
+}
+
+struct RevokeM2MTokenRequestBody: Encodable {
+    var revocationReason: SdkOptional<String>?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encodeIfPresent(revocationReason, forKey: SdkCodingKey("revocation_reason"))
+    }
+}
+
+struct VerifyM2MTokenRequestBody: Encodable {
+    let token: String
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encode(token, forKey: SdkCodingKey("token"))
+    }
+}
+
+struct VerifyOAuthAccessTokenRequestBody: Encodable {
+    var accessToken: String?
+    var secret: String?
+
+    func encode(to encoder: Encoder) throws {
+        var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
+        try keyedContainer.encodeIfPresent(accessToken, forKey: SdkCodingKey("access_token"))
+        try keyedContainer.encodeIfPresent(secret, forKey: SdkCodingKey("secret"))
     }
 }

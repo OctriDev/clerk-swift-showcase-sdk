@@ -181,7 +181,7 @@ public class EmailAddressesNamespace {
     public func prepareEmailAddressVerification(
         emailAddressId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> AttemptEmailAddressVerificationResponse {
+    ) async throws -> VerificationResponse {
         try await EmailAddressesMethods.prepareEmailAddressVerification(
             config: config,
             emailAddressId: emailAddressId,
@@ -202,7 +202,7 @@ public class EmailAddressesNamespace {
         verificationId: String,
         code: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> AttemptEmailAddressVerificationResponse {
+    ) async throws -> VerificationResponse {
         try await EmailAddressesMethods.attemptEmailAddressVerification(
             config: config,
             emailAddressId: emailAddressId,
@@ -321,7 +321,7 @@ public class PhoneNumbersNamespace {
     public func prepareVerification(
         phoneNumberId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> AttemptEmailAddressVerificationResponse {
+    ) async throws -> VerificationResponse {
         try await PhoneNumbersMethods.preparePhoneNumberVerification(
             config: config,
             phoneNumberId: phoneNumberId,
@@ -347,7 +347,7 @@ public class PhoneNumbersNamespace {
         verificationId: String,
         code: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> AttemptEmailAddressVerificationResponse {
+    ) async throws -> VerificationResponse {
         try await PhoneNumbersMethods.attemptPhoneNumberVerification(
             config: config,
             phoneNumberId: phoneNumberId,

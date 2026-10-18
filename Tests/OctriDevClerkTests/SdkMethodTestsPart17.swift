@@ -6,423 +6,6 @@ import Foundation
 import XCTest
 
 extension SdkMethodTests {
-    func testReplaceDirectoryGroupRoleMappingsReplaceDirectoryGroupRoleMappings400ReachesMockAndDecodesResponse(
-    ) async throws {
-        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
-            return
-        }
-        _ = client
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture346Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        do {
-            _ = try await client.directories.replaceGroupRoleMappings(
-                directoryId: decoded("\"directory-1\""),
-                mappings: decoded(sdkMethodFixture346Value1)
-            )
-            XCTFail("replaceDirectoryGroupRoleMappings did not raise its declared error")
-        } catch let error as SdkHttpError {
-            XCTAssertEqual(error.statusCode, 400)
-            let data = try XCTUnwrap(
-                error.data as? any Encodable,
-                "replaceDirectoryGroupRoleMappings decoded no error body"
-            )
-            XCTAssertNil(
-                try mismatch(jsonValue(data), expected),
-                "replaceDirectoryGroupRoleMappings decoded an error body " +
-                    "that differs from the mock"
-            )
-        }
-        XCTAssertTrue(true)
-    }
-
-    func testReplaceOrganizationMetadataReplaceOrganizationMetadataReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient() else {
-            return
-        }
-        _ = client
-        let actual = try await client.organizations.replaceMetadata(
-            organizationId: decoded("\"organization-1\""),
-            publicMetadata: decoded("{}"),
-            privateMetadata: decoded("{}")
-        )
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture347Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        XCTAssertNil(
-            try mismatch(jsonValue(actual), expected),
-            "replaceOrganizationMetadata decoded a response " +
-                "that differs from the mock"
-        )
-    }
-
-    func testReplaceOrganizationMetadataReplaceOrganizationMetadata400ReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
-            return
-        }
-        _ = client
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture348Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        do {
-            _ = try await client.organizations.replaceMetadata(
-                organizationId: decoded("\"organization-1\""),
-                publicMetadata: decoded("{}"),
-                privateMetadata: decoded("{}")
-            )
-            XCTFail("replaceOrganizationMetadata did not raise its declared error")
-        } catch let error as SdkHttpError {
-            XCTAssertEqual(error.statusCode, 400)
-            let data = try XCTUnwrap(
-                error.data as? any Encodable,
-                "replaceOrganizationMetadata decoded no error body"
-            )
-            XCTAssertNil(
-                try mismatch(jsonValue(data), expected),
-                "replaceOrganizationMetadata decoded an error body " +
-                    "that differs from the mock"
-            )
-        }
-        XCTAssertTrue(true)
-    }
-
-    func testReplaceRoleInRoleSetReplaceRoleInRoleSetReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient() else {
-            return
-        }
-        _ = client
-        let actual = try await client.roleSets.replaceRoleIn(
-            roleSetKeyOrId: decoded("\"role_set_key_or-1\""),
-            roleKey: decoded("\"role_key\""),
-            toRoleKey: decoded("\"to_role_key\"")
-        )
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture349Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        XCTAssertNil(
-            try mismatch(jsonValue(actual), expected),
-            "replaceRoleInRoleSet decoded a response " +
-                "that differs from the mock"
-        )
-    }
-
-    func testReplaceRoleInRoleSetReplaceRoleInRoleSet400ReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
-            return
-        }
-        _ = client
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture350Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        do {
-            _ = try await client.roleSets.replaceRoleIn(
-                roleSetKeyOrId: decoded("\"role_set_key_or-1\""),
-                roleKey: decoded("\"role_key\""),
-                toRoleKey: decoded("\"to_role_key\"")
-            )
-            XCTFail("replaceRoleInRoleSet did not raise its declared error")
-        } catch let error as SdkHttpError {
-            XCTAssertEqual(error.statusCode, 400)
-            let data = try XCTUnwrap(
-                error.data as? any Encodable,
-                "replaceRoleInRoleSet decoded no error body"
-            )
-            XCTAssertNil(
-                try mismatch(jsonValue(data), expected),
-                "replaceRoleInRoleSet decoded an error body " +
-                    "that differs from the mock"
-            )
-        }
-        XCTAssertTrue(true)
-    }
-
-    func testReplaceRoleSetReplaceRoleSetReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient() else {
-            return
-        }
-        _ = client
-        let actual = try await client.roleSets.replace(
-            roleSetKeyOrId: decoded("\"role_set_key_or-1\""),
-            destRoleSetKey: decoded("\"dest_role_set_key\""),
-            reassignmentMappings: decoded("{\"key\":\"key\"}")
-        )
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture351Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        XCTAssertNil(
-            try mismatch(jsonValue(actual), expected),
-            "replaceRoleSet decoded a response " +
-                "that differs from the mock"
-        )
-    }
-
-    func testReplaceRoleSetReplaceRoleSet400ReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
-            return
-        }
-        _ = client
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture352Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        do {
-            _ = try await client.roleSets.replace(
-                roleSetKeyOrId: decoded("\"role_set_key_or-1\""),
-                destRoleSetKey: decoded("\"dest_role_set_key\""),
-                reassignmentMappings: decoded("{\"key\":\"key\"}")
-            )
-            XCTFail("replaceRoleSet did not raise its declared error")
-        } catch let error as SdkHttpError {
-            XCTAssertEqual(error.statusCode, 400)
-            let data = try XCTUnwrap(
-                error.data as? any Encodable,
-                "replaceRoleSet decoded no error body"
-            )
-            XCTAssertNil(
-                try mismatch(jsonValue(data), expected),
-                "replaceRoleSet decoded an error body " +
-                    "that differs from the mock"
-            )
-        }
-        XCTAssertTrue(true)
-    }
-
-    func testReplaceScimGroupRoleMappingsReplaceScimGroupRoleMappingsReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient() else {
-            return
-        }
-        _ = client
-        let actual = try await client.scimDirectories.replaceScimGroupRoleMappings(
-            scimDirectoryId: decoded("\"scim_directory-1\""),
-            mappings: decoded("[{\"scim_group_id\":\"scim_group-1\",\"role_id\":\"role-1\"}]")
-        )
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture353Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        XCTAssertNil(
-            try mismatch(jsonValue(actual), expected),
-            "replaceScimGroupRoleMappings decoded a response " +
-                "that differs from the mock"
-        )
-    }
-
-    func testReplaceScimGroupRoleMappingsReplaceScimGroupRoleMappings400ReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
-            return
-        }
-        _ = client
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture354Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        do {
-            _ = try await client.scimDirectories.replaceScimGroupRoleMappings(
-                scimDirectoryId: decoded("\"scim_directory-1\""),
-                mappings: decoded("[{\"scim_group_id\":\"scim_group-1\",\"role_id\":\"role-1\"}]")
-            )
-            XCTFail("replaceScimGroupRoleMappings did not raise its declared error")
-        } catch let error as SdkHttpError {
-            XCTAssertEqual(error.statusCode, 400)
-            let data = try XCTUnwrap(
-                error.data as? any Encodable,
-                "replaceScimGroupRoleMappings decoded no error body"
-            )
-            XCTAssertNil(
-                try mismatch(jsonValue(data), expected),
-                "replaceScimGroupRoleMappings decoded an error body " +
-                    "that differs from the mock"
-            )
-        }
-        XCTAssertTrue(true)
-    }
-
-    func testReplaceUserEmailAddressReplaceUserEmailAddressReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient() else {
-            return
-        }
-        _ = client
-        let actual = try await client.emailAddresses.replaceUserEmailAddress(
-            userId: decoded("\"user-1\""),
-            emailAddress: decoded("\"user@example.com\""),
-            identificationStatus: decoded("\"verified\""),
-            notifyPrimaryEmailAddressChanged: decoded("false")
-        )
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture355Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        XCTAssertNil(
-            try mismatch(jsonValue(actual), expected),
-            "replaceUserEmailAddress decoded a response " +
-                "that differs from the mock"
-        )
-    }
-
-    func testReplaceUserEmailAddressReplaceUserEmailAddress400ReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
-            return
-        }
-        _ = client
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture356Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        do {
-            _ = try await client.emailAddresses.replaceUserEmailAddress(
-                userId: decoded("\"user-1\""),
-                emailAddress: decoded("\"user@example.com\""),
-                identificationStatus: decoded("\"verified\""),
-                notifyPrimaryEmailAddressChanged: decoded("false")
-            )
-            XCTFail("replaceUserEmailAddress did not raise its declared error")
-        } catch let error as SdkHttpError {
-            XCTAssertEqual(error.statusCode, 400)
-            let data = try XCTUnwrap(
-                error.data as? any Encodable,
-                "replaceUserEmailAddress decoded no error body"
-            )
-            XCTAssertNil(
-                try mismatch(jsonValue(data), expected),
-                "replaceUserEmailAddress decoded an error body " +
-                    "that differs from the mock"
-            )
-        }
-        XCTAssertTrue(true)
-    }
-
-    func testReplaceUserMetadataReplaceUserMetadataReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient() else {
-            return
-        }
-        _ = client
-        let actual = try await client.users.replaceMetadata(
-            userId: decoded("\"user-1\""),
-            publicMetadata: decoded("{}"),
-            privateMetadata: decoded("{}"),
-            unsafeMetadata: decoded("{}")
-        )
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture357Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        XCTAssertNil(
-            try mismatch(jsonValue(actual), expected),
-            "replaceUserMetadata decoded a response " +
-                "that differs from the mock"
-        )
-    }
-
-    func testReplaceUserMetadataReplaceUserMetadata400ReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
-            return
-        }
-        _ = client
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture358Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        do {
-            _ = try await client.users.replaceMetadata(
-                userId: decoded("\"user-1\""),
-                publicMetadata: decoded("{}"),
-                privateMetadata: decoded("{}"),
-                unsafeMetadata: decoded("{}")
-            )
-            XCTFail("replaceUserMetadata did not raise its declared error")
-        } catch let error as SdkHttpError {
-            XCTAssertEqual(error.statusCode, 400)
-            let data = try XCTUnwrap(
-                error.data as? any Encodable,
-                "replaceUserMetadata decoded no error body"
-            )
-            XCTAssertNil(
-                try mismatch(jsonValue(data), expected),
-                "replaceUserMetadata decoded an error body " +
-                    "that differs from the mock"
-            )
-        }
-        XCTAssertTrue(true)
-    }
-
-    func testReplaceUserPhoneNumberReplaceUserPhoneNumberReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient() else {
-            return
-        }
-        _ = client
-        let actual = try await client.phoneNumbers.replace(
-            userId: decoded("\"user-1\""),
-            phoneNumber: decoded("\"+15555550100\""),
-            identificationStatus: decoded("\"verified\"")
-        )
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture359Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        XCTAssertNil(
-            try mismatch(jsonValue(actual), expected),
-            "replaceUserPhoneNumber decoded a response " +
-                "that differs from the mock"
-        )
-    }
-
-    func testReplaceUserPhoneNumberReplaceUserPhoneNumber400ReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
-            return
-        }
-        _ = client
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture360Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        do {
-            _ = try await client.phoneNumbers.replace(
-                userId: decoded("\"user-1\""),
-                phoneNumber: decoded("\"+15555550100\""),
-                identificationStatus: decoded("\"verified\"")
-            )
-            XCTFail("replaceUserPhoneNumber did not raise its declared error")
-        } catch let error as SdkHttpError {
-            XCTAssertEqual(error.statusCode, 400)
-            let data = try XCTUnwrap(
-                error.data as? any Encodable,
-                "replaceUserPhoneNumber decoded no error body"
-            )
-            XCTAssertNil(
-                try mismatch(jsonValue(data), expected),
-                "replaceUserPhoneNumber decoded an error body " +
-                    "that differs from the mock"
-            )
-        }
-        XCTAssertTrue(true)
-    }
-
-    func testRevertTemplateRevertTemplateReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient() else {
-            return
-        }
-        _ = client
-        let actual = try await client.emailSmsTemplates.revertTemplate(
-            templateType: decoded("\"email\""),
-            slug: decoded("\"slug\"")
-        )
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture361Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        XCTAssertNil(
-            try mismatch(jsonValue(actual), expected),
-            "revertTemplate decoded a response " +
-                "that differs from the mock"
-        )
-    }
-
     func testRevertTemplateRevertTemplate400ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
@@ -437,17 +20,16 @@ extension SdkMethodTests {
                 templateType: decoded("\"email\""),
                 slug: decoded("\"slug\"")
             )
-            XCTFail("revertTemplate did not raise its declared error")
+            XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
             let data = try XCTUnwrap(
                 error.data as? any Encodable,
-                "revertTemplate decoded no error body"
+                "decoded no error body"
             )
             XCTAssertNil(
                 try mismatch(jsonValue(data), expected),
-                "revertTemplate decoded an error body " +
-                    "that differs from the mock"
+                "decoded an error body that differs from the mock"
             )
         }
         XCTAssertTrue(true)
@@ -467,8 +49,7 @@ extension SdkMethodTests {
         )
         XCTAssertNil(
             try mismatch(jsonValue(actual), expected),
-            "revokeActorToken decoded a response " +
-                "that differs from the mock"
+            "decoded a response that differs from the mock"
         )
     }
 
@@ -485,17 +66,16 @@ extension SdkMethodTests {
             _ = try await client.actorTokens.revoke(
                 actorTokenId: decoded("\"actor_token-1\"")
             )
-            XCTFail("revokeActorToken did not raise its declared error")
+            XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
             let data = try XCTUnwrap(
                 error.data as? any Encodable,
-                "revokeActorToken decoded no error body"
+                "decoded no error body"
             )
             XCTAssertNil(
                 try mismatch(jsonValue(data), expected),
-                "revokeActorToken decoded an error body " +
-                    "that differs from the mock"
+                "decoded an error body that differs from the mock"
             )
         }
         XCTAssertTrue(true)
@@ -516,8 +96,7 @@ extension SdkMethodTests {
         )
         XCTAssertNil(
             try mismatch(jsonValue(actual), expected),
-            "revokeAdminPortalLinkToken decoded a response " +
-                "that differs from the mock"
+            "decoded a response that differs from the mock"
         )
     }
 
@@ -535,8 +114,7 @@ extension SdkMethodTests {
         )
         XCTAssertNil(
             try mismatch(jsonValue(actual), expected),
-            "revokeAgentTask decoded a response " +
-                "that differs from the mock"
+            "decoded a response that differs from the mock"
         )
     }
 
@@ -553,19 +131,446 @@ extension SdkMethodTests {
             _ = try await client.agentTasks.revoke(
                 agentTaskId: decoded("\"agent_task-1\"")
             )
-            XCTFail("revokeAgentTask did not raise its declared error")
+            XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
             let data = try XCTUnwrap(
                 error.data as? any Encodable,
-                "revokeAgentTask decoded no error body"
+                "decoded no error body"
             )
             XCTAssertNil(
                 try mismatch(jsonValue(data), expected),
-                "revokeAgentTask decoded an error body " +
-                    "that differs from the mock"
+                "decoded an error body that differs from the mock"
             )
         }
         XCTAssertTrue(true)
+    }
+
+    func testRevokeApiKeyRevokeApiKeyReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient() else {
+            return
+        }
+        _ = client
+        let actual = try await client.apiKeys.revoke(
+            apiKeyId: decoded("\"ak_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""),
+            revocationReason: decoded("\"revocation_reason\"")
+        )
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture368Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        XCTAssertNil(
+            try mismatch(jsonValue(actual), expected),
+            "decoded a response that differs from the mock"
+        )
+    }
+
+    func testRevokeInvitationRevokeInvitationReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient() else {
+            return
+        }
+        _ = client
+        let actual = try await client.invitations.revoke(
+            invitationId: decoded("\"invitation-1\"")
+        )
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture369Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        XCTAssertNil(
+            try mismatch(jsonValue(actual), expected),
+            "decoded a response that differs from the mock"
+        )
+    }
+
+    func testRevokeInvitationRevokeInvitation400ReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
+            return
+        }
+        _ = client
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture370Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        do {
+            _ = try await client.invitations.revoke(
+                invitationId: decoded("\"invitation-1\"")
+            )
+            XCTFail("did not raise its declared error")
+        } catch let error as SdkHttpError {
+            XCTAssertEqual(error.statusCode, 400)
+            let data = try XCTUnwrap(
+                error.data as? any Encodable,
+                "decoded no error body"
+            )
+            XCTAssertNil(
+                try mismatch(jsonValue(data), expected),
+                "decoded an error body that differs from the mock"
+            )
+        }
+        XCTAssertTrue(true)
+    }
+
+    func testRevokeM2MTokenRevokeM2MTokenReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient() else {
+            return
+        }
+        _ = client
+        let actual = try await client.m2MTokens.revoke(
+            m2mTokenId: decoded("\"mt_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""),
+            revocationReason: decoded("\"revocation_reason\"")
+        )
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture371Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        XCTAssertNil(
+            try mismatch(jsonValue(actual), expected),
+            "decoded a response that differs from the mock"
+        )
+    }
+
+    func testRevokeOAuthApplicationTokenRevokeOAuthApplicationTokenReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient() else {
+            return
+        }
+        _ = client
+        _ = try await client.oAuthApplications.revokeToken(
+            oauthApplicationId: decoded("\"oauth_application-1\""),
+            token: decoded("\"token\"")
+        )
+        XCTAssertTrue(true)
+    }
+
+    func testRevokeOAuthApplicationTokenRevokeOAuthApplicationToken400ReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
+            return
+        }
+        _ = client
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture373Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        do {
+            _ = try await client.oAuthApplications.revokeToken(
+                oauthApplicationId: decoded("\"oauth_application-1\""),
+                token: decoded("\"token\"")
+            )
+            XCTFail("did not raise its declared error")
+        } catch let error as SdkHttpError {
+            XCTAssertEqual(error.statusCode, 400)
+            let data = try XCTUnwrap(
+                error.data as? any Encodable,
+                "decoded no error body"
+            )
+            XCTAssertNil(
+                try mismatch(jsonValue(data), expected),
+                "decoded an error body that differs from the mock"
+            )
+        }
+        XCTAssertTrue(true)
+    }
+
+    func testRevokeOrganizationInvitationRevokeOrganizationInvitationReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient() else {
+            return
+        }
+        _ = client
+        let actual = try await client.organizationInvitations.revoke(
+            organizationId: decoded("\"organization-1\""),
+            invitationId: decoded("\"invitation-1\""),
+            requestingUserId: decoded("\"requesting_user-1\"")
+        )
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture374Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        XCTAssertNil(
+            try mismatch(jsonValue(actual), expected),
+            "decoded a response that differs from the mock"
+        )
+    }
+
+    func testRevokeOrganizationInvitationRevokeOrganizationInvitation400ReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
+            return
+        }
+        _ = client
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture375Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        do {
+            _ = try await client.organizationInvitations.revoke(
+                organizationId: decoded("\"organization-1\""),
+                invitationId: decoded("\"invitation-1\""),
+                requestingUserId: decoded("\"requesting_user-1\"")
+            )
+            XCTFail("did not raise its declared error")
+        } catch let error as SdkHttpError {
+            XCTAssertEqual(error.statusCode, 400)
+            let data = try XCTUnwrap(
+                error.data as? any Encodable,
+                "decoded no error body"
+            )
+            XCTAssertNil(
+                try mismatch(jsonValue(data), expected),
+                "decoded an error body that differs from the mock"
+            )
+        }
+        XCTAssertTrue(true)
+    }
+
+    func testRevokeSessionRevokeSessionReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient() else {
+            return
+        }
+        _ = client
+        let actual = try await client.sessions.revoke(
+            sessionId: decoded("\"session-1\"")
+        )
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture376Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        XCTAssertNil(
+            try mismatch(jsonValue(actual), expected),
+            "decoded a response that differs from the mock"
+        )
+    }
+
+    func testRevokeSessionRevokeSession400ReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
+            return
+        }
+        _ = client
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture377Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        do {
+            _ = try await client.sessions.revoke(
+                sessionId: decoded("\"session-1\"")
+            )
+            XCTFail("did not raise its declared error")
+        } catch let error as SdkHttpError {
+            XCTAssertEqual(error.statusCode, 400)
+            let data = try XCTUnwrap(
+                error.data as? any Encodable,
+                "decoded no error body"
+            )
+            XCTAssertNil(
+                try mismatch(jsonValue(data), expected),
+                "decoded an error body that differs from the mock"
+            )
+        }
+        XCTAssertTrue(true)
+    }
+
+    func testRevokeSignInTokenRevokeSignInTokenReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient() else {
+            return
+        }
+        _ = client
+        let actual = try await client.signInTokens.revoke(
+            signInTokenId: decoded("\"sign_in_token-1\"")
+        )
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture378Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        XCTAssertNil(
+            try mismatch(jsonValue(actual), expected),
+            "decoded a response that differs from the mock"
+        )
+    }
+
+    func testRevokeSignInTokenRevokeSignInToken400ReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
+            return
+        }
+        _ = client
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture379Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        do {
+            _ = try await client.signInTokens.revoke(
+                signInTokenId: decoded("\"sign_in_token-1\"")
+            )
+            XCTFail("did not raise its declared error")
+        } catch let error as SdkHttpError {
+            XCTAssertEqual(error.statusCode, 400)
+            let data = try XCTUnwrap(
+                error.data as? any Encodable,
+                "decoded no error body"
+            )
+            XCTAssertNil(
+                try mismatch(jsonValue(data), expected),
+                "decoded an error body that differs from the mock"
+            )
+        }
+        XCTAssertTrue(true)
+    }
+
+    func testRevokeUserBiometricCredentialRevokeUserBiometricCredentialReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient() else {
+            return
+        }
+        _ = client
+        let actual = try await client.users.revokeBiometricCredential(
+            userId: decoded("\"user-1\""),
+            biometricCredentialId: decoded("\"biometric_credential-1\"")
+        )
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture380Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        XCTAssertNil(
+            try mismatch(jsonValue(actual), expected),
+            "decoded a response that differs from the mock"
+        )
+    }
+
+    func testRevokeUserBiometricCredentialRevokeUserBiometricCredential403ReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient(statusPrefix: "/__mockStatus/403") else {
+            return
+        }
+        _ = client
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture381Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        do {
+            _ = try await client.users.revokeBiometricCredential(
+                userId: decoded("\"user-1\""),
+                biometricCredentialId: decoded("\"biometric_credential-1\"")
+            )
+            XCTFail("did not raise its declared error")
+        } catch let error as SdkHttpError {
+            XCTAssertEqual(error.statusCode, 403)
+            let data = try XCTUnwrap(
+                error.data as? any Encodable,
+                "decoded no error body"
+            )
+            XCTAssertNil(
+                try mismatch(jsonValue(data), expected),
+                "decoded an error body that differs from the mock"
+            )
+        }
+        XCTAssertTrue(true)
+    }
+
+    func testRevokeUserTrustedDeviceRevokeUserTrustedDeviceReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient() else {
+            return
+        }
+        _ = client
+        let actual = try await client.users.revokeTrustedDevice(
+            userId: decoded("\"user-1\""),
+            trustedDeviceId: decoded("\"trusted_device-1\"")
+        )
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture382Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        XCTAssertNil(
+            try mismatch(jsonValue(actual), expected),
+            "decoded a response that differs from the mock"
+        )
+    }
+
+    func testRevokeUserTrustedDeviceRevokeUserTrustedDevice403ReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient(statusPrefix: "/__mockStatus/403") else {
+            return
+        }
+        _ = client
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture383Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        do {
+            _ = try await client.users.revokeTrustedDevice(
+                userId: decoded("\"user-1\""),
+                trustedDeviceId: decoded("\"trusted_device-1\"")
+            )
+            XCTFail("did not raise its declared error")
+        } catch let error as SdkHttpError {
+            XCTAssertEqual(error.statusCode, 403)
+            let data = try XCTUnwrap(
+                error.data as? any Encodable,
+                "decoded no error body"
+            )
+            XCTAssertNil(
+                try mismatch(jsonValue(data), expected),
+                "decoded an error body that differs from the mock"
+            )
+        }
+        XCTAssertTrue(true)
+    }
+
+    func testRotateDirectoryApiKeyRotateDirectoryApiKeyReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient() else {
+            return
+        }
+        _ = client
+        let actual = try await client.directories.rotateApiKey(
+            directoryId: decoded("\"directory-1\"")
+        )
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture384Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        XCTAssertNil(
+            try mismatch(jsonValue(actual), expected),
+            "decoded a response that differs from the mock"
+        )
+    }
+
+    func testRotateDirectoryApiKeyRotateDirectoryApiKey401ReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient(statusPrefix: "/__mockStatus/401") else {
+            return
+        }
+        _ = client
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture385Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        do {
+            _ = try await client.directories.rotateApiKey(
+                directoryId: decoded("\"directory-1\"")
+            )
+            XCTFail("did not raise its declared error")
+        } catch let error as SdkHttpError {
+            XCTAssertEqual(error.statusCode, 401)
+            let data = try XCTUnwrap(
+                error.data as? any Encodable,
+                "decoded no error body"
+            )
+            XCTAssertNil(
+                try mismatch(jsonValue(data), expected),
+                "decoded an error body that differs from the mock"
+            )
+        }
+        XCTAssertTrue(true)
+    }
+
+    func testRotateMachineSecretKeyRotateMachineSecretKeyReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient() else {
+            return
+        }
+        _ = client
+        let actual = try await client.machines.rotateSecretKey(
+            machineId: decoded("\"machine-1\""),
+            previousTokenTtl: decoded("0")
+        )
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture386Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        XCTAssertNil(
+            try mismatch(jsonValue(actual), expected),
+            "decoded a response that differs from the mock"
+        )
     }
 }

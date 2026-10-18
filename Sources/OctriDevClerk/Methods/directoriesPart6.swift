@@ -18,7 +18,7 @@ public extension DirectoriesMethods {
         directoryId: String,
         mappingId: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> DeleteDirectoryGroupRoleMappingResponse {
+    ) async throws -> DirectoryGroupRoleMappingDeleted {
         try await (sdkRequest(
             "DELETE",
             [

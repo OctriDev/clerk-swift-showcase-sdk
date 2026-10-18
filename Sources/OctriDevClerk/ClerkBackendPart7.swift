@@ -317,7 +317,7 @@ public class WaitlistEntriesNamespace {
         status: ListWaitlistEntriesParameter? = nil,
         orderBy: String? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListWaitlistEntriesResponse {
+    ) async throws -> WaitlistEntries {
         try await WaitlistEntriesMethods.listWaitlistEntries(
             config: config,
             limit: limit,

@@ -28,7 +28,7 @@ public extension WaitlistEntriesMethods {
         status: ListWaitlistEntriesParameter? = nil,
         orderBy: String? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> ListWaitlistEntriesResponse {
+    ) async throws -> WaitlistEntries {
         if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }

@@ -4,6 +4,59 @@
 import Foundation
 
 /// Users domain models
+/// Typed representation of the `EnterpriseAccount` API schema.
+public struct EnterpriseAccount: Codable {
+    /// Required `string` value serialized in the `id` wire field.
+    public var id: String
+    /// String representing the object's type. Objects of the same type share the same value.
+    public var object: EnterpriseAccountObject
+    /// Required `string` value serialized in the `provider` wire field.
+    public var provider: String
+    /// Required `boolean` value serialized in the `active` wire field.
+    public var active: Bool
+    /// Required `string` value serialized in the `email_address` wire field.
+    public var emailAddress: String
+    /// Required object value serialized in the `verification` wire field.
+    public var verification: EnterpriseAccountVerification?
+    /// The authentication protocol used to sign in.
+    public var `protocol`: EnterpriseAccountProtocol?
+    /// Optional `string` value serialized in the `first_name` wire field.
+    public var firstName: String?
+    /// Optional `string` value serialized in the `last_name` wire field.
+    public var lastName: String?
+    /// The unique ID of the user in the external provider's system
+    public var providerUserId: String?
+    /// Optional `string` value serialized in the `enterprise_connection_id` wire field.
+    public var enterpriseConnectionId: String?
+    /// Optional object value serialized in the `public_metadata` wire field.
+    public var publicMetadata: [String: JSONValue]?
+    /// Optional object value serialized in the `enterprise_connection` wire field.
+    public var enterpriseConnection: [String: JSONValue]?
+    /// Unix timestamp of last authentication.
+    public var lastAuthenticatedAt: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case object
+        case provider
+        case active
+        case emailAddress = "email_address"
+        case verification
+        case `protocol`
+        case firstName = "first_name"
+        case lastName = "last_name"
+        case providerUserId = "provider_user_id"
+        case enterpriseConnectionId = "enterprise_connection_id"
+        case publicMetadata = "public_metadata"
+        case enterpriseConnection = "enterprise_connection"
+        case lastAuthenticatedAt = "last_authenticated_at"
+    }
+
+    private init(sdkCopy value: Self) {
+        self = value
+    }
+}
+
 public extension EnterpriseAccount {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -312,9 +365,9 @@ public struct User: Codable {
     /// directory links.
     public var directories: [SCIMUserMetadata]?
     /// The most recently updated directory link. Use directories for all links.
-    public var directory: UserDirectory?
+    public var directory: SCIMUserMetadata?
     /// Alias of directory. Use directories for all links.
-    public var scim: UserScim?
+    public var scim: SCIMUserMetadata?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -477,8 +530,8 @@ public extension User {
         createOrganizationsLimit: Int? = nil,
         bypassClientTrust: Bool? = nil,
         directories: [SCIMUserMetadata]? = nil,
-        directory: UserDirectory? = nil,
-        scim: UserScim? = nil
+        directory: SCIMUserMetadata? = nil,
+        scim: SCIMUserMetadata? = nil
     ) {
         (self.id, self.object) = (id, object)
         (self.externalId, self.primaryEmailAddressId) = (externalId, primaryEmailAddressId)
@@ -508,34 +561,16 @@ public extension User {
     }
 }
 
-/// Alias of directory. Use directories for all links.
-public struct UserScim: Codable {
-    /// The user's resource ID in this directory.
-    public var id: String
-    /// Required `string` value serialized in the `directory_name` wire field.
-    public var directoryName: String
-    /// Required `string` value serialized in the `provider` wire field.
-    public var provider: String
-    /// Required `string` value serialized in the `enterprise_connection_id` wire field.
-    public var enterpriseConnectionId: String?
-    /// The ID of the directory the user is provisioned from.
-    public var directoryId: String
-    /// Whether the directory is currently enabled.
-    public var directoryEnabled: Bool
-    /// The user's external ID as reported by the directory, if any.
-    public var externalId: String?
-    /// Omitted when groups were not loaded; an empty array means no group memberships.
-    public var groups: [SCIMUserMetadataGroupsItem]?
+/// Typed representation of the `BiometricCredentialList` API schema.
+public struct BiometricCredentialList: Codable {
+    /// Required array value serialized in the `data` wire field.
+    public var data: [BiometricCredential]
+    /// Total number of biometric credentials
+    public var totalCount: Int
 
     enum CodingKeys: String, CodingKey {
-        case id
-        case directoryName = "directory_name"
-        case provider
-        case enterpriseConnectionId = "enterprise_connection_id"
-        case directoryId = "directory_id"
-        case directoryEnabled = "directory_enabled"
-        case externalId = "external_id"
-        case groups
+        case data
+        case totalCount = "total_count"
     }
 
     private init(sdkCopy value: Self) {
@@ -543,83 +578,30 @@ public struct UserScim: Codable {
     }
 }
 
-public extension UserScim {
+public extension BiometricCredentialList {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.id) else {
+        guard container.contains(.data) else {
             throw SdkValidationError(
-                field: "id",
+                field: "data",
                 code: "required",
-                message: "Validation failed for 'id': value is required"
+                message: "Validation failed for 'data': value is required"
             )
         }
-        guard container.contains(.directoryName) else {
+        guard container.contains(.totalCount) else {
             throw SdkValidationError(
-                field: "directory_name",
+                field: "total_count",
                 code: "required",
-                message: "Validation failed for 'directory_name': value is required"
+                message: "Validation failed for 'total_count': value is required"
             )
         }
-        guard container.contains(.provider) else {
-            throw SdkValidationError(
-                field: "provider",
-                code: "required",
-                message: "Validation failed for 'provider': value is required"
-            )
-        }
-        guard container.contains(.enterpriseConnectionId) else {
-            throw SdkValidationError(
-                field: "enterprise_connection_id",
-                code: "required",
-                message: "Validation failed for 'enterprise_connection_id': value is required"
-            )
-        }
-        guard container.contains(.directoryId) else {
-            throw SdkValidationError(
-                field: "directory_id",
-                code: "required",
-                message: "Validation failed for 'directory_id': value is required"
-            )
-        }
-        guard container.contains(.directoryEnabled) else {
-            throw SdkValidationError(
-                field: "directory_enabled",
-                code: "required",
-                message: "Validation failed for 'directory_enabled': value is required"
-            )
-        }
-        guard container.contains(.externalId) else {
-            throw SdkValidationError(
-                field: "external_id",
-                code: "required",
-                message: "Validation failed for 'external_id': value is required"
-            )
-        }
-        id = try container.sdkDecodeRequired(.id)
-        directoryName = try container.sdkDecodeRequired(.directoryName)
-        provider = try container.sdkDecodeRequired(.provider)
-        enterpriseConnectionId = try container.sdkDecodeNullable(.enterpriseConnectionId)
-        directoryId = try container.sdkDecodeRequired(.directoryId)
-        directoryEnabled = try container.sdkDecodeRequired(.directoryEnabled)
-        externalId = try container.sdkDecodeNullable(.externalId)
-        groups = try container.sdkDecodeIfPresent(.groups)
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
     }
 }
 
-public extension UserScim {
-    init(
-        id: String,
-        directoryName: String,
-        provider: String,
-        enterpriseConnectionId: String?,
-        directoryId: String,
-        directoryEnabled: Bool,
-        externalId: String?,
-        groups: [SCIMUserMetadataGroupsItem]? = nil
-    ) {
-        (self.id, self.directoryName) = (id, directoryName)
-        (self.provider, self.enterpriseConnectionId) = (provider, enterpriseConnectionId)
-        (self.directoryId, self.directoryEnabled) = (directoryId, directoryEnabled)
-        (self.externalId, self.groups) = (externalId, groups)
+public extension BiometricCredentialList {
+    init(data: [BiometricCredential], totalCount: Int) {
+        (self.data, self.totalCount) = (data, totalCount)
     }
 }
