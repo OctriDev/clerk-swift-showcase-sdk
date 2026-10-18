@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-// Canonical betaFeatures operation model declarations
+/// Canonical betaFeatures operation model declarations
 public struct UpdateInstanceAuthConfigResponse: Codable {
     /// String representing the object's type. Objects of the same type share the same value.
     public var object: UpdateInstanceAuthConfigResponseObject?
@@ -30,25 +30,32 @@ public struct UpdateInstanceAuthConfigResponse: Codable {
     }
 
     init() {
-        (self.object, self.id, self.restrictedToAllowlist, self.fromEmailAddress, self.progressiveSignUp) = (nil, nil, nil, nil, nil)
-        self.enhancedEmailDeliverability = nil
+        (object, id, restrictedToAllowlist, fromEmailAddress, progressiveSignUp) = (nil, nil, nil, nil, nil)
+        enhancedEmailDeliverability = nil
     }
 }
 
-extension UpdateInstanceAuthConfigResponse {
-    public init(from decoder: Decoder) throws {
+public extension UpdateInstanceAuthConfigResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeIfPresent(.object)
-        self.id = try container.sdkDecodeIfPresent(.id)
-        self.restrictedToAllowlist = try container.sdkDecodeIfPresent(.restrictedToAllowlist)
-        self.fromEmailAddress = try container.sdkDecodeIfPresent(.fromEmailAddress)
-        self.progressiveSignUp = try container.sdkDecodeIfPresent(.progressiveSignUp)
-        self.enhancedEmailDeliverability = try container.sdkDecodeIfPresent(.enhancedEmailDeliverability)
+        object = try container.sdkDecodeIfPresent(.object)
+        id = try container.sdkDecodeIfPresent(.id)
+        restrictedToAllowlist = try container.sdkDecodeIfPresent(.restrictedToAllowlist)
+        fromEmailAddress = try container.sdkDecodeIfPresent(.fromEmailAddress)
+        progressiveSignUp = try container.sdkDecodeIfPresent(.progressiveSignUp)
+        enhancedEmailDeliverability = try container.sdkDecodeIfPresent(.enhancedEmailDeliverability)
     }
 }
 
-extension UpdateInstanceAuthConfigResponse {
-    public init(object: UpdateInstanceAuthConfigResponseObject? = nil, id: String? = nil, restrictedToAllowlist: Bool? = nil, fromEmailAddress: String? = nil, progressiveSignUp: Bool? = nil, enhancedEmailDeliverability: Bool? = nil) {
+public extension UpdateInstanceAuthConfigResponse {
+    init(
+        object: UpdateInstanceAuthConfigResponseObject? = nil,
+        id: String? = nil,
+        restrictedToAllowlist: Bool? = nil,
+        fromEmailAddress: String? = nil,
+        progressiveSignUp: Bool? = nil,
+        enhancedEmailDeliverability: Bool? = nil
+    ) {
         self.init()
         (self.object, self.id) = (object, id)
         (self.restrictedToAllowlist, self.fromEmailAddress) = (restrictedToAllowlist, fromEmailAddress)

@@ -17,8 +17,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.allowListBlockList.deleteAllowlistIdentifier(
-            identifierId: decoded("\"identifier-1\"")
-        )
+                identifierId: decoded("\"identifier-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 402)
@@ -81,8 +81,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.deleteBackupCode(
-            userId: decoded("\"user-1\"")
-        )
+                userId: decoded("\"user-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 404)
@@ -127,8 +127,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.allowListBlockList.deleteBlocklistIdentifier(
-            identifierId: decoded("\"identifier-1\"")
-        )
+                identifierId: decoded("\"identifier-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 402)
@@ -173,8 +173,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.directories.delete(
-            directoryId: decoded("\"directory-1\"")
-        )
+                directoryId: decoded("\"directory-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 401)
@@ -209,7 +209,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testDeleteDirectoryGroupRoleMappingDeleteDirectoryGroupRoleMapping400ReachesMockAndDecodesResponse() async throws {
+    func testDeleteDirectoryGroupRoleMappingDeleteDirectoryGroupRoleMapping400ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -220,9 +221,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.directories.deleteGroupRoleMapping(
-            directoryId: decoded("\"directory-1\""),
-            mappingId: decoded("\"mapping-1\"")
-        )
+                directoryId: decoded("\"directory-1\""),
+                mappingId: decoded("\"mapping-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -267,8 +268,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.domains.delete(
-            domainId: decoded("\"domain-1\"")
-        )
+                domainId: decoded("\"domain-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -313,8 +314,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.emailAddresses.deleteEmailAddress(
-            emailAddressId: decoded("\"email_address-1\"")
-        )
+                emailAddressId: decoded("\"email_address-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -359,8 +360,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.enterpriseConnections.delete(
-            enterpriseConnectionId: decoded("\"enterprise_connection-1\"")
-        )
+                enterpriseConnectionId: decoded("\"enterprise_connection-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 402)
@@ -406,9 +407,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.deleteExternalAccount(
-            userId: decoded("\"user-1\""),
-            externalAccountId: decoded("\"external_account-1\"")
-        )
+                userId: decoded("\"user-1\""),
+                externalAccountId: decoded("\"external_account-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -453,8 +454,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.invitations.delete(
-            invitationId: decoded("\"invitation-1\"")
-        )
+                invitationId: decoded("\"invitation-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 404)
@@ -499,8 +500,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.jwtTemplates.delete(
-            templateId: decoded("\"template-1\"")
-        )
+                templateId: decoded("\"template-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -545,8 +546,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.machines.delete(
-            machineId: decoded("\"machine-1\"")
-        )
+                machineId: decoded("\"machine-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)

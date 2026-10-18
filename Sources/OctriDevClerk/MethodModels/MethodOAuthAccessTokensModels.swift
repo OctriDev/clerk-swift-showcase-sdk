@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-// Canonical oAuthAccessTokens operation model declarations
+/// Canonical oAuthAccessTokens operation model declarations
 public struct VerifyOAuthAccessTokenResponseErrorsItem: Codable {
     /// - Example: "Bad Request"
     public var message: String
@@ -22,29 +22,43 @@ public struct VerifyOAuthAccessTokenResponseErrorsItem: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension VerifyOAuthAccessTokenResponseErrorsItem {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.message) else {
-            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
-        }
-        guard container.contains(.longMessage) else {
-            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
-        }
-        guard container.contains(.code) else {
-            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
-        }
-        self.message = try container.sdkDecodeRequired(.message)
-        self.longMessage = try container.sdkDecodeRequired(.longMessage)
-        self.code = try container.sdkDecodeRequired(.code)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension VerifyOAuthAccessTokenResponseErrorsItem {
-    public init(message: String, longMessage: String, code: String) {
+public extension VerifyOAuthAccessTokenResponseErrorsItem {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.message) else {
+            throw SdkValidationError(
+                field: "message",
+                code: "required",
+                message: "Validation failed for 'message': value is required"
+            )
+        }
+        guard container.contains(.longMessage) else {
+            throw SdkValidationError(
+                field: "long_message",
+                code: "required",
+                message: "Validation failed for 'long_message': value is required"
+            )
+        }
+        guard container.contains(.code) else {
+            throw SdkValidationError(
+                field: "code",
+                code: "required",
+                message: "Validation failed for 'code': value is required"
+            )
+        }
+        message = try container.sdkDecodeRequired(.message)
+        longMessage = try container.sdkDecodeRequired(.longMessage)
+        code = try container.sdkDecodeRequired(.code)
+    }
+}
+
+public extension VerifyOAuthAccessTokenResponseErrorsItem {
+    init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -57,21 +71,27 @@ public struct VerifyOAuthAccessTokenResponseXf985ff27: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension VerifyOAuthAccessTokenResponseXf985ff27 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.errors) else {
-            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
-        }
-        self.errors = try container.sdkDecodeRequired(.errors)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension VerifyOAuthAccessTokenResponseXf985ff27 {
-    public init(errors: [VerifyOAuthAccessTokenResponseErrorsItemX528b5562]) {
+public extension VerifyOAuthAccessTokenResponseXf985ff27 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.errors) else {
+            throw SdkValidationError(
+                field: "errors",
+                code: "required",
+                message: "Validation failed for 'errors': value is required"
+            )
+        }
+        errors = try container.sdkDecodeRequired(.errors)
+    }
+}
+
+public extension VerifyOAuthAccessTokenResponseXf985ff27 {
+    init(errors: [VerifyOAuthAccessTokenResponseErrorsItemX528b5562]) {
         self.errors = errors
     }
 }
@@ -83,21 +103,27 @@ public struct VerifyOAuthAccessTokenResponseX7dd3baf0: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension VerifyOAuthAccessTokenResponseX7dd3baf0 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.errors) else {
-            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
-        }
-        self.errors = try container.sdkDecodeRequired(.errors)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension VerifyOAuthAccessTokenResponseX7dd3baf0 {
-    public init(errors: [VerifyOAuthAccessTokenResponseErrorsItem]) {
+public extension VerifyOAuthAccessTokenResponseX7dd3baf0 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.errors) else {
+            throw SdkValidationError(
+                field: "errors",
+                code: "required",
+                message: "Validation failed for 'errors': value is required"
+            )
+        }
+        errors = try container.sdkDecodeRequired(.errors)
+    }
+}
+
+public extension VerifyOAuthAccessTokenResponseX7dd3baf0 {
+    init(errors: [VerifyOAuthAccessTokenResponseErrorsItem]) {
         self.errors = errors
     }
 }
@@ -116,29 +142,43 @@ public struct VerifyOAuthAccessTokenResponseErrorsItemX528b5562: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension VerifyOAuthAccessTokenResponseErrorsItemX528b5562 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.message) else {
-            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
-        }
-        guard container.contains(.longMessage) else {
-            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
-        }
-        guard container.contains(.code) else {
-            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
-        }
-        self.message = try container.sdkDecodeRequired(.message)
-        self.longMessage = try container.sdkDecodeRequired(.longMessage)
-        self.code = try container.sdkDecodeRequired(.code)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension VerifyOAuthAccessTokenResponseErrorsItemX528b5562 {
-    public init(message: String, longMessage: String, code: String) {
+public extension VerifyOAuthAccessTokenResponseErrorsItemX528b5562 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.message) else {
+            throw SdkValidationError(
+                field: "message",
+                code: "required",
+                message: "Validation failed for 'message': value is required"
+            )
+        }
+        guard container.contains(.longMessage) else {
+            throw SdkValidationError(
+                field: "long_message",
+                code: "required",
+                message: "Validation failed for 'long_message': value is required"
+            )
+        }
+        guard container.contains(.code) else {
+            throw SdkValidationError(
+                field: "code",
+                code: "required",
+                message: "Validation failed for 'code': value is required"
+            )
+        }
+        message = try container.sdkDecodeRequired(.message)
+        longMessage = try container.sdkDecodeRequired(.longMessage)
+        code = try container.sdkDecodeRequired(.code)
+    }
+}
+
+public extension VerifyOAuthAccessTokenResponseErrorsItemX528b5562 {
+    init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }

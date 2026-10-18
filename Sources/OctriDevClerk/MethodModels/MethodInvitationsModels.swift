@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-// Canonical invitations operation model declarations
+/// Canonical invitations operation model declarations
 public struct CreateBulkInvitationsRequestBodyItem: Codable {
     /// The email address the invitation will be sent to
     public var emailAddress: String
@@ -39,36 +39,66 @@ public struct CreateBulkInvitationsRequestBodyItem: Codable {
         case templateSlug = "template_slug"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension CreateBulkInvitationsRequestBodyItem {
-    public init(from decoder: Decoder) throws {
+public extension CreateBulkInvitationsRequestBodyItem {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.emailAddress) else {
-            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
+            throw SdkValidationError(
+                field: "email_address",
+                code: "required",
+                message: "Validation failed for 'email_address': value is required"
+            )
         }
-        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        self.publicMetadata = try container.sdkDecodeIfPresent(.publicMetadata)
-        self.redirectUrl = try container.sdkDecodeIfPresent(.redirectUrl)
-        self.notify = try container.sdkDecodeIfPresent(.notify)
-        self.ignoreExisting = try container.sdkDecodeIfPresent(.ignoreExisting)
-        self.expiresInDays = try container.sdkDecodeIfPresent(.expiresInDays)
-        self.templateSlug = try container.sdkDecodeIfPresent(.templateSlug)
-        if let value = self.expiresInDays {
-            try validateRange("expires_in_days", Double(value), min: 1, max: 365, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        publicMetadata = try container.sdkDecodeIfPresent(.publicMetadata)
+        redirectUrl = try container.sdkDecodeIfPresent(.redirectUrl)
+        notify = try container.sdkDecodeIfPresent(.notify)
+        ignoreExisting = try container.sdkDecodeIfPresent(.ignoreExisting)
+        expiresInDays = try container.sdkDecodeIfPresent(.expiresInDays)
+        templateSlug = try container.sdkDecodeIfPresent(.templateSlug)
+        if let value = expiresInDays {
+            try validateRange(
+                "expires_in_days",
+                Double(value),
+                min: 1,
+                max: 365,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
 
-extension CreateBulkInvitationsRequestBodyItem {
-    public init(emailAddress: String, publicMetadata: [String: JSONValue]? = nil, redirectUrl: String? = nil, notify: Bool? = nil, ignoreExisting: Bool? = nil, expiresInDays: Int? = nil, templateSlug: CreateBulkInvitationsRequestBodyItemTemplateSlug? = nil) throws {
+public extension CreateBulkInvitationsRequestBodyItem {
+    init(
+        emailAddress: String,
+        publicMetadata: [String: JSONValue]? = nil,
+        redirectUrl: String? = nil,
+        notify: Bool? = nil,
+        ignoreExisting: Bool? = nil,
+        expiresInDays: Int? = nil,
+        templateSlug: CreateBulkInvitationsRequestBodyItemTemplateSlug? = nil
+    ) throws {
         (self.emailAddress, self.publicMetadata) = (emailAddress, publicMetadata)
         (self.redirectUrl, self.notify) = (redirectUrl, notify)
         (self.ignoreExisting, self.expiresInDays) = (ignoreExisting, expiresInDays)
         self.templateSlug = templateSlug
         if let value = self.expiresInDays {
-            try validateRange("expires_in_days", Double(value), min: 1, max: 365, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "expires_in_days",
+                Double(value),
+                min: 1,
+                max: 365,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }

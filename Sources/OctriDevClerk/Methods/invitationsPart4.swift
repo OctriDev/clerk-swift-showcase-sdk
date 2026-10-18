@@ -6,31 +6,80 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension InvitationsMethods {
-    /// Creates multiple invitations for the supplied email addresses. Include an `email_address` in each item; set `ignore_existing` to allow an existing invitation, but you cannot invite an address associated with an existing user. Send at most 10 invitations per request, and use `notify` to control whether invitation emails are sent.
+public extension InvitationsMethods {
+    /// Creates multiple invitations for the supplied email addresses. Include an `email_address` in each item; set
+    /// `ignore_existing` to allow an existing invitation, but you cannot invite an address associated with an existing
+    /// user. Send at most 10 invitations per request, and use `notify` to control whether invitation emails are sent.
     ///
-    /// Use this API operation to create multiple invitations for the provided email addresses. You can choose to send the invitations as emails by setting the `notify` parameter to `true`. There cannot be an existing invitation for any of the email addresses you provide unless you set `ignore_existing` to `true` for specific email addresses. Please note that there must be no existing user for any of the email addresses you provide, and this rule cannot be bypassed. This endpoint is limited to a maximum of 10 invitations per API call. If you need to send more invitations, please make multiple requests.
-    public static func createBulkInvitations(config: ClientConfig, body: [CreateBulkInvitationsRequestBodyItem]? = nil, requestOptions: RequestOptions? = nil) async throws -> [Invitation] {
-        if let body = body {
+    /// Use this API operation to create multiple invitations for the provided email addresses. You can choose to send
+    /// the invitations as emails by setting the `notify` parameter to `true`. There cannot be an existing invitation
+    /// for any of the email addresses you provide unless you set `ignore_existing` to `true` for specific email
+    /// addresses. Please note that there must be no existing user for any of the email addresses you provide, and this
+    /// rule cannot be bypassed. This endpoint is limited to a maximum of 10 invitations per API call. If you need to
+    /// send more invitations, please make multiple requests.
+    static func createBulkInvitations(
+        config: ClientConfig,
+        body: [CreateBulkInvitationsRequestBodyItem]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [Invitation] {
+        if let body {
             try validateItems("body", body, min: 1, max: 10)
         }
 
-        return try (await sdkRequest("POST", "/invitations/bulk", config: config, rawBody: (try body.map { try sdkEncodeBody($0, contentType: "application/json") }), decoder: .json, operationId: "CreateBulkInvitations", options: requestOptions, errors: ["400": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/invitations/bulk",
+            config: config,
+            rawBody: (body.map { try sdkEncodeBody($0, contentType: "application/json") }),
+            decoder: .json,
+            operationId: "CreateBulkInvitations",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 
-    /// Permanently deletes the given invitation and the copies of the invitation email Clerk stored for its recipient. Unlike revoking, deleting removes the invitation record itself, which helps honor a data erasure request from someone who was invited but never signed up. Other records that contain the same email address, such as users or organization invitations, are not affected. Invitations of any status can be deleted.
+    /// Permanently deletes the given invitation and the copies of the invitation email Clerk stored for its recipient.
+    /// Unlike revoking, deleting removes the invitation record itself, which helps honor a data erasure request from
+    /// someone who was invited but never signed up. Other records that contain the same email address, such as users or
+    /// organization invitations, are not affected. Invitations of any status can be deleted.
     ///
     /// - Parameters:
     /// - invitationId: The ID of the invitation to delete
-    public static func deleteInvitation(config: ClientConfig, invitationId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try (await sdkRequest("DELETE", ["/invitations/", sdkEncodePathSegment(sdkWireString(invitationId))].joined(), config: config, decoder: .json, operationId: "DeleteInvitation", options: requestOptions, errors: ["404": ClerkErrors.self])).data
+    static func deleteInvitation(
+        config: ClientConfig,
+        invitationId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeletedObject {
+        try await (sdkRequest(
+            "DELETE",
+            ["/invitations/", sdkEncodePathSegment(sdkWireString(invitationId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "DeleteInvitation",
+            options: requestOptions,
+            errors: ["404": ClerkErrors.self]
+        )).data
     }
 
-    /// Revokes the given invitation. Revoking an invitation will prevent the user from using the invitation link that was sent to them. However, it doesn't prevent the user from signing up if they follow the sign up flow. Only active (i.e. non-revoked) invitations can be revoked.
+    /// Revokes the given invitation. Revoking an invitation will prevent the user from using the invitation link that
+    /// was sent to them. However, it doesn't prevent the user from signing up if they follow the sign up flow. Only
+    /// active (i.e. non-revoked) invitations can be revoked.
     ///
     /// - Parameters:
     /// - invitationId: The ID of the invitation to be revoked
-    public static func revokeInvitation(config: ClientConfig, invitationId: String, requestOptions: RequestOptions? = nil) async throws -> InvitationRevoked {
-        return try (await sdkRequest("POST", ["/invitations/", sdkEncodePathSegment(sdkWireString(invitationId)), "/revoke"].joined(), config: config, decoder: .json, operationId: "RevokeInvitation", options: requestOptions, errors: ["400": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func revokeInvitation(
+        config: ClientConfig,
+        invitationId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> InvitationRevoked {
+        try await (sdkRequest(
+            "POST",
+            ["/invitations/", sdkEncodePathSegment(sdkWireString(invitationId)), "/revoke"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "RevokeInvitation",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

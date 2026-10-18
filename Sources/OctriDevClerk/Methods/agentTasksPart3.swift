@@ -6,14 +6,26 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension AgentTasksMethods {
+public extension AgentTasksMethods {
     /// Revokes a pending agent task. Use `agent_task_id` to identify the task whose pending status you want to revoke.
     ///
     /// Revokes a pending agent task.
     ///
     /// - Parameters:
     /// - agentTaskId: The ID of the agent task to be revoked.
-    public static func revokeAgentTask(config: ClientConfig, agentTaskId: String, requestOptions: RequestOptions? = nil) async throws -> AgentTask {
-        return try (await sdkRequest("POST", ["/agents/tasks/", sdkEncodePathSegment(sdkWireString(agentTaskId)), "/revoke"].joined(), config: config, decoder: .json, operationId: "RevokeAgentTask", options: requestOptions, errors: ["400": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func revokeAgentTask(
+        config: ClientConfig,
+        agentTaskId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> AgentTask {
+        try await (sdkRequest(
+            "POST",
+            ["/agents/tasks/", sdkEncodePathSegment(sdkWireString(agentTaskId)), "/revoke"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "RevokeAgentTask",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

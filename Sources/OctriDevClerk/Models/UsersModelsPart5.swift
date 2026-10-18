@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Users domain models
+/// Users domain models
 /// Metadata describing a user's linkage to a directory. Included in user responses when directory data is
 /// requested, and in directory-triggered user webhooks. Its absence does not necessarily mean the user is not
 /// managed by a directory.
@@ -36,46 +36,85 @@ public struct SCIMUserMetadata: Codable {
         case groups
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension SCIMUserMetadata {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.directoryName) else {
-            throw SdkValidationError(field: "directory_name", code: "required", message: "Validation failed for 'directory_name': value is required")
-        }
-        guard container.contains(.provider) else {
-            throw SdkValidationError(field: "provider", code: "required", message: "Validation failed for 'provider': value is required")
-        }
-        guard container.contains(.enterpriseConnectionId) else {
-            throw SdkValidationError(field: "enterprise_connection_id", code: "required", message: "Validation failed for 'enterprise_connection_id': value is required")
-        }
-        guard container.contains(.directoryId) else {
-            throw SdkValidationError(field: "directory_id", code: "required", message: "Validation failed for 'directory_id': value is required")
-        }
-        guard container.contains(.directoryEnabled) else {
-            throw SdkValidationError(field: "directory_enabled", code: "required", message: "Validation failed for 'directory_enabled': value is required")
-        }
-        guard container.contains(.externalId) else {
-            throw SdkValidationError(field: "external_id", code: "required", message: "Validation failed for 'external_id': value is required")
-        }
-        self.id = try container.sdkDecodeRequired(.id)
-        self.directoryName = try container.sdkDecodeRequired(.directoryName)
-        self.provider = try container.sdkDecodeRequired(.provider)
-        self.enterpriseConnectionId = try container.sdkDecodeNullable(.enterpriseConnectionId)
-        self.directoryId = try container.sdkDecodeRequired(.directoryId)
-        self.directoryEnabled = try container.sdkDecodeRequired(.directoryEnabled)
-        self.externalId = try container.sdkDecodeNullable(.externalId)
-        self.groups = try container.sdkDecodeIfPresent(.groups)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension SCIMUserMetadata {
-    public init(id: String, directoryName: String, provider: String, enterpriseConnectionId: String?, directoryId: String, directoryEnabled: Bool, externalId: String?, groups: [SCIMUserMetadataGroupsItem]? = nil) {
+public extension SCIMUserMetadata {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.directoryName) else {
+            throw SdkValidationError(
+                field: "directory_name",
+                code: "required",
+                message: "Validation failed for 'directory_name': value is required"
+            )
+        }
+        guard container.contains(.provider) else {
+            throw SdkValidationError(
+                field: "provider",
+                code: "required",
+                message: "Validation failed for 'provider': value is required"
+            )
+        }
+        guard container.contains(.enterpriseConnectionId) else {
+            throw SdkValidationError(
+                field: "enterprise_connection_id",
+                code: "required",
+                message: "Validation failed for 'enterprise_connection_id': value is required"
+            )
+        }
+        guard container.contains(.directoryId) else {
+            throw SdkValidationError(
+                field: "directory_id",
+                code: "required",
+                message: "Validation failed for 'directory_id': value is required"
+            )
+        }
+        guard container.contains(.directoryEnabled) else {
+            throw SdkValidationError(
+                field: "directory_enabled",
+                code: "required",
+                message: "Validation failed for 'directory_enabled': value is required"
+            )
+        }
+        guard container.contains(.externalId) else {
+            throw SdkValidationError(
+                field: "external_id",
+                code: "required",
+                message: "Validation failed for 'external_id': value is required"
+            )
+        }
+        id = try container.sdkDecodeRequired(.id)
+        directoryName = try container.sdkDecodeRequired(.directoryName)
+        provider = try container.sdkDecodeRequired(.provider)
+        enterpriseConnectionId = try container.sdkDecodeNullable(.enterpriseConnectionId)
+        directoryId = try container.sdkDecodeRequired(.directoryId)
+        directoryEnabled = try container.sdkDecodeRequired(.directoryEnabled)
+        externalId = try container.sdkDecodeNullable(.externalId)
+        groups = try container.sdkDecodeIfPresent(.groups)
+    }
+}
+
+public extension SCIMUserMetadata {
+    init(
+        id: String,
+        directoryName: String,
+        provider: String,
+        enterpriseConnectionId: String?,
+        directoryId: String,
+        directoryEnabled: Bool,
+        externalId: String?,
+        groups: [SCIMUserMetadataGroupsItem]? = nil
+    ) {
         (self.id, self.directoryName) = (id, directoryName)
         (self.provider, self.enterpriseConnectionId) = (provider, enterpriseConnectionId)
         (self.directoryId, self.directoryEnabled) = (directoryId, directoryEnabled)
@@ -122,28 +161,42 @@ public struct TrustedDevice: Codable {
         case revokedAt = "revoked_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension TrustedDevice {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.platform = try container.sdkDecodeRequired(.platform)
-        self.appIdentifier = try container.sdkDecodeRequired(.appIdentifier)
-        self.algorithm = try container.sdkDecodeRequired(.algorithm)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.name = try container.sdkDecodeIfPresent(.name)
-        self.lastUsedAt = try container.sdkDecodeIfPresent(.lastUsedAt)
-        self.revokedAt = try container.sdkDecodeIfPresent(.revokedAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension TrustedDevice {
-    public init(object: TrustedDeviceObject, id: String, platform: TrustedDevicePlatform, appIdentifier: String, algorithm: TrustedDeviceAlgorithm, status: TrustedDeviceStatus, createdAt: Int, updatedAt: Int, name: String? = nil, lastUsedAt: Int? = nil, revokedAt: Int? = nil) {
+public extension TrustedDevice {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        platform = try container.sdkDecodeRequired(.platform)
+        appIdentifier = try container.sdkDecodeRequired(.appIdentifier)
+        algorithm = try container.sdkDecodeRequired(.algorithm)
+        status = try container.sdkDecodeRequired(.status)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        name = try container.sdkDecodeIfPresent(.name)
+        lastUsedAt = try container.sdkDecodeIfPresent(.lastUsedAt)
+        revokedAt = try container.sdkDecodeIfPresent(.revokedAt)
+    }
+}
+
+public extension TrustedDevice {
+    init(
+        object: TrustedDeviceObject,
+        id: String,
+        platform: TrustedDevicePlatform,
+        appIdentifier: String,
+        algorithm: TrustedDeviceAlgorithm,
+        status: TrustedDeviceStatus,
+        createdAt: Int,
+        updatedAt: Int,
+        name: String? = nil,
+        lastUsedAt: Int? = nil,
+        revokedAt: Int? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.platform, self.appIdentifier) = (platform, appIdentifier)
         (self.algorithm, self.status) = (algorithm, status)
@@ -157,12 +210,15 @@ extension TrustedDevice {
 public struct TotalCountObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let totalCount = TotalCountObject(rawValue: "total_count")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -193,13 +249,16 @@ public enum VerificationWeb3Object: String, CaseIterable, Codable {
 public struct BiometricCredentialStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let active = BiometricCredentialStatus(rawValue: "active")
     public static let revoked = BiometricCredentialStatus(rawValue: "revoked")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -212,7 +271,10 @@ public struct BiometricCredentialStatus: RawRepresentable, Hashable, Codable, Se
 public struct VerificationOauthStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let unverified = VerificationOauthStatus(rawValue: "unverified")
     public static let verified = VerificationOauthStatus(rawValue: "verified")
     public static let failed = VerificationOauthStatus(rawValue: "failed")
@@ -221,7 +283,7 @@ public struct VerificationOauthStatus: RawRepresentable, Hashable, Codable, Send
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -234,12 +296,15 @@ public struct VerificationOauthStatus: RawRepresentable, Hashable, Codable, Send
 public struct SAMLAccountObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let samlAccount = SAMLAccountObject(rawValue: "saml_account")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -252,12 +317,15 @@ public struct SAMLAccountObject: RawRepresentable, Hashable, Codable, Sendable, 
 public struct BiometricCredentialObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let trustedDevice = BiometricCredentialObject(rawValue: "trusted_device")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -288,13 +356,16 @@ public enum VerificationPasskeyObject: String, CaseIterable, Codable {
 public struct VerificationGoogleOneTapStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let unverified = VerificationGoogleOneTapStatus(rawValue: "unverified")
     public static let verified = VerificationGoogleOneTapStatus(rawValue: "verified")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -307,12 +378,15 @@ public struct VerificationGoogleOneTapStatus: RawRepresentable, Hashable, Codabl
 public struct Web3WalletObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let web3Wallet = Web3WalletObject(rawValue: "web3_wallet")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -325,12 +399,15 @@ public struct Web3WalletObject: RawRepresentable, Hashable, Codable, Sendable, S
 public struct BiometricCredentialAlgorithm: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let es256 = BiometricCredentialAlgorithm(rawValue: "ES256")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -343,7 +420,10 @@ public struct BiometricCredentialAlgorithm: RawRepresentable, Hashable, Codable,
 public struct VerificationWeb3Strategy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let web3MetamaskSignature = VerificationWeb3Strategy(rawValue: "web3_metamask_signature")
     public static let web3BaseSignature = VerificationWeb3Strategy(rawValue: "web3_base_signature")
     public static let web3CoinbaseWalletSignature = VerificationWeb3Strategy(rawValue: "web3_coinbase_wallet_signature")
@@ -352,7 +432,7 @@ public struct VerificationWeb3Strategy: RawRepresentable, Hashable, Codable, Sen
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -365,12 +445,15 @@ public struct VerificationWeb3Strategy: RawRepresentable, Hashable, Codable, Sen
 public struct TrustedDeviceAlgorithm: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let es256 = TrustedDeviceAlgorithm(rawValue: "ES256")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -383,13 +466,16 @@ public struct TrustedDeviceAlgorithm: RawRepresentable, Hashable, Codable, Senda
 public struct BiometricCredentialPlatform: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let ios = BiometricCredentialPlatform(rawValue: "ios")
     public static let android = BiometricCredentialPlatform(rawValue: "android")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -402,12 +488,15 @@ public struct BiometricCredentialPlatform: RawRepresentable, Hashable, Codable, 
 public struct PasskeyObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let passkey = PasskeyObject(rawValue: "passkey")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -420,12 +509,15 @@ public struct PasskeyObject: RawRepresentable, Hashable, Codable, Sendable, SdkW
 public struct UserObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let user = UserObject(rawValue: "user")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -438,12 +530,15 @@ public struct UserObject: RawRepresentable, Hashable, Codable, Sendable, SdkWire
 public struct VerificationGoogleOneTapStrategy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let googleOneTap = VerificationGoogleOneTapStrategy(rawValue: "google_one_tap")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -456,13 +551,16 @@ public struct VerificationGoogleOneTapStrategy: RawRepresentable, Hashable, Coda
 public struct EnterpriseAccountProtocol: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let oauth = EnterpriseAccountProtocol(rawValue: "oauth")
     public static let saml = EnterpriseAccountProtocol(rawValue: "saml")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -475,13 +573,16 @@ public struct EnterpriseAccountProtocol: RawRepresentable, Hashable, Codable, Se
 public struct TrustedDevicePlatform: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let ios = TrustedDevicePlatform(rawValue: "ios")
     public static let android = TrustedDevicePlatform(rawValue: "android")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -494,12 +595,15 @@ public struct TrustedDevicePlatform: RawRepresentable, Hashable, Codable, Sendab
 public struct TrustedDeviceObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let trustedDevice = TrustedDeviceObject(rawValue: "trusted_device")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -511,12 +615,15 @@ public struct TrustedDeviceObject: RawRepresentable, Hashable, Codable, Sendable
 public struct OAuthAccessTokenItemObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let oauthAccessToken = OAuthAccessTokenItemObject(rawValue: "oauth_access_token")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -529,12 +636,15 @@ public struct OAuthAccessTokenItemObject: RawRepresentable, Hashable, Codable, S
 public struct EnterpriseAccountObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let enterpriseAccount = EnterpriseAccountObject(rawValue: "enterprise_account")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -547,12 +657,15 @@ public struct EnterpriseAccountObject: RawRepresentable, Hashable, Codable, Send
 public struct VerificationPasskeyNonce: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let nonce = VerificationPasskeyNonce(rawValue: "nonce")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

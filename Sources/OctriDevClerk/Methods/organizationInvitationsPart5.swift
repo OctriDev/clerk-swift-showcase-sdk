@@ -6,20 +6,52 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OrganizationInvitationsMethods {
-    /// Creates and sends organization invitations in bulk for a specified organization. Provide 1–10 invitation objects, each with `email_address` and `role`; you can set a different role and inviter for each invitation. Invitations remain pending until accepted or revoked, and `notify` controls whether an invitation email is sent.
+public extension OrganizationInvitationsMethods {
+    /// Creates and sends organization invitations in bulk for a specified organization. Provide 1–10 invitation
+    /// objects, each with `email_address` and `role`; you can set a different role and inviter for each invitation.
+    /// Invitations remain pending until accepted or revoked, and `notify` controls whether an invitation email is sent.
     ///
-    /// Creates new organization invitations in bulk and sends out emails to the provided email addresses with a link to accept the invitation and join the organization. This endpoint is limited to a maximum of 10 invitations per API call. If you need to send more invitations, please make multiple requests. You can specify a different `role` for each invited organization member. New organization invitations get a "pending" status until they are revoked by an organization administrator or accepted by the invitee. The request body supports passing an optional `redirect_url` parameter for each invitation. When the invited user clicks the link to accept the invitation, they will be redirected to the provided URL. Use this parameter to implement a custom invitation acceptance flow. You can specify the ID of the user that will send the invitation with the `inviter_user_id` parameter. Each invitation can have a different inviter user. Inviter users must be members with administrator privileges in the organization. Only "admin" members can create organization invitations. You can optionally provide public and private metadata for each organization invitation. The public metadata are visible by both the Frontend and the Backend, whereas the private metadata are only visible by the Backend. When the organization invitation is accepted, the metadata will be transferred to the newly created organization membership.
+    /// Creates new organization invitations in bulk and sends out emails to the provided email addresses with a link to
+    /// accept the invitation and join the organization. This endpoint is limited to a maximum of 10 invitations per API
+    /// call. If you need to send more invitations, please make multiple requests. You can specify a different `role`
+    /// for each invited organization member. New organization invitations get a "pending" status until they are revoked
+    /// by an organization administrator or accepted by the invitee. The request body supports passing an optional
+    /// `redirect_url` parameter for each invitation. When the invited user clicks the link to accept the invitation,
+    /// they will be redirected to the provided URL. Use this parameter to implement a custom invitation acceptance
+    /// flow. You can specify the ID of the user that will send the invitation with the `inviter_user_id` parameter.
+    /// Each invitation can have a different inviter user. Inviter users must be members with administrator privileges
+    /// in the organization. Only "admin" members can create organization invitations. You can optionally provide public
+    /// and private metadata for each organization invitation. The public metadata are visible by both the Frontend and
+    /// the Backend, whereas the private metadata are only visible by the Backend. When the organization invitation is
+    /// accepted, the metadata will be transferred to the newly created organization membership.
     ///
     /// - Parameters:
     /// - organizationId: The organization ID.
-    public static func createOrganizationInvitationBulk(config: ClientConfig, organizationId: String, body: [CreateOrganizationInvitationBulkRequestBodyItem], requestOptions: RequestOptions? = nil) async throws -> OrganizationInvitations {
+    static func createOrganizationInvitationBulk(
+        config: ClientConfig,
+        organizationId: String,
+        body: [CreateOrganizationInvitationBulkRequestBodyItem],
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationInvitations {
         try validateItems("body", body, min: 1, max: 10)
 
-        return try (await sdkRequest("POST", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/invitations/bulk"].joined(), config: config, rawBody: (try sdkEncodeBody(body, contentType: "application/json")), decoder: .json, operationId: "CreateOrganizationInvitationBulk", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/invitations/bulk"].joined(),
+            config: config,
+            rawBody: sdkEncodeBody(body, contentType: "application/json"),
+            decoder: .json,
+            operationId: "CreateOrganizationInvitationBulk",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 
-    /// This request returns the list of organization invitations with "pending" status. These are the organization invitations that can still be used to join the organization, but have not been accepted by the invited user yet. Results can be paginated using the optional `limit` and `offset` query parameters. The organization invitations are ordered by descending creation date. Most recent invitations will be returned first. Any invitations created as a result of an Organization Domain are not included in the results.
+    /// This request returns the list of organization invitations with "pending" status. These are the organization
+    /// invitations that can still be used to join the organization, but have not been accepted by the invited user yet.
+    /// Results can be paginated using the optional `limit` and `offset` query parameters. The organization invitations
+    /// are ordered by descending creation date. Most recent invitations will be returned first. Any invitations created
+    /// as a result of an Organization Domain are not included in the results.
     ///
     /// - Parameters:
     /// - organizationId: The organization ID.
@@ -29,18 +61,33 @@ extension OrganizationInvitationsMethods {
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public static func listPendingOrganizationInvitations(config: ClientConfig, organizationId: String, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationInvitations {
-        if let limit = limit {
+    static func listPendingOrganizationInvitations(
+        config: ClientConfig,
+        organizationId: String,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationInvitations {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset = offset {
+        if let offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try (await sdkRequest("GET", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/invitations/pending"].joined(), config: config, query: [
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("offset", value: offset),
-        ], decoder: .json, operationId: "ListPendingOrganizationInvitations", options: requestOptions, errors: ["400": ClerkErrors.self, "404": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "GET",
+            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/invitations/pending"].joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("offset", value: offset),
+            ],
+            decoder: .json,
+            operationId: "ListPendingOrganizationInvitations",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

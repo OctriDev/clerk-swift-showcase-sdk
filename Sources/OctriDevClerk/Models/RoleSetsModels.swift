@@ -3,7 +3,7 @@
 
 import Foundation
 
-// RoleSets domain models
+/// RoleSets domain models
 /// Typed representation of the `RoleSets` API schema.
 public struct RoleSets: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -16,25 +16,35 @@ public struct RoleSets: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension RoleSets {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension RoleSets {
-    public init(data: [RoleSet], totalCount: Int) {
+public extension RoleSets {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension RoleSets {
+    init(data: [RoleSet], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -87,31 +97,48 @@ public struct RoleSetMigration: Codable {
         case completedAt = "completed_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension RoleSetMigration {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.instanceId = try container.sdkDecodeRequired(.instanceId)
-        self.sourceRoleSetId = try container.sdkDecodeRequired(.sourceRoleSetId)
-        self.triggerType = try container.sdkDecodeRequired(.triggerType)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.migratedMembers = try container.sdkDecodeRequired(.migratedMembers)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.organizationId = try container.sdkDecodeIfPresent(.organizationId)
-        self.destRoleSetId = try container.sdkDecodeIfPresent(.destRoleSetId)
-        self.mappings = try container.sdkDecodeIfPresent(.mappings)
-        self.startedAt = try container.sdkDecodeIfPresent(.startedAt)
-        self.completedAt = try container.sdkDecodeIfPresent(.completedAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension RoleSetMigration {
-    public init(object: RoleSetMigrationObject, id: String, instanceId: String, sourceRoleSetId: String, triggerType: String, status: String, migratedMembers: Int, createdAt: Int, updatedAt: Int, organizationId: String? = nil, destRoleSetId: String? = nil, mappings: [String: String]? = nil, startedAt: Int? = nil, completedAt: Int? = nil) {
+public extension RoleSetMigration {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        instanceId = try container.sdkDecodeRequired(.instanceId)
+        sourceRoleSetId = try container.sdkDecodeRequired(.sourceRoleSetId)
+        triggerType = try container.sdkDecodeRequired(.triggerType)
+        status = try container.sdkDecodeRequired(.status)
+        migratedMembers = try container.sdkDecodeRequired(.migratedMembers)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        organizationId = try container.sdkDecodeIfPresent(.organizationId)
+        destRoleSetId = try container.sdkDecodeIfPresent(.destRoleSetId)
+        mappings = try container.sdkDecodeIfPresent(.mappings)
+        startedAt = try container.sdkDecodeIfPresent(.startedAt)
+        completedAt = try container.sdkDecodeIfPresent(.completedAt)
+    }
+}
+
+public extension RoleSetMigration {
+    init(
+        object: RoleSetMigrationObject,
+        id: String,
+        instanceId: String,
+        sourceRoleSetId: String,
+        triggerType: String,
+        status: String,
+        migratedMembers: Int,
+        createdAt: Int,
+        updatedAt: Int,
+        organizationId: String? = nil,
+        destRoleSetId: String? = nil,
+        mappings: [String: String]? = nil,
+        startedAt: Int? = nil,
+        completedAt: Int? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.instanceId, self.sourceRoleSetId) = (instanceId, sourceRoleSetId)
         (self.triggerType, self.status) = (triggerType, status)
@@ -155,47 +182,87 @@ public struct RoleSetItem: Codable {
         case hasMembers = "has_members"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension RoleSetItem {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.key) else {
-            throw SdkValidationError(field: "key", code: "required", message: "Validation failed for 'key': value is required")
-        }
-        guard container.contains(.description) else {
-            throw SdkValidationError(field: "description", code: "required", message: "Validation failed for 'description': value is required")
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        guard container.contains(.updatedAt) else {
-            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.key = try container.sdkDecodeRequired(.key)
-        self.description = try container.sdkDecodeNullable(.description)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.membersCount = try container.sdkDecodeIfPresent(.membersCount)
-        self.hasMembers = try container.sdkDecodeIfPresent(.hasMembers)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension RoleSetItem {
-    public init(object: RoleSetItemObject, id: String, name: String, key: String, description: String?, createdAt: Int, updatedAt: Int, membersCount: Int? = nil, hasMembers: Bool? = nil) {
+public extension RoleSetItem {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.key) else {
+            throw SdkValidationError(
+                field: "key",
+                code: "required",
+                message: "Validation failed for 'key': value is required"
+            )
+        }
+        guard container.contains(.description) else {
+            throw SdkValidationError(
+                field: "description",
+                code: "required",
+                message: "Validation failed for 'description': value is required"
+            )
+        }
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        guard container.contains(.updatedAt) else {
+            throw SdkValidationError(
+                field: "updated_at",
+                code: "required",
+                message: "Validation failed for 'updated_at': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        key = try container.sdkDecodeRequired(.key)
+        description = try container.sdkDecodeNullable(.description)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        membersCount = try container.sdkDecodeIfPresent(.membersCount)
+        hasMembers = try container.sdkDecodeIfPresent(.hasMembers)
+    }
+}
+
+public extension RoleSetItem {
+    init(
+        object: RoleSetItemObject,
+        id: String,
+        name: String,
+        key: String,
+        description: String?,
+        createdAt: Int,
+        updatedAt: Int,
+        membersCount: Int? = nil,
+        hasMembers: Bool? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.name, self.key) = (name, key)
         (self.description, self.createdAt) = (description, createdAt)
@@ -203,10 +270,6 @@ extension RoleSetItem {
         self.hasMembers = hasMembers
     }
 }
-
-
-
-
 
 /// A role set defines a collection of roles that can be assigned to organization members
 public struct RoleSet: Codable {
@@ -250,29 +313,44 @@ public struct RoleSet: Codable {
         case roleSetMigration = "role_set_migration"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension RoleSet {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.key = try container.sdkDecodeRequired(.key)
-        self.description = try container.sdkDecodeNullable(.description)
-        self.roles = try container.sdkDecodeRequired(.roles)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.defaultRole = try container.sdkDecodeIfPresent(.defaultRole)
-        self.creatorRole = try container.sdkDecodeIfPresent(.creatorRole)
-        self.roleSetMigration = try container.sdkDecodeIfPresent(.roleSetMigration)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension RoleSet {
-    public init(object: RoleSetObject, id: String, name: String, key: String, description: String?, roles: [RoleSetItem], type: RoleSetType, createdAt: Int, updatedAt: Int, defaultRole: RoleSetItem? = nil, creatorRole: RoleSetItem? = nil, roleSetMigration: RoleSetMigration? = nil) {
+public extension RoleSet {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        key = try container.sdkDecodeRequired(.key)
+        description = try container.sdkDecodeNullable(.description)
+        roles = try container.sdkDecodeRequired(.roles)
+        type = try container.sdkDecodeRequired(.type)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        defaultRole = try container.sdkDecodeIfPresent(.defaultRole)
+        creatorRole = try container.sdkDecodeIfPresent(.creatorRole)
+        roleSetMigration = try container.sdkDecodeIfPresent(.roleSetMigration)
+    }
+}
+
+public extension RoleSet {
+    init(
+        object: RoleSetObject,
+        id: String,
+        name: String,
+        key: String,
+        description: String?,
+        roles: [RoleSetItem],
+        type: RoleSetType,
+        createdAt: Int,
+        updatedAt: Int,
+        defaultRole: RoleSetItem? = nil,
+        creatorRole: RoleSetItem? = nil,
+        roleSetMigration: RoleSetMigration? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.name, self.key) = (name, key)
         (self.description, self.roles) = (description, roles)
@@ -286,12 +364,15 @@ extension RoleSet {
 public struct RoleSetObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let roleSet = RoleSetObject(rawValue: "role_set")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -304,12 +385,15 @@ public struct RoleSetObject: RawRepresentable, Hashable, Codable, Sendable, SdkW
 public struct RoleSetItemObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let roleSetItem = RoleSetItemObject(rawValue: "role_set_item")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -322,12 +406,15 @@ public struct RoleSetItemObject: RawRepresentable, Hashable, Codable, Sendable, 
 public struct RoleSetMigrationObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let roleSetMigration = RoleSetMigrationObject(rawValue: "role_set_migration")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -340,13 +427,16 @@ public struct RoleSetMigrationObject: RawRepresentable, Hashable, Codable, Senda
 public struct RoleSetType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let initial = RoleSetType(rawValue: "initial")
     public static let custom = RoleSetType(rawValue: "custom")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

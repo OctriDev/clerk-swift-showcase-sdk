@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Domains domain models
+/// Domains domain models
 /// Typed representation of the `DNSTarget` API schema.
 public struct DNSTarget: Codable {
     /// Required `string` value serialized in the `host` wire field.
@@ -25,34 +25,58 @@ public struct DNSTarget: Codable {
         case automationDisposition = "automation_disposition"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension DNSTarget {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.host) else {
-            throw SdkValidationError(field: "host", code: "required", message: "Validation failed for 'host': value is required")
-        }
-        guard container.contains(.value) else {
-            throw SdkValidationError(field: "value", code: "required", message: "Validation failed for 'value': value is required")
-        }
-        guard container.contains(.recordType) else {
-            throw SdkValidationError(field: "record_type", code: "required", message: "Validation failed for 'record_type': value is required")
-        }
-        guard container.contains(.required) else {
-            throw SdkValidationError(field: "required", code: "required", message: "Validation failed for 'required': value is required")
-        }
-        self.host = try container.sdkDecodeRequired(.host)
-        self.value = try container.sdkDecodeRequired(.value)
-        self.recordType = try container.sdkDecodeRequired(.recordType)
-        self.required = try container.sdkDecodeRequired(.required)
-        self.automationDisposition = try container.sdkDecodeIfPresent(.automationDisposition)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension DNSTarget {
-    public init(host: String, value: String, recordType: DNSTargetRecordType, required: Bool, automationDisposition: DNSTargetAutomationDisposition? = nil) {
+public extension DNSTarget {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.host) else {
+            throw SdkValidationError(
+                field: "host",
+                code: "required",
+                message: "Validation failed for 'host': value is required"
+            )
+        }
+        guard container.contains(.value) else {
+            throw SdkValidationError(
+                field: "value",
+                code: "required",
+                message: "Validation failed for 'value': value is required"
+            )
+        }
+        guard container.contains(.recordType) else {
+            throw SdkValidationError(
+                field: "record_type",
+                code: "required",
+                message: "Validation failed for 'record_type': value is required"
+            )
+        }
+        guard container.contains(.required) else {
+            throw SdkValidationError(
+                field: "required",
+                code: "required",
+                message: "Validation failed for 'required': value is required"
+            )
+        }
+        host = try container.sdkDecodeRequired(.host)
+        value = try container.sdkDecodeRequired(.value)
+        recordType = try container.sdkDecodeRequired(.recordType)
+        required = try container.sdkDecodeRequired(.required)
+        automationDisposition = try container.sdkDecodeIfPresent(.automationDisposition)
+    }
+}
+
+public extension DNSTarget {
+    init(
+        host: String,
+        value: String,
+        recordType: DNSTargetRecordType,
+        required: Bool,
+        automationDisposition: DNSTargetAutomationDisposition? = nil
+    ) {
         (self.host, self.value) = (host, value)
         (self.recordType, self.required) = (recordType, required)
         self.automationDisposition = automationDisposition
@@ -74,29 +98,43 @@ public struct CNameTarget: Codable {
         case required
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CNameTarget {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.host) else {
-            throw SdkValidationError(field: "host", code: "required", message: "Validation failed for 'host': value is required")
-        }
-        guard container.contains(.value) else {
-            throw SdkValidationError(field: "value", code: "required", message: "Validation failed for 'value': value is required")
-        }
-        guard container.contains(.required) else {
-            throw SdkValidationError(field: "required", code: "required", message: "Validation failed for 'required': value is required")
-        }
-        self.host = try container.sdkDecodeRequired(.host)
-        self.value = try container.sdkDecodeRequired(.value)
-        self.required = try container.sdkDecodeRequired(.required)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CNameTarget {
-    public init(host: String, value: String, required: Bool) {
+public extension CNameTarget {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.host) else {
+            throw SdkValidationError(
+                field: "host",
+                code: "required",
+                message: "Validation failed for 'host': value is required"
+            )
+        }
+        guard container.contains(.value) else {
+            throw SdkValidationError(
+                field: "value",
+                code: "required",
+                message: "Validation failed for 'value': value is required"
+            )
+        }
+        guard container.contains(.required) else {
+            throw SdkValidationError(
+                field: "required",
+                code: "required",
+                message: "Validation failed for 'required': value is required"
+            )
+        }
+        host = try container.sdkDecodeRequired(.host)
+        value = try container.sdkDecodeRequired(.value)
+        required = try container.sdkDecodeRequired(.required)
+    }
+}
+
+public extension CNameTarget {
+    init(host: String, value: String, required: Bool) {
         (self.host, self.value) = (host, value)
         self.required = required
     }
@@ -114,25 +152,35 @@ public struct Domains: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension Domains {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension Domains {
-    public init(data: [Domain], totalCount: Int) {
+public extension Domains {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension Domains {
+    init(data: [Domain], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -173,45 +221,82 @@ public struct Domain: Codable {
         case dnsTargets = "dns_targets"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension Domain {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.isSatellite) else {
-            throw SdkValidationError(field: "is_satellite", code: "required", message: "Validation failed for 'is_satellite': value is required")
-        }
-        guard container.contains(.frontendApiUrl) else {
-            throw SdkValidationError(field: "frontend_api_url", code: "required", message: "Validation failed for 'frontend_api_url': value is required")
-        }
-        guard container.contains(.developmentOrigin) else {
-            throw SdkValidationError(field: "development_origin", code: "required", message: "Validation failed for 'development_origin': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.isSatellite = try container.sdkDecodeRequired(.isSatellite)
-        self.frontendApiUrl = try container.sdkDecodeRequired(.frontendApiUrl)
-        self.developmentOrigin = try container.sdkDecodeRequired(.developmentOrigin)
-        self.accountsPortalUrl = try container.sdkDecodeIfPresent(.accountsPortalUrl)
-        self.proxyUrl = try container.sdkDecodeIfPresent(.proxyUrl)
-        self.cnameTargets = try container.sdkDecodeIfPresent(.cnameTargets)
-        self.dnsTargets = try container.sdkDecodeIfPresent(.dnsTargets)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension Domain {
-    public init(object: DomainObject, id: String, name: String, isSatellite: Bool, frontendApiUrl: String, developmentOrigin: String, accountsPortalUrl: String? = nil, proxyUrl: String? = nil, cnameTargets: [CNameTarget]? = nil, dnsTargets: [DNSTarget]? = nil) {
+public extension Domain {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.isSatellite) else {
+            throw SdkValidationError(
+                field: "is_satellite",
+                code: "required",
+                message: "Validation failed for 'is_satellite': value is required"
+            )
+        }
+        guard container.contains(.frontendApiUrl) else {
+            throw SdkValidationError(
+                field: "frontend_api_url",
+                code: "required",
+                message: "Validation failed for 'frontend_api_url': value is required"
+            )
+        }
+        guard container.contains(.developmentOrigin) else {
+            throw SdkValidationError(
+                field: "development_origin",
+                code: "required",
+                message: "Validation failed for 'development_origin': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        isSatellite = try container.sdkDecodeRequired(.isSatellite)
+        frontendApiUrl = try container.sdkDecodeRequired(.frontendApiUrl)
+        developmentOrigin = try container.sdkDecodeRequired(.developmentOrigin)
+        accountsPortalUrl = try container.sdkDecodeIfPresent(.accountsPortalUrl)
+        proxyUrl = try container.sdkDecodeIfPresent(.proxyUrl)
+        cnameTargets = try container.sdkDecodeIfPresent(.cnameTargets)
+        dnsTargets = try container.sdkDecodeIfPresent(.dnsTargets)
+    }
+}
+
+public extension Domain {
+    init(
+        object: DomainObject,
+        id: String,
+        name: String,
+        isSatellite: Bool,
+        frontendApiUrl: String,
+        developmentOrigin: String,
+        accountsPortalUrl: String? = nil,
+        proxyUrl: String? = nil,
+        cnameTargets: [CNameTarget]? = nil,
+        dnsTargets: [DNSTarget]? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.name, self.isSatellite) = (name, isSatellite)
         (self.frontendApiUrl, self.developmentOrigin) = (frontendApiUrl, developmentOrigin)
@@ -224,12 +309,15 @@ extension Domain {
 public struct DomainObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let domain = DomainObject(rawValue: "domain")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -242,14 +330,17 @@ public struct DomainObject: RawRepresentable, Hashable, Codable, Sendable, SdkWi
 public struct DNSTargetAutomationDisposition: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let alreadySatisfied = DNSTargetAutomationDisposition(rawValue: "already_satisfied")
     public static let safeToCreate = DNSTargetAutomationDisposition(rawValue: "safe_to_create")
     public static let manualResolutionRequired = DNSTargetAutomationDisposition(rawValue: "manual_resolution_required")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -262,13 +353,16 @@ public struct DNSTargetAutomationDisposition: RawRepresentable, Hashable, Codabl
 public struct DNSTargetRecordType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let cname = DNSTargetRecordType(rawValue: "CNAME")
     public static let txt = DNSTargetRecordType(rawValue: "TXT")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

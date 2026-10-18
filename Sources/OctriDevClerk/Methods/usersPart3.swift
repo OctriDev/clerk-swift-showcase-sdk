@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
-    public struct CreateUserOptions: Codable {
+public extension UsersMethods {
+    struct CreateUserOptions: Codable {
         public var externalId: SdkOptional<String>?
         public var firstName: SdkOptional<String>?
         public var lastName: SdkOptional<String>?
@@ -44,7 +44,14 @@ extension UsersMethods {
         public init() {}
     }
 
-    /// Creates a new user. Your user management settings determine how you should setup your user model. By default, any email address and phone number created using this method is marked as verified. Use the `email_address_identification_status` and `phone_number_identification_status` arrays to instead create some or all of them as reserved (unverified but usable for sign-in and locked so no other user can claim them). Note: If you are performing a migration, check out our guide on [zero downtime migrations](https://clerk.com/docs/deployments/migrate-overview). The following rate limit rules apply to this endpoint: 1000 requests per 10 seconds for production instances and 100 requests per 10 seconds for development instances
+    /// Creates a new user. Your user management settings determine how you should setup your user model. By default,
+    /// any email address and phone number created using this method is marked as verified. Use the
+    /// `email_address_identification_status` and `phone_number_identification_status` arrays to instead create some or
+    /// all of them as reserved (unverified but usable for sign-in and locked so no other user can claim them). Note: If
+    /// you are performing a migration, check out our guide on [zero downtime
+    /// migrations](https://clerk.com/docs/deployments/migrate-overview). The following rate limit rules apply to this
+    /// endpoint: 1000 requests per 10 seconds for production instances and 100 requests per 10 seconds for development
+    /// instances
     ///
     /// - Parameters:
     /// - externalId: The ID of the user as used in your external systems or your
@@ -166,9 +173,28 @@ extension UsersMethods {
     ///   sign in. Requires the same plan support as the ban user endpoint.
     /// - locked: When set to `true`, the user is created already locked. Requires
     ///   the user lockout feature to be enabled on the instance.
-    public static func createUser(config: ClientConfig, options: CreateUserOptions, requestOptions: RequestOptions? = nil) async throws -> User {
+    static func createUser(
+        config: ClientConfig,
+        options: CreateUserOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> User {
         let requestBody = CreateUserRequestBody(options: options)
 
-        return try (await sdkRequest("POST", "/users", config: config, body: requestBody, decoder: .json, operationId: "CreateUser", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "402": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/users",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "CreateUser",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "402": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 }

@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
-    public struct GetUsersCountOptions: Codable {
+public extension UsersMethods {
+    struct GetUsersCountOptions: Codable {
         public var emailAddress: [String]?
         public var phoneNumber: [String]?
         public var externalId: [String]?
@@ -105,8 +105,12 @@ extension UsersMethods {
     ///   parameter. For example, use `provider=oauth_google&provider_user_id=12345`
     ///   to count users with Google provider user ID 12345. Accepts up to 100
     ///   provider user IDs. Any provider user IDs not found are ignored.
-    public static func getUsersCount(config: ClientConfig, options: GetUsersCountOptions, requestOptions: RequestOptions? = nil) async throws -> TotalCount {
-        return try (await sdkRequest("GET", "/users/count", config: config, query: [
+    static func getUsersCount(
+        config: ClientConfig,
+        options: GetUsersCountOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TotalCount {
+        try await (sdkRequest("GET", "/users/count", config: config, query: [
             SdkQueryParameter("email_address", values: options.emailAddress, style: "form", explode: true),
             SdkQueryParameter("phone_number", values: options.phoneNumber, style: "form", explode: true),
             SdkQueryParameter("external_id", values: options.externalId, style: "form", explode: true),
@@ -129,6 +133,7 @@ extension UsersMethods {
             SdkQueryParameter("last_sign_in_at_after", value: options.lastSignInAtAfter),
             SdkQueryParameter("provider", value: options.provider),
             SdkQueryParameter("provider_user_id", values: options.providerUserId, style: "form", explode: true),
-        ], decoder: .json, operationId: "GetUsersCount", options: requestOptions, errors: ["422": ClerkErrors.self])).data
+        ], decoder: .json, operationId: "GetUsersCount", options: requestOptions, errors: ["422": ClerkErrors.self]))
+            .data
     }
 }

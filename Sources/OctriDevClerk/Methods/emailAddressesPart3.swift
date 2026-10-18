@@ -6,18 +6,39 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension EmailAddressesMethods {
-    /// Deletes an email address by its identifier. Use `email_address_id` to select the address to remove. The response confirms the deletion and identifies the deleted object.
+public extension EmailAddressesMethods {
+    /// Deletes an email address by its identifier. Use `email_address_id` to select the address to remove. The response
+    /// confirms the deletion and identifies the deleted object.
     ///
     /// Delete the email address with the given ID
     ///
     /// - Parameters:
     /// - emailAddressId: The ID of the email address to delete
-    public static func deleteEmailAddress(config: ClientConfig, emailAddressId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try (await sdkRequest("DELETE", ["/email_addresses/", sdkEncodePathSegment(sdkWireString(emailAddressId))].joined(), config: config, decoder: .json, operationId: "DeleteEmailAddress", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self])).data
+    static func deleteEmailAddress(
+        config: ClientConfig,
+        emailAddressId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeletedObject {
+        try await (sdkRequest(
+            "DELETE",
+            ["/email_addresses/", sdkEncodePathSegment(sdkWireString(emailAddressId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "DeleteEmailAddress",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "409": ClerkErrors.self,
+            ]
+        )).data
     }
 
-    /// Updates an existing email address's verification or primary status, or its notification behavior. Supply any of `verified`, `primary`, or `notify_primary_email_address_changed` to change that setting. The notification option applies when the update makes this address the user's new primary address.
+    /// Updates an existing email address's verification or primary status, or its notification behavior. Supply any of
+    /// `verified`, `primary`, or `notify_primary_email_address_changed` to change that setting. The notification option
+    /// applies when the update makes this address the user's new primary address.
     ///
     /// Updates an email address.
     ///
@@ -28,9 +49,35 @@ extension EmailAddressesMethods {
     /// - notifyPrimaryEmailAddressChanged: If set to `true` and this update makes
     ///   the email address the user's new primary, the previous primary email address
     ///   is notified of the change. By default, no notification is sent.
-    public static func updateEmailAddress(config: ClientConfig, emailAddressId: String, verified: SdkOptional<Bool>? = nil, primary: SdkOptional<Bool>? = nil, notifyPrimaryEmailAddressChanged: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> EmailAddress {
-        let requestBody = UpdateEmailAddressRequestBody(verified: verified, primary: primary, notifyPrimaryEmailAddressChanged: notifyPrimaryEmailAddressChanged)
+    static func updateEmailAddress(
+        config: ClientConfig,
+        emailAddressId: String,
+        verified: SdkOptional<Bool>? = nil,
+        primary: SdkOptional<Bool>? = nil,
+        notifyPrimaryEmailAddressChanged: SdkOptional<Bool>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> EmailAddress {
+        let requestBody = UpdateEmailAddressRequestBody(
+            verified: verified,
+            primary: primary,
+            notifyPrimaryEmailAddressChanged: notifyPrimaryEmailAddressChanged
+        )
 
-        return try (await sdkRequest("PATCH", ["/email_addresses/", sdkEncodePathSegment(sdkWireString(emailAddressId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateEmailAddress", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            ["/email_addresses/", sdkEncodePathSegment(sdkWireString(emailAddressId))].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdateEmailAddress",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "409": ClerkErrors.self,
+            ]
+        )).data
     }
 }

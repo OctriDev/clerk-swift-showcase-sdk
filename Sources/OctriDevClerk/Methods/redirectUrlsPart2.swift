@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension RedirectUrlsMethods {
+public extension RedirectUrlsMethods {
     /// Lists all whitelisted redirect_urls for the instance
     ///
     /// - Parameters:
@@ -16,32 +16,52 @@ extension RedirectUrlsMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    public static func listRedirectUrls(config: ClientConfig, paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> [RedirectURL] {
-        if let limit = limit {
+    static func listRedirectUrls(
+        config: ClientConfig,
+        paginated: Bool? = nil,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [RedirectURL] {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset = offset {
+        if let offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try (await sdkRequest("GET", "/redirect_urls", config: config, query: [
+        return try await (sdkRequest("GET", "/redirect_urls", config: config, query: [
             SdkQueryParameter("paginated", value: paginated),
             SdkQueryParameter("limit", value: limit),
             SdkQueryParameter("offset", value: offset),
         ], decoder: .json, operationId: "ListRedirectURLs", options: requestOptions)).data
     }
 
-    /// Creates a redirect URL. When you provide a request body, include `url` as a full URL prefixed with `https://` or a URL using a custom scheme. The response includes the created redirect URL and its timestamps.
+    /// Creates a redirect URL. When you provide a request body, include `url` as a full URL prefixed with `https://` or
+    /// a URL using a custom scheme. The response includes the created redirect URL and its timestamps.
     ///
     /// Create a redirect URL
     ///
     /// - Parameters:
     /// - url: The full URL value prefixed with `https://` or a custom scheme e.g.
     ///   `"https://my-app.com/oauth-callback"` or `"my-app://oauth-callback"`
-    public static func createRedirectUrl(config: ClientConfig, url: String, requestOptions: RequestOptions? = nil) async throws -> RedirectURL {
+    static func createRedirectUrl(
+        config: ClientConfig,
+        url: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> RedirectURL {
         let requestBody = CreateRedirectUrlRequestBody(url: url)
 
-        return try (await sdkRequest("POST", "/redirect_urls", config: config, body: requestBody, decoder: .json, operationId: "CreateRedirectURL", options: requestOptions, errors: ["400": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/redirect_urls",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "CreateRedirectURL",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

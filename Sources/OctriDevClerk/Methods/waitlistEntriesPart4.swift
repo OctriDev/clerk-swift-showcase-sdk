@@ -6,14 +6,27 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension WaitlistEntriesMethods {
-    /// Rejects a waitlist entry and returns the resulting entry. Use the `waitlist_entry_id` path parameter to identify the entry to reject. Entries locked while a batch action is processing are unavailable for other actions.
+public extension WaitlistEntriesMethods {
+    /// Rejects a waitlist entry and returns the resulting entry. Use the `waitlist_entry_id` path parameter to identify
+    /// the entry to reject. Entries locked while a batch action is processing are unavailable for other actions.
     ///
     /// Reject a waitlist entry.
     ///
     /// - Parameters:
     /// - waitlistEntryId: The ID of the waitlist entry to reject
-    public static func rejectWaitlistEntry(config: ClientConfig, waitlistEntryId: String, requestOptions: RequestOptions? = nil) async throws -> WaitlistEntry {
-        return try (await sdkRequest("POST", ["/waitlist_entries/", sdkEncodePathSegment(sdkWireString(waitlistEntryId)), "/reject"].joined(), config: config, decoder: .json, operationId: "RejectWaitlistEntry", options: requestOptions, errors: ["400": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self])).data
+    static func rejectWaitlistEntry(
+        config: ClientConfig,
+        waitlistEntryId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> WaitlistEntry {
+        try await (sdkRequest(
+            "POST",
+            ["/waitlist_entries/", sdkEncodePathSegment(sdkWireString(waitlistEntryId)), "/reject"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "RejectWaitlistEntry",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }
