@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension EmailAddressesMethods {
-    /// Creates a new email address for a user. Supply `user_id` and an RFC 5322-formatted `email_address`; optionally
-    /// set `verified` or `primary` when creating it. If omitted, `primary` defaults to false unless this is the user's
-    /// first email address.
+extension EmailAddressesMethods {
+    /// Creates a new email address for a user. Supply `user_id` and an RFC 5322-formatted `email_address`; optionally set `verified` or `primary` when creating it. If omitted, `primary` defaults to false unless this is the user's first email address.
     ///
     /// Create a new email address
     ///
@@ -23,62 +21,19 @@ public extension EmailAddressesMethods {
     /// - notifyPrimaryEmailAddressChanged: If set to `true` and the email address
     ///   is created as the user's new primary, the previous primary email address is
     ///   notified of the change. By default, no notification is sent.
-    static func createEmailAddress(
-        config: ClientConfig,
-        userId: String,
-        emailAddress: String,
-        verified: SdkOptional<Bool>? = nil,
-        primary: SdkOptional<Bool>? = nil,
-        notifyPrimaryEmailAddressChanged: SdkOptional<Bool>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> EmailAddress {
-        let requestBody = CreateEmailAddressRequestBody(
-            userId: userId,
-            emailAddress: emailAddress,
-            verified: verified,
-            primary: primary,
-            notifyPrimaryEmailAddressChanged: notifyPrimaryEmailAddressChanged
-        )
+    public static func createEmailAddress(config: ClientConfig, userId: String, emailAddress: String, verified: SdkOptional<Bool>? = nil, primary: SdkOptional<Bool>? = nil, notifyPrimaryEmailAddressChanged: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> EmailAddress {
+        let requestBody = CreateEmailAddressRequestBody(userId: userId, emailAddress: emailAddress, verified: verified, primary: primary, notifyPrimaryEmailAddressChanged: notifyPrimaryEmailAddressChanged)
 
-        return try await (sdkRequest(
-            "POST",
-            "/email_addresses",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateEmailAddress",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "409": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/email_addresses", config: config, body: requestBody, decoder: .json, operationId: "CreateEmailAddress", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 
-    /// Retrieves an email address and its verification and association details. Use `email_address_id` to identify the
-    /// address to inspect.
+    /// Retrieves an email address and its verification and association details. Use `email_address_id` to identify the address to inspect.
     ///
     /// Returns the details of an email address.
     ///
     /// - Parameters:
     /// - emailAddressId: The ID of the email address to retrieve
-    static func getEmailAddress(
-        config: ClientConfig,
-        emailAddressId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> EmailAddress {
-        try await (sdkRequest(
-            "GET",
-            ["/email_addresses/", sdkEncodePathSegment(sdkWireString(emailAddressId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "GetEmailAddress",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func getEmailAddress(config: ClientConfig, emailAddressId: String, requestOptions: RequestOptions? = nil) async throws -> EmailAddress {
+        return try (await sdkRequest("GET", ["/email_addresses/", sdkEncodePathSegment(sdkWireString(emailAddressId))].joined(), config: config, decoder: .json, operationId: "GetEmailAddress", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

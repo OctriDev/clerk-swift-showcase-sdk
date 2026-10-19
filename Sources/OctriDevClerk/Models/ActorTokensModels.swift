@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// ActorTokens domain models
+// ActorTokens domain models
 /// Typed representation of the `ActorToken` API schema.
 public struct ActorToken: Codable {
     /// Required enumerated value serialized in the `object` wire field.
@@ -37,87 +37,47 @@ public struct ActorToken: Codable {
         case url
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ActorToken {
-    init(from decoder: Decoder) throws {
+extension ActorToken {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
+            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.status) else {
-            throw SdkValidationError(
-                field: "status",
-                code: "required",
-                message: "Validation failed for 'status': value is required"
-            )
+            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
         }
         guard container.contains(.userId) else {
-            throw SdkValidationError(
-                field: "user_id",
-                code: "required",
-                message: "Validation failed for 'user_id': value is required"
-            )
+            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
         }
         guard container.contains(.actor) else {
-            throw SdkValidationError(
-                field: "actor",
-                code: "required",
-                message: "Validation failed for 'actor': value is required"
-            )
+            throw SdkValidationError(field: "actor", code: "required", message: "Validation failed for 'actor': value is required")
         }
         guard container.contains(.createdAt) else {
-            throw SdkValidationError(
-                field: "created_at",
-                code: "required",
-                message: "Validation failed for 'created_at': value is required"
-            )
+            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
         }
         guard container.contains(.updatedAt) else {
-            throw SdkValidationError(
-                field: "updated_at",
-                code: "required",
-                message: "Validation failed for 'updated_at': value is required"
-            )
+            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
         }
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        status = try container.sdkDecodeRequired(.status)
-        userId = try container.sdkDecodeRequired(.userId)
-        actor = try container.sdkDecodeRequired(.actor)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        token = try container.sdkDecodeIfPresent(.token)
-        url = try container.sdkDecodeIfPresent(.url)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.status = try container.sdkDecodeRequired(.status)
+        self.userId = try container.sdkDecodeRequired(.userId)
+        self.actor = try container.sdkDecodeRequired(.actor)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.token = try container.sdkDecodeIfPresent(.token)
+        self.url = try container.sdkDecodeIfPresent(.url)
     }
 }
 
-public extension ActorToken {
-    init(
-        object: ActorTokenObject,
-        id: String,
-        status: ActorTokenStatus,
-        userId: String,
-        actor: [String: JSONValue],
-        createdAt: Int,
-        updatedAt: Int,
-        token: String? = nil,
-        url: String? = nil
-    ) {
+extension ActorToken {
+    public init(object: ActorTokenObject, id: String, status: ActorTokenStatus, userId: String, actor: [String: JSONValue], createdAt: Int, updatedAt: Int, token: String? = nil, url: String? = nil) {
         (self.object, self.id) = (object, id)
         (self.status, self.userId) = (status, userId)
         (self.actor, self.createdAt) = (actor, createdAt)
@@ -130,15 +90,12 @@ public extension ActorToken {
 public struct ActorTokenObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let actorToken = ActorTokenObject(rawValue: "actor_token")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -151,17 +108,14 @@ public struct ActorTokenObject: RawRepresentable, Hashable, Codable, Sendable, S
 public struct ActorTokenStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let pending = ActorTokenStatus(rawValue: "pending")
     public static let accepted = ActorTokenStatus(rawValue: "accepted")
     public static let revoked = ActorTokenStatus(rawValue: "revoked")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

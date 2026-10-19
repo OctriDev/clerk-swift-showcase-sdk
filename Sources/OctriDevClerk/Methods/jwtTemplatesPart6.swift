@@ -6,25 +6,12 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension JwtTemplatesMethods {
-    /// Deletes a JWT template by its identifier. Use `template_id` to select the template to remove. The response
-    /// indicates whether the template was deleted.
+extension JwtTemplatesMethods {
+    /// Deletes a JWT template by its identifier. Use `template_id` to select the template to remove. The response indicates whether the template was deleted.
     ///
     /// - Parameters:
     /// - templateId: JWT Template ID
-    static func deleteJwtTemplate(
-        config: ClientConfig,
-        templateId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DeletedObject {
-        try await (sdkRequest(
-            "DELETE",
-            ["/jwt_templates/", sdkEncodePathSegment(sdkWireString(templateId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DeleteJWTTemplate",
-            options: requestOptions,
-            errors: ["403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func deleteJwtTemplate(config: ClientConfig, templateId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
+        return try (await sdkRequest("DELETE", ["/jwt_templates/", sdkEncodePathSegment(sdkWireString(templateId))].joined(), config: config, decoder: .json, operationId: "DeleteJWTTemplate", options: requestOptions, errors: ["403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BillingMethods {
-    /// Returns a list of all prices for the instance. The prices are returned sorted by amount ascending, then by
-    /// creation date descending. This includes both default and custom prices. Pagination is supported.
+extension BillingMethods {
+    /// Returns a list of all prices for the instance. The prices are returned sorted by amount ascending, then by creation date descending. This includes both default and custom prices. Pagination is supported.
     ///
     /// - Parameters:
     /// - paginated: Whether to paginate the results. If true, the results will be
@@ -18,42 +17,20 @@ public extension BillingMethods {
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
     /// - planId: Filter prices by plan ID
-    static func getBillingPriceList(
-        config: ClientConfig,
-        paginated: Bool? = nil,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        planId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> PaginatedBillingPriceResponse {
-        if let limit {
+    public static func getBillingPriceList(config: ClientConfig, paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, planId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> PaginatedBillingPriceResponse {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/billing/prices",
-            config: config,
-            query: [
-                SdkQueryParameter("paginated", value: paginated),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-                SdkQueryParameter("plan_id", value: planId),
-            ],
-            decoder: .json,
-            operationId: "GetBillingPriceList",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-                "500": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("GET", "/billing/prices", config: config, query: [
+            SdkQueryParameter("paginated", value: paginated),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+            SdkQueryParameter("plan_id", value: planId),
+        ], decoder: .json, operationId: "GetBillingPriceList", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 }

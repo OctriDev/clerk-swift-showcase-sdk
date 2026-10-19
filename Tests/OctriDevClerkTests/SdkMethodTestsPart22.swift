@@ -11,10 +11,7 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try EmailSmsTemplatesMethods.UpsertTemplateOptions(
-            templateType: decoded("\"email\""),
-            slug: decoded("\"slug\"")
-        )
+        var options = try EmailSmsTemplatesMethods.UpsertTemplateOptions(templateType: decoded("\"email\""), slug: decoded("\"slug\""))
         options.name = try decoded("\"Example Name\"")
         options.subject = try decoded("\"subject\"")
         options.markup = try decoded("\"markup\"")
@@ -28,8 +25,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.emailSmsTemplates.upsertTemplate(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -66,8 +63,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testUsersGetOrganizationInvitationsUsersGetOrganizationInvitations400ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testUsersGetOrganizationInvitationsUsersGetOrganizationInvitations400ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -78,11 +74,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.getOrganizationInvitations(
-                userId: decoded("\"user-1\""),
-                limit: decoded("10"),
-                offset: decoded("0"),
-                status: decoded("\"pending\"")
-            )
+            userId: decoded("\"user-1\""),
+            limit: decoded("10"),
+            offset: decoded("0"),
+            status: decoded("\"pending\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -118,8 +114,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testUsersGetOrganizationMembershipsUsersGetOrganizationMemberships403ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testUsersGetOrganizationMembershipsUsersGetOrganizationMemberships403ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/403") else {
             return
         }
@@ -130,10 +125,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.getOrganizationMemberships(
-                userId: decoded("\"user-1\""),
-                limit: decoded("10"),
-                offset: decoded("0")
-            )
+            userId: decoded("\"user-1\""),
+            limit: decoded("10"),
+            offset: decoded("0")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -196,8 +191,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.clients.verify(
-                token: decoded("\"token\"")
-            )
+            token: decoded("\"token\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -243,9 +238,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.proxyChecks.verifyDomainProxy(
-                domainId: decoded("\"domain-1\""),
-                proxyUrl: decoded("\"https://example.com\"")
-            )
+            domainId: decoded("\"domain-1\""),
+            proxyUrl: decoded("\"https://example.com\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -298,8 +293,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testVerifyOrganizationDomainOwnershipVerifyOrganizationDomainOwnershipReachesMockAndDecodesResponse(
-    ) async throws {
+    func testVerifyOrganizationDomainOwnershipVerifyOrganizationDomainOwnershipReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -318,8 +312,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testVerifyOrganizationDomainOwnershipVerifyOrganizationDomainOwnership401ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testVerifyOrganizationDomainOwnershipVerifyOrganizationDomainOwnership401ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/401") else {
             return
         }
@@ -330,9 +323,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizationDomains.verifyOwnership(
-                organizationId: decoded("\"organization-1\""),
-                domainId: decoded("\"domain-1\"")
-            )
+            organizationId: decoded("\"organization-1\""),
+            domainId: decoded("\"domain-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 401)

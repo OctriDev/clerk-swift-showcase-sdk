@@ -17,9 +17,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.emailSmsTemplates.revertTemplate(
-                templateType: decoded("\"email\""),
-                slug: decoded("\"slug\"")
-            )
+            templateType: decoded("\"email\""),
+            slug: decoded("\"slug\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -64,8 +64,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.actorTokens.revoke(
-                actorTokenId: decoded("\"actor_token-1\"")
-            )
+            actorTokenId: decoded("\"actor_token-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -129,8 +129,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.agentTasks.revoke(
-                agentTaskId: decoded("\"agent_task-1\"")
-            )
+            agentTaskId: decoded("\"agent_task-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -194,8 +194,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.invitations.revoke(
-                invitationId: decoded("\"invitation-1\"")
-            )
+            invitationId: decoded("\"invitation-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -253,9 +253,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.oAuthApplications.revokeToken(
-                oauthApplicationId: decoded("\"oauth_application-1\""),
-                token: decoded("\"token\"")
-            )
+            oauthApplicationId: decoded("\"oauth_application-1\""),
+            token: decoded("\"token\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -302,10 +302,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizationInvitations.revoke(
-                organizationId: decoded("\"organization-1\""),
-                invitationId: decoded("\"invitation-1\""),
-                requestingUserId: decoded("\"requesting_user-1\"")
-            )
+            organizationId: decoded("\"organization-1\""),
+            invitationId: decoded("\"invitation-1\""),
+            requestingUserId: decoded("\"requesting_user-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -350,8 +350,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.sessions.revoke(
-                sessionId: decoded("\"session-1\"")
-            )
+            sessionId: decoded("\"session-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -396,8 +396,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.signInTokens.revoke(
-                signInTokenId: decoded("\"sign_in_token-1\"")
-            )
+            signInTokenId: decoded("\"sign_in_token-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -443,9 +443,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.revokeBiometricCredential(
-                userId: decoded("\"user-1\""),
-                biometricCredentialId: decoded("\"biometric_credential-1\"")
-            )
+            userId: decoded("\"user-1\""),
+            biometricCredentialId: decoded("\"biometric_credential-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -491,9 +491,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.revokeTrustedDevice(
-                userId: decoded("\"user-1\""),
-                trustedDeviceId: decoded("\"trusted_device-1\"")
-            )
+            userId: decoded("\"user-1\""),
+            trustedDeviceId: decoded("\"trusted_device-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -538,8 +538,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.directories.rotateApiKey(
-                directoryId: decoded("\"directory-1\"")
-            )
+            directoryId: decoded("\"directory-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 401)

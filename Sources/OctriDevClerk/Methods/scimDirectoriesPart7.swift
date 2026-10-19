@@ -6,32 +6,13 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension ScimDirectoriesMethods {
-    /// Deletes a single SCIM group role mapping. Mappings can be deleted while group role mapping is disabled on the
-    /// directory, but the change only takes effect once it is enabled.
+extension ScimDirectoriesMethods {
+    /// Deletes a single SCIM group role mapping. Mappings can be deleted while group role mapping is disabled on the directory, but the change only takes effect once it is enabled.
     ///
     /// - Parameters:
     /// - scimDirectoryId: The ID of the directory.
     /// - mappingId: The ID of the SCIM group role mapping to delete.
-    static func deleteScimGroupRoleMapping(
-        config: ClientConfig,
-        scimDirectoryId: String,
-        mappingId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SCIMGroupRoleMappingDeleted {
-        try await (sdkRequest(
-            "DELETE",
-            [
-                "/scim_directories/",
-                sdkEncodePathSegment(sdkWireString(scimDirectoryId)),
-                "/group_role_mappings/",
-                sdkEncodePathSegment(sdkWireString(mappingId)),
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DeleteSCIMGroupRoleMapping",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func deleteScimGroupRoleMapping(config: ClientConfig, scimDirectoryId: String, mappingId: String, requestOptions: RequestOptions? = nil) async throws -> SCIMGroupRoleMappingDeleted {
+        return try (await sdkRequest("DELETE", ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId)), "/group_role_mappings/", sdkEncodePathSegment(sdkWireString(mappingId))].joined(), config: config, decoder: .json, operationId: "DeleteSCIMGroupRoleMapping", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

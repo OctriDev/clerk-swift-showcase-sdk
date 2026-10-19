@@ -6,46 +6,18 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BillingMethods {
-    /// Removes the active discount from a subscription item. The discount_id must match the subscription item's
-    /// currently active discount.
+extension BillingMethods {
+    /// Removes the active discount from a subscription item. The discount_id must match the subscription item's currently active discount.
     ///
     /// - Parameters:
     /// - subscriptionItemId: The ID of the subscription item to remove the discount
     ///   from
     /// - discountId: The ID of the discount to remove
-    static func removeBillingSubscriptionItemDiscount(
-        config: ClientConfig,
-        subscriptionItemId: String,
-        discountId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> CommerceDiscountRedemptionResponse {
-        try await (sdkRequest(
-            "DELETE",
-            [
-                "/billing/subscription_items/",
-                sdkEncodePathSegment(sdkWireString(subscriptionItemId)),
-                "/discounts/",
-                sdkEncodePathSegment(sdkWireString(discountId)),
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "RemoveBillingSubscriptionItemDiscount",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "409": ClerkErrors.self,
-                "422": ClerkErrors.self,
-                "500": ClerkErrors.self,
-            ]
-        )).data
+    public static func removeBillingSubscriptionItemDiscount(config: ClientConfig, subscriptionItemId: String, discountId: String, requestOptions: RequestOptions? = nil) async throws -> CommerceDiscountRedemptionResponse {
+        return try (await sdkRequest("DELETE", ["/billing/subscription_items/", sdkEncodePathSegment(sdkWireString(subscriptionItemId)), "/discounts/", sdkEncodePathSegment(sdkWireString(discountId))].joined(), config: config, decoder: .json, operationId: "RemoveBillingSubscriptionItemDiscount", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 
-    /// Returns a list of all billing statements for the instance. The statements are returned sorted by creation date,
-    /// with the newest statements appearing first. Pagination is supported.
+    /// Returns a list of all billing statements for the instance. The statements are returned sorted by creation date, with the newest statements appearing first. Pagination is supported.
     ///
     /// - Parameters:
     /// - paginated: Whether to paginate the results. If true, the results will be
@@ -54,34 +26,19 @@ public extension BillingMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    static func getBillingStatementList(
-        config: ClientConfig,
-        paginated: Bool? = nil,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> PaginatedBillingStatementResponse {
-        if let limit {
+    public static func getBillingStatementList(config: ClientConfig, paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> PaginatedBillingStatementResponse {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/billing/statements",
-            config: config,
-            query: [
-                SdkQueryParameter("paginated", value: paginated),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-            ],
-            decoder: .json,
-            operationId: "GetBillingStatementList",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", "/billing/statements", config: config, query: [
+            SdkQueryParameter("paginated", value: paginated),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "GetBillingStatementList", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 }

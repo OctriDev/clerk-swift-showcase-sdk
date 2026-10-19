@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension EmailSmsTemplatesMethods {
+extension EmailSmsTemplatesMethods {
     /// Returns a list of all templates. The templates are returned sorted by position.
     ///
     /// - Parameters:
@@ -19,35 +19,19 @@ public extension EmailSmsTemplatesMethods {
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    static func getTemplateList(
-        config: ClientConfig,
-        templateType: GetTemplateListParameter,
-        paginated: Bool? = nil,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> [Template] {
-        if let limit {
+    public static func getTemplateList(config: ClientConfig, templateType: GetTemplateListParameter, paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> [Template] {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            ["/templates/", sdkEncodePathSegment(sdkWireString(templateType))].joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("paginated", value: paginated),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-            ],
-            decoder: .json,
-            operationId: "GetTemplateList",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", ["/templates/", sdkEncodePathSegment(sdkWireString(templateType))].joined(), config: config, query: [
+            SdkQueryParameter("paginated", value: paginated),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "GetTemplateList", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

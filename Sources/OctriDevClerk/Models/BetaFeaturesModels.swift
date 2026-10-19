@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// BetaFeatures domain models
+// BetaFeatures domain models
 /// Typed representation of the `InstanceSettings` API schema.
 public struct InstanceSettings: Codable {
     /// String representing the object's type. Objects of the same type share the same value.
@@ -31,32 +31,25 @@ public struct InstanceSettings: Codable {
     }
 
     init() {
-        (object, id, restrictedToAllowlist, fromEmailAddress, progressiveSignUp) = (nil, nil, nil, nil, nil)
-        enhancedEmailDeliverability = nil
+        (self.object, self.id, self.restrictedToAllowlist, self.fromEmailAddress, self.progressiveSignUp) = (nil, nil, nil, nil, nil)
+        self.enhancedEmailDeliverability = nil
     }
 }
 
-public extension InstanceSettings {
-    init(from decoder: Decoder) throws {
+extension InstanceSettings {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeIfPresent(.object)
-        id = try container.sdkDecodeIfPresent(.id)
-        restrictedToAllowlist = try container.sdkDecodeIfPresent(.restrictedToAllowlist)
-        fromEmailAddress = try container.sdkDecodeIfPresent(.fromEmailAddress)
-        progressiveSignUp = try container.sdkDecodeIfPresent(.progressiveSignUp)
-        enhancedEmailDeliverability = try container.sdkDecodeIfPresent(.enhancedEmailDeliverability)
+        self.object = try container.sdkDecodeIfPresent(.object)
+        self.id = try container.sdkDecodeIfPresent(.id)
+        self.restrictedToAllowlist = try container.sdkDecodeIfPresent(.restrictedToAllowlist)
+        self.fromEmailAddress = try container.sdkDecodeIfPresent(.fromEmailAddress)
+        self.progressiveSignUp = try container.sdkDecodeIfPresent(.progressiveSignUp)
+        self.enhancedEmailDeliverability = try container.sdkDecodeIfPresent(.enhancedEmailDeliverability)
     }
 }
 
-public extension InstanceSettings {
-    init(
-        object: InstanceSettingsObject? = nil,
-        id: String? = nil,
-        restrictedToAllowlist: Bool? = nil,
-        fromEmailAddress: String? = nil,
-        progressiveSignUp: Bool? = nil,
-        enhancedEmailDeliverability: Bool? = nil
-    ) {
+extension InstanceSettings {
+    public init(object: InstanceSettingsObject? = nil, id: String? = nil, restrictedToAllowlist: Bool? = nil, fromEmailAddress: String? = nil, progressiveSignUp: Bool? = nil, enhancedEmailDeliverability: Bool? = nil) {
         self.init()
         (self.object, self.id) = (object, id)
         (self.restrictedToAllowlist, self.fromEmailAddress) = (restrictedToAllowlist, fromEmailAddress)
@@ -69,15 +62,12 @@ public extension InstanceSettings {
 public struct InstanceSettingsObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let instanceSettings = InstanceSettingsObject(rawValue: "instance_settings")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

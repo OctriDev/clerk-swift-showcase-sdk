@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension WaitlistEntriesMethods {
-    /// Retrieve a list of waitlist entries for the instance. Entries are ordered by creation date in descending order
-    /// by default. Supports filtering by email address or status and pagination with limit and offset parameters.
+extension WaitlistEntriesMethods {
+    /// Retrieve a list of waitlist entries for the instance. Entries are ordered by creation date in descending order by default. Supports filtering by email address or status and pagination with limit and offset parameters.
     ///
     /// - Parameters:
     /// - limit: Applies a limit to the number of results returned. Can be used for
@@ -20,24 +19,16 @@ public extension WaitlistEntriesMethods {
     /// - orderBy: Specify the order of results. Supported values are: -
     ///   `created_at` - `email_address` - `invited_at` Use `+` for ascending or `-`
     ///   for descending order. Defaults to `-created_at`.
-    static func listWaitlistEntries(
-        config: ClientConfig,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        query: String? = nil,
-        status: ListWaitlistEntriesParameter? = nil,
-        orderBy: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> WaitlistEntries {
-        if let limit {
+    public static func listWaitlistEntries(config: ClientConfig, limit: Int? = nil, offset: Int? = nil, query: String? = nil, status: ListWaitlistEntriesParameter? = nil, orderBy: String? = nil, requestOptions: RequestOptions? = nil) async throws -> WaitlistEntries {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest("GET", "/waitlist_entries", config: config, query: [
+        return try (await sdkRequest("GET", "/waitlist_entries", config: config, query: [
             SdkQueryParameter("limit", value: limit),
             SdkQueryParameter("offset", value: offset),
             SdkQueryParameter("query", value: query),
@@ -46,30 +37,15 @@ public extension WaitlistEntriesMethods {
         ], decoder: .json, operationId: "ListWaitlistEntries", options: requestOptions)).data
     }
 
-    /// Creates a new waitlist entry for the given email address. If the email address is already on the waitlist, no
-    /// new entry will be created and the existing waitlist entry will be returned.
+    /// Creates a new waitlist entry for the given email address. If the email address is already on the waitlist, no new entry will be created and the existing waitlist entry will be returned.
     ///
     /// - Parameters:
     /// - emailAddress: The email address to add to the waitlist
     /// - notify: Optional flag which denotes whether a confirmation email should be
     ///   sent to the given email address. Defaults to `true`.
-    static func createWaitlistEntry(
-        config: ClientConfig,
-        emailAddress: String,
-        notify: SdkOptional<Bool>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> WaitlistEntry {
+    public static func createWaitlistEntry(config: ClientConfig, emailAddress: String, notify: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> WaitlistEntry {
         let requestBody = CreateWaitlistEntryRequestBody(emailAddress: emailAddress, notify: notify)
 
-        return try await (sdkRequest(
-            "POST",
-            "/waitlist_entries",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateWaitlistEntry",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("POST", "/waitlist_entries", config: config, body: requestBody, decoder: .json, operationId: "CreateWaitlistEntry", options: requestOptions, errors: ["400": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

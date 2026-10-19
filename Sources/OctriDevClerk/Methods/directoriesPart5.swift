@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension DirectoriesMethods {
-    /// Creates a new directory group to organization role mapping for a directory. Mappings can be created while group
-    /// role mapping is disabled on the directory, but they only take effect once it is enabled.
+extension DirectoriesMethods {
+    /// Creates a new directory group to organization role mapping for a directory. Mappings can be created while group role mapping is disabled on the directory, but they only take effect once it is enabled.
     ///
     /// - Parameters:
     /// - directoryId: The ID of the directory.
@@ -20,76 +19,25 @@ public extension DirectoriesMethods {
     /// - precedence: The precedence for this mapping. Lower values take priority
     ///   when a user belongs to multiple mapped groups. If omitted, the mapping is
     ///   appended with the next-highest precedence.
-    static func createDirectoryGroupRoleMapping(
-        config: ClientConfig,
-        directoryId: String,
-        roleId: String,
-        directoryGroupId: String? = nil,
-        scimGroupId: String? = nil,
-        precedence: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DirectoryGroupRoleMapping {
-        if let precedence {
+    public static func createDirectoryGroupRoleMapping(config: ClientConfig, directoryId: String, roleId: String, directoryGroupId: String? = nil, scimGroupId: String? = nil, precedence: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> DirectoryGroupRoleMapping {
+        if let precedence = precedence {
             try validateRange("precedence", Double(precedence), min: 1)
         }
 
-        let requestBody = CreateDirectoryGroupRoleMappingRequestBody(
-            roleId: roleId,
-            directoryGroupId: directoryGroupId,
-            scimGroupId: scimGroupId,
-            precedence: precedence
-        )
+        let requestBody = CreateDirectoryGroupRoleMappingRequestBody(roleId: roleId, directoryGroupId: directoryGroupId, scimGroupId: scimGroupId, precedence: precedence)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId)), "/group_role_mappings"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateDirectoryGroupRoleMapping",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId)), "/group_role_mappings"].joined(), config: config, body: requestBody, decoder: .json, operationId: "CreateDirectoryGroupRoleMapping", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 
-    /// Replaces the entire set of directory group role mappings for a directory. The position of each item in the
-    /// `mappings` array determines its precedence (the first item gets precedence 1). Passing an empty array removes
-    /// all mappings. Mappings can be replaced while group role mapping is disabled on the directory, but they only take
-    /// effect once it is enabled.
+    /// Replaces the entire set of directory group role mappings for a directory. The position of each item in the `mappings` array determines its precedence (the first item gets precedence 1). Passing an empty array removes all mappings. Mappings can be replaced while group role mapping is disabled on the directory, but they only take effect once it is enabled.
     ///
     /// - Parameters:
     /// - directoryId: The ID of the directory.
     /// - mappings: The desired set of mappings. Array order sets precedence
     ///   (1-indexed). An empty array clears all mappings.
-    static func replaceDirectoryGroupRoleMappings(
-        config: ClientConfig,
-        directoryId: String,
-        mappings: [ReplaceDirectoryGroupRoleMappingsRequestBodyMappingsItem],
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DirectoryGroupRoleMappingList {
+    public static func replaceDirectoryGroupRoleMappings(config: ClientConfig, directoryId: String, mappings: [ReplaceDirectoryGroupRoleMappingsRequestBodyMappingsItem], requestOptions: RequestOptions? = nil) async throws -> DirectoryGroupRoleMappingList {
         let requestBody = ReplaceDirectoryGroupRoleMappingsRequestBody(mappings: mappings)
 
-        return try await (sdkRequest(
-            "PUT",
-            ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId)), "/group_role_mappings"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "ReplaceDirectoryGroupRoleMappings",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("PUT", ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId)), "/group_role_mappings"].joined(), config: config, body: requestBody, decoder: .json, operationId: "ReplaceDirectoryGroupRoleMappings", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

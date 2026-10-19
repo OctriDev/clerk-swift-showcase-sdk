@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-/// Canonical apiKeys operation model declarations
+// Canonical apiKeys operation model declarations
 public struct UpdateApiKeyResponse: Codable {
     public var object: UpdateApiKeyResponseObject
     /// - Example: "ak_3beecc9c60adb5f9b850e91a8ee1e992"
@@ -62,61 +62,42 @@ public struct UpdateApiKeyResponse: Codable {
         case description
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension UpdateApiKeyResponse {
-    init(from decoder: Decoder) throws {
+extension UpdateApiKeyResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        type = try container.sdkDecodeRequired(.type)
-        subject = try container.sdkDecodeRequired(.subject)
-        name = try container.sdkDecodeRequired(.name)
-        claims = try container.sdkDecodeNullable(.claims)
-        scopes = try container.sdkDecodeRequired(.scopes)
-        revoked = try container.sdkDecodeRequired(.revoked)
-        revocationReason = try container.sdkDecodeNullable(.revocationReason)
-        expired = try container.sdkDecodeRequired(.expired)
-        expiration = try container.sdkDecodeNullable(.expiration)
-        createdBy = try container.sdkDecodeNullable(.createdBy)
-        lastUsedAt = try container.sdkDecodeNullable(.lastUsedAt)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        description = try container.sdkDecodeIfPresent(.description)
-        try sdkValidatePattern("id", id, sdkPattern4a3245e800bf)
-        try validateLength("type", type, min: 3, max: nil)
-        try sdkValidatePattern("subject", subject, sdkPatterned52de804d52)
-        if let value = createdBy {
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.type = try container.sdkDecodeRequired(.type)
+        self.subject = try container.sdkDecodeRequired(.subject)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.claims = try container.sdkDecodeNullable(.claims)
+        self.scopes = try container.sdkDecodeRequired(.scopes)
+        self.revoked = try container.sdkDecodeRequired(.revoked)
+        self.revocationReason = try container.sdkDecodeNullable(.revocationReason)
+        self.expired = try container.sdkDecodeRequired(.expired)
+        self.expiration = try container.sdkDecodeNullable(.expiration)
+        self.createdBy = try container.sdkDecodeNullable(.createdBy)
+        self.lastUsedAt = try container.sdkDecodeNullable(.lastUsedAt)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.description = try container.sdkDecodeIfPresent(.description)
+            try sdkValidatePattern("id", self.id, sdkPattern4a3245e800bf)
+            try validateLength("type", self.type, min: 3, max: nil)
+            try sdkValidatePattern("subject", self.subject, sdkPatterned52de804d52)
+        if let value = self.createdBy {
             try sdkValidatePattern("created_by", value, sdkPatternd6056357d037)
         }
-        if let value = description {
+        if let value = self.description {
             try validateLength("description", value, min: nil, max: 255)
         }
     }
 }
 
-public extension UpdateApiKeyResponse {
-    init(
-        object: UpdateApiKeyResponseObject,
-        id: String,
-        type: String,
-        subject: String,
-        name: String,
-        claims: JSONValue?,
-        scopes: [String],
-        revoked: Bool,
-        revocationReason: String?,
-        expired: Bool,
-        expiration: Double?,
-        createdBy: String?,
-        lastUsedAt: Double?,
-        createdAt: Double,
-        updatedAt: Double,
-        description: String? = nil
-    ) throws {
+extension UpdateApiKeyResponse {
+    public init(object: UpdateApiKeyResponseObject, id: String, type: String, subject: String, name: String, claims: JSONValue?, scopes: [String], revoked: Bool, revocationReason: String?, expired: Bool, expiration: Double?, createdBy: String?, lastUsedAt: Double?, createdAt: Double, updatedAt: Double, description: String? = nil) throws {
         (self.object, self.id) = (object, id)
         (self.type, self.subject) = (type, subject)
         (self.name, self.claims) = (name, claims)
@@ -125,9 +106,9 @@ public extension UpdateApiKeyResponse {
         (self.expiration, self.createdBy) = (expiration, createdBy)
         (self.lastUsedAt, self.createdAt) = (lastUsedAt, createdAt)
         (self.updatedAt, self.description) = (updatedAt, description)
-        try sdkValidatePattern("id", self.id, sdkPattern4a3245e800bf)
-        try validateLength("type", self.type, min: 3, max: nil)
-        try sdkValidatePattern("subject", self.subject, sdkPatterned52de804d52)
+            try sdkValidatePattern("id", self.id, sdkPattern4a3245e800bf)
+            try validateLength("type", self.type, min: 3, max: nil)
+            try sdkValidatePattern("subject", self.subject, sdkPatterned52de804d52)
         if let value = self.createdBy {
             try sdkValidatePattern("created_by", value, sdkPatternd6056357d037)
         }
@@ -144,27 +125,21 @@ public struct GetApiKeyResponseXfc8ffff2: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension GetApiKeyResponseXfc8ffff2 {
-    init(from decoder: Decoder) throws {
+extension GetApiKeyResponseXfc8ffff2 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension GetApiKeyResponseXfc8ffff2 {
-    init(errors: [GetApiKeyResponseErrorsItem]) {
+extension GetApiKeyResponseXfc8ffff2 {
+    public init(errors: [GetApiKeyResponseErrorsItem]) {
         self.errors = errors
     }
 }
@@ -176,27 +151,21 @@ public struct CreateApiKeyResponseX342e4a06: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CreateApiKeyResponseX342e4a06 {
-    init(from decoder: Decoder) throws {
+extension CreateApiKeyResponseX342e4a06 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension CreateApiKeyResponseX342e4a06 {
-    init(errors: [CreateApiKeyResponseErrorsItem]) {
+extension CreateApiKeyResponseX342e4a06 {
+    public init(errors: [CreateApiKeyResponseErrorsItem]) {
         self.errors = errors
     }
 }
@@ -215,43 +184,29 @@ public struct CreateApiKeyResponseErrorsItem: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CreateApiKeyResponseErrorsItem {
-    init(from decoder: Decoder) throws {
+extension CreateApiKeyResponseErrorsItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension CreateApiKeyResponseErrorsItem {
-    init(message: String, longMessage: String, code: String) {
+extension CreateApiKeyResponseErrorsItem {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -271,43 +226,29 @@ public struct RevokeApiKeyResponseErrorsItem: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RevokeApiKeyResponseErrorsItem {
-    init(from decoder: Decoder) throws {
+extension RevokeApiKeyResponseErrorsItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension RevokeApiKeyResponseErrorsItem {
-    init(message: String, longMessage: String, code: String) {
+extension RevokeApiKeyResponseErrorsItem {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -327,43 +268,29 @@ public struct GetApiKeySecretResponseErrorsItemX63a501ca: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension GetApiKeySecretResponseErrorsItemX63a501ca {
-    init(from decoder: Decoder) throws {
+extension GetApiKeySecretResponseErrorsItemX63a501ca {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension GetApiKeySecretResponseErrorsItemX63a501ca {
-    init(message: String, longMessage: String, code: String) {
+extension GetApiKeySecretResponseErrorsItemX63a501ca {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -383,43 +310,29 @@ public struct RevokeApiKeyResponseErrorsItemX3a9f4df0: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RevokeApiKeyResponseErrorsItemX3a9f4df0 {
-    init(from decoder: Decoder) throws {
+extension RevokeApiKeyResponseErrorsItemX3a9f4df0 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension RevokeApiKeyResponseErrorsItemX3a9f4df0 {
-    init(message: String, longMessage: String, code: String) {
+extension RevokeApiKeyResponseErrorsItemX3a9f4df0 {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -432,27 +345,21 @@ public struct DeleteApiKeyResponseXb1032657: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension DeleteApiKeyResponseXb1032657 {
-    init(from decoder: Decoder) throws {
+extension DeleteApiKeyResponseXb1032657 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension DeleteApiKeyResponseXb1032657 {
-    init(errors: [DeleteApiKeyResponseErrorsItemX183ef179]) {
+extension DeleteApiKeyResponseXb1032657 {
+    public init(errors: [DeleteApiKeyResponseErrorsItemX183ef179]) {
         self.errors = errors
     }
 }
@@ -464,27 +371,21 @@ public struct UpdateApiKeyResponseX89192778: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension UpdateApiKeyResponseX89192778 {
-    init(from decoder: Decoder) throws {
+extension UpdateApiKeyResponseX89192778 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension UpdateApiKeyResponseX89192778 {
-    init(errors: [UpdateApiKeyResponseErrorsItemX083856ba]) {
+extension UpdateApiKeyResponseX89192778 {
+    public init(errors: [UpdateApiKeyResponseErrorsItemX083856ba]) {
         self.errors = errors
     }
 }
@@ -496,27 +397,21 @@ public struct DeleteApiKeyResponseX48817633: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension DeleteApiKeyResponseX48817633 {
-    init(from decoder: Decoder) throws {
+extension DeleteApiKeyResponseX48817633 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension DeleteApiKeyResponseX48817633 {
-    init(errors: [DeleteApiKeyResponseErrorsItem]) {
+extension DeleteApiKeyResponseX48817633 {
+    public init(errors: [DeleteApiKeyResponseErrorsItem]) {
         self.errors = errors
     }
 }
@@ -535,43 +430,29 @@ public struct VerifyApiKeyResponseErrorsItem: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension VerifyApiKeyResponseErrorsItem {
-    init(from decoder: Decoder) throws {
+extension VerifyApiKeyResponseErrorsItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension VerifyApiKeyResponseErrorsItem {
-    init(message: String, longMessage: String, code: String) {
+extension VerifyApiKeyResponseErrorsItem {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -591,43 +472,29 @@ public struct GetApiKeyResponseErrorsItemXe241f7a3: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension GetApiKeyResponseErrorsItemXe241f7a3 {
-    init(from decoder: Decoder) throws {
+extension GetApiKeyResponseErrorsItemXe241f7a3 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension GetApiKeyResponseErrorsItemXe241f7a3 {
-    init(message: String, longMessage: String, code: String) {
+extension GetApiKeyResponseErrorsItemXe241f7a3 {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }

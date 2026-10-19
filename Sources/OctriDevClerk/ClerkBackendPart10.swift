@@ -5,48 +5,48 @@ import Foundation
 
 public class ClerkBackend {
     var config: ClientConfig
-    public internal(set) lazy var miscellaneous: MiscellaneousNamespace = .init(config: config)
-    public internal(set) lazy var jwks: JwksNamespace = .init(config: config)
-    public internal(set) lazy var clients: ClientsNamespace = .init(config: config)
-    public internal(set) lazy var emailAddresses: EmailAddressesNamespace = .init(config: config)
-    public internal(set) lazy var phoneNumbers: PhoneNumbersNamespace = .init(config: config)
-    public internal(set) lazy var sessions: SessionsNamespace = .init(config: config)
-    public internal(set) lazy var emailSmsTemplates: EmailSmsTemplatesNamespace = .init(config: config)
-    public internal(set) lazy var users: UsersNamespace = .init(config: config)
-    public internal(set) lazy var invitations: InvitationsNamespace = .init(config: config)
-    public internal(set) lazy var organizationInvitations: OrganizationInvitationsNamespace = .init(config: config)
-    public internal(set) lazy var allowListBlockList: AllowListBlockListNamespace = .init(config: config)
-    public internal(set) lazy var betaFeatures: BetaFeaturesNamespace = .init(config: config)
-    public internal(set) lazy var actorTokens: ActorTokensNamespace = .init(config: config)
-    public internal(set) lazy var domains: DomainsNamespace = .init(config: config)
-    public internal(set) lazy var instanceSettings: InstanceSettingsNamespace = .init(config: config)
-    public internal(set) lazy var webhooks: WebhooksNamespace = .init(config: config)
-    public internal(set) lazy var jwtTemplates: JwtTemplatesNamespace = .init(config: config)
-    public internal(set) lazy var machines: MachinesNamespace = .init(config: config)
-    public internal(set) lazy var organizations: OrganizationsNamespace = .init(config: config)
-    public internal(set) lazy var organizationRoles: OrganizationRolesNamespace = .init(config: config)
-    public internal(set) lazy var organizationMemberships: OrganizationMembershipsNamespace = .init(config: config)
-    public internal(set) lazy var organizationDomains: OrganizationDomainsNamespace = .init(config: config)
-    public internal(set) lazy var proxyChecks: ProxyChecksNamespace = .init(config: config)
-    public internal(set) lazy var redirectUrls: RedirectUrlsNamespace = .init(config: config)
-    public internal(set) lazy var signInTokens: SignInTokensNamespace = .init(config: config)
-    public internal(set) lazy var signUps: SignUpsNamespace = .init(config: config)
-    public internal(set) lazy var oAuthApplications: OAuthApplicationsNamespace = .init(config: config)
-    public internal(set) lazy var samlConnections: SamlConnectionsNamespace = .init(config: config)
-    public internal(set) lazy var enterpriseConnections: EnterpriseConnectionsNamespace = .init(config: config)
-    public internal(set) lazy var ssoBypass: SsoBypassNamespace = .init(config: config)
-    public internal(set) lazy var testingTokens: TestingTokensNamespace = .init(config: config)
-    public internal(set) lazy var agentTasks: AgentTasksNamespace = .init(config: config)
-    public internal(set) lazy var waitlistEntries: WaitlistEntriesNamespace = .init(config: config)
-    public internal(set) lazy var billing: BillingNamespace = .init(config: config)
-    public internal(set) lazy var organizationPermissions: OrganizationPermissionsNamespace = .init(config: config)
-    public internal(set) lazy var roleSets: RoleSetsNamespace = .init(config: config)
-    public internal(set) lazy var scimDirectories: ScimDirectoriesNamespace = .init(config: config)
-    public internal(set) lazy var directories: DirectoriesNamespace = .init(config: config)
-    public internal(set) lazy var adminPortalLinkTokens: AdminPortalLinkTokensNamespace = .init(config: config)
-    public internal(set) lazy var apiKeys: ApiKeysNamespace = .init(config: config)
-    public internal(set) lazy var m2MTokens: M2MTokensNamespace = .init(config: config)
-    public internal(set) lazy var oAuthAccessTokens: OAuthAccessTokensNamespace = .init(config: config)
+    public internal(set) lazy var miscellaneous: MiscellaneousNamespace = MiscellaneousNamespace(config: config)
+    public internal(set) lazy var jwks: JwksNamespace = JwksNamespace(config: config)
+    public internal(set) lazy var clients: ClientsNamespace = ClientsNamespace(config: config)
+    public internal(set) lazy var emailAddresses: EmailAddressesNamespace = EmailAddressesNamespace(config: config)
+    public internal(set) lazy var phoneNumbers: PhoneNumbersNamespace = PhoneNumbersNamespace(config: config)
+    public internal(set) lazy var sessions: SessionsNamespace = SessionsNamespace(config: config)
+    public internal(set) lazy var emailSmsTemplates: EmailSmsTemplatesNamespace = EmailSmsTemplatesNamespace(config: config)
+    public internal(set) lazy var users: UsersNamespace = UsersNamespace(config: config)
+    public internal(set) lazy var invitations: InvitationsNamespace = InvitationsNamespace(config: config)
+    public internal(set) lazy var organizationInvitations: OrganizationInvitationsNamespace = OrganizationInvitationsNamespace(config: config)
+    public internal(set) lazy var allowListBlockList: AllowListBlockListNamespace = AllowListBlockListNamespace(config: config)
+    public internal(set) lazy var betaFeatures: BetaFeaturesNamespace = BetaFeaturesNamespace(config: config)
+    public internal(set) lazy var actorTokens: ActorTokensNamespace = ActorTokensNamespace(config: config)
+    public internal(set) lazy var domains: DomainsNamespace = DomainsNamespace(config: config)
+    public internal(set) lazy var instanceSettings: InstanceSettingsNamespace = InstanceSettingsNamespace(config: config)
+    public internal(set) lazy var webhooks: WebhooksNamespace = WebhooksNamespace(config: config)
+    public internal(set) lazy var jwtTemplates: JwtTemplatesNamespace = JwtTemplatesNamespace(config: config)
+    public internal(set) lazy var machines: MachinesNamespace = MachinesNamespace(config: config)
+    public internal(set) lazy var organizations: OrganizationsNamespace = OrganizationsNamespace(config: config)
+    public internal(set) lazy var organizationRoles: OrganizationRolesNamespace = OrganizationRolesNamespace(config: config)
+    public internal(set) lazy var organizationMemberships: OrganizationMembershipsNamespace = OrganizationMembershipsNamespace(config: config)
+    public internal(set) lazy var organizationDomains: OrganizationDomainsNamespace = OrganizationDomainsNamespace(config: config)
+    public internal(set) lazy var proxyChecks: ProxyChecksNamespace = ProxyChecksNamespace(config: config)
+    public internal(set) lazy var redirectUrls: RedirectUrlsNamespace = RedirectUrlsNamespace(config: config)
+    public internal(set) lazy var signInTokens: SignInTokensNamespace = SignInTokensNamespace(config: config)
+    public internal(set) lazy var signUps: SignUpsNamespace = SignUpsNamespace(config: config)
+    public internal(set) lazy var oAuthApplications: OAuthApplicationsNamespace = OAuthApplicationsNamespace(config: config)
+    public internal(set) lazy var samlConnections: SamlConnectionsNamespace = SamlConnectionsNamespace(config: config)
+    public internal(set) lazy var enterpriseConnections: EnterpriseConnectionsNamespace = EnterpriseConnectionsNamespace(config: config)
+    public internal(set) lazy var ssoBypass: SsoBypassNamespace = SsoBypassNamespace(config: config)
+    public internal(set) lazy var testingTokens: TestingTokensNamespace = TestingTokensNamespace(config: config)
+    public internal(set) lazy var agentTasks: AgentTasksNamespace = AgentTasksNamespace(config: config)
+    public internal(set) lazy var waitlistEntries: WaitlistEntriesNamespace = WaitlistEntriesNamespace(config: config)
+    public internal(set) lazy var billing: BillingNamespace = BillingNamespace(config: config)
+    public internal(set) lazy var organizationPermissions: OrganizationPermissionsNamespace = OrganizationPermissionsNamespace(config: config)
+    public internal(set) lazy var roleSets: RoleSetsNamespace = RoleSetsNamespace(config: config)
+    public internal(set) lazy var scimDirectories: ScimDirectoriesNamespace = ScimDirectoriesNamespace(config: config)
+    public internal(set) lazy var directories: DirectoriesNamespace = DirectoriesNamespace(config: config)
+    public internal(set) lazy var adminPortalLinkTokens: AdminPortalLinkTokensNamespace = AdminPortalLinkTokensNamespace(config: config)
+    public internal(set) lazy var apiKeys: ApiKeysNamespace = ApiKeysNamespace(config: config)
+    public internal(set) lazy var m2MTokens: M2MTokensNamespace = M2MTokensNamespace(config: config)
+    public internal(set) lazy var oAuthAccessTokens: OAuthAccessTokensNamespace = OAuthAccessTokensNamespace(config: config)
     public init(config: ClientConfig) {
         self.config = config
         sdkRebuildNamespaces()
@@ -61,24 +61,12 @@ public class ClerkBackend {
     public func setLoggingConfig(_ logging: LoggingConfig? = nil) -> LoggingConfig {
         var current = config.logging ?? LoggingConfig()
         if let overrides = logging {
-            if let endpoint = overrides.endpoint {
-                current.endpoint = endpoint
-            }
-            if let apiKey = overrides.apiKey {
-                current.apiKey = apiKey
-            }
-            if let environment = overrides.environment {
-                current.environment = environment
-            }
-            if let release = overrides.release {
-                current.release = release
-            }
-            if let user = overrides.user {
-                current.user = user
-            }
-            if let tags = overrides.tags {
-                current.tags = tags
-            }
+            if let endpoint = overrides.endpoint { current.endpoint = endpoint }
+            if let apiKey = overrides.apiKey { current.apiKey = apiKey }
+            if let environment = overrides.environment { current.environment = environment }
+            if let release = overrides.release { current.release = release }
+            if let user = overrides.user { current.user = user }
+            if let tags = overrides.tags { current.tags = tags }
             current.filterPii = overrides.filterPii
         }
         // Opting in IS the point of this call, so enabled flips to true unless the
@@ -97,52 +85,52 @@ public class ClerkBackend {
 
 extension ClerkBackend {
     func sdkRebuildNamespacesPart1() {
-        miscellaneous = MiscellaneousNamespace(config: config)
-        jwks = JwksNamespace(config: config)
-        clients = ClientsNamespace(config: config)
-        emailAddresses = EmailAddressesNamespace(config: config)
-        phoneNumbers = PhoneNumbersNamespace(config: config)
-        sessions = SessionsNamespace(config: config)
-        emailSmsTemplates = EmailSmsTemplatesNamespace(config: config)
-        users = UsersNamespace(config: config)
-        invitations = InvitationsNamespace(config: config)
-        organizationInvitations = OrganizationInvitationsNamespace(config: config)
-        allowListBlockList = AllowListBlockListNamespace(config: config)
-        betaFeatures = BetaFeaturesNamespace(config: config)
-        actorTokens = ActorTokensNamespace(config: config)
-        domains = DomainsNamespace(config: config)
-        instanceSettings = InstanceSettingsNamespace(config: config)
-        webhooks = WebhooksNamespace(config: config)
-        jwtTemplates = JwtTemplatesNamespace(config: config)
-        machines = MachinesNamespace(config: config)
-        organizations = OrganizationsNamespace(config: config)
-        organizationRoles = OrganizationRolesNamespace(config: config)
-        organizationMemberships = OrganizationMembershipsNamespace(config: config)
-        organizationDomains = OrganizationDomainsNamespace(config: config)
-        proxyChecks = ProxyChecksNamespace(config: config)
-        redirectUrls = RedirectUrlsNamespace(config: config)
-        signInTokens = SignInTokensNamespace(config: config)
-        signUps = SignUpsNamespace(config: config)
-        oAuthApplications = OAuthApplicationsNamespace(config: config)
-        samlConnections = SamlConnectionsNamespace(config: config)
-        enterpriseConnections = EnterpriseConnectionsNamespace(config: config)
-        ssoBypass = SsoBypassNamespace(config: config)
-        testingTokens = TestingTokensNamespace(config: config)
-        agentTasks = AgentTasksNamespace(config: config)
+        self.miscellaneous = MiscellaneousNamespace(config: self.config)
+        self.jwks = JwksNamespace(config: self.config)
+        self.clients = ClientsNamespace(config: self.config)
+        self.emailAddresses = EmailAddressesNamespace(config: self.config)
+        self.phoneNumbers = PhoneNumbersNamespace(config: self.config)
+        self.sessions = SessionsNamespace(config: self.config)
+        self.emailSmsTemplates = EmailSmsTemplatesNamespace(config: self.config)
+        self.users = UsersNamespace(config: self.config)
+        self.invitations = InvitationsNamespace(config: self.config)
+        self.organizationInvitations = OrganizationInvitationsNamespace(config: self.config)
+        self.allowListBlockList = AllowListBlockListNamespace(config: self.config)
+        self.betaFeatures = BetaFeaturesNamespace(config: self.config)
+        self.actorTokens = ActorTokensNamespace(config: self.config)
+        self.domains = DomainsNamespace(config: self.config)
+        self.instanceSettings = InstanceSettingsNamespace(config: self.config)
+        self.webhooks = WebhooksNamespace(config: self.config)
+        self.jwtTemplates = JwtTemplatesNamespace(config: self.config)
+        self.machines = MachinesNamespace(config: self.config)
+        self.organizations = OrganizationsNamespace(config: self.config)
+        self.organizationRoles = OrganizationRolesNamespace(config: self.config)
+        self.organizationMemberships = OrganizationMembershipsNamespace(config: self.config)
+        self.organizationDomains = OrganizationDomainsNamespace(config: self.config)
+        self.proxyChecks = ProxyChecksNamespace(config: self.config)
+        self.redirectUrls = RedirectUrlsNamespace(config: self.config)
+        self.signInTokens = SignInTokensNamespace(config: self.config)
+        self.signUps = SignUpsNamespace(config: self.config)
+        self.oAuthApplications = OAuthApplicationsNamespace(config: self.config)
+        self.samlConnections = SamlConnectionsNamespace(config: self.config)
+        self.enterpriseConnections = EnterpriseConnectionsNamespace(config: self.config)
+        self.ssoBypass = SsoBypassNamespace(config: self.config)
+        self.testingTokens = TestingTokensNamespace(config: self.config)
+        self.agentTasks = AgentTasksNamespace(config: self.config)
     }
 }
 
 extension ClerkBackend {
     func sdkRebuildNamespacesPart2() {
-        waitlistEntries = WaitlistEntriesNamespace(config: config)
-        billing = BillingNamespace(config: config)
-        organizationPermissions = OrganizationPermissionsNamespace(config: config)
-        roleSets = RoleSetsNamespace(config: config)
-        scimDirectories = ScimDirectoriesNamespace(config: config)
-        directories = DirectoriesNamespace(config: config)
-        adminPortalLinkTokens = AdminPortalLinkTokensNamespace(config: config)
-        apiKeys = ApiKeysNamespace(config: config)
-        m2MTokens = M2MTokensNamespace(config: config)
-        oAuthAccessTokens = OAuthAccessTokensNamespace(config: config)
+        self.waitlistEntries = WaitlistEntriesNamespace(config: self.config)
+        self.billing = BillingNamespace(config: self.config)
+        self.organizationPermissions = OrganizationPermissionsNamespace(config: self.config)
+        self.roleSets = RoleSetsNamespace(config: self.config)
+        self.scimDirectories = ScimDirectoriesNamespace(config: self.config)
+        self.directories = DirectoriesNamespace(config: self.config)
+        self.adminPortalLinkTokens = AdminPortalLinkTokensNamespace(config: self.config)
+        self.apiKeys = ApiKeysNamespace(config: self.config)
+        self.m2MTokens = M2MTokensNamespace(config: self.config)
+        self.oAuthAccessTokens = OAuthAccessTokensNamespace(config: self.config)
     }
 }

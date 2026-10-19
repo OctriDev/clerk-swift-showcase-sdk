@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationDomainsMethods {
-    /// Lists domains associated with an organization. Filter the results by verification status or enrollment mode, and
-    /// use `limit` and `offset` to control the result window. The response includes the matching domains and their
-    /// total count.
+extension OrganizationDomainsMethods {
+    /// Lists domains associated with an organization. Filter the results by verification status or enrollment mode, and use `limit` and `offset` to control the result window. The response includes the matching domains and their total count.
     ///
     /// Get a list of all domains of an organization.
     ///
@@ -25,37 +23,20 @@ public extension OrganizationDomainsMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    static func listOrganizationDomains(
-        config: ClientConfig,
-        organizationId: String,
-        verified: String? = nil,
-        enrollmentMode: String? = nil,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OrganizationDomains {
-        if let limit {
+    public static func listOrganizationDomains(config: ClientConfig, organizationId: String, verified: String? = nil, enrollmentMode: String? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationDomains {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/domains"].joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("verified", value: verified),
-                SdkQueryParameter("enrollment_mode", value: enrollmentMode),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-            ],
-            decoder: .json,
-            operationId: "ListOrganizationDomains",
-            options: requestOptions,
-            errors: ["401": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/domains"].joined(), config: config, query: [
+            SdkQueryParameter("verified", value: verified),
+            SdkQueryParameter("enrollment_mode", value: enrollmentMode),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "ListOrganizationDomains", options: requestOptions, errors: ["401": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

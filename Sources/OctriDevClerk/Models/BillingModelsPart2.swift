@@ -3,13 +3,9 @@
 
 import Foundation
 
-/// Billing domain models
-public extension CommercePriceTransitionResponse {
-    init(
-        object: CommercePriceTransitionResponseObject,
-        subscriptionItem: CommerceSubscriptionItem2,
-        transition: CommercePriceTransitionDetails
-    ) {
+// Billing domain models
+extension CommercePriceTransitionResponse {
+    public init(object: CommercePriceTransitionResponseObject, subscriptionItem: CommerceSubscriptionItem2, transition: CommercePriceTransitionDetails) {
         (self.object, self.subscriptionItem) = (object, subscriptionItem)
         self.transition = transition
     }
@@ -24,27 +20,21 @@ public struct ApplyCommerceDiscountRequest: Codable {
         case discountId = "discount_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension ApplyCommerceDiscountRequest {
-    init(from decoder: Decoder) throws {
+extension ApplyCommerceDiscountRequest {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.discountId) else {
-            throw SdkValidationError(
-                field: "discount_id",
-                code: "required",
-                message: "Validation failed for 'discount_id': value is required"
-            )
+            throw SdkValidationError(field: "discount_id", code: "required", message: "Validation failed for 'discount_id': value is required")
         }
-        discountId = try container.sdkDecodeRequired(.discountId)
+        self.discountId = try container.sdkDecodeRequired(.discountId)
     }
 }
 
-public extension ApplyCommerceDiscountRequest {
-    init(discountId: String) {
+extension ApplyCommerceDiscountRequest {
+    public init(discountId: String) {
         self.discountId = discountId
     }
 }
@@ -79,36 +69,25 @@ public struct BillingStatement: Codable {
         case groups
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BillingStatement {
-    init(from decoder: Decoder) throws {
+extension BillingStatement {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        instanceId = try container.sdkDecodeRequired(.instanceId)
-        timestamp = try container.sdkDecodeRequired(.timestamp)
-        payer = try container.sdkDecodeRequired(.payer)
-        status = try container.sdkDecodeRequired(.status)
-        totals = try container.sdkDecodeRequired(.totals)
-        groups = try container.sdkDecodeRequired(.groups)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.instanceId = try container.sdkDecodeRequired(.instanceId)
+        self.timestamp = try container.sdkDecodeRequired(.timestamp)
+        self.payer = try container.sdkDecodeRequired(.payer)
+        self.status = try container.sdkDecodeRequired(.status)
+        self.totals = try container.sdkDecodeRequired(.totals)
+        self.groups = try container.sdkDecodeRequired(.groups)
     }
 }
 
-public extension BillingStatement {
-    init(
-        object: BillingStatementObject,
-        id: String,
-        instanceId: String,
-        timestamp: Int,
-        payer: CommercePayerResponse,
-        status: BillingStatementStatus,
-        totals: BillingStatementTotals,
-        groups: [BillingStatementGroupsItem]
-    ) {
+extension BillingStatement {
+    public init(object: BillingStatementObject, id: String, instanceId: String, timestamp: Int, payer: CommercePayerResponse, status: BillingStatementStatus, totals: BillingStatementTotals, groups: [BillingStatementGroupsItem]) {
         (self.object, self.id) = (object, id)
         (self.instanceId, self.timestamp) = (instanceId, timestamp)
         (self.payer, self.status) = (payer, status)
@@ -142,46 +121,29 @@ public struct CreateBillingPriceRequest: Codable {
         case supportedBillingPeriods = "supported_billing_periods"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CreateBillingPriceRequest {
-    init(from decoder: Decoder) throws {
+extension CreateBillingPriceRequest {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.planId) else {
-            throw SdkValidationError(
-                field: "plan_id",
-                code: "required",
-                message: "Validation failed for 'plan_id': value is required"
-            )
+            throw SdkValidationError(field: "plan_id", code: "required", message: "Validation failed for 'plan_id': value is required")
         }
         guard container.contains(.amount) else {
-            throw SdkValidationError(
-                field: "amount",
-                code: "required",
-                message: "Validation failed for 'amount': value is required"
-            )
+            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
         }
-        planId = try container.sdkDecodeRequired(.planId)
-        amount = try container.sdkDecodeNullable(.amount)
-        currency = try container.sdkDecodeIfPresent(.currency)
-        annualMonthlyAmount = try container.sdkDecodeIfPresent(.annualMonthlyAmount)
-        description = try container.sdkDecodeIfPresent(.description)
-        supportedBillingPeriods = try container.sdkDecodeIfPresent(.supportedBillingPeriods)
+        self.planId = try container.sdkDecodeRequired(.planId)
+        self.amount = try container.sdkDecodeNullable(.amount)
+        self.currency = try container.sdkDecodeIfPresent(.currency)
+        self.annualMonthlyAmount = try container.sdkDecodeIfPresent(.annualMonthlyAmount)
+        self.description = try container.sdkDecodeIfPresent(.description)
+        self.supportedBillingPeriods = try container.sdkDecodeIfPresent(.supportedBillingPeriods)
     }
 }
 
-public extension CreateBillingPriceRequest {
-    init(
-        planId: String,
-        amount: Int?,
-        currency: String? = nil,
-        annualMonthlyAmount: Int? = nil,
-        description: String? = nil,
-        supportedBillingPeriods: CreateBillingPriceRequestSupportedBillingPeriods? = nil
-    ) {
+extension CreateBillingPriceRequest {
+    public init(planId: String, amount: Int?, currency: String? = nil, annualMonthlyAmount: Int? = nil, description: String? = nil, supportedBillingPeriods: CreateBillingPriceRequestSupportedBillingPeriods? = nil) {
         (self.planId, self.amount) = (planId, amount)
         (self.currency, self.annualMonthlyAmount) = (currency, annualMonthlyAmount)
         (self.description, self.supportedBillingPeriods) = (description, supportedBillingPeriods)
@@ -263,66 +225,40 @@ public struct BillingPaymentAttempt: Codable {
         case totals
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BillingPaymentAttempt {
-    init(from decoder: Decoder) throws {
+extension BillingPaymentAttempt {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        paymentId = try container.sdkDecodeRequired(.paymentId)
-        instanceId = try container.sdkDecodeRequired(.instanceId)
-        chargeType = try container.sdkDecodeRequired(.chargeType)
-        payeeId = try container.sdkDecodeRequired(.payeeId)
-        payee = try container.sdkDecodeRequired(.payee)
-        payerId = try container.sdkDecodeRequired(.payerId)
-        payer = try container.sdkDecodeRequired(.payer)
-        amount = try container.sdkDecodeRequired(.amount)
-        paymentMethodId = try container.sdkDecodeRequired(.paymentMethodId)
-        paymentMethod = try container.sdkDecodeRequired(.paymentMethod)
-        statementId = try container.sdkDecodeRequired(.statementId)
-        gatewayExternalId = try container.sdkDecodeNullable(.gatewayExternalId)
-        gatewayExternalUrl = try container.sdkDecodeNullable(.gatewayExternalUrl)
-        status = try container.sdkDecodeRequired(.status)
-        paidAt = try container.sdkDecodeNullable(.paidAt)
-        failedAt = try container.sdkDecodeNullable(.failedAt)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        subscriptionItemId = try container.sdkDecodeIfPresent(.subscriptionItemId)
-        subscriptionItem = try container.sdkDecodeIfPresent(.subscriptionItem)
-        totals = try container.sdkDecodeIfPresent(.totals)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.paymentId = try container.sdkDecodeRequired(.paymentId)
+        self.instanceId = try container.sdkDecodeRequired(.instanceId)
+        self.chargeType = try container.sdkDecodeRequired(.chargeType)
+        self.payeeId = try container.sdkDecodeRequired(.payeeId)
+        self.payee = try container.sdkDecodeRequired(.payee)
+        self.payerId = try container.sdkDecodeRequired(.payerId)
+        self.payer = try container.sdkDecodeRequired(.payer)
+        self.amount = try container.sdkDecodeRequired(.amount)
+        self.paymentMethodId = try container.sdkDecodeRequired(.paymentMethodId)
+        self.paymentMethod = try container.sdkDecodeRequired(.paymentMethod)
+        self.statementId = try container.sdkDecodeRequired(.statementId)
+        self.gatewayExternalId = try container.sdkDecodeNullable(.gatewayExternalId)
+        self.gatewayExternalUrl = try container.sdkDecodeNullable(.gatewayExternalUrl)
+        self.status = try container.sdkDecodeRequired(.status)
+        self.paidAt = try container.sdkDecodeNullable(.paidAt)
+        self.failedAt = try container.sdkDecodeNullable(.failedAt)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.subscriptionItemId = try container.sdkDecodeIfPresent(.subscriptionItemId)
+        self.subscriptionItem = try container.sdkDecodeIfPresent(.subscriptionItem)
+        self.totals = try container.sdkDecodeIfPresent(.totals)
     }
 }
 
-public extension BillingPaymentAttempt {
-    init(
-        object: BillingPaymentAttemptObject,
-        id: String,
-        paymentId: String,
-        instanceId: String,
-        chargeType: String,
-        payeeId: String,
-        payee: [String: JSONValue],
-        payerId: String,
-        payer: CommercePayerResponse,
-        amount: CommerceMoneyResponse,
-        paymentMethodId: String,
-        paymentMethod: CommercePaymentMethodResponse,
-        statementId: String,
-        gatewayExternalId: String?,
-        gatewayExternalUrl: String?,
-        status: BillingPaymentAttemptStatus,
-        paidAt: Int?,
-        failedAt: Int?,
-        createdAt: Int,
-        updatedAt: Int,
-        subscriptionItemId: String? = nil,
-        subscriptionItem: [String: JSONValue]? = nil,
-        totals: CommerceTotalsResponse2? = nil
-    ) {
+extension BillingPaymentAttempt {
+    public init(object: BillingPaymentAttemptObject, id: String, paymentId: String, instanceId: String, chargeType: String, payeeId: String, payee: [String: JSONValue], payerId: String, payer: CommercePayerResponse, amount: CommerceMoneyResponse, paymentMethodId: String, paymentMethod: CommercePaymentMethodResponse, statementId: String, gatewayExternalId: String?, gatewayExternalUrl: String?, status: BillingPaymentAttemptStatus, paidAt: Int?, failedAt: Int?, createdAt: Int, updatedAt: Int, subscriptionItemId: String? = nil, subscriptionItem: [String: JSONValue]? = nil, totals: CommerceTotalsResponse2? = nil) {
         (self.object, self.id) = (object, id)
         (self.paymentId, self.instanceId) = (paymentId, instanceId)
         (self.chargeType, self.payeeId) = (chargeType, payeeId)
@@ -356,56 +292,33 @@ public struct BillingStatementTotals: Codable {
         case taxTotal = "tax_total"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BillingStatementTotals {
-    init(from decoder: Decoder) throws {
+extension BillingStatementTotals {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.grandTotal) else {
-            throw SdkValidationError(
-                field: "grand_total",
-                code: "required",
-                message: "Validation failed for 'grand_total': value is required"
-            )
+            throw SdkValidationError(field: "grand_total", code: "required", message: "Validation failed for 'grand_total': value is required")
         }
         guard container.contains(.subtotal) else {
-            throw SdkValidationError(
-                field: "subtotal",
-                code: "required",
-                message: "Validation failed for 'subtotal': value is required"
-            )
+            throw SdkValidationError(field: "subtotal", code: "required", message: "Validation failed for 'subtotal': value is required")
         }
         guard container.contains(.baseFee) else {
-            throw SdkValidationError(
-                field: "base_fee",
-                code: "required",
-                message: "Validation failed for 'base_fee': value is required"
-            )
+            throw SdkValidationError(field: "base_fee", code: "required", message: "Validation failed for 'base_fee': value is required")
         }
         guard container.contains(.taxTotal) else {
-            throw SdkValidationError(
-                field: "tax_total",
-                code: "required",
-                message: "Validation failed for 'tax_total': value is required"
-            )
+            throw SdkValidationError(field: "tax_total", code: "required", message: "Validation failed for 'tax_total': value is required")
         }
-        grandTotal = try container.sdkDecodeRequired(.grandTotal)
-        subtotal = try container.sdkDecodeRequired(.subtotal)
-        baseFee = try container.sdkDecodeRequired(.baseFee)
-        taxTotal = try container.sdkDecodeRequired(.taxTotal)
+        self.grandTotal = try container.sdkDecodeRequired(.grandTotal)
+        self.subtotal = try container.sdkDecodeRequired(.subtotal)
+        self.baseFee = try container.sdkDecodeRequired(.baseFee)
+        self.taxTotal = try container.sdkDecodeRequired(.taxTotal)
     }
 }
 
-public extension BillingStatementTotals {
-    init(
-        grandTotal: CommerceMoneyResponse,
-        subtotal: CommerceMoneyResponse,
-        baseFee: CommerceMoneyResponse,
-        taxTotal: CommerceMoneyResponse
-    ) {
+extension BillingStatementTotals {
+    public init(grandTotal: CommerceMoneyResponse, subtotal: CommerceMoneyResponse, baseFee: CommerceMoneyResponse, taxTotal: CommerceMoneyResponse) {
         (self.grandTotal, self.subtotal) = (grandTotal, subtotal)
         (self.baseFee, self.taxTotal) = (baseFee, taxTotal)
     }
@@ -444,87 +357,47 @@ public struct CommercePriceTransitionDetails: Codable {
         case immediateCharge = "immediate_charge"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CommercePriceTransitionDetails {
-    init(from decoder: Decoder) throws {
+extension CommercePriceTransitionDetails {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.previousPlan) else {
-            throw SdkValidationError(
-                field: "previous_plan",
-                code: "required",
-                message: "Validation failed for 'previous_plan': value is required"
-            )
+            throw SdkValidationError(field: "previous_plan", code: "required", message: "Validation failed for 'previous_plan': value is required")
         }
         guard container.contains(.previousPrice) else {
-            throw SdkValidationError(
-                field: "previous_price",
-                code: "required",
-                message: "Validation failed for 'previous_price': value is required"
-            )
+            throw SdkValidationError(field: "previous_price", code: "required", message: "Validation failed for 'previous_price': value is required")
         }
         guard container.contains(.effectiveAt) else {
-            throw SdkValidationError(
-                field: "effective_at",
-                code: "required",
-                message: "Validation failed for 'effective_at': value is required"
-            )
+            throw SdkValidationError(field: "effective_at", code: "required", message: "Validation failed for 'effective_at': value is required")
         }
         guard container.contains(.effectiveMode) else {
-            throw SdkValidationError(
-                field: "effective_mode",
-                code: "required",
-                message: "Validation failed for 'effective_mode': value is required"
-            )
+            throw SdkValidationError(field: "effective_mode", code: "required", message: "Validation failed for 'effective_mode': value is required")
         }
         guard container.contains(.chargedImmediately) else {
-            throw SdkValidationError(
-                field: "charged_immediately",
-                code: "required",
-                message: "Validation failed for 'charged_immediately': value is required"
-            )
+            throw SdkValidationError(field: "charged_immediately", code: "required", message: "Validation failed for 'charged_immediately': value is required")
         }
         guard container.contains(.previousSubscriptionItemStatus) else {
-            throw SdkValidationError(
-                field: "previous_subscription_item_status",
-                code: "required",
-                message: "Validation failed for 'previous_subscription_item_status': value is required"
-            )
+            throw SdkValidationError(field: "previous_subscription_item_status", code: "required", message: "Validation failed for 'previous_subscription_item_status': value is required")
         }
         guard container.contains(.previousSubscriptionItemId) else {
-            throw SdkValidationError(
-                field: "previous_subscription_item_id",
-                code: "required",
-                message: "Validation failed for 'previous_subscription_item_id': value is required"
-            )
+            throw SdkValidationError(field: "previous_subscription_item_id", code: "required", message: "Validation failed for 'previous_subscription_item_id': value is required")
         }
-        previousPlan = try container.sdkDecodeRequired(.previousPlan)
-        previousPrice = try container.sdkDecodeRequired(.previousPrice)
-        effectiveAt = try container.sdkDecodeRequired(.effectiveAt)
-        effectiveMode = try container.sdkDecodeRequired(.effectiveMode)
-        chargedImmediately = try container.sdkDecodeRequired(.chargedImmediately)
-        previousSubscriptionItemStatus = try container.sdkDecodeRequired(.previousSubscriptionItemStatus)
-        previousSubscriptionItemId = try container.sdkDecodeRequired(.previousSubscriptionItemId)
-        nextBillingDate = try container.sdkDecodeIfPresent(.nextBillingDate)
-        immediateCharge = try container.sdkDecodeIfPresent(.immediateCharge)
+        self.previousPlan = try container.sdkDecodeRequired(.previousPlan)
+        self.previousPrice = try container.sdkDecodeRequired(.previousPrice)
+        self.effectiveAt = try container.sdkDecodeRequired(.effectiveAt)
+        self.effectiveMode = try container.sdkDecodeRequired(.effectiveMode)
+        self.chargedImmediately = try container.sdkDecodeRequired(.chargedImmediately)
+        self.previousSubscriptionItemStatus = try container.sdkDecodeRequired(.previousSubscriptionItemStatus)
+        self.previousSubscriptionItemId = try container.sdkDecodeRequired(.previousSubscriptionItemId)
+        self.nextBillingDate = try container.sdkDecodeIfPresent(.nextBillingDate)
+        self.immediateCharge = try container.sdkDecodeIfPresent(.immediateCharge)
     }
 }
 
-public extension CommercePriceTransitionDetails {
-    init(
-        previousPlan: CommercePlan2,
-        previousPrice: BillingPriceResponse,
-        effectiveAt: Int,
-        effectiveMode: CommercePriceTransitionDetailsEffectiveMode,
-        chargedImmediately: Bool,
-        previousSubscriptionItemStatus: CommercePriceTransitionDetailsPreviousSubscriptionItemStatus,
-        previousSubscriptionItemId: String,
-        nextBillingDate: Int? = nil,
-        immediateCharge: CommerceMoneyResponse? = nil
-    ) {
+extension CommercePriceTransitionDetails {
+    public init(previousPlan: CommercePlan2, previousPrice: BillingPriceResponse, effectiveAt: Int, effectiveMode: CommercePriceTransitionDetailsEffectiveMode, chargedImmediately: Bool, previousSubscriptionItemStatus: CommercePriceTransitionDetailsPreviousSubscriptionItemStatus, previousSubscriptionItemId: String, nextBillingDate: Int? = nil, immediateCharge: CommerceMoneyResponse? = nil) {
         (self.previousPlan, self.previousPrice) = (previousPlan, previousPrice)
         (self.effectiveAt, self.effectiveMode) = (effectiveAt, effectiveMode)
         self.chargedImmediately = chargedImmediately
@@ -546,35 +419,25 @@ public struct PaginatedBillingStatementResponse: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension PaginatedBillingStatementResponse {
-    init(from decoder: Decoder) throws {
+extension PaginatedBillingStatementResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
+            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.totalCount = try container.sdkDecodeRequired(.totalCount)
     }
 }
 
-public extension PaginatedBillingStatementResponse {
-    init(data: [BillingStatement], totalCount: Int) {
+extension PaginatedBillingStatementResponse {
+    public init(data: [BillingStatement], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -603,7 +466,5 @@ public struct FeatureResponse2: Codable {
         case avatarUrl = "avatar_url"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }

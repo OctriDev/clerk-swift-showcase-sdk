@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationMembershipsMethods {
-    struct ListOrganizationMembershipsOptions: Codable {
+extension OrganizationMembershipsMethods {
+    public struct ListOrganizationMembershipsOptions: Codable {
         public var organizationId: String
         public var orderBy: String?
         public var userId: [String]?
@@ -88,11 +88,7 @@ public extension OrganizationMembershipsMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    static func listOrganizationMemberships(
-        config: ClientConfig,
-        options: ListOrganizationMembershipsOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OrganizationMemberships {
+    public static func listOrganizationMemberships(config: ClientConfig, options: ListOrganizationMembershipsOptions, requestOptions: RequestOptions? = nil) async throws -> OrganizationMemberships {
         if let limit = options.limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
@@ -101,34 +97,25 @@ public extension OrganizationMembershipsMethods {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            ["/organizations/", sdkEncodePathSegment(sdkWireString(options.organizationId)), "/memberships"].joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("order_by", value: options.orderBy),
-                SdkQueryParameter("user_id", values: options.userId, style: "form", explode: true),
-                SdkQueryParameter("email_address", values: options.emailAddress, style: "form", explode: true),
-                SdkQueryParameter("phone_number", values: options.phoneNumber, style: "form", explode: true),
-                SdkQueryParameter("username", values: options.username, style: "form", explode: true),
-                SdkQueryParameter("web3_wallet", values: options.web3Wallet, style: "form", explode: true),
-                SdkQueryParameter("role", values: options.role, style: "form", explode: true),
-                SdkQueryParameter("query", value: options.query),
-                SdkQueryParameter("email_address_query", value: options.emailAddressQuery),
-                SdkQueryParameter("phone_number_query", value: options.phoneNumberQuery),
-                SdkQueryParameter("username_query", value: options.usernameQuery),
-                SdkQueryParameter("name_query", value: options.nameQuery),
-                SdkQueryParameter("last_active_at_before", value: options.lastActiveAtBefore),
-                SdkQueryParameter("last_active_at_after", value: options.lastActiveAtAfter),
-                SdkQueryParameter("created_at_before", value: options.createdAtBefore),
-                SdkQueryParameter("created_at_after", value: options.createdAtAfter),
-                SdkQueryParameter("limit", value: options.limit),
-                SdkQueryParameter("offset", value: options.offset),
-            ],
-            decoder: .json,
-            operationId: "ListOrganizationMemberships",
-            options: requestOptions,
-            errors: ["401": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", ["/organizations/", sdkEncodePathSegment(sdkWireString(options.organizationId)), "/memberships"].joined(), config: config, query: [
+            SdkQueryParameter("order_by", value: options.orderBy),
+            SdkQueryParameter("user_id", values: options.userId, style: "form", explode: true),
+            SdkQueryParameter("email_address", values: options.emailAddress, style: "form", explode: true),
+            SdkQueryParameter("phone_number", values: options.phoneNumber, style: "form", explode: true),
+            SdkQueryParameter("username", values: options.username, style: "form", explode: true),
+            SdkQueryParameter("web3_wallet", values: options.web3Wallet, style: "form", explode: true),
+            SdkQueryParameter("role", values: options.role, style: "form", explode: true),
+            SdkQueryParameter("query", value: options.query),
+            SdkQueryParameter("email_address_query", value: options.emailAddressQuery),
+            SdkQueryParameter("phone_number_query", value: options.phoneNumberQuery),
+            SdkQueryParameter("username_query", value: options.usernameQuery),
+            SdkQueryParameter("name_query", value: options.nameQuery),
+            SdkQueryParameter("last_active_at_before", value: options.lastActiveAtBefore),
+            SdkQueryParameter("last_active_at_after", value: options.lastActiveAtAfter),
+            SdkQueryParameter("created_at_before", value: options.createdAtBefore),
+            SdkQueryParameter("created_at_after", value: options.createdAtAfter),
+            SdkQueryParameter("limit", value: options.limit),
+            SdkQueryParameter("offset", value: options.offset),
+        ], decoder: .json, operationId: "ListOrganizationMemberships", options: requestOptions, errors: ["401": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

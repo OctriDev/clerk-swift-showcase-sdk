@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationPermissionsMethods {
+extension OrganizationPermissionsMethods {
     /// Updates the properties of an existing organization permission. System permissions cannot be updated.
     ///
     /// - Parameters:
@@ -17,51 +17,17 @@ public extension OrganizationPermissionsMethods {
     ///   digits, or underscores. Cannot begin with "org:sys_" as that prefix is
     ///   reserved for system permissions.
     /// - description: A description of the permission.
-    static func updateOrganizationPermission(
-        config: ClientConfig,
-        permissionId: String,
-        name: String? = nil,
-        key: String? = nil,
-        description: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Permission {
+    public static func updateOrganizationPermission(config: ClientConfig, permissionId: String, name: String? = nil, key: String? = nil, description: String? = nil, requestOptions: RequestOptions? = nil) async throws -> Permission {
         let requestBody = UpdateOrganizationPermissionRequestBody(name: name, key: key, description: description)
 
-        return try await (sdkRequest(
-            "PATCH",
-            ["/organization_permissions/", sdkEncodePathSegment(sdkWireString(permissionId))].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "UpdateOrganizationPermission",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("PATCH", ["/organization_permissions/", sdkEncodePathSegment(sdkWireString(permissionId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateOrganizationPermission", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 
     /// Deletes an organization permission. System permissions cannot be deleted.
     ///
     /// - Parameters:
     /// - permissionId: The ID of the permission to delete
-    static func deleteOrganizationPermission(
-        config: ClientConfig,
-        permissionId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DeletedObject {
-        try await (sdkRequest(
-            "DELETE",
-            ["/organization_permissions/", sdkEncodePathSegment(sdkWireString(permissionId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DeleteOrganizationPermission",
-            options: requestOptions,
-            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func deleteOrganizationPermission(config: ClientConfig, permissionId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
+        return try (await sdkRequest("DELETE", ["/organization_permissions/", sdkEncodePathSegment(sdkWireString(permissionId))].joined(), config: config, decoder: .json, operationId: "DeleteOrganizationPermission", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

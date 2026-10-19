@@ -6,86 +6,32 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationsMethods {
-    /// Deletes the logo associated with an organization. Use `organization_id` to identify the organization whose logo
-    /// you want to remove. A 200 response returns the organization with its updated logo-related fields.
+extension OrganizationsMethods {
+    /// Deletes the logo associated with an organization. Use `organization_id` to identify the organization whose logo you want to remove. A 200 response returns the organization with its updated logo-related fields.
     ///
     /// Delete the organization's logo.
     ///
     /// - Parameters:
     /// - organizationId: The ID of the organization for which the logo will be
     ///   deleted.
-    static func deleteOrganizationLogo(
-        config: ClientConfig,
-        organizationId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Organization {
-        try await (sdkRequest(
-            "DELETE",
-            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/logo"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DeleteOrganizationLogo",
-            options: requestOptions,
-            errors: ["404": ClerkErrors.self]
-        )).data
+    public static func deleteOrganizationLogo(config: ClientConfig, organizationId: String, requestOptions: RequestOptions? = nil) async throws -> Organization {
+        return try (await sdkRequest("DELETE", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/logo"].joined(), config: config, decoder: .json, operationId: "DeleteOrganizationLogo", options: requestOptions, errors: ["404": ClerkErrors.self])).data
     }
 
-    /// Retrieves the billing subscription for the specified organization. This includes subscription details, active
-    /// plans, billing information, and payment status. The subscription contains subscription items which represent the
-    /// individual plans the organization is subscribed to.
+    /// Retrieves the billing subscription for the specified organization. This includes subscription details, active plans, billing information, and payment status. The subscription contains subscription items which represent the individual plans the organization is subscribed to.
     ///
     /// - Parameters:
     /// - organizationId: The ID of the organization whose subscription to retrieve
-    static func getOrganizationBillingSubscription(
-        config: ClientConfig,
-        organizationId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> CommerceSubscription {
-        try await (sdkRequest(
-            "GET",
-            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/billing/subscription"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "GetOrganizationBillingSubscription",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-                "500": ClerkErrors.self,
-            ]
-        )).data
+    public static func getOrganizationBillingSubscription(config: ClientConfig, organizationId: String, requestOptions: RequestOptions? = nil) async throws -> CommerceSubscription {
+        return try (await sdkRequest("GET", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/billing/subscription"].joined(), config: config, decoder: .json, operationId: "GetOrganizationBillingSubscription", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 
-    /// Retrieves the current credit balance for the specified organization. Credits can be applied during checkout to
-    /// reduce the charge or automatically applied to upcoming recurring charges.
+    /// Retrieves the current credit balance for the specified organization. Credits can be applied during checkout to reduce the charge or automatically applied to upcoming recurring charges.
     ///
     /// - Parameters:
     /// - organizationId: The ID of the organization whose credit balance to
     ///   retrieve
-    static func getOrganizationBillingCreditBalance(
-        config: ClientConfig,
-        organizationId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> CommerceCreditBalanceResponse {
-        try await (sdkRequest(
-            "GET",
-            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/billing/credits"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "GetOrganizationBillingCreditBalance",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-                "500": ClerkErrors.self,
-            ]
-        )).data
+    public static func getOrganizationBillingCreditBalance(config: ClientConfig, organizationId: String, requestOptions: RequestOptions? = nil) async throws -> CommerceCreditBalanceResponse {
+        return try (await sdkRequest("GET", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/billing/credits"].joined(), config: config, decoder: .json, operationId: "GetOrganizationBillingCreditBalance", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 }

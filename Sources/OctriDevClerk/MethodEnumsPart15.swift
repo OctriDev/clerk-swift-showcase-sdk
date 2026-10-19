@@ -15,11 +15,11 @@ struct UpdateApiKeyRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(claims, forKey: SdkCodingKey("claims"))
-        try keyedContainer.encodeIfPresent(scopes, forKey: SdkCodingKey("scopes"))
-        try keyedContainer.encodeIfPresent(description, forKey: SdkCodingKey("description"))
-        try keyedContainer.encodeIfPresent(subject, forKey: SdkCodingKey("subject"))
-        try keyedContainer.encodeIfPresent(secondsUntilExpiration, forKey: SdkCodingKey("seconds_until_expiration"))
+        try keyedContainer.encodeIfPresent(self.claims, forKey: SdkCodingKey("claims"))
+        try keyedContainer.encodeIfPresent(self.scopes, forKey: SdkCodingKey("scopes"))
+        try keyedContainer.encodeIfPresent(self.description, forKey: SdkCodingKey("description"))
+        try keyedContainer.encodeIfPresent(self.subject, forKey: SdkCodingKey("subject"))
+        try keyedContainer.encodeIfPresent(self.secondsUntilExpiration, forKey: SdkCodingKey("seconds_until_expiration"))
     }
 }
 
@@ -28,7 +28,7 @@ struct RevokeApiKeyRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(revocationReason, forKey: SdkCodingKey("revocation_reason"))
+        try keyedContainer.encodeIfPresent(self.revocationReason, forKey: SdkCodingKey("revocation_reason"))
     }
 }
 
@@ -37,7 +37,7 @@ struct VerifyApiKeyRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(secret, forKey: SdkCodingKey("secret"))
+        try keyedContainer.encode(self.secret, forKey: SdkCodingKey("secret"))
     }
 }
 
@@ -49,10 +49,10 @@ struct CreateM2MTokenRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(tokenFormat, forKey: SdkCodingKey("token_format"))
-        try keyedContainer.encodeIfPresent(secondsUntilExpiration, forKey: SdkCodingKey("seconds_until_expiration"))
-        try keyedContainer.encodeIfPresent(claims, forKey: SdkCodingKey("claims"))
-        try keyedContainer.encodeIfPresent(minRemainingTtlSeconds, forKey: SdkCodingKey("min_remaining_ttl_seconds"))
+        try keyedContainer.encodeIfPresent(self.tokenFormat, forKey: SdkCodingKey("token_format"))
+        try keyedContainer.encodeIfPresent(self.secondsUntilExpiration, forKey: SdkCodingKey("seconds_until_expiration"))
+        try keyedContainer.encodeIfPresent(self.claims, forKey: SdkCodingKey("claims"))
+        try keyedContainer.encodeIfPresent(self.minRemainingTtlSeconds, forKey: SdkCodingKey("min_remaining_ttl_seconds"))
     }
 }
 
@@ -61,7 +61,7 @@ struct RevokeM2MTokenRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(revocationReason, forKey: SdkCodingKey("revocation_reason"))
+        try keyedContainer.encodeIfPresent(self.revocationReason, forKey: SdkCodingKey("revocation_reason"))
     }
 }
 
@@ -70,7 +70,7 @@ struct VerifyM2MTokenRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(token, forKey: SdkCodingKey("token"))
+        try keyedContainer.encode(self.token, forKey: SdkCodingKey("token"))
     }
 }
 
@@ -80,7 +80,7 @@ struct VerifyOAuthAccessTokenRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(accessToken, forKey: SdkCodingKey("access_token"))
-        try keyedContainer.encodeIfPresent(secret, forKey: SdkCodingKey("secret"))
+        try keyedContainer.encodeIfPresent(self.accessToken, forKey: SdkCodingKey("access_token"))
+        try keyedContainer.encodeIfPresent(self.secret, forKey: SdkCodingKey("secret"))
     }
 }

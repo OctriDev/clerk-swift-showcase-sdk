@@ -6,25 +6,13 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension EnterpriseConnectionsMethods {
+extension EnterpriseConnectionsMethods {
     /// Deletes the enterprise connection whose ID matches the provided `enterprise_connection_id` in the path.
     ///
     /// - Parameters:
     /// - enterpriseConnectionId: The ID of the enterprise connection to delete
-    static func deleteEnterpriseConnection(
-        config: ClientConfig,
-        enterpriseConnectionId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DeletedObject {
-        try await (sdkRequest(
-            "DELETE",
-            ["/enterprise_connections/", sdkEncodePathSegment(sdkWireString(enterpriseConnectionId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DeleteEnterpriseConnection",
-            options: requestOptions,
-            errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func deleteEnterpriseConnection(config: ClientConfig, enterpriseConnectionId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
+        return try (await sdkRequest("DELETE", ["/enterprise_connections/", sdkEncodePathSegment(sdkWireString(enterpriseConnectionId))].joined(), config: config, decoder: .json, operationId: "DeleteEnterpriseConnection", options: requestOptions, errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 
     /// Returns a paginated list of SAML or OIDC debug test runs for an enterprise connection.
@@ -36,57 +24,27 @@ public extension EnterpriseConnectionsMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    static func listEnterpriseConnectionTestRuns(
-        config: ClientConfig,
-        enterpriseConnectionId: String,
-        status: [ListEnterpriseConnectionTestRunsParameterItem]? = nil,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> EnterpriseConnectionTestRuns {
-        if let limit {
+    public static func listEnterpriseConnectionTestRuns(config: ClientConfig, enterpriseConnectionId: String, status: [ListEnterpriseConnectionTestRunsParameterItem]? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> EnterpriseConnectionTestRuns {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            ["/enterprise_connections/", sdkEncodePathSegment(sdkWireString(enterpriseConnectionId)), "/test_runs"]
-                .joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("status", values: status, style: "form", explode: true),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-            ],
-            decoder: .json,
-            operationId: "ListEnterpriseConnectionTestRuns",
-            options: requestOptions,
-            errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", ["/enterprise_connections/", sdkEncodePathSegment(sdkWireString(enterpriseConnectionId)), "/test_runs"].joined(), config: config, query: [
+            SdkQueryParameter("status", values: status, style: "form", explode: true),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "ListEnterpriseConnectionTestRuns", options: requestOptions, errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 
     /// Returns a short-lived URL that starts the IdP test flow for this connection.
     ///
     /// - Parameters:
     /// - enterpriseConnectionId: The ID of the enterprise connection
-    static func createEnterpriseConnectionTestRun(
-        config: ClientConfig,
-        enterpriseConnectionId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> EnterpriseConnectionTestRunResponse {
-        try await (sdkRequest(
-            "POST",
-            ["/enterprise_connections/", sdkEncodePathSegment(sdkWireString(enterpriseConnectionId)), "/test_runs"]
-                .joined(),
-            config: config,
-            decoder: .json,
-            operationId: "CreateEnterpriseConnectionTestRun",
-            options: requestOptions,
-            errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func createEnterpriseConnectionTestRun(config: ClientConfig, enterpriseConnectionId: String, requestOptions: RequestOptions? = nil) async throws -> EnterpriseConnectionTestRunResponse {
+        return try (await sdkRequest("POST", ["/enterprise_connections/", sdkEncodePathSegment(sdkWireString(enterpriseConnectionId)), "/test_runs"].joined(), config: config, decoder: .json, operationId: "CreateEnterpriseConnectionTestRun", options: requestOptions, errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

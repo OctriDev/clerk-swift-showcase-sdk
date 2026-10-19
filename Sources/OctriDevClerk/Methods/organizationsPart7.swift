@@ -6,12 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationsMethods {
-    /// Replace an organization's metadata attributes with the provided values. Unlike `PATCH
-    /// /v1/organizations/{organization_id}/metadata` (merge semantics), this endpoint replaces the supplied metadata
-    /// fields entirely — the prior contents of each supplied field are discarded. Fields omitted from the request body
-    /// are left unchanged. Prefer the `PATCH` endpoint for partial updates. Use `PUT` only when you explicitly intend
-    /// to overwrite a metadata field wholesale.
+extension OrganizationsMethods {
+    /// Replace an organization's metadata attributes with the provided values. Unlike `PATCH /v1/organizations/{organization_id}/metadata` (merge semantics), this endpoint replaces the supplied metadata fields entirely — the prior contents of each supplied field are discarded. Fields omitted from the request body are left unchanged. Prefer the `PATCH` endpoint for partial updates. Use `PUT` only when you explicitly intend to overwrite a metadata field wholesale.
     ///
     /// - Parameters:
     /// - organizationId: The ID of the organization whose metadata will be replaced
@@ -21,66 +17,28 @@ public extension OrganizationsMethods {
     /// - privateMetadata: Metadata saved on the organization that is only visible
     ///   to your backend. The existing value will be replaced entirely with the new
     ///   object.
-    static func replaceOrganizationMetadata(
-        config: ClientConfig,
-        organizationId: String,
-        publicMetadata: [String: JSONValue]? = nil,
-        privateMetadata: [String: JSONValue]? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Organization {
-        let requestBody = ReplaceOrganizationMetadataRequestBody(
-            publicMetadata: publicMetadata,
-            privateMetadata: privateMetadata
-        )
+    public static func replaceOrganizationMetadata(config: ClientConfig, organizationId: String, publicMetadata: [String: JSONValue]? = nil, privateMetadata: [String: JSONValue]? = nil, requestOptions: RequestOptions? = nil) async throws -> Organization {
+        let requestBody = ReplaceOrganizationMetadataRequestBody(publicMetadata: publicMetadata, privateMetadata: privateMetadata)
 
-        return try await (sdkRequest(
-            "PUT",
-            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/metadata"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "ReplaceOrganizationMetadata",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("PUT", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/metadata"].joined(), config: config, body: requestBody, decoder: .json, operationId: "ReplaceOrganizationMetadata", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 
-    /// Uploads an image file as the logo for an organization. Send the request as `multipart/form-data`; files must be
-    /// no larger than 10 MB and use a supported image content type. A 200 response returns the organization with its
-    /// logo URL.
+    /// Uploads an image file as the logo for an organization. Send the request as `multipart/form-data`; files must be no larger than 10 MB and use a supported image content type. A 200 response returns the organization with its logo URL.
     ///
-    /// Set or replace an organization's logo, by uploading an image file. This endpoint uses the `multipart/form-data`
-    /// request content type and accepts a file of image type. The file size cannot exceed 10MB. Only the following file
-    /// content types are supported: `image/jpeg`, `image/png`, `image/gif`, `image/webp`.
+    /// Set or replace an organization's logo, by uploading an image file. This endpoint uses the `multipart/form-data` request content type and accepts a file of image type. The file size cannot exceed 10MB. Only the following file content types are supported: `image/jpeg`, `image/png`, `image/gif`, `image/webp`.
     ///
     /// - Parameters:
     /// - organizationId: The ID of the organization for which to upload a logo
     /// - uploaderUserId: The ID of the user that will be credited with the image
     ///   upload.
-    static func uploadOrganizationLogo(
-        config: ClientConfig,
-        organizationId: String,
-        file: SdkUploadFile,
-        uploaderUserId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OrganizationWithLogo {
+    public static func uploadOrganizationLogo(config: ClientConfig, organizationId: String, file: SdkUploadFile, uploaderUserId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationWithLogo {
         var multipartParts: [SdkMultipartField] = []
         multipartParts.append(.file("file", file))
-        if let uploaderUserId {
+        if let uploaderUserId = uploaderUserId {
             multipartParts.append(.scalar("uploader_user_id", uploaderUserId))
         }
         let multipart = sdkEncodeMultipart(multipartParts)
 
-        return try await (sdkRequest(
-            "PUT",
-            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/logo"].joined(),
-            config: config,
-            rawBody: multipart.data,
-            contentType: multipart.contentType,
-            decoder: .json,
-            operationId: "UploadOrganizationLogo",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "413": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("PUT", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/logo"].joined(), config: config, rawBody: multipart.data, contentType: multipart.contentType, decoder: .json, operationId: "UploadOrganizationLogo", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "413": ClerkErrors.self])).data
     }
 }

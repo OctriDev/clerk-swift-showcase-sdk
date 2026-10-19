@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// OrganizationInvitations domain models
+// OrganizationInvitations domain models
 /// An organization invitation
 public struct OrganizationInvitation: Codable {
     /// String representing the object's type. Objects of the same type share the same value.
@@ -55,50 +55,32 @@ public struct OrganizationInvitation: Codable {
         case privateMetadata = "private_metadata"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension OrganizationInvitation {
-    init(from decoder: Decoder) throws {
+extension OrganizationInvitation {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        role = try container.sdkDecodeRequired(.role)
-        roleName = try container.sdkDecodeRequired(.roleName)
-        inviterId = try container.sdkDecodeNullable(.inviterId)
-        publicInviterData = try container.sdkDecodeNullable(.publicInviterData)
-        publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
-        url = try container.sdkDecodeNullable(.url)
-        expiresAt = try container.sdkDecodeNullable(.expiresAt)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        organizationId = try container.sdkDecodeIfPresent(.organizationId)
-        status = try container.sdkDecodeIfPresent(.status)
-        privateMetadata = try container.sdkDecodeIfPresent(.privateMetadata)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        self.role = try container.sdkDecodeRequired(.role)
+        self.roleName = try container.sdkDecodeRequired(.roleName)
+        self.inviterId = try container.sdkDecodeNullable(.inviterId)
+        self.publicInviterData = try container.sdkDecodeNullable(.publicInviterData)
+        self.publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
+        self.url = try container.sdkDecodeNullable(.url)
+        self.expiresAt = try container.sdkDecodeNullable(.expiresAt)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.organizationId = try container.sdkDecodeIfPresent(.organizationId)
+        self.status = try container.sdkDecodeIfPresent(.status)
+        self.privateMetadata = try container.sdkDecodeIfPresent(.privateMetadata)
     }
 }
 
-public extension OrganizationInvitation {
-    init(
-        object: OrganizationInvitationObject,
-        id: String,
-        emailAddress: String,
-        role: String,
-        roleName: String,
-        inviterId: String?,
-        publicInviterData: OrganizationInvitationPublicUserData?,
-        publicMetadata: [String: JSONValue],
-        url: String?,
-        expiresAt: Int?,
-        createdAt: Int,
-        updatedAt: Int,
-        organizationId: String? = nil,
-        status: String? = nil,
-        privateMetadata: [String: JSONValue]? = nil
-    ) {
+extension OrganizationInvitation {
+    public init(object: OrganizationInvitationObject, id: String, emailAddress: String, role: String, roleName: String, inviterId: String?, publicInviterData: OrganizationInvitationPublicUserData?, publicMetadata: [String: JSONValue], url: String?, expiresAt: Int?, createdAt: Int, updatedAt: Int, organizationId: String? = nil, status: String? = nil, privateMetadata: [String: JSONValue]? = nil) {
         (self.object, self.id) = (object, id)
         (self.emailAddress, self.role) = (emailAddress, role)
         (self.roleName, self.inviterId) = (roleName, inviterId)
@@ -122,35 +104,25 @@ public struct OrganizationInvitations: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension OrganizationInvitations {
-    init(from decoder: Decoder) throws {
+extension OrganizationInvitations {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
+            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.totalCount = try container.sdkDecodeRequired(.totalCount)
     }
 }
 
-public extension OrganizationInvitations {
-    init(data: [OrganizationInvitation], totalCount: Int) {
+extension OrganizationInvitations {
+    public init(data: [OrganizationInvitation], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -159,15 +131,12 @@ public extension OrganizationInvitations {
 public struct OrganizationInvitationObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let organizationInvitation = OrganizationInvitationObject(rawValue: "organization_invitation")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

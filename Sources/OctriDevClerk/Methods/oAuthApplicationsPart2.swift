@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OAuthApplicationsMethods {
-    /// This request returns the list of OAuth applications for an instance. Results can be paginated using the optional
-    /// `limit` and `offset` query parameters. The OAuth applications are ordered by descending creation date. Most
-    /// recent OAuth applications will be returned first.
+extension OAuthApplicationsMethods {
+    /// This request returns the list of OAuth applications for an instance. Results can be paginated using the optional `limit` and `offset` query parameters. The OAuth applications are ordered by descending creation date. Most recent OAuth applications will be returned first.
     ///
     /// - Parameters:
     /// - limit: Applies a limit to the number of results returned. Can be used for
@@ -32,36 +30,20 @@ public extension OAuthApplicationsMethods {
     ///   application whose `client_id` is exactly the given query, which is useful
     ///   for resolving a `client_id` to the OAuth application `id` required by the
     ///   read, update and delete endpoints.
-    static func listOAuthApplications(
-        config: ClientConfig,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        orderBy: String? = nil,
-        nameQuery: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OAuthApplications {
-        if let limit {
+    public static func listOAuthApplications(config: ClientConfig, limit: Int? = nil, offset: Int? = nil, orderBy: String? = nil, nameQuery: String? = nil, requestOptions: RequestOptions? = nil) async throws -> OAuthApplications {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/oauth_applications",
-            config: config,
-            query: [
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-                SdkQueryParameter("order_by", value: orderBy),
-                SdkQueryParameter("name_query", value: nameQuery),
-            ],
-            decoder: .json,
-            operationId: "ListOAuthApplications",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", "/oauth_applications", config: config, query: [
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+            SdkQueryParameter("order_by", value: orderBy),
+            SdkQueryParameter("name_query", value: nameQuery),
+        ], decoder: .json, operationId: "ListOAuthApplications", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

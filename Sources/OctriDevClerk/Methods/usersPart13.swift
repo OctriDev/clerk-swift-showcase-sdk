@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension UsersMethods {
-    /// Fetch the corresponding OAuth access token for a user that has previously authenticated with a particular OAuth
-    /// provider. For OAuth 2.0, if the access token has expired and we have a corresponding refresh token, the access
-    /// token will be refreshed transparently the new one will be returned.
+extension UsersMethods {
+    /// Fetch the corresponding OAuth access token for a user that has previously authenticated with a particular OAuth provider. For OAuth 2.0, if the access token has expired and we have a corresponding refresh token, the access token will be refreshed transparently the new one will be returned.
     ///
     /// - Parameters:
     /// - userId: The ID of the user for which to retrieve the OAuth access token
@@ -20,41 +18,19 @@ public extension UsersMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    static func getOAuthAccessToken(
-        config: ClientConfig,
-        userId: String,
-        provider: String,
-        paginated: Bool? = nil,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OAuthAccessToken {
-        if let limit {
+    public static func getOAuthAccessToken(config: ClientConfig, userId: String, provider: String, paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> OAuthAccessToken {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            [
-                "/users/",
-                sdkEncodePathSegment(sdkWireString(userId)),
-                "/oauth_access_tokens/",
-                sdkEncodePathSegment(sdkWireString(provider)),
-            ].joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("paginated", value: paginated),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-            ],
-            decoder: .json,
-            operationId: "GetOAuthAccessToken",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/oauth_access_tokens/", sdkEncodePathSegment(sdkWireString(provider))].joined(), config: config, query: [
+            SdkQueryParameter("paginated", value: paginated),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "GetOAuthAccessToken", options: requestOptions, errors: ["400": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

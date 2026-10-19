@@ -7,9 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum MiscellaneousMethods {
-    /// The Clerk interstitial endpoint serves an html page that loads clerk.js in order to check the user's
-    /// authentication state. It is used by Clerk SDKs when the user's authentication state cannot be immediately
-    /// determined.
+    /// The Clerk interstitial endpoint serves an html page that loads clerk.js in order to check the user's authentication state. It is used by Clerk SDKs when the user's authentication state cannot be immediately determined.
     ///
     /// - Parameters:
     /// - frontendApi: Please use `frontend_api` instead
@@ -19,18 +17,8 @@ public enum MiscellaneousMethods {
     /// - domain: The domain of your instance
     /// - signInUrl: The sign in URL of your instance
     /// - useDomainForScript: Whether to use the domain for the script URL
-    public static func getPublicInterstitial(
-        config: ClientConfig,
-        frontendApi: String? = nil,
-        frontendApi2: String? = nil,
-        publishableKey: String? = nil,
-        proxyUrl: String? = nil,
-        domain: String? = nil,
-        signInUrl: String? = nil,
-        useDomainForScript: Bool? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SdkEmptyResponse {
-        try await (sdkRequest("GET", "/public/interstitial", config: config, query: [
+    public static func getPublicInterstitial(config: ClientConfig, frontendApi: String? = nil, frontendApi2: String? = nil, publishableKey: String? = nil, proxyUrl: String? = nil, domain: String? = nil, signInUrl: String? = nil, useDomainForScript: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> SdkEmptyResponse {
+        return try (await sdkRequest("GET", "/public/interstitial", config: config, query: [
             SdkQueryParameter("frontendApi", value: frontendApi),
             SdkQueryParameter("frontend_api", value: frontendApi2),
             SdkQueryParameter("publishable_key", value: publishableKey),

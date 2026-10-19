@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-/// Canonical m2MTokens operation model declarations
+// Canonical m2MTokens operation model declarations
 public struct RevokeM2MTokenResponse: Codable {
     public var object: RevokeM2MTokenResponseObject
     /// - Example: "mt_f7f0ba8c3b4843ce7d85fcdd5e71853e"
@@ -50,54 +50,39 @@ public struct RevokeM2MTokenResponse: Codable {
         case scopes
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RevokeM2MTokenResponse {
-    init(from decoder: Decoder) throws {
+extension RevokeM2MTokenResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        subject = try container.sdkDecodeRequired(.subject)
-        revoked = try container.sdkDecodeRequired(.revoked)
-        revocationReason = try container.sdkDecodeNullable(.revocationReason)
-        expired = try container.sdkDecodeRequired(.expired)
-        expiration = try container.sdkDecodeNullable(.expiration)
-        lastUsedAt = try container.sdkDecodeNullable(.lastUsedAt)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        claims = try container.sdkDecodeIfPresent(.claims)
-        scopes = try container.sdkDecodeIfPresent(.scopes)
-        try sdkValidatePattern("id", id, sdkPattern9b1015ec46ca)
-        try sdkValidatePattern("subject", subject, sdkPattern12d38cea1316)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.subject = try container.sdkDecodeRequired(.subject)
+        self.revoked = try container.sdkDecodeRequired(.revoked)
+        self.revocationReason = try container.sdkDecodeNullable(.revocationReason)
+        self.expired = try container.sdkDecodeRequired(.expired)
+        self.expiration = try container.sdkDecodeNullable(.expiration)
+        self.lastUsedAt = try container.sdkDecodeNullable(.lastUsedAt)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.claims = try container.sdkDecodeIfPresent(.claims)
+        self.scopes = try container.sdkDecodeIfPresent(.scopes)
+            try sdkValidatePattern("id", self.id, sdkPattern9b1015ec46ca)
+            try sdkValidatePattern("subject", self.subject, sdkPattern12d38cea1316)
     }
 }
 
-public extension RevokeM2MTokenResponse {
-    init(
-        object: RevokeM2MTokenResponseObject,
-        id: String,
-        subject: String,
-        revoked: Bool,
-        revocationReason: String?,
-        expired: Bool,
-        expiration: Double?,
-        lastUsedAt: Double?,
-        createdAt: Double,
-        updatedAt: Double,
-        claims: JSONValue? = nil,
-        scopes: [String]? = nil
-    ) throws {
+extension RevokeM2MTokenResponse {
+    public init(object: RevokeM2MTokenResponseObject, id: String, subject: String, revoked: Bool, revocationReason: String?, expired: Bool, expiration: Double?, lastUsedAt: Double?, createdAt: Double, updatedAt: Double, claims: JSONValue? = nil, scopes: [String]? = nil) throws {
         (self.object, self.id) = (object, id)
         (self.subject, self.revoked) = (subject, revoked)
         (self.revocationReason, self.expired) = (revocationReason, expired)
         (self.expiration, self.lastUsedAt) = (expiration, lastUsedAt)
         (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
         (self.claims, self.scopes) = (claims, scopes)
-        try sdkValidatePattern("id", self.id, sdkPattern9b1015ec46ca)
-        try sdkValidatePattern("subject", self.subject, sdkPattern12d38cea1316)
+            try sdkValidatePattern("id", self.id, sdkPattern9b1015ec46ca)
+            try sdkValidatePattern("subject", self.subject, sdkPattern12d38cea1316)
     }
 }
 
@@ -143,54 +128,39 @@ public struct GetM2MTokensResponseM2mTokensItem: Codable {
         case scopes
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension GetM2MTokensResponseM2mTokensItem {
-    init(from decoder: Decoder) throws {
+extension GetM2MTokensResponseM2mTokensItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        subject = try container.sdkDecodeRequired(.subject)
-        revoked = try container.sdkDecodeRequired(.revoked)
-        revocationReason = try container.sdkDecodeNullable(.revocationReason)
-        expired = try container.sdkDecodeRequired(.expired)
-        expiration = try container.sdkDecodeNullable(.expiration)
-        lastUsedAt = try container.sdkDecodeNullable(.lastUsedAt)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        claims = try container.sdkDecodeIfPresent(.claims)
-        scopes = try container.sdkDecodeIfPresent(.scopes)
-        try sdkValidatePattern("id", id, sdkPattern9b1015ec46ca)
-        try sdkValidatePattern("subject", subject, sdkPattern12d38cea1316)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.subject = try container.sdkDecodeRequired(.subject)
+        self.revoked = try container.sdkDecodeRequired(.revoked)
+        self.revocationReason = try container.sdkDecodeNullable(.revocationReason)
+        self.expired = try container.sdkDecodeRequired(.expired)
+        self.expiration = try container.sdkDecodeNullable(.expiration)
+        self.lastUsedAt = try container.sdkDecodeNullable(.lastUsedAt)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.claims = try container.sdkDecodeIfPresent(.claims)
+        self.scopes = try container.sdkDecodeIfPresent(.scopes)
+            try sdkValidatePattern("id", self.id, sdkPattern9b1015ec46ca)
+            try sdkValidatePattern("subject", self.subject, sdkPattern12d38cea1316)
     }
 }
 
-public extension GetM2MTokensResponseM2mTokensItem {
-    init(
-        object: GetM2MTokensResponseM2mTokensItemObject,
-        id: String,
-        subject: String,
-        revoked: Bool,
-        revocationReason: String?,
-        expired: Bool,
-        expiration: Double?,
-        lastUsedAt: Double?,
-        createdAt: Double,
-        updatedAt: Double,
-        claims: JSONValue? = nil,
-        scopes: [String]? = nil
-    ) throws {
+extension GetM2MTokensResponseM2mTokensItem {
+    public init(object: GetM2MTokensResponseM2mTokensItemObject, id: String, subject: String, revoked: Bool, revocationReason: String?, expired: Bool, expiration: Double?, lastUsedAt: Double?, createdAt: Double, updatedAt: Double, claims: JSONValue? = nil, scopes: [String]? = nil) throws {
         (self.object, self.id) = (object, id)
         (self.subject, self.revoked) = (subject, revoked)
         (self.revocationReason, self.expired) = (revocationReason, expired)
         (self.expiration, self.lastUsedAt) = (expiration, lastUsedAt)
         (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
         (self.claims, self.scopes) = (claims, scopes)
-        try sdkValidatePattern("id", self.id, sdkPattern9b1015ec46ca)
-        try sdkValidatePattern("subject", self.subject, sdkPattern12d38cea1316)
+            try sdkValidatePattern("id", self.id, sdkPattern9b1015ec46ca)
+            try sdkValidatePattern("subject", self.subject, sdkPattern12d38cea1316)
     }
 }
 
@@ -236,54 +206,39 @@ public struct VerifyM2MTokenResponse: Codable {
         case scopes
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension VerifyM2MTokenResponse {
-    init(from decoder: Decoder) throws {
+extension VerifyM2MTokenResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        subject = try container.sdkDecodeRequired(.subject)
-        revoked = try container.sdkDecodeRequired(.revoked)
-        revocationReason = try container.sdkDecodeNullable(.revocationReason)
-        expired = try container.sdkDecodeRequired(.expired)
-        expiration = try container.sdkDecodeNullable(.expiration)
-        lastUsedAt = try container.sdkDecodeNullable(.lastUsedAt)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        claims = try container.sdkDecodeIfPresent(.claims)
-        scopes = try container.sdkDecodeIfPresent(.scopes)
-        try sdkValidatePattern("id", id, sdkPattern9b1015ec46ca)
-        try sdkValidatePattern("subject", subject, sdkPattern12d38cea1316)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.subject = try container.sdkDecodeRequired(.subject)
+        self.revoked = try container.sdkDecodeRequired(.revoked)
+        self.revocationReason = try container.sdkDecodeNullable(.revocationReason)
+        self.expired = try container.sdkDecodeRequired(.expired)
+        self.expiration = try container.sdkDecodeNullable(.expiration)
+        self.lastUsedAt = try container.sdkDecodeNullable(.lastUsedAt)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.claims = try container.sdkDecodeIfPresent(.claims)
+        self.scopes = try container.sdkDecodeIfPresent(.scopes)
+            try sdkValidatePattern("id", self.id, sdkPattern9b1015ec46ca)
+            try sdkValidatePattern("subject", self.subject, sdkPattern12d38cea1316)
     }
 }
 
-public extension VerifyM2MTokenResponse {
-    init(
-        object: VerifyM2MTokenResponseObject,
-        id: String,
-        subject: String,
-        revoked: Bool,
-        revocationReason: String?,
-        expired: Bool,
-        expiration: Double?,
-        lastUsedAt: Double?,
-        createdAt: Double,
-        updatedAt: Double,
-        claims: JSONValue? = nil,
-        scopes: [String]? = nil
-    ) throws {
+extension VerifyM2MTokenResponse {
+    public init(object: VerifyM2MTokenResponseObject, id: String, subject: String, revoked: Bool, revocationReason: String?, expired: Bool, expiration: Double?, lastUsedAt: Double?, createdAt: Double, updatedAt: Double, claims: JSONValue? = nil, scopes: [String]? = nil) throws {
         (self.object, self.id) = (object, id)
         (self.subject, self.revoked) = (subject, revoked)
         (self.revocationReason, self.expired) = (revocationReason, expired)
         (self.expiration, self.lastUsedAt) = (expiration, lastUsedAt)
         (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
         (self.claims, self.scopes) = (claims, scopes)
-        try sdkValidatePattern("id", self.id, sdkPattern9b1015ec46ca)
-        try sdkValidatePattern("subject", self.subject, sdkPattern12d38cea1316)
+            try sdkValidatePattern("id", self.id, sdkPattern9b1015ec46ca)
+            try sdkValidatePattern("subject", self.subject, sdkPattern12d38cea1316)
     }
 }
 
@@ -301,43 +256,29 @@ public struct GetM2MTokensResponseErrorsItemX15be281a: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension GetM2MTokensResponseErrorsItemX15be281a {
-    init(from decoder: Decoder) throws {
+extension GetM2MTokensResponseErrorsItemX15be281a {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension GetM2MTokensResponseErrorsItemX15be281a {
-    init(message: String, longMessage: String, code: String) {
+extension GetM2MTokensResponseErrorsItemX15be281a {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -357,43 +298,29 @@ public struct GetM2MTokensResponseErrorsItem: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension GetM2MTokensResponseErrorsItem {
-    init(from decoder: Decoder) throws {
+extension GetM2MTokensResponseErrorsItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension GetM2MTokensResponseErrorsItem {
-    init(message: String, longMessage: String, code: String) {
+extension GetM2MTokensResponseErrorsItem {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -406,27 +333,21 @@ public struct CreateM2MTokenResponseX1971295e: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CreateM2MTokenResponseX1971295e {
-    init(from decoder: Decoder) throws {
+extension CreateM2MTokenResponseX1971295e {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension CreateM2MTokenResponseX1971295e {
-    init(errors: [CreateM2MTokenResponseErrorsItem]) {
+extension CreateM2MTokenResponseX1971295e {
+    public init(errors: [CreateM2MTokenResponseErrorsItem]) {
         self.errors = errors
     }
 }
@@ -476,48 +397,32 @@ public struct CreateM2MTokenResponse: Codable {
         case scopes
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CreateM2MTokenResponse {
-    init(from decoder: Decoder) throws {
+extension CreateM2MTokenResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        subject = try container.sdkDecodeRequired(.subject)
-        token = try container.sdkDecodeRequired(.token)
-        revoked = try container.sdkDecodeRequired(.revoked)
-        revocationReason = try container.sdkDecodeNullable(.revocationReason)
-        expired = try container.sdkDecodeRequired(.expired)
-        expiration = try container.sdkDecodeNullable(.expiration)
-        lastUsedAt = try container.sdkDecodeNullable(.lastUsedAt)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        claims = try container.sdkDecodeIfPresent(.claims)
-        scopes = try container.sdkDecodeIfPresent(.scopes)
-        try sdkValidatePattern("id", id, sdkPattern9b1015ec46ca)
-        try sdkValidatePattern("subject", subject, sdkPattern12d38cea1316)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.subject = try container.sdkDecodeRequired(.subject)
+        self.token = try container.sdkDecodeRequired(.token)
+        self.revoked = try container.sdkDecodeRequired(.revoked)
+        self.revocationReason = try container.sdkDecodeNullable(.revocationReason)
+        self.expired = try container.sdkDecodeRequired(.expired)
+        self.expiration = try container.sdkDecodeNullable(.expiration)
+        self.lastUsedAt = try container.sdkDecodeNullable(.lastUsedAt)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.claims = try container.sdkDecodeIfPresent(.claims)
+        self.scopes = try container.sdkDecodeIfPresent(.scopes)
+            try sdkValidatePattern("id", self.id, sdkPattern9b1015ec46ca)
+            try sdkValidatePattern("subject", self.subject, sdkPattern12d38cea1316)
     }
 }
 
-public extension CreateM2MTokenResponse {
-    init(
-        object: CreateM2MTokenResponseObject,
-        id: String,
-        subject: String,
-        token: String,
-        revoked: Bool,
-        revocationReason: String?,
-        expired: Bool,
-        expiration: Double?,
-        lastUsedAt: Double?,
-        createdAt: Double,
-        updatedAt: Double,
-        claims: JSONValue? = nil,
-        scopes: [String]? = nil
-    ) throws {
+extension CreateM2MTokenResponse {
+    public init(object: CreateM2MTokenResponseObject, id: String, subject: String, token: String, revoked: Bool, revocationReason: String?, expired: Bool, expiration: Double?, lastUsedAt: Double?, createdAt: Double, updatedAt: Double, claims: JSONValue? = nil, scopes: [String]? = nil) throws {
         (self.object, self.id) = (object, id)
         (self.subject, self.token) = (subject, token)
         (self.revoked, self.revocationReason) = (revoked, revocationReason)
@@ -525,8 +430,8 @@ public extension CreateM2MTokenResponse {
         (self.lastUsedAt, self.createdAt) = (lastUsedAt, createdAt)
         (self.updatedAt, self.claims) = (updatedAt, claims)
         self.scopes = scopes
-        try sdkValidatePattern("id", self.id, sdkPattern9b1015ec46ca)
-        try sdkValidatePattern("subject", self.subject, sdkPattern12d38cea1316)
+            try sdkValidatePattern("id", self.id, sdkPattern9b1015ec46ca)
+            try sdkValidatePattern("subject", self.subject, sdkPattern12d38cea1316)
     }
 }
 
@@ -544,43 +449,29 @@ public struct VerifyM2MTokenResponseErrorsItem: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension VerifyM2MTokenResponseErrorsItem {
-    init(from decoder: Decoder) throws {
+extension VerifyM2MTokenResponseErrorsItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension VerifyM2MTokenResponseErrorsItem {
-    init(message: String, longMessage: String, code: String) {
+extension VerifyM2MTokenResponseErrorsItem {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -600,43 +491,29 @@ public struct CreateM2MTokenResponseErrorsItem: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CreateM2MTokenResponseErrorsItem {
-    init(from decoder: Decoder) throws {
+extension CreateM2MTokenResponseErrorsItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension CreateM2MTokenResponseErrorsItem {
-    init(message: String, longMessage: String, code: String) {
+extension CreateM2MTokenResponseErrorsItem {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }

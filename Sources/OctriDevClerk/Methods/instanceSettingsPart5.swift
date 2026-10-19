@@ -6,51 +6,25 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension InstanceSettingsMethods {
-    /// Replaces the SMS country blocklist for this instance. Pass the full set of ISO 3166-1 alpha-2 country codes that
-    /// should be blocked; codes that aren't recognized as SMS-tier countries are silently dropped from the persisted
-    /// list. Omitting `blocked_country_codes` is a no-op.
+extension InstanceSettingsMethods {
+    /// Replaces the SMS country blocklist for this instance. Pass the full set of ISO 3166-1 alpha-2 country codes that should be blocked; codes that aren't recognized as SMS-tier countries are silently dropped from the persisted list. Omitting `blocked_country_codes` is a no-op.
     ///
     /// - Parameters:
     /// - blockedCountryCodes: ISO 3166-1 alpha-2 country codes to block for SMS
     ///   delivery. Whole-list replacement. Codes must be uppercase, 2-letter, and
     ///   unique within the array.
-    static func updateInstanceCommunication(
-        config: ClientConfig,
-        blockedCountryCodes: SdkOptional<[String]>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> InstanceCommunication {
+    public static func updateInstanceCommunication(config: ClientConfig, blockedCountryCodes: SdkOptional<[String]>? = nil, requestOptions: RequestOptions? = nil) async throws -> InstanceCommunication {
         if let blockedCountryCodes = blockedCountryCodes?.valueOrNil {
             try validateItems("blocked_country_codes", blockedCountryCodes, max: 250)
         }
 
         let requestBody = UpdateInstanceCommunicationRequestBody(blockedCountryCodes: blockedCountryCodes)
 
-        return try await (sdkRequest(
-            "PATCH",
-            "/instance/communication",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "UpdateInstanceCommunication",
-            options: requestOptions,
-            errors: ["422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("PATCH", "/instance/communication", config: config, body: requestBody, decoder: .json, operationId: "UpdateInstanceCommunication", options: requestOptions, errors: ["422": ClerkErrors.self])).data
     }
 
-    /// Retrieves the settings for OAuth applications for the instance (dynamic client registration, JWT access tokens,
-    /// etc.).
-    static func getInstanceOAuthApplicationSettings(
-        config: ClientConfig,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OAuthApplicationSettings {
-        try await (sdkRequest(
-            "GET",
-            "/instance/oauth_application_settings",
-            config: config,
-            decoder: .json,
-            operationId: "GetInstanceOAuthApplicationSettings",
-            options: requestOptions
-        )).data
+    /// Retrieves the settings for OAuth applications for the instance (dynamic client registration, JWT access tokens, etc.).
+    public static func getInstanceOAuthApplicationSettings(config: ClientConfig, requestOptions: RequestOptions? = nil) async throws -> OAuthApplicationSettings {
+        return try (await sdkRequest("GET", "/instance/oauth_application_settings", config: config, decoder: .json, operationId: "GetInstanceOAuthApplicationSettings", options: requestOptions)).data
     }
 }

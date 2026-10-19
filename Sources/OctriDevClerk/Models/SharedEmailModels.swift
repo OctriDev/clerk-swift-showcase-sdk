@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SharedEmail domain models
+// SharedEmail domain models
 public indirect enum EmailAddressVerification {
     case verificationOtp(VerificationOtp)
     case verificationAdmin(VerificationAdmin)
@@ -17,6 +17,7 @@ public indirect enum EmailAddressVerification {
 }
 
 extension EmailAddressVerification: Codable {
+
     private enum CodingKeys: String, CodingKey {
         case discriminator = "object"
     }
@@ -24,29 +25,20 @@ extension EmailAddressVerification: Codable {
     public init(from decoder: Decoder) throws {
         if let tagged = try? decoder.container(keyedBy: CodingKeys.self),
            let discriminator = try? tagged.decode(String.self, forKey: .discriminator) {
-            if let value = try Self.decodeGroup1(discriminator, from: decoder) {
-                self = value; return
-            }
+            if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
         }
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeUntaggedGroup1(from: container) {
-            self = value; return
-        }
+        if let value = Self.decodeUntaggedGroup1(from: container) { self = value; return }
         if let tagged = try? decoder.container(keyedBy: CodingKeys.self),
            let discriminator = try? tagged.decode(String.self, forKey: .discriminator) {
             self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
             return
         }
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "No variant matched for EmailAddressVerification"
-        )
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for EmailAddressVerification")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -57,41 +49,27 @@ extension EmailAddressVerification: Codable {
 extension EmailAddressVerification {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "verification_otp": try .verificationOtp(VerificationOtp(from: decoder))
-        case "verification_admin": try .verificationAdmin(VerificationAdmin(from: decoder))
-        case "verification_from_oauth": try .verificationFromOauth(VerificationFromOauth(from: decoder))
-        case "verification_ticket": try .verificationTicket(VerificationTicket(from: decoder))
-        case "verification_saml": try .verificationSaml(VerificationSaml(from: decoder))
-        case "verification_email_link": try .verificationEmailLink(VerificationEmailLink(from: decoder))
-        case "verification_scim": try .verificationScim(VerificationScim(from: decoder))
-        default: nil
+        case "verification_otp": return .verificationOtp(try VerificationOtp(from: decoder))
+        case "verification_admin": return .verificationAdmin(try VerificationAdmin(from: decoder))
+        case "verification_from_oauth": return .verificationFromOauth(try VerificationFromOauth(from: decoder))
+        case "verification_ticket": return .verificationTicket(try VerificationTicket(from: decoder))
+        case "verification_saml": return .verificationSaml(try VerificationSaml(from: decoder))
+        case "verification_email_link": return .verificationEmailLink(try VerificationEmailLink(from: decoder))
+        case "verification_scim": return .verificationScim(try VerificationScim(from: decoder))
+        default: return nil
         }
     }
 }
 
 extension EmailAddressVerification {
     static func decodeUntaggedGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(VerificationOtp.self) {
-            return .verificationOtp(value)
-        }
-        if let value = try? container.decode(VerificationAdmin.self) {
-            return .verificationAdmin(value)
-        }
-        if let value = try? container.decode(VerificationFromOauth.self) {
-            return .verificationFromOauth(value)
-        }
-        if let value = try? container.decode(VerificationTicket.self) {
-            return .verificationTicket(value)
-        }
-        if let value = try? container.decode(VerificationSaml.self) {
-            return .verificationSaml(value)
-        }
-        if let value = try? container.decode(VerificationEmailLink.self) {
-            return .verificationEmailLink(value)
-        }
-        if let value = try? container.decode(VerificationScim.self) {
-            return .verificationScim(value)
-        }
+        if let value = try? container.decode(VerificationOtp.self) { return .verificationOtp(value) }
+        if let value = try? container.decode(VerificationAdmin.self) { return .verificationAdmin(value) }
+        if let value = try? container.decode(VerificationFromOauth.self) { return .verificationFromOauth(value) }
+        if let value = try? container.decode(VerificationTicket.self) { return .verificationTicket(value) }
+        if let value = try? container.decode(VerificationSaml.self) { return .verificationSaml(value) }
+        if let value = try? container.decode(VerificationEmailLink.self) { return .verificationEmailLink(value) }
+        if let value = try? container.decode(VerificationScim.self) { return .verificationScim(value) }
         return nil
     }
 }
@@ -145,87 +123,47 @@ public struct EmailAddress: Codable {
         case matchesSsoConnection = "matches_sso_connection"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension EmailAddress {
-    init(from decoder: Decoder) throws {
+extension EmailAddress {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
+            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
         }
         guard container.contains(.emailAddress) else {
-            throw SdkValidationError(
-                field: "email_address",
-                code: "required",
-                message: "Validation failed for 'email_address': value is required"
-            )
+            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
         }
         guard container.contains(.reserved) else {
-            throw SdkValidationError(
-                field: "reserved",
-                code: "required",
-                message: "Validation failed for 'reserved': value is required"
-            )
+            throw SdkValidationError(field: "reserved", code: "required", message: "Validation failed for 'reserved': value is required")
         }
         guard container.contains(.verification) else {
-            throw SdkValidationError(
-                field: "verification",
-                code: "required",
-                message: "Validation failed for 'verification': value is required"
-            )
+            throw SdkValidationError(field: "verification", code: "required", message: "Validation failed for 'verification': value is required")
         }
         guard container.contains(.linkedTo) else {
-            throw SdkValidationError(
-                field: "linked_to",
-                code: "required",
-                message: "Validation failed for 'linked_to': value is required"
-            )
+            throw SdkValidationError(field: "linked_to", code: "required", message: "Validation failed for 'linked_to': value is required")
         }
         guard container.contains(.createdAt) else {
-            throw SdkValidationError(
-                field: "created_at",
-                code: "required",
-                message: "Validation failed for 'created_at': value is required"
-            )
+            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
         }
         guard container.contains(.updatedAt) else {
-            throw SdkValidationError(
-                field: "updated_at",
-                code: "required",
-                message: "Validation failed for 'updated_at': value is required"
-            )
+            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
         }
-        object = try container.sdkDecodeRequired(.object)
-        emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        reserved = try container.sdkDecodeRequired(.reserved)
-        verification = try container.sdkDecodeNullable(.verification)
-        linkedTo = try container.sdkDecodeRequired(.linkedTo)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        id = try container.sdkDecodeIfPresent(.id)
-        matchesSsoConnection = try container.sdkDecodeIfPresent(.matchesSsoConnection)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        self.reserved = try container.sdkDecodeRequired(.reserved)
+        self.verification = try container.sdkDecodeNullable(.verification)
+        self.linkedTo = try container.sdkDecodeRequired(.linkedTo)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.id = try container.sdkDecodeIfPresent(.id)
+        self.matchesSsoConnection = try container.sdkDecodeIfPresent(.matchesSsoConnection)
     }
 }
 
-public extension EmailAddress {
-    init(
-        object: EmailAddressObject,
-        emailAddress: String,
-        reserved: Bool,
-        verification: EmailAddressVerification?,
-        linkedTo: [IdentificationLink],
-        createdAt: Int,
-        updatedAt: Int,
-        id: String? = nil,
-        matchesSsoConnection: Bool? = nil
-    ) {
+extension EmailAddress {
+    public init(object: EmailAddressObject, emailAddress: String, reserved: Bool, verification: EmailAddressVerification?, linkedTo: [IdentificationLink], createdAt: Int, updatedAt: Int, id: String? = nil, matchesSsoConnection: Bool? = nil) {
         (self.object, self.emailAddress) = (object, emailAddress)
         (self.reserved, self.verification) = (reserved, verification)
         (self.linkedTo, self.createdAt) = (linkedTo, createdAt)
@@ -238,15 +176,12 @@ public extension EmailAddress {
 public struct EmailAddressObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let emailAddress = EmailAddressObject(rawValue: "email_address")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

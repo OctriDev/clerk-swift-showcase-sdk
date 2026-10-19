@@ -3,25 +3,19 @@
 
 import Foundation
 
-/// InstanceSettings domain models
+// InstanceSettings domain models
 /// Required enumerated value serialized in the `domains_enrollment_modes[]` wire field.
-public struct OrganizationSettingsDomainsEnrollmentModesItem: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct OrganizationSettingsDomainsEnrollmentModesItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let manualInvitation = OrganizationSettingsDomainsEnrollmentModesItem(rawValue: "manual_invitation")
-    public static let automaticInvitation =
-        OrganizationSettingsDomainsEnrollmentModesItem(rawValue: "automatic_invitation")
-    public static let automaticSuggestion =
-        OrganizationSettingsDomainsEnrollmentModesItem(rawValue: "automatic_suggestion")
+    public static let automaticInvitation = OrganizationSettingsDomainsEnrollmentModesItem(rawValue: "automatic_invitation")
+    public static let automaticSuggestion = OrganizationSettingsDomainsEnrollmentModesItem(rawValue: "automatic_suggestion")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -34,15 +28,12 @@ public struct OrganizationSettingsDomainsEnrollmentModesItem: RawRepresentable, 
 public struct InstanceProtectObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let instanceProtect = InstanceProtectObject(rawValue: "instance_protect")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -55,15 +46,12 @@ public struct InstanceProtectObject: RawRepresentable, Hashable, Codable, Sendab
 public struct OAuthApplicationSettingsObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let oauthApplicationSettings = OAuthApplicationSettingsObject(rawValue: "oauth_application_settings")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -76,15 +64,12 @@ public struct OAuthApplicationSettingsObject: RawRepresentable, Hashable, Codabl
 public struct InstanceCommunicationObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let instanceCommunication = InstanceCommunicationObject(rawValue: "instance_communication")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -97,15 +82,12 @@ public struct InstanceCommunicationObject: RawRepresentable, Hashable, Codable, 
 public struct OrganizationSettingsObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let organizationSettings = OrganizationSettingsObject(rawValue: "organization_settings")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

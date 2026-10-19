@@ -6,32 +6,18 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension MachinesMethods {
+extension MachinesMethods {
     /// Retrieves the secret key for a machine. Use the `machine_id` to identify which machine's key you need.
     ///
     /// Returns the secret key for a machine.
     ///
     /// - Parameters:
     /// - machineId: The ID of the machine to retrieve the secret key for
-    static func getMachineSecretKey(
-        config: ClientConfig,
-        machineId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> MachineSecretKey {
-        try await (sdkRequest(
-            "GET",
-            ["/machines/", sdkEncodePathSegment(sdkWireString(machineId)), "/secret_key"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "GetMachineSecretKey",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func getMachineSecretKey(config: ClientConfig, machineId: String, requestOptions: RequestOptions? = nil) async throws -> MachineSecretKey {
+        return try (await sdkRequest("GET", ["/machines/", sdkEncodePathSegment(sdkWireString(machineId)), "/secret_key"].joined(), config: config, decoder: .json, operationId: "GetMachineSecretKey", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 
-    /// Rotates the machine's secret key. When the secret key is rotated, make sure to update it in your
-    /// machine/application. The previous secret key will remain valid for the duration specified by the
-    /// previous_token_ttl parameter.
+    /// Rotates the machine's secret key. When the secret key is rotated, make sure to update it in your machine/application. The previous secret key will remain valid for the duration specified by the previous_token_ttl parameter.
     ///
     /// - Parameters:
     /// - machineId: The ID of the machine to rotate the secret key for
@@ -39,31 +25,11 @@ public extension MachinesMethods {
     ///   remain valid after rotation. This ensures a graceful transition period for
     ///   updating applications with the new secret key. Set to 0 to immediately
     ///   expire the previous key. Maximum value is 8 hours (28800 seconds).
-    static func rotateMachineSecretKey(
-        config: ClientConfig,
-        machineId: String,
-        previousTokenTtl: Int,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> MachineSecretKey {
+    public static func rotateMachineSecretKey(config: ClientConfig, machineId: String, previousTokenTtl: Int, requestOptions: RequestOptions? = nil) async throws -> MachineSecretKey {
         try validateRange("previous_token_ttl", Double(previousTokenTtl), min: 0, max: 28800)
 
         let requestBody = RotateMachineSecretKeyRequestBody(previousTokenTtl: previousTokenTtl)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/machines/", sdkEncodePathSegment(sdkWireString(machineId)), "/secret_key/rotate"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "RotateMachineSecretKey",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/machines/", sdkEncodePathSegment(sdkWireString(machineId)), "/secret_key/rotate"].joined(), config: config, body: requestBody, decoder: .json, operationId: "RotateMachineSecretKey", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

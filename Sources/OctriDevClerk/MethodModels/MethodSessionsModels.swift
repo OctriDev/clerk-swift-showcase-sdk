@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-/// Canonical sessions operation model declarations
+// Canonical sessions operation model declarations
 public struct CreateSessionTokenFromTemplateResponse: Codable {
     public var object: CreateSessionTokenFromTemplateResponseObject?
     public var jwt: String?
@@ -18,20 +18,20 @@ public struct CreateSessionTokenFromTemplateResponse: Codable {
     }
 
     init() {
-        (object, jwt) = (nil, nil)
+        (self.object, self.jwt) = (nil, nil)
     }
 }
 
-public extension CreateSessionTokenFromTemplateResponse {
-    init(from decoder: Decoder) throws {
+extension CreateSessionTokenFromTemplateResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeIfPresent(.object)
-        jwt = try container.sdkDecodeIfPresent(.jwt)
+        self.object = try container.sdkDecodeIfPresent(.object)
+        self.jwt = try container.sdkDecodeIfPresent(.jwt)
     }
 }
 
-public extension CreateSessionTokenFromTemplateResponse {
-    init(object: CreateSessionTokenFromTemplateResponseObject? = nil, jwt: String? = nil) {
+extension CreateSessionTokenFromTemplateResponse {
+    public init(object: CreateSessionTokenFromTemplateResponseObject? = nil, jwt: String? = nil) {
         self.init()
         (self.object, self.jwt) = (object, jwt)
     }
@@ -47,20 +47,20 @@ public struct CreateSessionTokenResponse: Codable {
     }
 
     init() {
-        (object, jwt) = (nil, nil)
+        (self.object, self.jwt) = (nil, nil)
     }
 }
 
-public extension CreateSessionTokenResponse {
-    init(from decoder: Decoder) throws {
+extension CreateSessionTokenResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeIfPresent(.object)
-        jwt = try container.sdkDecodeIfPresent(.jwt)
+        self.object = try container.sdkDecodeIfPresent(.object)
+        self.jwt = try container.sdkDecodeIfPresent(.jwt)
     }
 }
 
-public extension CreateSessionTokenResponse {
-    init(object: CreateSessionTokenResponseObject? = nil, jwt: String? = nil) {
+extension CreateSessionTokenResponse {
+    public init(object: CreateSessionTokenResponseObject? = nil, jwt: String? = nil) {
         self.init()
         (self.object, self.jwt) = (object, jwt)
     }
