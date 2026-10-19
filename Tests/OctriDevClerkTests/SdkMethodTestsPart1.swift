@@ -324,7 +324,7 @@ extension SdkMethodTests {
         let actual = try await client.emailAddresses.attemptEmailAddressVerification(
             emailAddressId: decoded("\"email_address-1\""),
             verificationId: decoded("\"verification-1\""),
-            code: decoded("\"code\"")
+            code: decoded("\"user@example.com\"")
         )
         let expected = try JSONSerialization.jsonObject(
             with: Data(sdkMethodFixture13Expected.utf8),
@@ -349,7 +349,7 @@ extension SdkMethodTests {
             _ = try await client.emailAddresses.attemptEmailAddressVerification(
             emailAddressId: decoded("\"email_address-1\""),
             verificationId: decoded("\"verification-1\""),
-            code: decoded("\"code\"")
+            code: decoded("\"user@example.com\"")
         )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
