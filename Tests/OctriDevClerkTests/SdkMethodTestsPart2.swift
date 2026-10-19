@@ -127,7 +127,7 @@ extension SdkMethodTests {
         }
         _ = client
         let actual = try await client.agentTasks.create(
-            onBehalfOf: decoded("{\"user_id\":\"user-1\",\"identifier\":\"identifier\"}"),
+            onBehalfOf: decoded("{\"user_id\":\"user-1\",\"identifier\":\"user@example.com\"}"),
             permissions: decoded("\"*\""),
             agentName: decoded("\"Example Name\""),
             taskDescription: decoded("\"example text\""),
@@ -155,7 +155,7 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.agentTasks.create(
-                onBehalfOf: decoded("{\"user_id\":\"user-1\",\"identifier\":\"identifier\"}"),
+                onBehalfOf: decoded("{\"user_id\":\"user-1\",\"identifier\":\"user@example.com\"}"),
                 permissions: decoded("\"*\""),
                 agentName: decoded("\"Example Name\""),
                 taskDescription: decoded("\"example text\""),
@@ -183,7 +183,7 @@ extension SdkMethodTests {
         }
         _ = client
         let actual = try await client.allowListBlockList.createAllowlistIdentifier(
-            identifier: decoded("\"identifier\""),
+            identifier: decoded("\"user@example.com\""),
             notify: decoded("false")
         )
         let expected = try JSONSerialization.jsonObject(
@@ -207,7 +207,7 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.allowListBlockList.createAllowlistIdentifier(
-                identifier: decoded("\"identifier\""),
+                identifier: decoded("\"user@example.com\""),
                 notify: decoded("false")
             )
             XCTFail("did not raise its declared error")
@@ -365,7 +365,7 @@ extension SdkMethodTests {
         }
         _ = client
         let actual = try await client.allowListBlockList.createBlocklistIdentifier(
-            identifier: decoded("\"identifier\"")
+            identifier: decoded("\"user@example.com\"")
         )
         let expected = try JSONSerialization.jsonObject(
             with: Data(sdkMethodFixture37Expected.utf8),
@@ -388,7 +388,7 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.allowListBlockList.createBlocklistIdentifier(
-                identifier: decoded("\"identifier\"")
+                identifier: decoded("\"user@example.com\"")
             )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
