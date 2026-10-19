@@ -3,7 +3,7 @@
 
 import Foundation
 
-// AgentTasks domain models
+/// AgentTasks domain models
 /// Typed representation of the `AgentTask` API schema.
 public struct AgentTask: Codable {
     /// Required enumerated value serialized in the `object` wire field.
@@ -26,34 +26,52 @@ public struct AgentTask: Codable {
         case url
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension AgentTask {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.agentId) else {
-            throw SdkValidationError(field: "agent_id", code: "required", message: "Validation failed for 'agent_id': value is required")
-        }
-        guard container.contains(.agentTaskId) else {
-            throw SdkValidationError(field: "agent_task_id", code: "required", message: "Validation failed for 'agent_task_id': value is required")
-        }
-        guard container.contains(.taskId) else {
-            throw SdkValidationError(field: "task_id", code: "required", message: "Validation failed for 'task_id': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.agentId = try container.sdkDecodeRequired(.agentId)
-        self.agentTaskId = try container.sdkDecodeRequired(.agentTaskId)
-        self.taskId = try container.sdkDecodeRequired(.taskId)
-        self.url = try container.sdkDecodeIfPresent(.url)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension AgentTask {
-    public init(object: AgentTaskObject, agentId: String, agentTaskId: String, taskId: String, url: String? = nil) {
+public extension AgentTask {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.agentId) else {
+            throw SdkValidationError(
+                field: "agent_id",
+                code: "required",
+                message: "Validation failed for 'agent_id': value is required"
+            )
+        }
+        guard container.contains(.agentTaskId) else {
+            throw SdkValidationError(
+                field: "agent_task_id",
+                code: "required",
+                message: "Validation failed for 'agent_task_id': value is required"
+            )
+        }
+        guard container.contains(.taskId) else {
+            throw SdkValidationError(
+                field: "task_id",
+                code: "required",
+                message: "Validation failed for 'task_id': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        agentId = try container.sdkDecodeRequired(.agentId)
+        agentTaskId = try container.sdkDecodeRequired(.agentTaskId)
+        taskId = try container.sdkDecodeRequired(.taskId)
+        url = try container.sdkDecodeIfPresent(.url)
+    }
+}
+
+public extension AgentTask {
+    init(object: AgentTaskObject, agentId: String, agentTaskId: String, taskId: String, url: String? = nil) {
         (self.object, self.agentId) = (object, agentId)
         (self.agentTaskId, self.taskId) = (agentTaskId, taskId)
         self.url = url
@@ -64,12 +82,15 @@ extension AgentTask {
 public struct AgentTaskObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let agentTask = AgentTaskObject(rawValue: "agent_task")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

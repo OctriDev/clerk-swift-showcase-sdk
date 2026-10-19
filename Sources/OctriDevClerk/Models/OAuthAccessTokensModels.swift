@@ -3,34 +3,48 @@
 
 import Foundation
 
-// OAuthAccessTokens domain models
+/// OAuthAccessTokens domain models
 public indirect enum VerifyOAuthAccessTokenResponse {
     case verifyOAuthAccessTokenResponseVariant0(VerifyOAuthAccessTokenResponseVariant0)
     case verifyOAuthAccessTokenResponseVariant1(VerifyOAuthAccessTokenResponseVariant1)
 }
 
 extension VerifyOAuthAccessTokenResponse: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let raw = try? container.decode(JSONValue.self) {
-            if let value = Self.decodeLossless1(from: container, raw) { self = value; return }
+            if let value = Self.decodeLossless1(from: container, raw) {
+                self = value; return
+            }
         }
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for VerifyOAuthAccessTokenResponse")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for VerifyOAuthAccessTokenResponse"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension VerifyOAuthAccessTokenResponse {
     static func decodeLossless1(from container: SingleValueDecodingContainer, _ raw: JSONValue) -> Self? {
-        if let value = try? container.decode(VerifyOAuthAccessTokenResponseVariant0.self), sdkKeepsEveryKey(value, of: raw) {
+        if let value = try? container.decode(VerifyOAuthAccessTokenResponseVariant0.self), sdkKeepsEveryKey(
+            value,
+            of: raw
+        ) {
             return .verifyOAuthAccessTokenResponseVariant0(value)
         }
-        if let value = try? container.decode(VerifyOAuthAccessTokenResponseVariant1.self), sdkKeepsEveryKey(value, of: raw) {
+        if let value = try? container.decode(VerifyOAuthAccessTokenResponseVariant1.self), sdkKeepsEveryKey(
+            value,
+            of: raw
+        ) {
             return .verifyOAuthAccessTokenResponseVariant1(value)
         }
         return nil
@@ -42,12 +56,12 @@ extension VerifyOAuthAccessTokenResponse {
         if let value = try? container.decode(
             VerifyOAuthAccessTokenResponseVariant0.self
         ) {
-            return             .verifyOAuthAccessTokenResponseVariant0(value)
+            return .verifyOAuthAccessTokenResponseVariant0(value)
         }
         if let value = try? container.decode(
             VerifyOAuthAccessTokenResponseVariant1.self
         ) {
-            return             .verifyOAuthAccessTokenResponseVariant1(value)
+            return .verifyOAuthAccessTokenResponseVariant1(value)
         }
         return nil
     }
@@ -110,32 +124,48 @@ public struct VerifyOAuthAccessTokenResponseVariant0: Codable {
         case act
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension VerifyOAuthAccessTokenResponseVariant0 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.clientId = try container.sdkDecodeRequired(.clientId)
-        self.subject = try container.sdkDecodeRequired(.subject)
-        self.scopes = try container.sdkDecodeRequired(.scopes)
-        self.revoked = try container.sdkDecodeRequired(.revoked)
-        self.revocationReason = try container.sdkDecodeNullable(.revocationReason)
-        self.expired = try container.sdkDecodeRequired(.expired)
-        self.expiration = try container.sdkDecodeNullable(.expiration)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.aud = try container.sdkDecodeIfPresent(.aud)
-        self.act = try container.sdkDecodeIfPresent(.act)
-            try sdkValidatePattern("id", self.id, sdkPatterna942e2b707ce)
-            try sdkValidatePattern("subject", self.subject, sdkPatternd6056357d037)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension VerifyOAuthAccessTokenResponseVariant0 {
-    public init(object: VerifyOAuthAccessTokenResponseVariant0Object, id: String, clientId: String, subject: String, scopes: [String], revoked: Bool, revocationReason: String?, expired: Bool, expiration: Double?, createdAt: Double, updatedAt: Double, aud: [String]? = nil, act: VerifyOAuthAccessTokenResponseVariant0Act? = nil) throws {
+public extension VerifyOAuthAccessTokenResponseVariant0 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        clientId = try container.sdkDecodeRequired(.clientId)
+        subject = try container.sdkDecodeRequired(.subject)
+        scopes = try container.sdkDecodeRequired(.scopes)
+        revoked = try container.sdkDecodeRequired(.revoked)
+        revocationReason = try container.sdkDecodeNullable(.revocationReason)
+        expired = try container.sdkDecodeRequired(.expired)
+        expiration = try container.sdkDecodeNullable(.expiration)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        aud = try container.sdkDecodeIfPresent(.aud)
+        act = try container.sdkDecodeIfPresent(.act)
+        try sdkValidatePattern("id", id, sdkPatterna942e2b707ce)
+        try sdkValidatePattern("subject", subject, sdkPatternd6056357d037)
+    }
+}
+
+public extension VerifyOAuthAccessTokenResponseVariant0 {
+    init(
+        object: VerifyOAuthAccessTokenResponseVariant0Object,
+        id: String,
+        clientId: String,
+        subject: String,
+        scopes: [String],
+        revoked: Bool,
+        revocationReason: String?,
+        expired: Bool,
+        expiration: Double?,
+        createdAt: Double,
+        updatedAt: Double,
+        aud: [String]? = nil,
+        act: VerifyOAuthAccessTokenResponseVariant0Act? = nil
+    ) throws {
         (self.object, self.id) = (object, id)
         (self.clientId, self.subject) = (clientId, subject)
         (self.scopes, self.revoked) = (scopes, revoked)
@@ -143,8 +173,8 @@ extension VerifyOAuthAccessTokenResponseVariant0 {
         (self.expiration, self.createdAt) = (expiration, createdAt)
         (self.updatedAt, self.aud) = (updatedAt, aud)
         self.act = act
-            try sdkValidatePattern("id", self.id, sdkPatterna942e2b707ce)
-            try sdkValidatePattern("subject", self.subject, sdkPatternd6056357d037)
+        try sdkValidatePattern("id", self.id, sdkPatterna942e2b707ce)
+        try sdkValidatePattern("subject", self.subject, sdkPatternd6056357d037)
     }
 }
 
@@ -161,23 +191,29 @@ public struct VerifyOAuthAccessTokenResponseVariant0Act: Codable {
         case act
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension VerifyOAuthAccessTokenResponseVariant0Act {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.sub) else {
-            throw SdkValidationError(field: "sub", code: "required", message: "Validation failed for 'sub': value is required")
-        }
-        self.sub = try container.sdkDecodeRequired(.sub)
-        self.iss = try container.sdkDecodeIfPresent(.iss)
-        self.act = try container.sdkDecodeIfPresent(.act)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension VerifyOAuthAccessTokenResponseVariant0Act {
-    public init(sub: String, iss: String? = nil, act: VerifyOAuthAccessTokenResponseVariant0ActAct? = nil) {
+public extension VerifyOAuthAccessTokenResponseVariant0Act {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.sub) else {
+            throw SdkValidationError(
+                field: "sub",
+                code: "required",
+                message: "Validation failed for 'sub': value is required"
+            )
+        }
+        sub = try container.sdkDecodeRequired(.sub)
+        iss = try container.sdkDecodeIfPresent(.iss)
+        act = try container.sdkDecodeIfPresent(.act)
+    }
+}
+
+public extension VerifyOAuthAccessTokenResponseVariant0Act {
+    init(sub: String, iss: String? = nil, act: VerifyOAuthAccessTokenResponseVariant0ActAct? = nil) {
         (self.sub, self.iss) = (sub, iss)
         self.act = act
     }
@@ -192,22 +228,28 @@ public struct VerifyOAuthAccessTokenResponseVariant0ActAct: Codable {
         case iss
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension VerifyOAuthAccessTokenResponseVariant0ActAct {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.sub) else {
-            throw SdkValidationError(field: "sub", code: "required", message: "Validation failed for 'sub': value is required")
-        }
-        self.sub = try container.sdkDecodeRequired(.sub)
-        self.iss = try container.sdkDecodeIfPresent(.iss)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension VerifyOAuthAccessTokenResponseVariant0ActAct {
-    public init(sub: String, iss: String? = nil) {
+public extension VerifyOAuthAccessTokenResponseVariant0ActAct {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.sub) else {
+            throw SdkValidationError(
+                field: "sub",
+                code: "required",
+                message: "Validation failed for 'sub': value is required"
+            )
+        }
+        sub = try container.sdkDecodeRequired(.sub)
+        iss = try container.sdkDecodeIfPresent(.iss)
+    }
+}
+
+public extension VerifyOAuthAccessTokenResponseVariant0ActAct {
+    init(sub: String, iss: String? = nil) {
         (self.sub, self.iss) = (sub, iss)
     }
 }
@@ -220,34 +262,45 @@ public struct VerifyOAuthAccessTokenResponseVariant1: Codable {
         case active
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension VerifyOAuthAccessTokenResponseVariant1 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.active) else {
-            throw SdkValidationError(field: "active", code: "required", message: "Validation failed for 'active': value is required")
-        }
-        self.active = try container.sdkDecodeRequired(.active)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension VerifyOAuthAccessTokenResponseVariant1 {
-    public init(active: Bool) {
+public extension VerifyOAuthAccessTokenResponseVariant1 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.active) else {
+            throw SdkValidationError(
+                field: "active",
+                code: "required",
+                message: "Validation failed for 'active': value is required"
+            )
+        }
+        active = try container.sdkDecodeRequired(.active)
+    }
+}
+
+public extension VerifyOAuthAccessTokenResponseVariant1 {
+    init(active: Bool) {
         self.active = active
     }
 }
 
-public struct VerifyOAuthAccessTokenResponseVariant0Object: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct VerifyOAuthAccessTokenResponseVariant0Object: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let clerkIdpOauthAccessToken = VerifyOAuthAccessTokenResponseVariant0Object(rawValue: "clerk_idp_oauth_access_token")
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let clerkIdpOauthAccessToken =
+        VerifyOAuthAccessTokenResponseVariant0Object(rawValue: "clerk_idp_oauth_access_token")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

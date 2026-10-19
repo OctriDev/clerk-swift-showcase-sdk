@@ -6,17 +6,21 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public struct ListEnterpriseConnectionTestRunsParameterItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct ListEnterpriseConnectionTestRunsParameterItem: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let pending = ListEnterpriseConnectionTestRunsParameterItem(rawValue: "pending")
     public static let success = ListEnterpriseConnectionTestRunsParameterItem(rawValue: "success")
     public static let failed = ListEnterpriseConnectionTestRunsParameterItem(rawValue: "failed")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -25,10 +29,14 @@ public struct ListEnterpriseConnectionTestRunsParameterItem: RawRepresentable, H
     }
 }
 
-public struct GetCommerceSubscriptionItemListParameter: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct GetCommerceSubscriptionItemListParameter: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let active = GetCommerceSubscriptionItemListParameter(rawValue: "active")
     public static let ended = GetCommerceSubscriptionItemListParameter(rawValue: "ended")
     public static let pastDue = GetCommerceSubscriptionItemListParameter(rawValue: "past_due")
@@ -37,7 +45,7 @@ public struct GetCommerceSubscriptionItemListParameter: RawRepresentable, Hashab
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -49,12 +57,15 @@ public struct GetCommerceSubscriptionItemListParameter: RawRepresentable, Hashab
 public struct GetApiKeyResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let apiKey = GetApiKeyResponseObject(rawValue: "api_key")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -63,16 +74,20 @@ public struct GetApiKeyResponseObject: RawRepresentable, Hashable, Codable, Send
     }
 }
 
-public struct GetCommerceSubscriptionItemListParameterX60a426ca: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct GetCommerceSubscriptionItemListParameterX60a426ca: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let user = GetCommerceSubscriptionItemListParameterX60a426ca(rawValue: "user")
     public static let org = GetCommerceSubscriptionItemListParameterX60a426ca(rawValue: "org")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -84,13 +99,16 @@ public struct GetCommerceSubscriptionItemListParameterX60a426ca: RawRepresentabl
 public struct GetTemplateParameter: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let email = GetTemplateParameter(rawValue: "email")
     public static let sms = GetTemplateParameter(rawValue: "sms")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -100,21 +118,26 @@ public struct GetTemplateParameter: RawRepresentable, Hashable, Codable, Sendabl
 }
 
 /// The identity provider (e.g. saml_custom, oidc_custom, oidc_github_enterprise, oidc_gitlab)
-public struct CreateEnterpriseConnectionRequestBodyProvider: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct CreateEnterpriseConnectionRequestBodyProvider: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let samlCustom = CreateEnterpriseConnectionRequestBodyProvider(rawValue: "saml_custom")
     public static let samlOkta = CreateEnterpriseConnectionRequestBodyProvider(rawValue: "saml_okta")
     public static let samlGoogle = CreateEnterpriseConnectionRequestBodyProvider(rawValue: "saml_google")
     public static let samlMicrosoft = CreateEnterpriseConnectionRequestBodyProvider(rawValue: "saml_microsoft")
     public static let oidcCustom = CreateEnterpriseConnectionRequestBodyProvider(rawValue: "oidc_custom")
-    public static let oidcGithubEnterprise = CreateEnterpriseConnectionRequestBodyProvider(rawValue: "oidc_github_enterprise")
+    public static let oidcGithubEnterprise =
+        CreateEnterpriseConnectionRequestBodyProvider(rawValue: "oidc_github_enterprise")
     public static let oidcGitlab = CreateEnterpriseConnectionRequestBodyProvider(rawValue: "oidc_gitlab")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -126,12 +149,15 @@ public struct CreateEnterpriseConnectionRequestBodyProvider: RawRepresentable, H
 public struct RevokeApiKeyResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let apiKey = RevokeApiKeyResponseObject(rawValue: "api_key")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -143,17 +169,22 @@ public struct RevokeApiKeyResponseObject: RawRepresentable, Hashable, Codable, S
 /// When password is required at the instance level, sets the preferred sign-in strategy surfaced to Clerk
 /// components. Has no effect when password is not required. Defaults to `password`. Set to an empty string to
 /// clear the override.
-public struct UpdateInstanceRequestBodyPreferredSignInStrategyWhenPasswordRequired: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct UpdateInstanceRequestBodyPreferredSignInStrategyWhenPasswordRequired: RawRepresentable, Hashable, Codable,
+    Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let password = UpdateInstanceRequestBodyPreferredSignInStrategyWhenPasswordRequired(rawValue: "password")
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let password =
+        UpdateInstanceRequestBodyPreferredSignInStrategyWhenPasswordRequired(rawValue: "password")
     public static let otp = UpdateInstanceRequestBodyPreferredSignInStrategyWhenPasswordRequired(rawValue: "otp")
     public static let unknown = UpdateInstanceRequestBodyPreferredSignInStrategyWhenPasswordRequired(rawValue: "")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -163,17 +194,21 @@ public struct UpdateInstanceRequestBodyPreferredSignInStrategyWhenPasswordRequir
 }
 
 /// Controls the login_hint sent to the IdP on SSO sign-in
-public struct CreateSAMLConnectionRequestBodyLoginHintMode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct CreateSAMLConnectionRequestBodyLoginHintMode: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let emailAddress = CreateSAMLConnectionRequestBodyLoginHintMode(rawValue: "email_address")
     public static let customAttribute = CreateSAMLConnectionRequestBodyLoginHintMode(rawValue: "custom_attribute")
     public static let off = CreateSAMLConnectionRequestBodyLoginHintMode(rawValue: "off")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -185,13 +220,16 @@ public struct CreateSAMLConnectionRequestBodyLoginHintMode: RawRepresentable, Ha
 public struct VerifyTOTPResponseCodeType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let totp = VerifyTOTPResponseCodeType(rawValue: "totp")
     public static let backupCode = VerifyTOTPResponseCodeType(rawValue: "backup_code")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -205,6 +243,6 @@ struct VerifyClientRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(self.token, forKey: SdkCodingKey("token"))
+        try keyedContainer.encode(token, forKey: SdkCodingKey("token"))
     }
 }

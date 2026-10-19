@@ -6,16 +6,38 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension RoleSetsMethods {
-    /// Replaces a role in a role set with another role. This atomically removes the source role and reassigns any members to the destination role.
+public extension RoleSetsMethods {
+    /// Replaces a role in a role set with another role. This atomically removes the source role and reassigns any
+    /// members to the destination role.
     ///
     /// - Parameters:
     /// - roleSetKeyOrId: The key or ID of the role set
     /// - roleKey: The key of the role to remove from the role set
     /// - toRoleKey: The key of the role to reassign members to
-    public static func replaceRoleInRoleSet(config: ClientConfig, roleSetKeyOrId: String, roleKey: String, toRoleKey: String, requestOptions: RequestOptions? = nil) async throws -> RoleSet {
+    static func replaceRoleInRoleSet(
+        config: ClientConfig,
+        roleSetKeyOrId: String,
+        roleKey: String,
+        toRoleKey: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> RoleSet {
         let requestBody = ReplaceRoleInRoleSetRequestBody(roleKey: roleKey, toRoleKey: toRoleKey)
 
-        return try (await sdkRequest("POST", ["/role_sets/", sdkEncodePathSegment(sdkWireString(roleSetKeyOrId)), "/roles/replace"].joined(), config: config, body: requestBody, decoder: .json, operationId: "ReplaceRoleInRoleSet", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/role_sets/", sdkEncodePathSegment(sdkWireString(roleSetKeyOrId)), "/roles/replace"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "ReplaceRoleInRoleSet",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 }

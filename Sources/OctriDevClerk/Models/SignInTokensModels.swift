@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SignInTokens domain models
+/// SignInTokens domain models
 /// Typed representation of the `SignInToken` API schema.
 public struct SignInToken: Codable {
     /// Required enumerated value serialized in the `object` wire field.
@@ -34,43 +34,78 @@ public struct SignInToken: Codable {
         case url
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension SignInToken {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.status) else {
-            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
-        }
-        guard container.contains(.userId) else {
-            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        guard container.contains(.updatedAt) else {
-            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.userId = try container.sdkDecodeRequired(.userId)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.token = try container.sdkDecodeIfPresent(.token)
-        self.url = try container.sdkDecodeIfPresent(.url)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension SignInToken {
-    public init(object: SignInTokenObject, id: String, status: SignInTokenStatus, userId: String, createdAt: Int, updatedAt: Int, token: String? = nil, url: String? = nil) {
+public extension SignInToken {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.status) else {
+            throw SdkValidationError(
+                field: "status",
+                code: "required",
+                message: "Validation failed for 'status': value is required"
+            )
+        }
+        guard container.contains(.userId) else {
+            throw SdkValidationError(
+                field: "user_id",
+                code: "required",
+                message: "Validation failed for 'user_id': value is required"
+            )
+        }
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        guard container.contains(.updatedAt) else {
+            throw SdkValidationError(
+                field: "updated_at",
+                code: "required",
+                message: "Validation failed for 'updated_at': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        status = try container.sdkDecodeRequired(.status)
+        userId = try container.sdkDecodeRequired(.userId)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        token = try container.sdkDecodeIfPresent(.token)
+        url = try container.sdkDecodeIfPresent(.url)
+    }
+}
+
+public extension SignInToken {
+    init(
+        object: SignInTokenObject,
+        id: String,
+        status: SignInTokenStatus,
+        userId: String,
+        createdAt: Int,
+        updatedAt: Int,
+        token: String? = nil,
+        url: String? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.status, self.userId) = (status, userId)
         (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
@@ -82,12 +117,15 @@ extension SignInToken {
 public struct SignInTokenObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let signInToken = SignInTokenObject(rawValue: "sign_in_token")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -100,14 +138,17 @@ public struct SignInTokenObject: RawRepresentable, Hashable, Codable, Sendable, 
 public struct SignInTokenStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let pending = SignInTokenStatus(rawValue: "pending")
     public static let accepted = SignInTokenStatus(rawValue: "accepted")
     public static let revoked = SignInTokenStatus(rawValue: "revoked")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

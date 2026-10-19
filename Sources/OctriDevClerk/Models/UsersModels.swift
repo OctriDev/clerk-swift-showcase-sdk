@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Users domain models
+/// Users domain models
 public indirect enum EnterpriseAccountVerification {
     case verificationTicket(VerificationTicket)
     case verificationSaml(VerificationSaml)
@@ -13,7 +13,6 @@ public indirect enum EnterpriseAccountVerification {
 }
 
 extension EnterpriseAccountVerification: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "object"
     }
@@ -21,20 +20,29 @@ extension EnterpriseAccountVerification: Codable {
     public init(from decoder: Decoder) throws {
         if let tagged = try? decoder.container(keyedBy: CodingKeys.self),
            let discriminator = try? tagged.decode(String.self, forKey: .discriminator) {
-            if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+            if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+                self = value; return
+            }
         }
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeUntaggedGroup1(from: container) { self = value; return }
+        if let value = Self.decodeUntaggedGroup1(from: container) {
+            self = value; return
+        }
         if let tagged = try? decoder.container(keyedBy: CodingKeys.self),
            let discriminator = try? tagged.decode(String.self, forKey: .discriminator) {
             self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
             return
         }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for EnterpriseAccountVerification")
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for EnterpriseAccountVerification"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -45,19 +53,25 @@ extension EnterpriseAccountVerification: Codable {
 extension EnterpriseAccountVerification {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "verification_ticket": return .verificationTicket(try VerificationTicket(from: decoder))
-        case "verification_saml": return .verificationSaml(try VerificationSaml(from: decoder))
-        case "verification_oauth": return .verificationOauth(try VerificationOauth(from: decoder))
-        default: return nil
+        case "verification_ticket": try .verificationTicket(VerificationTicket(from: decoder))
+        case "verification_saml": try .verificationSaml(VerificationSaml(from: decoder))
+        case "verification_oauth": try .verificationOauth(VerificationOauth(from: decoder))
+        default: nil
         }
     }
 }
 
 extension EnterpriseAccountVerification {
     static func decodeUntaggedGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(VerificationTicket.self) { return .verificationTicket(value) }
-        if let value = try? container.decode(VerificationSaml.self) { return .verificationSaml(value) }
-        if let value = try? container.decode(VerificationOauth.self) { return .verificationOauth(value) }
+        if let value = try? container.decode(VerificationTicket.self) {
+            return .verificationTicket(value)
+        }
+        if let value = try? container.decode(VerificationSaml.self) {
+            return .verificationSaml(value)
+        }
+        if let value = try? container.decode(VerificationOauth.self) {
+            return .verificationOauth(value)
+        }
         return nil
     }
 }
@@ -82,7 +96,6 @@ public indirect enum ExternalAccountWithVerificationVerification {
 }
 
 extension ExternalAccountWithVerificationVerification: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "object"
     }
@@ -90,20 +103,29 @@ extension ExternalAccountWithVerificationVerification: Codable {
     public init(from decoder: Decoder) throws {
         if let tagged = try? decoder.container(keyedBy: CodingKeys.self),
            let discriminator = try? tagged.decode(String.self, forKey: .discriminator) {
-            if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+            if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+                self = value; return
+            }
         }
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeUntaggedGroup1(from: container) { self = value; return }
+        if let value = Self.decodeUntaggedGroup1(from: container) {
+            self = value; return
+        }
         if let tagged = try? decoder.container(keyedBy: CodingKeys.self),
            let discriminator = try? tagged.decode(String.self, forKey: .discriminator) {
             self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
             return
         }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for ExternalAccountWithVerificationVerification")
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for ExternalAccountWithVerificationVerification"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -114,17 +136,21 @@ extension ExternalAccountWithVerificationVerification: Codable {
 extension ExternalAccountWithVerificationVerification {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "verification_oauth": return .verificationOauth(try VerificationOauth(from: decoder))
-        case "verification_google_one_tap": return .verificationGoogleOneTap(try VerificationGoogleOneTap(from: decoder))
-        default: return nil
+        case "verification_oauth": try .verificationOauth(VerificationOauth(from: decoder))
+        case "verification_google_one_tap": try .verificationGoogleOneTap(VerificationGoogleOneTap(from: decoder))
+        default: nil
         }
     }
 }
 
 extension ExternalAccountWithVerificationVerification {
     static func decodeUntaggedGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(VerificationOauth.self) { return .verificationOauth(value) }
-        if let value = try? container.decode(VerificationGoogleOneTap.self) { return .verificationGoogleOneTap(value) }
+        if let value = try? container.decode(VerificationOauth.self) {
+            return .verificationOauth(value)
+        }
+        if let value = try? container.decode(VerificationGoogleOneTap.self) {
+            return .verificationGoogleOneTap(value)
+        }
         return nil
     }
 }
@@ -152,7 +178,6 @@ public indirect enum SAMLAccountVerification {
 }
 
 extension SAMLAccountVerification: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "object"
     }
@@ -160,20 +185,29 @@ extension SAMLAccountVerification: Codable {
     public init(from decoder: Decoder) throws {
         if let tagged = try? decoder.container(keyedBy: CodingKeys.self),
            let discriminator = try? tagged.decode(String.self, forKey: .discriminator) {
-            if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+            if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+                self = value; return
+            }
         }
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeUntaggedGroup1(from: container) { self = value; return }
+        if let value = Self.decodeUntaggedGroup1(from: container) {
+            self = value; return
+        }
         if let tagged = try? decoder.container(keyedBy: CodingKeys.self),
            let discriminator = try? tagged.decode(String.self, forKey: .discriminator) {
             self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
             return
         }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for SAMLAccountVerification")
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for SAMLAccountVerification"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -184,17 +218,21 @@ extension SAMLAccountVerification: Codable {
 extension SAMLAccountVerification {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "verification_saml": return .verificationSaml(try VerificationSaml(from: decoder))
-        case "verification_ticket": return .verificationTicket(try VerificationTicket(from: decoder))
-        default: return nil
+        case "verification_saml": try .verificationSaml(VerificationSaml(from: decoder))
+        case "verification_ticket": try .verificationTicket(VerificationTicket(from: decoder))
+        default: nil
         }
     }
 }
 
 extension SAMLAccountVerification {
     static func decodeUntaggedGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(VerificationSaml.self) { return .verificationSaml(value) }
-        if let value = try? container.decode(VerificationTicket.self) { return .verificationTicket(value) }
+        if let value = try? container.decode(VerificationSaml.self) {
+            return .verificationSaml(value)
+        }
+        if let value = try? container.decode(VerificationTicket.self) {
+            return .verificationTicket(value)
+        }
         return nil
     }
 }
@@ -218,7 +256,6 @@ public indirect enum Web3WalletVerification {
 }
 
 extension Web3WalletVerification: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "object"
     }
@@ -226,20 +263,29 @@ extension Web3WalletVerification: Codable {
     public init(from decoder: Decoder) throws {
         if let tagged = try? decoder.container(keyedBy: CodingKeys.self),
            let discriminator = try? tagged.decode(String.self, forKey: .discriminator) {
-            if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+            if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+                self = value; return
+            }
         }
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeUntaggedGroup1(from: container) { self = value; return }
+        if let value = Self.decodeUntaggedGroup1(from: container) {
+            self = value; return
+        }
         if let tagged = try? decoder.container(keyedBy: CodingKeys.self),
            let discriminator = try? tagged.decode(String.self, forKey: .discriminator) {
             self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
             return
         }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for Web3WalletVerification")
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for Web3WalletVerification"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -250,17 +296,21 @@ extension Web3WalletVerification: Codable {
 extension Web3WalletVerification {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "verification_web3": return .verificationWeb3(try VerificationWeb3(from: decoder))
-        case "verification_admin": return .verificationAdmin(try VerificationAdmin(from: decoder))
-        default: return nil
+        case "verification_web3": try .verificationWeb3(VerificationWeb3(from: decoder))
+        case "verification_admin": try .verificationAdmin(VerificationAdmin(from: decoder))
+        default: nil
         }
     }
 }
 
 extension Web3WalletVerification {
     static func decodeUntaggedGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(VerificationWeb3.self) { return .verificationWeb3(value) }
-        if let value = try? container.decode(VerificationAdmin.self) { return .verificationAdmin(value) }
+        if let value = try? container.decode(VerificationWeb3.self) {
+            return .verificationWeb3(value)
+        }
+        if let value = try? container.decode(VerificationAdmin.self) {
+            return .verificationAdmin(value)
+        }
         return nil
     }
 }
@@ -281,21 +331,29 @@ public indirect enum PasskeyVerification {
 }
 
 extension PasskeyVerification: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
-        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for PasskeyVerification")
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "No variant matched for PasskeyVerification"
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
 extension PasskeyVerification {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(VerificationPasskey.self) { return .verificationPasskey(value) }
+        if let value = try? container.decode(VerificationPasskey.self) {
+            return .verificationPasskey(value)
+        }
         return nil
     }
 }
@@ -321,25 +379,35 @@ public struct TotalCount: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension TotalCount {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension TotalCount {
-    public init(object: TotalCountObject, totalCount: Int) {
+public extension TotalCount {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension TotalCount {
+    init(object: TotalCountObject, totalCount: Int) {
         (self.object, self.totalCount) = (object, totalCount)
     }
 }
@@ -383,28 +451,42 @@ public struct BiometricCredential: Codable {
         case revokedAt = "revoked_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension BiometricCredential {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.platform = try container.sdkDecodeRequired(.platform)
-        self.appIdentifier = try container.sdkDecodeRequired(.appIdentifier)
-        self.algorithm = try container.sdkDecodeRequired(.algorithm)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.name = try container.sdkDecodeIfPresent(.name)
-        self.lastUsedAt = try container.sdkDecodeIfPresent(.lastUsedAt)
-        self.revokedAt = try container.sdkDecodeIfPresent(.revokedAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension BiometricCredential {
-    public init(object: BiometricCredentialObject, id: String, platform: BiometricCredentialPlatform, appIdentifier: String, algorithm: BiometricCredentialAlgorithm, status: BiometricCredentialStatus, createdAt: Int, updatedAt: Int, name: String? = nil, lastUsedAt: Int? = nil, revokedAt: Int? = nil) {
+public extension BiometricCredential {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        platform = try container.sdkDecodeRequired(.platform)
+        appIdentifier = try container.sdkDecodeRequired(.appIdentifier)
+        algorithm = try container.sdkDecodeRequired(.algorithm)
+        status = try container.sdkDecodeRequired(.status)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        name = try container.sdkDecodeIfPresent(.name)
+        lastUsedAt = try container.sdkDecodeIfPresent(.lastUsedAt)
+        revokedAt = try container.sdkDecodeIfPresent(.revokedAt)
+    }
+}
+
+public extension BiometricCredential {
+    init(
+        object: BiometricCredentialObject,
+        id: String,
+        platform: BiometricCredentialPlatform,
+        appIdentifier: String,
+        algorithm: BiometricCredentialAlgorithm,
+        status: BiometricCredentialStatus,
+        createdAt: Int,
+        updatedAt: Int,
+        name: String? = nil,
+        lastUsedAt: Int? = nil,
+        revokedAt: Int? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.platform, self.appIdentifier) = (platform, appIdentifier)
         (self.algorithm, self.status) = (algorithm, status)
@@ -444,46 +526,73 @@ public struct VerificationOauth: Codable {
         case verifiedAtClient = "verified_at_client"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension VerificationOauth {
-    public init(from decoder: Decoder) throws {
+public extension VerificationOauth {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.status) else {
-            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
+            throw SdkValidationError(
+                field: "status",
+                code: "required",
+                message: "Validation failed for 'status': value is required"
+            )
         }
         guard container.contains(.strategy) else {
-            throw SdkValidationError(field: "strategy", code: "required", message: "Validation failed for 'strategy': value is required")
+            throw SdkValidationError(
+                field: "strategy",
+                code: "required",
+                message: "Validation failed for 'strategy': value is required"
+            )
         }
         guard container.contains(.expireAt) else {
-            throw SdkValidationError(field: "expire_at", code: "required", message: "Validation failed for 'expire_at': value is required")
+            throw SdkValidationError(
+                field: "expire_at",
+                code: "required",
+                message: "Validation failed for 'expire_at': value is required"
+            )
         }
         guard container.contains(.attempts) else {
-            throw SdkValidationError(field: "attempts", code: "required", message: "Validation failed for 'attempts': value is required")
+            throw SdkValidationError(
+                field: "attempts",
+                code: "required",
+                message: "Validation failed for 'attempts': value is required"
+            )
         }
-        self.status = try container.sdkDecodeRequired(.status)
-        self.strategy = try container.sdkDecodeRequired(.strategy)
-        self.expireAt = try container.sdkDecodeRequired(.expireAt)
-        self.attempts = try container.sdkDecodeNullable(.attempts)
-        self.object = try container.sdkDecodeIfPresent(.object)
-        self.externalVerificationRedirectUrl = try container.sdkDecodeIfPresent(.externalVerificationRedirectUrl)
-        self.error = try container.sdkDecodeIfPresent(.error)
-        self.verifiedAtClient = try container.sdkDecodeIfPresent(.verifiedAtClient)
-            try sdkValidatePattern("strategy", self.strategy, sdkPattern3e3dd5830d77)
-        if let value = self.object {
+        status = try container.sdkDecodeRequired(.status)
+        strategy = try container.sdkDecodeRequired(.strategy)
+        expireAt = try container.sdkDecodeRequired(.expireAt)
+        attempts = try container.sdkDecodeNullable(.attempts)
+        object = try container.sdkDecodeIfPresent(.object)
+        externalVerificationRedirectUrl = try container.sdkDecodeIfPresent(.externalVerificationRedirectUrl)
+        error = try container.sdkDecodeIfPresent(.error)
+        verifiedAtClient = try container.sdkDecodeIfPresent(.verifiedAtClient)
+        try sdkValidatePattern("strategy", strategy, sdkPattern3e3dd5830d77)
+        if let value = object {
             try sdkValidateRawEnum("object", value, VerificationOauthObject.allCases.map(\.rawValue))
         }
     }
 }
 
-extension VerificationOauth {
-    public init(status: VerificationOauthStatus, strategy: String, expireAt: Int, attempts: Int?, object: VerificationOauthObject? = nil, externalVerificationRedirectUrl: String? = nil, error: [String: JSONValue]? = nil, verifiedAtClient: String? = nil) throws {
+public extension VerificationOauth {
+    init(
+        status: VerificationOauthStatus,
+        strategy: String,
+        expireAt: Int,
+        attempts: Int?,
+        object: VerificationOauthObject? = nil,
+        externalVerificationRedirectUrl: String? = nil,
+        error: [String: JSONValue]? = nil,
+        verifiedAtClient: String? = nil
+    ) throws {
         (self.status, self.strategy) = (status, strategy)
         (self.expireAt, self.attempts) = (expireAt, attempts)
         (self.object, self.externalVerificationRedirectUrl) = (object, externalVerificationRedirectUrl)
         (self.error, self.verifiedAtClient) = (error, verifiedAtClient)
-            try sdkValidatePattern("strategy", self.strategy, sdkPattern3e3dd5830d77)
+        try sdkValidatePattern("strategy", self.strategy, sdkPattern3e3dd5830d77)
         if let value = self.object {
             try sdkValidateRawEnum("object", value, VerificationOauthObject.allCases.map(\.rawValue))
         }
@@ -502,5 +611,7 @@ public struct SCIMUserMetadataGroupsItem: Codable {
         case displayName = "display_name"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }

@@ -6,14 +6,27 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension JwtTemplatesMethods {
-    /// Retrieves the details of a JWT template by its identifier. Use `template_id` to select the template whose claims, lifetime, and signing configuration you need.
+public extension JwtTemplatesMethods {
+    /// Retrieves the details of a JWT template by its identifier. Use `template_id` to select the template whose
+    /// claims, lifetime, and signing configuration you need.
     ///
     /// Retrieve the details of a given JWT template
     ///
     /// - Parameters:
     /// - templateId: JWT Template ID
-    public static func getJwtTemplate(config: ClientConfig, templateId: String, requestOptions: RequestOptions? = nil) async throws -> JWTTemplate {
-        return try (await sdkRequest("GET", ["/jwt_templates/", sdkEncodePathSegment(sdkWireString(templateId))].joined(), config: config, decoder: .json, operationId: "GetJWTTemplate", options: requestOptions, errors: ["404": ClerkErrors.self])).data
+    static func getJwtTemplate(
+        config: ClientConfig,
+        templateId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> JWTTemplate {
+        try await (sdkRequest(
+            "GET",
+            ["/jwt_templates/", sdkEncodePathSegment(sdkWireString(templateId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "GetJWTTemplate",
+            options: requestOptions,
+            errors: ["404": ClerkErrors.self]
+        )).data
     }
 }

@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OrganizationsMethods {
-    public struct CreateOrganizationOptions: Codable {
+public extension OrganizationsMethods {
+    struct CreateOrganizationOptions: Codable {
         public var name: String
         public var createdBy: SdkOptional<String>?
         public var privateMetadata: SdkOptional<[String: JSONValue]>?
@@ -22,7 +22,14 @@ extension OrganizationsMethods {
         }
     }
 
-    /// Creates a new organization with the given name for an instance. You can specify an optional slug for the new organization. If provided, the organization slug can contain only lowercase alphanumeric characters (letters and digits) and the dash "-". Organization slugs must be unique for the instance. You can provide additional metadata for the organization and set any custom attribute you want. Organizations support private and public metadata. Private metadata can only be accessed from the Backend API. Public metadata can be accessed from the Backend API, and are read-only from the Frontend API. The `created_by` user will see this as their [active organization](https://clerk.com/docs/organizations/overview#active-organization) the next time they create a session, presuming they don't explicitly set a different organization as active before then.
+    /// Creates a new organization with the given name for an instance. You can specify an optional slug for the new
+    /// organization. If provided, the organization slug can contain only lowercase alphanumeric characters (letters and
+    /// digits) and the dash "-". Organization slugs must be unique for the instance. You can provide additional
+    /// metadata for the organization and set any custom attribute you want. Organizations support private and public
+    /// metadata. Private metadata can only be accessed from the Backend API. Public metadata can be accessed from the
+    /// Backend API, and are read-only from the Frontend API. The `created_by` user will see this as their [active
+    /// organization](https://clerk.com/docs/organizations/overview#active-organization) the next time they create a
+    /// session, presuming they don't explicitly set a different organization as active before then.
     ///
     /// - Parameters:
     /// - name: The name of the new organization. May not contain URLs or HTML. Max
@@ -46,13 +53,26 @@ extension OrganizationsMethods {
     /// - roleSetKey: The key of the [role
     ///   set](https://clerk.com/docs/guides/organizations/control-access/role-sets)
     ///   to assign to this organization.
-    public static func createOrganization(config: ClientConfig, options: CreateOrganizationOptions, requestOptions: RequestOptions? = nil) async throws -> Organization {
+    static func createOrganization(
+        config: ClientConfig,
+        options: CreateOrganizationOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Organization {
         if let maxAllowedMemberships = options.maxAllowedMemberships?.valueOrNil {
             try validateRange("max_allowed_memberships", Double(maxAllowedMemberships), min: 0)
         }
 
         let requestBody = CreateOrganizationRequestBody(options: options)
 
-        return try (await sdkRequest("POST", "/organizations", config: config, body: requestBody, decoder: .json, operationId: "CreateOrganization", options: requestOptions, errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/organizations",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "CreateOrganization",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

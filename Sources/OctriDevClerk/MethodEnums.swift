@@ -9,13 +9,16 @@ import Foundation
 public struct GetCommercePlanListParameter: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let user = GetCommercePlanListParameter(rawValue: "user")
     public static let org = GetCommercePlanListParameter(rawValue: "org")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -24,15 +27,20 @@ public struct GetCommercePlanListParameter: RawRepresentable, Hashable, Codable,
     }
 }
 
-public struct GetM2MTokensResponseM2mTokensItemObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct GetM2MTokensResponseM2mTokensItemObject: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let machineToMachineToken = GetM2MTokensResponseM2mTokensItemObject(rawValue: "machine_to_machine_token")
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let machineToMachineToken =
+        GetM2MTokensResponseM2mTokensItemObject(rawValue: "machine_to_machine_token")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -44,12 +52,15 @@ public struct GetM2MTokensResponseM2mTokensItemObject: RawRepresentable, Hashabl
 public struct VerifyM2MTokenResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let machineToMachineToken = VerifyM2MTokenResponseObject(rawValue: "machine_to_machine_token")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -61,12 +72,15 @@ public struct VerifyM2MTokenResponseObject: RawRepresentable, Hashable, Codable,
 public struct UpdateApiKeyResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let apiKey = UpdateApiKeyResponseObject(rawValue: "api_key")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -75,10 +89,14 @@ public struct UpdateApiKeyResponseObject: RawRepresentable, Hashable, Codable, S
     }
 }
 
-public struct ListInstanceOrganizationInvitationsParameter: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct ListInstanceOrganizationInvitationsParameter: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let pending = ListInstanceOrganizationInvitationsParameter(rawValue: "pending")
     public static let accepted = ListInstanceOrganizationInvitationsParameter(rawValue: "accepted")
     public static let revoked = ListInstanceOrganizationInvitationsParameter(rawValue: "revoked")
@@ -86,7 +104,7 @@ public struct ListInstanceOrganizationInvitationsParameter: RawRepresentable, Ha
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -96,16 +114,21 @@ public struct ListInstanceOrganizationInvitationsParameter: RawRepresentable, Ha
 }
 
 /// The slug of the email template to use for the invitation email.
-public struct CreateBulkInvitationsRequestBodyItemTemplateSlug: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct CreateBulkInvitationsRequestBodyItemTemplateSlug: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let invitation = CreateBulkInvitationsRequestBodyItemTemplateSlug(rawValue: "invitation")
-    public static let waitlistInvitation = CreateBulkInvitationsRequestBodyItemTemplateSlug(rawValue: "waitlist_invitation")
+    public static let waitlistInvitation =
+        CreateBulkInvitationsRequestBodyItemTemplateSlug(rawValue: "waitlist_invitation")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -118,13 +141,16 @@ public struct CreateBulkInvitationsRequestBodyItemTemplateSlug: RawRepresentable
 public struct RefreshSessionRequestBodyFormat: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let token = RefreshSessionRequestBodyFormat(rawValue: "token")
     public static let cookie = RefreshSessionRequestBodyFormat(rawValue: "cookie")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -134,10 +160,14 @@ public struct RefreshSessionRequestBodyFormat: RawRepresentable, Hashable, Codab
 }
 
 /// The IdP provider of the connection.
-public struct CreateSAMLConnectionRequestBodyProvider: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct CreateSAMLConnectionRequestBodyProvider: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let samlCustom = CreateSAMLConnectionRequestBodyProvider(rawValue: "saml_custom")
     public static let samlOkta = CreateSAMLConnectionRequestBodyProvider(rawValue: "saml_okta")
     public static let samlGoogle = CreateSAMLConnectionRequestBodyProvider(rawValue: "saml_google")
@@ -145,7 +175,7 @@ public struct CreateSAMLConnectionRequestBodyProvider: RawRepresentable, Hashabl
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -157,12 +187,15 @@ public struct CreateSAMLConnectionRequestBodyProvider: RawRepresentable, Hashabl
 public struct CreateApiKeyResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let apiKey = CreateApiKeyResponseObject(rawValue: "api_key")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -171,16 +204,20 @@ public struct CreateApiKeyResponseObject: RawRepresentable, Hashable, Codable, S
     }
 }
 
-public struct CreateUserRequestBodyEmailAddressIdentificationStatusItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct CreateUserRequestBodyEmailAddressIdentificationStatusItem: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let verified = CreateUserRequestBodyEmailAddressIdentificationStatusItem(rawValue: "verified")
     public static let reserved = CreateUserRequestBodyEmailAddressIdentificationStatusItem(rawValue: "reserved")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -189,15 +226,20 @@ public struct CreateUserRequestBodyEmailAddressIdentificationStatusItem: RawRepr
     }
 }
 
-public struct RevokeAdminPortalLinkTokenResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct RevokeAdminPortalLinkTokenResponseObject: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
-    public static let adminPortalLinkToken = RevokeAdminPortalLinkTokenResponseObject(rawValue: "admin_portal_link_token")
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
+    public static let adminPortalLinkToken =
+        RevokeAdminPortalLinkTokenResponseObject(rawValue: "admin_portal_link_token")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

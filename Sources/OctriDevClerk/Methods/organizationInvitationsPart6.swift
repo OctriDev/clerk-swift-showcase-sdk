@@ -6,26 +6,68 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OrganizationInvitationsMethods {
+public extension OrganizationInvitationsMethods {
     /// Use this request to get an existing organization invitation by ID.
     ///
     /// - Parameters:
     /// - organizationId: The organization ID.
     /// - invitationId: The organization invitation ID.
-    public static func getOrganizationInvitation(config: ClientConfig, organizationId: String, invitationId: String, requestOptions: RequestOptions? = nil) async throws -> OrganizationInvitation {
-        return try (await sdkRequest("GET", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/invitations/", sdkEncodePathSegment(sdkWireString(invitationId))].joined(), config: config, decoder: .json, operationId: "GetOrganizationInvitation", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func getOrganizationInvitation(
+        config: ClientConfig,
+        organizationId: String,
+        invitationId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationInvitation {
+        try await (sdkRequest(
+            "GET",
+            [
+                "/organizations/",
+                sdkEncodePathSegment(sdkWireString(organizationId)),
+                "/invitations/",
+                sdkEncodePathSegment(sdkWireString(invitationId)),
+            ].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "GetOrganizationInvitation",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 
-    /// Use this request to revoke a previously issued organization invitation. Revoking an organization invitation makes it invalid; the invited user will no longer be able to join the organization with the revoked invitation. Only organization invitations with "pending" status can be revoked. The request accepts the `requesting_user_id` parameter to specify the user which revokes the invitation. Only users with "admin" role can revoke invitations.
+    /// Use this request to revoke a previously issued organization invitation. Revoking an organization invitation
+    /// makes it invalid; the invited user will no longer be able to join the organization with the revoked invitation.
+    /// Only organization invitations with "pending" status can be revoked. The request accepts the `requesting_user_id`
+    /// parameter to specify the user which revokes the invitation. Only users with "admin" role can revoke invitations.
     ///
     /// - Parameters:
     /// - organizationId: The organization ID.
     /// - invitationId: The organization invitation ID.
     /// - requestingUserId: The ID of the user that revokes the invitation. Must be
     ///   an administrator in the organization.
-    public static func revokeOrganizationInvitation(config: ClientConfig, organizationId: String, invitationId: String, requestingUserId: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationInvitation {
+    static func revokeOrganizationInvitation(
+        config: ClientConfig,
+        organizationId: String,
+        invitationId: String,
+        requestingUserId: SdkOptional<String>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationInvitation {
         let requestBody = RevokeOrganizationInvitationRequestBody(requestingUserId: requestingUserId)
 
-        return try (await sdkRequest("POST", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/invitations/", sdkEncodePathSegment(sdkWireString(invitationId)), "/revoke"].joined(), config: config, body: requestBody, decoder: .json, operationId: "RevokeOrganizationInvitation", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            [
+                "/organizations/",
+                sdkEncodePathSegment(sdkWireString(organizationId)),
+                "/invitations/",
+                sdkEncodePathSegment(sdkWireString(invitationId)),
+                "/revoke",
+            ].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "RevokeOrganizationInvitation",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OrganizationsMethods {
-    public struct ListOrganizationsOptions: Codable {
+public extension OrganizationsMethods {
+    struct ListOrganizationsOptions: Codable {
         public var includeMembersCount: Bool?
         public var includeMissingMemberWithElevatedPermissions: Bool?
         public var query: String?
@@ -20,7 +20,9 @@ extension OrganizationsMethods {
         public init() {}
     }
 
-    /// This request returns the list of organizations for an instance. Results can be paginated using the optional `limit` and `offset` query parameters. The organizations are ordered by descending creation date. Most recent organizations will be returned first.
+    /// This request returns the list of organizations for an instance. Results can be paginated using the optional
+    /// `limit` and `offset` query parameters. The organizations are ordered by descending creation date. Most recent
+    /// organizations will be returned first.
     ///
     /// - Parameters:
     /// - includeMembersCount: Flag to denote whether the member counts of each
@@ -52,7 +54,11 @@ extension OrganizationsMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    public static func listOrganizations(config: ClientConfig, options: ListOrganizationsOptions, requestOptions: RequestOptions? = nil) async throws -> Organizations {
+    static func listOrganizations(
+        config: ClientConfig,
+        options: ListOrganizationsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Organizations {
         if let limit = options.limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
@@ -61,15 +67,27 @@ extension OrganizationsMethods {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try (await sdkRequest("GET", "/organizations", config: config, query: [
-            SdkQueryParameter("include_members_count", value: options.includeMembersCount),
-            SdkQueryParameter("include_missing_member_with_elevated_permissions", value: options.includeMissingMemberWithElevatedPermissions),
-            SdkQueryParameter("query", value: options.query),
-            SdkQueryParameter("user_id", values: options.userId, style: "form", explode: true),
-            SdkQueryParameter("organization_id", values: options.organizationId, style: "form", explode: true),
-            SdkQueryParameter("order_by", value: options.orderBy),
-            SdkQueryParameter("limit", value: options.limit),
-            SdkQueryParameter("offset", value: options.offset),
-        ], decoder: .json, operationId: "ListOrganizations", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/organizations",
+            config: config,
+            query: [
+                SdkQueryParameter("include_members_count", value: options.includeMembersCount),
+                SdkQueryParameter(
+                    "include_missing_member_with_elevated_permissions",
+                    value: options.includeMissingMemberWithElevatedPermissions
+                ),
+                SdkQueryParameter("query", value: options.query),
+                SdkQueryParameter("user_id", values: options.userId, style: "form", explode: true),
+                SdkQueryParameter("organization_id", values: options.organizationId, style: "form", explode: true),
+                SdkQueryParameter("order_by", value: options.orderBy),
+                SdkQueryParameter("limit", value: options.limit),
+                SdkQueryParameter("offset", value: options.offset),
+            ],
+            decoder: .json,
+            operationId: "ListOrganizations",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

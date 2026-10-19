@@ -6,21 +6,48 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension RoleSetsMethods {
-    /// Replaces a role set with another role set. This is functionally equivalent to deleting the role set but allows for atomic replacement with migration support. Organizations using this role set will be migrated to the destination role set.
+public extension RoleSetsMethods {
+    /// Replaces a role set with another role set. This is functionally equivalent to deleting the role set but allows
+    /// for atomic replacement with migration support. Organizations using this role set will be migrated to the
+    /// destination role set.
     ///
     /// - Parameters:
     /// - roleSetKeyOrId: The key or ID of the role set to replace
     /// - destRoleSetKey: The key of the destination role set
     /// - reassignmentMappings: Mappings from source role keys to destination role
     ///   keys. Required if members have roles that need to be reassigned.
-    public static func replaceRoleSet(config: ClientConfig, roleSetKeyOrId: String, destRoleSetKey: String, reassignmentMappings: ReassignmentMappings? = nil, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        let requestBody = ReplaceRoleSetRequestBody(destRoleSetKey: destRoleSetKey, reassignmentMappings: reassignmentMappings)
+    static func replaceRoleSet(
+        config: ClientConfig,
+        roleSetKeyOrId: String,
+        destRoleSetKey: String,
+        reassignmentMappings: ReassignmentMappings? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeletedObject {
+        let requestBody = ReplaceRoleSetRequestBody(
+            destRoleSetKey: destRoleSetKey,
+            reassignmentMappings: reassignmentMappings
+        )
 
-        return try (await sdkRequest("POST", ["/role_sets/", sdkEncodePathSegment(sdkWireString(roleSetKeyOrId)), "/replace"].joined(), config: config, body: requestBody, decoder: .json, operationId: "ReplaceRoleSet", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/role_sets/", sdkEncodePathSegment(sdkWireString(roleSetKeyOrId)), "/replace"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "ReplaceRoleSet",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 
-    /// Adds one or more roles to an existing role set. You can optionally update the default role or creator role when adding new roles.
+    /// Adds one or more roles to an existing role set. You can optionally update the default role or creator role when
+    /// adding new roles.
     ///
     /// - Parameters:
     /// - roleSetKeyOrId: The key or ID of the role set
@@ -30,9 +57,35 @@ extension RoleSetsMethods {
     ///   added roles.
     /// - creatorRoleKey: Optionally update the creator role to one of the newly
     ///   added roles.
-    public static func addRolesToRoleSet(config: ClientConfig, roleSetKeyOrId: String, roleKeys: [String], defaultRoleKey: String? = nil, creatorRoleKey: String? = nil, requestOptions: RequestOptions? = nil) async throws -> RoleSet {
-        let requestBody = AddRolesToRoleSetRequestBody(roleKeys: roleKeys, defaultRoleKey: defaultRoleKey, creatorRoleKey: creatorRoleKey)
+    static func addRolesToRoleSet(
+        config: ClientConfig,
+        roleSetKeyOrId: String,
+        roleKeys: [String],
+        defaultRoleKey: String? = nil,
+        creatorRoleKey: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> RoleSet {
+        let requestBody = AddRolesToRoleSetRequestBody(
+            roleKeys: roleKeys,
+            defaultRoleKey: defaultRoleKey,
+            creatorRoleKey: creatorRoleKey
+        )
 
-        return try (await sdkRequest("POST", ["/role_sets/", sdkEncodePathSegment(sdkWireString(roleSetKeyOrId)), "/roles"].joined(), config: config, body: requestBody, decoder: .json, operationId: "AddRolesToRoleSet", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/role_sets/", sdkEncodePathSegment(sdkWireString(roleSetKeyOrId)), "/roles"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "AddRolesToRoleSet",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 }

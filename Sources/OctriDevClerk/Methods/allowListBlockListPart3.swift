@@ -6,20 +6,44 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension AllowListBlockListMethods {
-    /// Deletes an identifier from the instance allow-list. Use the `identifier_id` path parameter to select the entry to remove. The response confirms whether the object was deleted.
+public extension AllowListBlockListMethods {
+    /// Deletes an identifier from the instance allow-list. Use the `identifier_id` path parameter to select the entry
+    /// to remove. The response confirms whether the object was deleted.
     ///
     /// Delete an identifier from the instance allow-list
     ///
     /// - Parameters:
     /// - identifierId: The ID of the identifier to delete from the allow-list
-    public static func deleteAllowlistIdentifier(config: ClientConfig, identifierId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try (await sdkRequest("DELETE", ["/allowlist_identifiers/", sdkEncodePathSegment(sdkWireString(identifierId))].joined(), config: config, decoder: .json, operationId: "DeleteAllowlistIdentifier", options: requestOptions, errors: ["402": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func deleteAllowlistIdentifier(
+        config: ClientConfig,
+        identifierId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeletedObject {
+        try await (sdkRequest(
+            "DELETE",
+            ["/allowlist_identifiers/", sdkEncodePathSegment(sdkWireString(identifierId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "DeleteAllowlistIdentifier",
+            options: requestOptions,
+            errors: ["402": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 
     /// Get a list of all identifiers which are not allowed to access an instance
-    public static func listBlocklistIdentifiers(config: ClientConfig, requestOptions: RequestOptions? = nil) async throws -> BlocklistIdentifiers {
-        return try (await sdkRequest("GET", "/blocklist_identifiers", config: config, decoder: .json, operationId: "ListBlocklistIdentifiers", options: requestOptions, errors: ["401": ClerkErrors.self, "402": ClerkErrors.self])).data
+    static func listBlocklistIdentifiers(
+        config: ClientConfig,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BlocklistIdentifiers {
+        try await (sdkRequest(
+            "GET",
+            "/blocklist_identifiers",
+            config: config,
+            decoder: .json,
+            operationId: "ListBlocklistIdentifiers",
+            options: requestOptions,
+            errors: ["401": ClerkErrors.self, "402": ClerkErrors.self]
+        )).data
     }
 
     /// Create an identifier that is blocked from accessing an instance
@@ -27,9 +51,22 @@ extension AllowListBlockListMethods {
     /// - Parameters:
     /// - identifier: The identifier to be added in the block-list. This can be an
     ///   email address, a phone number, or a web3 wallet.
-    public static func createBlocklistIdentifier(config: ClientConfig, identifier: String, requestOptions: RequestOptions? = nil) async throws -> BlocklistIdentifier {
+    static func createBlocklistIdentifier(
+        config: ClientConfig,
+        identifier: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BlocklistIdentifier {
         let requestBody = CreateBlocklistIdentifierRequestBody(identifier: identifier)
 
-        return try (await sdkRequest("POST", "/blocklist_identifiers", config: config, body: requestBody, decoder: .json, operationId: "CreateBlocklistIdentifier", options: requestOptions, errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/blocklist_identifiers",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "CreateBlocklistIdentifier",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

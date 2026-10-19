@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OAuthApplicationsMethods {
-    public struct CreateOAuthApplicationOptions: Codable {
+public extension OAuthApplicationsMethods {
+    struct CreateOAuthApplicationOptions: Codable {
         public var name: String
         public var redirectUris: SdkOptional<[String]>?
         public var callbackUrl: SdkOptional<String>?
@@ -25,7 +25,8 @@ extension OAuthApplicationsMethods {
         }
     }
 
-    /// Creates a new OAuth application with the given name and callback URL for an instance. The callback URL must be a valid URL. All URL schemes are allowed such as `http://`, `https://`, `myapp://`, etc...
+    /// Creates a new OAuth application with the given name and callback URL for an instance. The callback URL must be a
+    /// valid URL. All URL schemes are allowed such as `http://`, `https://`, `myapp://`, etc...
     ///
     /// - Parameters:
     /// - name: The name of the new OAuth application. Max length: 256
@@ -54,7 +55,11 @@ extension OAuthApplicationsMethods {
     ///   IdP and a reachable device verification page.
     /// - `public`: If true, this client is public and you can use the Proof Key of
     ///   Code Exchange (PKCE) flow.
-    public static func createOAuthApplication(config: ClientConfig, options: CreateOAuthApplicationOptions, requestOptions: RequestOptions? = nil) async throws -> OAuthApplicationWithSecret {
+    static func createOAuthApplication(
+        config: ClientConfig,
+        options: CreateOAuthApplicationOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OAuthApplicationWithSecret {
         if let callbackUrl = options.callbackUrl?.valueOrNil {
             try validateLength("callback_url", callbackUrl, max: 1024)
         }
@@ -65,6 +70,15 @@ extension OAuthApplicationsMethods {
 
         let requestBody = CreateOAuthApplicationRequestBody(options: options)
 
-        return try (await sdkRequest("POST", "/oauth_applications", config: config, body: requestBody, decoder: .json, operationId: "CreateOAuthApplication", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/oauth_applications",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "CreateOAuthApplication",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

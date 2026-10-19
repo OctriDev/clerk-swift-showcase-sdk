@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-// Canonical users operation model declarations
+/// Canonical users operation model declarations
 public struct VerifyTOTPResponse: Codable {
     public var verified: Bool?
     public var codeType: VerifyTOTPResponseCodeType?
@@ -18,20 +18,20 @@ public struct VerifyTOTPResponse: Codable {
     }
 
     init() {
-        (self.verified, self.codeType) = (nil, nil)
+        (verified, codeType) = (nil, nil)
     }
 }
 
-extension VerifyTOTPResponse {
-    public init(from decoder: Decoder) throws {
+public extension VerifyTOTPResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.verified = try container.sdkDecodeIfPresent(.verified)
-        self.codeType = try container.sdkDecodeIfPresent(.codeType)
+        verified = try container.sdkDecodeIfPresent(.verified)
+        codeType = try container.sdkDecodeIfPresent(.codeType)
     }
 }
 
-extension VerifyTOTPResponse {
-    public init(verified: Bool? = nil, codeType: VerifyTOTPResponseCodeType? = nil) {
+public extension VerifyTOTPResponse {
+    init(verified: Bool? = nil, codeType: VerifyTOTPResponseCodeType? = nil) {
         self.init()
         (self.verified, self.codeType) = (verified, codeType)
     }
@@ -45,19 +45,19 @@ public struct VerifyPasswordResponse: Codable {
     }
 
     init() {
-        self.verified = nil
+        verified = nil
     }
 }
 
-extension VerifyPasswordResponse {
-    public init(from decoder: Decoder) throws {
+public extension VerifyPasswordResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.verified = try container.sdkDecodeIfPresent(.verified)
+        verified = try container.sdkDecodeIfPresent(.verified)
     }
 }
 
-extension VerifyPasswordResponse {
-    public init(verified: Bool? = nil) {
+public extension VerifyPasswordResponse {
+    init(verified: Bool? = nil) {
         self.init()
         self.verified = verified
     }
@@ -71,19 +71,19 @@ public struct DeleteTOTPResponse: Codable {
     }
 
     init() {
-        self.userId = nil
+        userId = nil
     }
 }
 
-extension DeleteTOTPResponse {
-    public init(from decoder: Decoder) throws {
+public extension DeleteTOTPResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.userId = try container.sdkDecodeIfPresent(.userId)
+        userId = try container.sdkDecodeIfPresent(.userId)
     }
 }
 
-extension DeleteTOTPResponse {
-    public init(userId: String? = nil) {
+public extension DeleteTOTPResponse {
+    init(userId: String? = nil) {
         self.init()
         self.userId = userId
     }
@@ -97,19 +97,19 @@ public struct DisableMFAResponse: Codable {
     }
 
     init() {
-        self.userId = nil
+        userId = nil
     }
 }
 
-extension DisableMFAResponse {
-    public init(from decoder: Decoder) throws {
+public extension DisableMFAResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.userId = try container.sdkDecodeIfPresent(.userId)
+        userId = try container.sdkDecodeIfPresent(.userId)
     }
 }
 
-extension DisableMFAResponse {
-    public init(userId: String? = nil) {
+public extension DisableMFAResponse {
+    init(userId: String? = nil) {
         self.init()
         self.userId = userId
     }
@@ -123,19 +123,19 @@ public struct DeleteBackupCodeResponse: Codable {
     }
 
     init() {
-        self.userId = nil
+        userId = nil
     }
 }
 
-extension DeleteBackupCodeResponse {
-    public init(from decoder: Decoder) throws {
+public extension DeleteBackupCodeResponse {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.userId = try container.sdkDecodeIfPresent(.userId)
+        userId = try container.sdkDecodeIfPresent(.userId)
     }
 }
 
-extension DeleteBackupCodeResponse {
-    public init(userId: String? = nil) {
+public extension DeleteBackupCodeResponse {
+    init(userId: String? = nil) {
         self.init()
         self.userId = userId
     }
