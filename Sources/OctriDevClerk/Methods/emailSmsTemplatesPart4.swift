@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension EmailSmsTemplatesMethods {
-    public struct UpsertTemplateOptions: Codable {
+public extension EmailSmsTemplatesMethods {
+    struct UpsertTemplateOptions: Codable {
         public var templateType: UpsertTemplateParameter
         public var slug: String
         public var name: String?
@@ -43,9 +43,36 @@ extension EmailSmsTemplatesMethods {
     ///   local part is 'hello'. Applicable only to email templates.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public static func upsertTemplate(config: ClientConfig, options: UpsertTemplateOptions, requestOptions: RequestOptions? = nil) async throws -> Template {
+    static func upsertTemplate(
+        config: ClientConfig,
+        options: UpsertTemplateOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Template {
         let requestBody = UpsertTemplateRequestBody(options: options)
 
-        return try (await sdkRequest("PUT", ["/templates/", sdkEncodePathSegment(sdkWireString(options.templateType)), "/", sdkEncodePathSegment(sdkWireString(options.slug))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpsertTemplate", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self, "423": ClerkErrors.self, "429": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PUT",
+            [
+                "/templates/",
+                sdkEncodePathSegment(sdkWireString(options.templateType)),
+                "/",
+                sdkEncodePathSegment(sdkWireString(options.slug)),
+            ].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpsertTemplate",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "402": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+                "423": ClerkErrors.self,
+                "429": ClerkErrors.self,
+            ]
+        )).data
     }
 }

@@ -7,7 +7,8 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum ActorTokensMethods {
-    /// Create an actor token that can be used to impersonate the given user. The `actor` parameter needs to include at least a "sub" key whose value is the ID of the actor (impersonating) user.
+    /// Create an actor token that can be used to impersonate the given user. The `actor` parameter needs to include at
+    /// least a "sub" key whose value is the ID of the actor (impersonating) user.
     ///
     /// - Parameters:
     /// - userId: The ID of the user being impersonated.
@@ -19,18 +20,53 @@ public enum ActorTokensMethods {
     /// - sessionMaxDurationInSeconds: The maximum duration that the session which
     ///   will be created by the generated actor token should last. By default, the
     ///   duration of a session created via an actor token, lasts 30 minutes.
-    public static func createActorToken(config: ClientConfig, userId: String, actor: CreateActorTokenRequestBodyActor, expiresInSeconds: Int? = nil, sessionMaxDurationInSeconds: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> ActorToken {
-        let requestBody = CreateActorTokenRequestBody(userId: userId, actor: actor, expiresInSeconds: expiresInSeconds, sessionMaxDurationInSeconds: sessionMaxDurationInSeconds)
+    public static func createActorToken(
+        config: ClientConfig,
+        userId: String,
+        actor: CreateActorTokenRequestBodyActor,
+        expiresInSeconds: Int? = nil,
+        sessionMaxDurationInSeconds: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ActorToken {
+        let requestBody = CreateActorTokenRequestBody(
+            userId: userId,
+            actor: actor,
+            expiresInSeconds: expiresInSeconds,
+            sessionMaxDurationInSeconds: sessionMaxDurationInSeconds
+        )
 
-        return try (await sdkRequest("POST", "/actor_tokens", config: config, body: requestBody, decoder: .json, operationId: "CreateActorToken", options: requestOptions, errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/actor_tokens",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "CreateActorToken",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
-    /// Revokes a pending actor token, changing its status to revoked. Use `actor_token_id` to identify the token; the response includes its resulting status and associated actor and user details.
+
+    /// Revokes a pending actor token, changing its status to revoked. Use `actor_token_id` to identify the token; the
+    /// response includes its resulting status and associated actor and user details.
     ///
     /// Revokes a pending actor token.
     ///
     /// - Parameters:
     /// - actorTokenId: The ID of the actor token to be revoked.
-    public static func revokeActorToken(config: ClientConfig, actorTokenId: String, requestOptions: RequestOptions? = nil) async throws -> ActorToken {
-        return try (await sdkRequest("POST", ["/actor_tokens/", sdkEncodePathSegment(sdkWireString(actorTokenId)), "/revoke"].joined(), config: config, decoder: .json, operationId: "RevokeActorToken", options: requestOptions, errors: ["400": ClerkErrors.self, "404": ClerkErrors.self])).data
+    public static func revokeActorToken(
+        config: ClientConfig,
+        actorTokenId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ActorToken {
+        try await (sdkRequest(
+            "POST",
+            ["/actor_tokens/", sdkEncodePathSegment(sdkWireString(actorTokenId)), "/revoke"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "RevokeActorToken",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

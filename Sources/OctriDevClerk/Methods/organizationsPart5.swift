@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OrganizationsMethods {
-    public struct UpdateOrganizationOptions: Codable {
+public extension OrganizationsMethods {
+    struct UpdateOrganizationOptions: Codable {
         public var organizationId: String
         public var name: SdkOptional<String>?
         public var slug: SdkOptional<String>?
@@ -24,7 +24,10 @@ extension OrganizationsMethods {
         }
     }
 
-    /// Updates an existing organization. As of API version 2026-05-12, this endpoint no longer accepts `public_metadata` or `private_metadata`. Use `PATCH /v1/organizations/{organization_id}/metadata` to merge updates into existing metadata, or `PUT /v1/organizations/{organization_id}/metadata` to replace a metadata field entirely.
+    /// Updates an existing organization. As of API version 2026-05-12, this endpoint no longer accepts
+    /// `public_metadata` or `private_metadata`. Use `PATCH /v1/organizations/{organization_id}/metadata` to merge
+    /// updates into existing metadata, or `PUT /v1/organizations/{organization_id}/metadata` to replace a metadata
+    /// field entirely.
     ///
     /// - Parameters:
     /// - organizationId: The ID of the organization to update
@@ -52,13 +55,32 @@ extension OrganizationsMethods {
     ///   Mapping a role that both role sets include moves its members to the
     ///   destination role. Memberships are reassigned asynchronously after the
     ///   response.
-    public static func updateOrganization(config: ClientConfig, options: UpdateOrganizationOptions, requestOptions: RequestOptions? = nil) async throws -> Organization {
+    static func updateOrganization(
+        config: ClientConfig,
+        options: UpdateOrganizationOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Organization {
         if let maxAllowedMemberships = options.maxAllowedMemberships?.valueOrNil {
             try validateRange("max_allowed_memberships", Double(maxAllowedMemberships), min: 0)
         }
 
         let requestBody = UpdateOrganizationRequestBody(options: options)
 
-        return try (await sdkRequest("PATCH", ["/organizations/", sdkEncodePathSegment(sdkWireString(options.organizationId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateOrganization", options: requestOptions, errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            ["/organizations/", sdkEncodePathSegment(sdkWireString(options.organizationId))].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdateOrganization",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "402": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 }

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// InstanceSettings domain models
+/// InstanceSettings domain models
 /// Typed representation of the `InstanceProtect` API schema.
 public struct InstanceProtect: Codable {
     /// Required enumerated value serialized in the `object` wire field.
@@ -31,41 +31,74 @@ public struct InstanceProtect: Codable {
         case checksExempt = "checks_exempt"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension InstanceProtect {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.rulesEnabled) else {
-            throw SdkValidationError(field: "rules_enabled", code: "required", message: "Validation failed for 'rules_enabled': value is required")
-        }
-        guard container.contains(.specterEnabled) else {
-            throw SdkValidationError(field: "specter_enabled", code: "required", message: "Validation failed for 'specter_enabled': value is required")
-        }
-        guard container.contains(.checksBypassed) else {
-            throw SdkValidationError(field: "checks_bypassed", code: "required", message: "Validation failed for 'checks_bypassed': value is required")
-        }
-        guard container.contains(.checksVerified) else {
-            throw SdkValidationError(field: "checks_verified", code: "required", message: "Validation failed for 'checks_verified': value is required")
-        }
-        guard container.contains(.checksExempt) else {
-            throw SdkValidationError(field: "checks_exempt", code: "required", message: "Validation failed for 'checks_exempt': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.rulesEnabled = try container.sdkDecodeRequired(.rulesEnabled)
-        self.specterEnabled = try container.sdkDecodeRequired(.specterEnabled)
-        self.checksBypassed = try container.sdkDecodeRequired(.checksBypassed)
-        self.checksVerified = try container.sdkDecodeRequired(.checksVerified)
-        self.checksExempt = try container.sdkDecodeRequired(.checksExempt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension InstanceProtect {
-    public init(object: InstanceProtectObject, rulesEnabled: Bool, specterEnabled: Bool, checksBypassed: Bool, checksVerified: Bool, checksExempt: Bool) {
+public extension InstanceProtect {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.rulesEnabled) else {
+            throw SdkValidationError(
+                field: "rules_enabled",
+                code: "required",
+                message: "Validation failed for 'rules_enabled': value is required"
+            )
+        }
+        guard container.contains(.specterEnabled) else {
+            throw SdkValidationError(
+                field: "specter_enabled",
+                code: "required",
+                message: "Validation failed for 'specter_enabled': value is required"
+            )
+        }
+        guard container.contains(.checksBypassed) else {
+            throw SdkValidationError(
+                field: "checks_bypassed",
+                code: "required",
+                message: "Validation failed for 'checks_bypassed': value is required"
+            )
+        }
+        guard container.contains(.checksVerified) else {
+            throw SdkValidationError(
+                field: "checks_verified",
+                code: "required",
+                message: "Validation failed for 'checks_verified': value is required"
+            )
+        }
+        guard container.contains(.checksExempt) else {
+            throw SdkValidationError(
+                field: "checks_exempt",
+                code: "required",
+                message: "Validation failed for 'checks_exempt': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        rulesEnabled = try container.sdkDecodeRequired(.rulesEnabled)
+        specterEnabled = try container.sdkDecodeRequired(.specterEnabled)
+        checksBypassed = try container.sdkDecodeRequired(.checksBypassed)
+        checksVerified = try container.sdkDecodeRequired(.checksVerified)
+        checksExempt = try container.sdkDecodeRequired(.checksExempt)
+    }
+}
+
+public extension InstanceProtect {
+    init(
+        object: InstanceProtectObject,
+        rulesEnabled: Bool,
+        specterEnabled: Bool,
+        checksBypassed: Bool,
+        checksVerified: Bool,
+        checksExempt: Bool
+    ) {
         (self.object, self.rulesEnabled) = (object, rulesEnabled)
         (self.specterEnabled, self.checksBypassed) = (specterEnabled, checksBypassed)
         (self.checksVerified, self.checksExempt) = (checksVerified, checksExempt)
@@ -120,31 +153,48 @@ public struct OrganizationSettings: Codable {
         case initialRoleSetKey = "initial_role_set_key"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OrganizationSettings {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.enabled = try container.sdkDecodeRequired(.enabled)
-        self.maxAllowedMemberships = try container.sdkDecodeRequired(.maxAllowedMemberships)
-        self.maxAllowedRoles = try container.sdkDecodeRequired(.maxAllowedRoles)
-        self.maxAllowedDomains = try container.sdkDecodeRequired(.maxAllowedDomains)
-        self.creatorRole = try container.sdkDecodeRequired(.creatorRole)
-        self.adminDeleteEnabled = try container.sdkDecodeRequired(.adminDeleteEnabled)
-        self.domainsEnabled = try container.sdkDecodeRequired(.domainsEnabled)
-        self.domainsEnrollmentModes = try container.sdkDecodeRequired(.domainsEnrollmentModes)
-        self.domainsDefaultRole = try container.sdkDecodeRequired(.domainsDefaultRole)
-        self.maxRoleSetsAllowed = try container.sdkDecodeIfPresent(.maxRoleSetsAllowed)
-        self.maxAllowedPermissions = try container.sdkDecodeIfPresent(.maxAllowedPermissions)
-        self.slugDisabled = try container.sdkDecodeIfPresent(.slugDisabled)
-        self.initialRoleSetKey = try container.sdkDecodeIfPresent(.initialRoleSetKey)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension OrganizationSettings {
-    public init(object: OrganizationSettingsObject, enabled: Bool, maxAllowedMemberships: Int, maxAllowedRoles: Int, maxAllowedDomains: Int, creatorRole: String, adminDeleteEnabled: Bool, domainsEnabled: Bool, domainsEnrollmentModes: [OrganizationSettingsDomainsEnrollmentModesItem], domainsDefaultRole: String, maxRoleSetsAllowed: Int? = nil, maxAllowedPermissions: Int? = nil, slugDisabled: Bool? = nil, initialRoleSetKey: String? = nil) {
+public extension OrganizationSettings {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        enabled = try container.sdkDecodeRequired(.enabled)
+        maxAllowedMemberships = try container.sdkDecodeRequired(.maxAllowedMemberships)
+        maxAllowedRoles = try container.sdkDecodeRequired(.maxAllowedRoles)
+        maxAllowedDomains = try container.sdkDecodeRequired(.maxAllowedDomains)
+        creatorRole = try container.sdkDecodeRequired(.creatorRole)
+        adminDeleteEnabled = try container.sdkDecodeRequired(.adminDeleteEnabled)
+        domainsEnabled = try container.sdkDecodeRequired(.domainsEnabled)
+        domainsEnrollmentModes = try container.sdkDecodeRequired(.domainsEnrollmentModes)
+        domainsDefaultRole = try container.sdkDecodeRequired(.domainsDefaultRole)
+        maxRoleSetsAllowed = try container.sdkDecodeIfPresent(.maxRoleSetsAllowed)
+        maxAllowedPermissions = try container.sdkDecodeIfPresent(.maxAllowedPermissions)
+        slugDisabled = try container.sdkDecodeIfPresent(.slugDisabled)
+        initialRoleSetKey = try container.sdkDecodeIfPresent(.initialRoleSetKey)
+    }
+}
+
+public extension OrganizationSettings {
+    init(
+        object: OrganizationSettingsObject,
+        enabled: Bool,
+        maxAllowedMemberships: Int,
+        maxAllowedRoles: Int,
+        maxAllowedDomains: Int,
+        creatorRole: String,
+        adminDeleteEnabled: Bool,
+        domainsEnabled: Bool,
+        domainsEnrollmentModes: [OrganizationSettingsDomainsEnrollmentModesItem],
+        domainsDefaultRole: String,
+        maxRoleSetsAllowed: Int? = nil,
+        maxAllowedPermissions: Int? = nil,
+        slugDisabled: Bool? = nil,
+        initialRoleSetKey: String? = nil
+    ) {
         (self.object, self.enabled) = (object, enabled)
         (self.maxAllowedMemberships, self.maxAllowedRoles) = (maxAllowedMemberships, maxAllowedRoles)
         (self.maxAllowedDomains, self.creatorRole) = (maxAllowedDomains, creatorRole)
@@ -191,45 +241,83 @@ public struct Instance: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension Instance {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.environmentType) else {
-            throw SdkValidationError(field: "environment_type", code: "required", message: "Validation failed for 'environment_type': value is required")
-        }
-        guard container.contains(.allowedOrigins) else {
-            throw SdkValidationError(field: "allowed_origins", code: "required", message: "Validation failed for 'allowed_origins': value is required")
-        }
-        guard container.contains(.allowedSubdomains) else {
-            throw SdkValidationError(field: "allowed_subdomains", code: "required", message: "Validation failed for 'allowed_subdomains': value is required")
-        }
-        guard container.contains(.subdomainAllowlistEnabled) else {
-            throw SdkValidationError(field: "subdomain_allowlist_enabled", code: "required", message: "Validation failed for 'subdomain_allowlist_enabled': value is required")
-        }
-        guard container.contains(.workspaceId) else {
-            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.environmentType = try container.sdkDecodeRequired(.environmentType)
-        self.allowedOrigins = try container.sdkDecodeNullable(.allowedOrigins)
-        self.allowedSubdomains = try container.sdkDecodeRequired(.allowedSubdomains)
-        self.subdomainAllowlistEnabled = try container.sdkDecodeRequired(.subdomainAllowlistEnabled)
-        self.workspaceId = try container.sdkDecodeNullable(.workspaceId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension Instance {
-    public init(object: InstanceObject, id: String, environmentType: String, allowedOrigins: [String]?, allowedSubdomains: [String], subdomainAllowlistEnabled: Bool, workspaceId: String?) {
+public extension Instance {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.environmentType) else {
+            throw SdkValidationError(
+                field: "environment_type",
+                code: "required",
+                message: "Validation failed for 'environment_type': value is required"
+            )
+        }
+        guard container.contains(.allowedOrigins) else {
+            throw SdkValidationError(
+                field: "allowed_origins",
+                code: "required",
+                message: "Validation failed for 'allowed_origins': value is required"
+            )
+        }
+        guard container.contains(.allowedSubdomains) else {
+            throw SdkValidationError(
+                field: "allowed_subdomains",
+                code: "required",
+                message: "Validation failed for 'allowed_subdomains': value is required"
+            )
+        }
+        guard container.contains(.subdomainAllowlistEnabled) else {
+            throw SdkValidationError(
+                field: "subdomain_allowlist_enabled",
+                code: "required",
+                message: "Validation failed for 'subdomain_allowlist_enabled': value is required"
+            )
+        }
+        guard container.contains(.workspaceId) else {
+            throw SdkValidationError(
+                field: "workspace_id",
+                code: "required",
+                message: "Validation failed for 'workspace_id': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        environmentType = try container.sdkDecodeRequired(.environmentType)
+        allowedOrigins = try container.sdkDecodeNullable(.allowedOrigins)
+        allowedSubdomains = try container.sdkDecodeRequired(.allowedSubdomains)
+        subdomainAllowlistEnabled = try container.sdkDecodeRequired(.subdomainAllowlistEnabled)
+        workspaceId = try container.sdkDecodeNullable(.workspaceId)
+    }
+}
+
+public extension Instance {
+    init(
+        object: InstanceObject,
+        id: String,
+        environmentType: String,
+        allowedOrigins: [String]?,
+        allowedSubdomains: [String],
+        subdomainAllowlistEnabled: Bool,
+        workspaceId: String?
+    ) {
         (self.object, self.id) = (object, id)
         (self.environmentType, self.allowedOrigins) = (environmentType, allowedOrigins)
         self.allowedSubdomains = allowedSubdomains
@@ -250,25 +338,35 @@ public struct InstanceCommunication: Codable {
         case blockedCountryCodes = "blocked_country_codes"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension InstanceCommunication {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.blockedCountryCodes) else {
-            throw SdkValidationError(field: "blocked_country_codes", code: "required", message: "Validation failed for 'blocked_country_codes': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.blockedCountryCodes = try container.sdkDecodeRequired(.blockedCountryCodes)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension InstanceCommunication {
-    public init(object: InstanceCommunicationObject, blockedCountryCodes: [String]) {
+public extension InstanceCommunication {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.blockedCountryCodes) else {
+            throw SdkValidationError(
+                field: "blocked_country_codes",
+                code: "required",
+                message: "Validation failed for 'blocked_country_codes': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        blockedCountryCodes = try container.sdkDecodeRequired(.blockedCountryCodes)
+    }
+}
+
+public extension InstanceCommunication {
+    init(object: InstanceCommunicationObject, blockedCountryCodes: [String]) {
         (self.object, self.blockedCountryCodes) = (object, blockedCountryCodes)
     }
 }
@@ -319,36 +417,56 @@ public struct OAuthApplicationSettings: Codable {
         case dynamicClientAllowedScopes = "dynamic_client_allowed_scopes"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OAuthApplicationSettings {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.dynamicOauthClientRegistration = try container.sdkDecodeRequired(.dynamicOauthClientRegistration)
-        self.defaultScopes = try container.sdkDecodeNullable(.defaultScopes)
-        self.oauthJwtAccessTokens = try container.sdkDecodeRequired(.oauthJwtAccessTokens)
-        self.audClaimEnabled = try container.sdkDecodeRequired(.audClaimEnabled)
-        self.audClaimRefreshBackfillEnabled = try container.sdkDecodeRequired(.audClaimRefreshBackfillEnabled)
-        self.pkceRequired = try container.sdkDecodeRequired(.pkceRequired)
-        self.clientIdMetadataDocumentsAdvertised = try container.sdkDecodeRequired(.clientIdMetadataDocumentsAdvertised)
-        self.clientIdMetadataDocumentsOnlyAllowPreRegisteredClients = try container.sdkDecodeRequired(.clientIdMetadataDocumentsOnlyAllowPreRegisteredClients)
-        self.clientIdMetadataDocumentsBlockImplicitlyAllowedClients = try container.sdkDecodeRequired(.clientIdMetadataDocumentsBlockImplicitlyAllowedClients)
-        self.dynamicClientAllowedScopes = try container.sdkDecodeIfPresent(.dynamicClientAllowedScopes)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension OAuthApplicationSettings {
-    public init(object: OAuthApplicationSettingsObject, dynamicOauthClientRegistration: Bool, defaultScopes: [String]?, oauthJwtAccessTokens: Bool, audClaimEnabled: Bool, audClaimRefreshBackfillEnabled: Bool, pkceRequired: Bool, clientIdMetadataDocumentsAdvertised: Bool, clientIdMetadataDocumentsOnlyAllowPreRegisteredClients: Bool, clientIdMetadataDocumentsBlockImplicitlyAllowedClients: Bool, dynamicClientAllowedScopes: [String]? = nil) {
+public extension OAuthApplicationSettings {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        dynamicOauthClientRegistration = try container.sdkDecodeRequired(.dynamicOauthClientRegistration)
+        defaultScopes = try container.sdkDecodeNullable(.defaultScopes)
+        oauthJwtAccessTokens = try container.sdkDecodeRequired(.oauthJwtAccessTokens)
+        audClaimEnabled = try container.sdkDecodeRequired(.audClaimEnabled)
+        audClaimRefreshBackfillEnabled = try container.sdkDecodeRequired(.audClaimRefreshBackfillEnabled)
+        pkceRequired = try container.sdkDecodeRequired(.pkceRequired)
+        clientIdMetadataDocumentsAdvertised = try container.sdkDecodeRequired(.clientIdMetadataDocumentsAdvertised)
+        clientIdMetadataDocumentsOnlyAllowPreRegisteredClients = try container
+            .sdkDecodeRequired(.clientIdMetadataDocumentsOnlyAllowPreRegisteredClients)
+        clientIdMetadataDocumentsBlockImplicitlyAllowedClients = try container
+            .sdkDecodeRequired(.clientIdMetadataDocumentsBlockImplicitlyAllowedClients)
+        dynamicClientAllowedScopes = try container.sdkDecodeIfPresent(.dynamicClientAllowedScopes)
+    }
+}
+
+public extension OAuthApplicationSettings {
+    init(
+        object: OAuthApplicationSettingsObject,
+        dynamicOauthClientRegistration: Bool,
+        defaultScopes: [String]?,
+        oauthJwtAccessTokens: Bool,
+        audClaimEnabled: Bool,
+        audClaimRefreshBackfillEnabled: Bool,
+        pkceRequired: Bool,
+        clientIdMetadataDocumentsAdvertised: Bool,
+        clientIdMetadataDocumentsOnlyAllowPreRegisteredClients: Bool,
+        clientIdMetadataDocumentsBlockImplicitlyAllowedClients: Bool,
+        dynamicClientAllowedScopes: [String]? = nil
+    ) {
         (self.object, self.dynamicOauthClientRegistration) = (object, dynamicOauthClientRegistration)
         (self.defaultScopes, self.oauthJwtAccessTokens) = (defaultScopes, oauthJwtAccessTokens)
         self.audClaimEnabled = audClaimEnabled
         self.audClaimRefreshBackfillEnabled = audClaimRefreshBackfillEnabled
         self.pkceRequired = pkceRequired
         self.clientIdMetadataDocumentsAdvertised = clientIdMetadataDocumentsAdvertised
-        self.clientIdMetadataDocumentsOnlyAllowPreRegisteredClients = clientIdMetadataDocumentsOnlyAllowPreRegisteredClients
-        self.clientIdMetadataDocumentsBlockImplicitlyAllowedClients = clientIdMetadataDocumentsBlockImplicitlyAllowedClients
+        self
+            .clientIdMetadataDocumentsOnlyAllowPreRegisteredClients =
+            clientIdMetadataDocumentsOnlyAllowPreRegisteredClients
+        self
+            .clientIdMetadataDocumentsBlockImplicitlyAllowedClients =
+            clientIdMetadataDocumentsBlockImplicitlyAllowedClients
         self.dynamicClientAllowedScopes = dynamicClientAllowedScopes
     }
 }
@@ -377,41 +495,74 @@ public struct InstanceRestrictions: Codable {
         case blockDisposableEmailDomains = "block_disposable_email_domains"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension InstanceRestrictions {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.allowlist) else {
-            throw SdkValidationError(field: "allowlist", code: "required", message: "Validation failed for 'allowlist': value is required")
-        }
-        guard container.contains(.blocklist) else {
-            throw SdkValidationError(field: "blocklist", code: "required", message: "Validation failed for 'blocklist': value is required")
-        }
-        guard container.contains(.allowlistBlocklistDisabledOnSignIn) else {
-            throw SdkValidationError(field: "allowlist_blocklist_disabled_on_sign_in", code: "required", message: "Validation failed for 'allowlist_blocklist_disabled_on_sign_in': value is required")
-        }
-        guard container.contains(.blockEmailSubaddresses) else {
-            throw SdkValidationError(field: "block_email_subaddresses", code: "required", message: "Validation failed for 'block_email_subaddresses': value is required")
-        }
-        guard container.contains(.blockDisposableEmailDomains) else {
-            throw SdkValidationError(field: "block_disposable_email_domains", code: "required", message: "Validation failed for 'block_disposable_email_domains': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.allowlist = try container.sdkDecodeRequired(.allowlist)
-        self.blocklist = try container.sdkDecodeRequired(.blocklist)
-        self.allowlistBlocklistDisabledOnSignIn = try container.sdkDecodeRequired(.allowlistBlocklistDisabledOnSignIn)
-        self.blockEmailSubaddresses = try container.sdkDecodeRequired(.blockEmailSubaddresses)
-        self.blockDisposableEmailDomains = try container.sdkDecodeRequired(.blockDisposableEmailDomains)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension InstanceRestrictions {
-    public init(object: InstanceRestrictionsObject, allowlist: Bool, blocklist: Bool, allowlistBlocklistDisabledOnSignIn: Bool, blockEmailSubaddresses: Bool, blockDisposableEmailDomains: Bool) {
+public extension InstanceRestrictions {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.allowlist) else {
+            throw SdkValidationError(
+                field: "allowlist",
+                code: "required",
+                message: "Validation failed for 'allowlist': value is required"
+            )
+        }
+        guard container.contains(.blocklist) else {
+            throw SdkValidationError(
+                field: "blocklist",
+                code: "required",
+                message: "Validation failed for 'blocklist': value is required"
+            )
+        }
+        guard container.contains(.allowlistBlocklistDisabledOnSignIn) else {
+            throw SdkValidationError(
+                field: "allowlist_blocklist_disabled_on_sign_in",
+                code: "required",
+                message: "Validation failed for 'allowlist_blocklist_disabled_on_sign_in': value is required"
+            )
+        }
+        guard container.contains(.blockEmailSubaddresses) else {
+            throw SdkValidationError(
+                field: "block_email_subaddresses",
+                code: "required",
+                message: "Validation failed for 'block_email_subaddresses': value is required"
+            )
+        }
+        guard container.contains(.blockDisposableEmailDomains) else {
+            throw SdkValidationError(
+                field: "block_disposable_email_domains",
+                code: "required",
+                message: "Validation failed for 'block_disposable_email_domains': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        allowlist = try container.sdkDecodeRequired(.allowlist)
+        blocklist = try container.sdkDecodeRequired(.blocklist)
+        allowlistBlocklistDisabledOnSignIn = try container.sdkDecodeRequired(.allowlistBlocklistDisabledOnSignIn)
+        blockEmailSubaddresses = try container.sdkDecodeRequired(.blockEmailSubaddresses)
+        blockDisposableEmailDomains = try container.sdkDecodeRequired(.blockDisposableEmailDomains)
+    }
+}
+
+public extension InstanceRestrictions {
+    init(
+        object: InstanceRestrictionsObject,
+        allowlist: Bool,
+        blocklist: Bool,
+        allowlistBlocklistDisabledOnSignIn: Bool,
+        blockEmailSubaddresses: Bool,
+        blockDisposableEmailDomains: Bool
+    ) {
         (self.object, self.allowlist) = (object, allowlist)
         self.blocklist = blocklist
         self.allowlistBlocklistDisabledOnSignIn = allowlistBlocklistDisabledOnSignIn
@@ -424,12 +575,15 @@ extension InstanceRestrictions {
 public struct InstanceRestrictionsObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let instanceRestrictions = InstanceRestrictionsObject(rawValue: "instance_restrictions")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -442,12 +596,15 @@ public struct InstanceRestrictionsObject: RawRepresentable, Hashable, Codable, S
 public struct InstanceObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let instance = InstanceObject(rawValue: "instance")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -6,8 +6,16 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension EmailAddressesMethods {
-    /// Replaces all of the user's email addresses with a single primary email address. By default the new email address is created verified, with the admin verification strategy. When `identification_status` is `reserved` it is created reserved instead: unverified but usable for sign-in and locked so no other user can claim it. When it is `unverified` the address is neither usable for sign-in nor locked. Any existing email addresses are deleted. If an existing email address is linked to a connected account, the request is rejected; remove the connected account first. **Warning:** `identification_status: unverified` can lock the user out of their account. An unverified email address cannot be used to sign in, so if the user has no other verified or reserved identifier, deleting their existing email addresses leaves them unable to authenticate — and unable to verify the new address, since that requires signing in. Recovery then requires another admin API call.
+public extension EmailAddressesMethods {
+    /// Replaces all of the user's email addresses with a single primary email address. By default the new email address
+    /// is created verified, with the admin verification strategy. When `identification_status` is `reserved` it is
+    /// created reserved instead: unverified but usable for sign-in and locked so no other user can claim it. When it is
+    /// `unverified` the address is neither usable for sign-in nor locked. Any existing email addresses are deleted. If
+    /// an existing email address is linked to a connected account, the request is rejected; remove the connected
+    /// account first. **Warning:** `identification_status: unverified` can lock the user out of their account. An
+    /// unverified email address cannot be used to sign in, so if the user has no other verified or reserved identifier,
+    /// deleting their existing email addresses leaves them unable to authenticate — and unable to verify the new
+    /// address, since that requires signing in. Recovery then requires another admin API call.
     ///
     /// - Parameters:
     /// - userId: The ID of the user whose email address to replace
@@ -27,9 +35,35 @@ extension EmailAddressesMethods {
     ///   primary email address is notified that the primary email address has
     ///   changed. No notification is sent when the replacement is the user's current
     ///   primary email address. By default, no notification is sent.
-    public static func replaceUserEmailAddress(config: ClientConfig, userId: String, emailAddress: String, identificationStatus: ReplaceUserEmailAddressRequestBodyIdentificationStatus? = nil, notifyPrimaryEmailAddressChanged: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> EmailAddress {
-        let requestBody = ReplaceUserEmailAddressRequestBody(emailAddress: emailAddress, identificationStatus: identificationStatus, notifyPrimaryEmailAddressChanged: notifyPrimaryEmailAddressChanged)
+    static func replaceUserEmailAddress(
+        config: ClientConfig,
+        userId: String,
+        emailAddress: String,
+        identificationStatus: ReplaceUserEmailAddressRequestBodyIdentificationStatus? = nil,
+        notifyPrimaryEmailAddressChanged: SdkOptional<Bool>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> EmailAddress {
+        let requestBody = ReplaceUserEmailAddressRequestBody(
+            emailAddress: emailAddress,
+            identificationStatus: identificationStatus,
+            notifyPrimaryEmailAddressChanged: notifyPrimaryEmailAddressChanged
+        )
 
-        return try (await sdkRequest("PUT", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/email_address"].joined(), config: config, body: requestBody, decoder: .json, operationId: "ReplaceUserEmailAddress", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PUT",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/email_address"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "ReplaceUserEmailAddress",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 }

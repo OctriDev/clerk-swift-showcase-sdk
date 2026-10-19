@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension DirectoriesMethods {
+public extension DirectoriesMethods {
     /// Returns a list of all directories for the instance.
     ///
     /// - Parameters:
@@ -14,22 +14,38 @@ extension DirectoriesMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    public static func listDirectories(config: ClientConfig, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> DirectoryList {
-        if let limit = limit {
+    static func listDirectories(
+        config: ClientConfig,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DirectoryList {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset = offset {
+        if let offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try (await sdkRequest("GET", "/directories", config: config, query: [
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("offset", value: offset),
-        ], decoder: .json, operationId: "ListDirectories", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/directories",
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("offset", value: offset),
+            ],
+            decoder: .json,
+            operationId: "ListDirectories",
+            options: requestOptions,
+            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self]
+        )).data
     }
 
-    /// Creates a directory for provisioning users from an identity provider and associates it with an enterprise connection. Supply `enterprise_connection_id` and `provider`; optionally include a name and group-to-role mappings to create with the directory. The response includes the directory configuration and its API key.
+    /// Creates a directory for provisioning users from an identity provider and associates it with an enterprise
+    /// connection. Supply `enterprise_connection_id` and `provider`; optionally include a name and group-to-role
+    /// mappings to create with the directory. The response includes the directory configuration and its API key.
     ///
     /// Create a new directory for the instance.
     ///
@@ -40,9 +56,30 @@ extension DirectoriesMethods {
     /// - name: A human-friendly name for the directory.
     /// - groupRoleMappings: Optional directory group to organization role mappings
     ///   to create with the directory.
-    public static func createDirectory(config: ClientConfig, enterpriseConnectionId: String, provider: String, name: String? = nil, groupRoleMappings: [CreateDirectoryRequestBodyGroupRoleMappingsItem]? = nil, requestOptions: RequestOptions? = nil) async throws -> Directory {
-        let requestBody = CreateDirectoryRequestBody(enterpriseConnectionId: enterpriseConnectionId, provider: provider, name: name, groupRoleMappings: groupRoleMappings)
+    static func createDirectory(
+        config: ClientConfig,
+        enterpriseConnectionId: String,
+        provider: String,
+        name: String? = nil,
+        groupRoleMappings: [CreateDirectoryRequestBodyGroupRoleMappingsItem]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Directory {
+        let requestBody = CreateDirectoryRequestBody(
+            enterpriseConnectionId: enterpriseConnectionId,
+            provider: provider,
+            name: name,
+            groupRoleMappings: groupRoleMappings
+        )
 
-        return try (await sdkRequest("POST", "/directories", config: config, body: requestBody, decoder: .json, operationId: "CreateDirectory", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/directories",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "CreateDirectory",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension EmailSmsTemplatesMethods {
-    /// Retrieves the details of an email or SMS template by its slug. Use `template_type` to select the template category and `slug` to identify the template. This operation is deprecated.
+public extension EmailSmsTemplatesMethods {
+    /// Retrieves the details of an email or SMS template by its slug. Use `template_type` to select the template
+    /// category and `slug` to identify the template. This operation is deprecated.
     ///
     /// Returns the details of a template
     ///
@@ -16,7 +17,25 @@ extension EmailSmsTemplatesMethods {
     /// - slug: The slug (i.e. machine-friendly name) of the template to retrieve
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public static func getTemplate(config: ClientConfig, templateType: GetTemplateParameter, slug: String, requestOptions: RequestOptions? = nil) async throws -> Template {
-        return try (await sdkRequest("GET", ["/templates/", sdkEncodePathSegment(sdkWireString(templateType)), "/", sdkEncodePathSegment(sdkWireString(slug))].joined(), config: config, decoder: .json, operationId: "GetTemplate", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func getTemplate(
+        config: ClientConfig,
+        templateType: GetTemplateParameter,
+        slug: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Template {
+        try await (sdkRequest(
+            "GET",
+            [
+                "/templates/",
+                sdkEncodePathSegment(sdkWireString(templateType)),
+                "/",
+                sdkEncodePathSegment(sdkWireString(slug)),
+            ].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "GetTemplate",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

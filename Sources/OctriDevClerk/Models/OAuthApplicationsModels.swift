@@ -3,7 +3,7 @@
 
 import Foundation
 
-// OAuthApplications domain models
+/// OAuthApplications domain models
 /// Typed representation of the `OAuthApplicationWithSecret` API schema.
 public struct OAuthApplicationWithSecret: Codable {
     /// Required enumerated value serialized in the `object` wire field.
@@ -86,49 +86,77 @@ public struct OAuthApplicationWithSecret: Codable {
         case clientSecret = "client_secret"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OAuthApplicationWithSecret {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.instanceId = try container.sdkDecodeRequired(.instanceId)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.clientId = try container.sdkDecodeRequired(.clientId)
-        self.clientUri = try container.sdkDecodeNullable(.clientUri)
-        self.clientImageUrl = try container.sdkDecodeNullable(.clientImageUrl)
-        self.dynamicallyRegistered = try container.sdkDecodeRequired(.dynamicallyRegistered)
-        self.consentScreenEnabled = try container.sdkDecodeRequired(.consentScreenEnabled)
-        self.pkceRequired = try container.sdkDecodeRequired(.pkceRequired)
-        self.audienceUri = try container.sdkDecodeNullable(.audienceUri)
-        self.tokenExchangeEnabled = try container.sdkDecodeRequired(.tokenExchangeEnabled)
-        self.deviceAuthorizationGrantEnabled = try container.sdkDecodeRequired(.deviceAuthorizationGrantEnabled)
-        self.`public` = try container.sdkDecodeRequired(.`public`)
-        self.scopes = try container.sdkDecodeRequired(.scopes)
-        self.redirectUris = try container.sdkDecodeRequired(.redirectUris)
-        self.callbackUrl = try container.sdkDecodeRequired(.callbackUrl)
-        self.authorizeUrl = try container.sdkDecodeRequired(.authorizeUrl)
-        self.tokenFetchUrl = try container.sdkDecodeRequired(.tokenFetchUrl)
-        self.userInfoUrl = try container.sdkDecodeRequired(.userInfoUrl)
-        self.discoveryUrl = try container.sdkDecodeRequired(.discoveryUrl)
-        self.tokenIntrospectionUrl = try container.sdkDecodeRequired(.tokenIntrospectionUrl)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.clientSecret = try container.sdkDecodeIfPresent(.clientSecret)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension OAuthApplicationWithSecret {
-    public init(object: OAuthApplicationObject, id: String, instanceId: String, name: String, clientId: String, clientUri: String?, clientImageUrl: String?, dynamicallyRegistered: Bool, consentScreenEnabled: Bool, pkceRequired: Bool, audienceUri: String?, tokenExchangeEnabled: Bool, deviceAuthorizationGrantEnabled: Bool, `public`: Bool, scopes: String, redirectUris: [String], callbackUrl: String, authorizeUrl: String, tokenFetchUrl: String, userInfoUrl: String, discoveryUrl: String, tokenIntrospectionUrl: String, createdAt: Int, updatedAt: Int, clientSecret: String? = nil) {
+public extension OAuthApplicationWithSecret {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        instanceId = try container.sdkDecodeRequired(.instanceId)
+        name = try container.sdkDecodeRequired(.name)
+        clientId = try container.sdkDecodeRequired(.clientId)
+        clientUri = try container.sdkDecodeNullable(.clientUri)
+        clientImageUrl = try container.sdkDecodeNullable(.clientImageUrl)
+        dynamicallyRegistered = try container.sdkDecodeRequired(.dynamicallyRegistered)
+        consentScreenEnabled = try container.sdkDecodeRequired(.consentScreenEnabled)
+        pkceRequired = try container.sdkDecodeRequired(.pkceRequired)
+        audienceUri = try container.sdkDecodeNullable(.audienceUri)
+        tokenExchangeEnabled = try container.sdkDecodeRequired(.tokenExchangeEnabled)
+        deviceAuthorizationGrantEnabled = try container.sdkDecodeRequired(.deviceAuthorizationGrantEnabled)
+        self.public = try container.sdkDecodeRequired(.public)
+        scopes = try container.sdkDecodeRequired(.scopes)
+        redirectUris = try container.sdkDecodeRequired(.redirectUris)
+        callbackUrl = try container.sdkDecodeRequired(.callbackUrl)
+        authorizeUrl = try container.sdkDecodeRequired(.authorizeUrl)
+        tokenFetchUrl = try container.sdkDecodeRequired(.tokenFetchUrl)
+        userInfoUrl = try container.sdkDecodeRequired(.userInfoUrl)
+        discoveryUrl = try container.sdkDecodeRequired(.discoveryUrl)
+        tokenIntrospectionUrl = try container.sdkDecodeRequired(.tokenIntrospectionUrl)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        clientSecret = try container.sdkDecodeIfPresent(.clientSecret)
+    }
+}
+
+public extension OAuthApplicationWithSecret {
+    init(
+        object: OAuthApplicationObject,
+        id: String,
+        instanceId: String,
+        name: String,
+        clientId: String,
+        clientUri: String?,
+        clientImageUrl: String?,
+        dynamicallyRegistered: Bool,
+        consentScreenEnabled: Bool,
+        pkceRequired: Bool,
+        audienceUri: String?,
+        tokenExchangeEnabled: Bool,
+        deviceAuthorizationGrantEnabled: Bool,
+        public: Bool,
+        scopes: String,
+        redirectUris: [String],
+        callbackUrl: String,
+        authorizeUrl: String,
+        tokenFetchUrl: String,
+        userInfoUrl: String,
+        discoveryUrl: String,
+        tokenIntrospectionUrl: String,
+        createdAt: Int,
+        updatedAt: Int,
+        clientSecret: String? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.instanceId, self.name) = (instanceId, name)
         (self.clientId, self.clientUri) = (clientId, clientUri)
         (self.clientImageUrl, self.dynamicallyRegistered) = (clientImageUrl, dynamicallyRegistered)
         (self.consentScreenEnabled, self.pkceRequired) = (consentScreenEnabled, pkceRequired)
         (self.audienceUri, self.tokenExchangeEnabled) = (audienceUri, tokenExchangeEnabled)
-        (self.deviceAuthorizationGrantEnabled, self.`public`) = (deviceAuthorizationGrantEnabled, `public`)
+        (self.deviceAuthorizationGrantEnabled, self.public) = (deviceAuthorizationGrantEnabled, `public`)
         (self.scopes, self.redirectUris) = (scopes, redirectUris)
         (self.callbackUrl, self.authorizeUrl) = (callbackUrl, authorizeUrl)
         (self.tokenFetchUrl, self.userInfoUrl) = (tokenFetchUrl, userInfoUrl)
@@ -217,48 +245,75 @@ public struct OAuthApplication: Codable {
         case updatedAt = "updated_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OAuthApplication {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.instanceId = try container.sdkDecodeRequired(.instanceId)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.clientId = try container.sdkDecodeRequired(.clientId)
-        self.clientUri = try container.sdkDecodeNullable(.clientUri)
-        self.clientImageUrl = try container.sdkDecodeNullable(.clientImageUrl)
-        self.dynamicallyRegistered = try container.sdkDecodeRequired(.dynamicallyRegistered)
-        self.consentScreenEnabled = try container.sdkDecodeRequired(.consentScreenEnabled)
-        self.pkceRequired = try container.sdkDecodeRequired(.pkceRequired)
-        self.audienceUri = try container.sdkDecodeNullable(.audienceUri)
-        self.tokenExchangeEnabled = try container.sdkDecodeRequired(.tokenExchangeEnabled)
-        self.deviceAuthorizationGrantEnabled = try container.sdkDecodeRequired(.deviceAuthorizationGrantEnabled)
-        self.`public` = try container.sdkDecodeRequired(.`public`)
-        self.scopes = try container.sdkDecodeRequired(.scopes)
-        self.redirectUris = try container.sdkDecodeRequired(.redirectUris)
-        self.callbackUrl = try container.sdkDecodeRequired(.callbackUrl)
-        self.authorizeUrl = try container.sdkDecodeRequired(.authorizeUrl)
-        self.tokenFetchUrl = try container.sdkDecodeRequired(.tokenFetchUrl)
-        self.userInfoUrl = try container.sdkDecodeRequired(.userInfoUrl)
-        self.discoveryUrl = try container.sdkDecodeRequired(.discoveryUrl)
-        self.tokenIntrospectionUrl = try container.sdkDecodeRequired(.tokenIntrospectionUrl)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension OAuthApplication {
-    public init(object: OAuthApplicationObject, id: String, instanceId: String, name: String, clientId: String, clientUri: String?, clientImageUrl: String?, dynamicallyRegistered: Bool, consentScreenEnabled: Bool, pkceRequired: Bool, audienceUri: String?, tokenExchangeEnabled: Bool, deviceAuthorizationGrantEnabled: Bool, `public`: Bool, scopes: String, redirectUris: [String], callbackUrl: String, authorizeUrl: String, tokenFetchUrl: String, userInfoUrl: String, discoveryUrl: String, tokenIntrospectionUrl: String, createdAt: Int, updatedAt: Int) {
+public extension OAuthApplication {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        instanceId = try container.sdkDecodeRequired(.instanceId)
+        name = try container.sdkDecodeRequired(.name)
+        clientId = try container.sdkDecodeRequired(.clientId)
+        clientUri = try container.sdkDecodeNullable(.clientUri)
+        clientImageUrl = try container.sdkDecodeNullable(.clientImageUrl)
+        dynamicallyRegistered = try container.sdkDecodeRequired(.dynamicallyRegistered)
+        consentScreenEnabled = try container.sdkDecodeRequired(.consentScreenEnabled)
+        pkceRequired = try container.sdkDecodeRequired(.pkceRequired)
+        audienceUri = try container.sdkDecodeNullable(.audienceUri)
+        tokenExchangeEnabled = try container.sdkDecodeRequired(.tokenExchangeEnabled)
+        deviceAuthorizationGrantEnabled = try container.sdkDecodeRequired(.deviceAuthorizationGrantEnabled)
+        self.public = try container.sdkDecodeRequired(.public)
+        scopes = try container.sdkDecodeRequired(.scopes)
+        redirectUris = try container.sdkDecodeRequired(.redirectUris)
+        callbackUrl = try container.sdkDecodeRequired(.callbackUrl)
+        authorizeUrl = try container.sdkDecodeRequired(.authorizeUrl)
+        tokenFetchUrl = try container.sdkDecodeRequired(.tokenFetchUrl)
+        userInfoUrl = try container.sdkDecodeRequired(.userInfoUrl)
+        discoveryUrl = try container.sdkDecodeRequired(.discoveryUrl)
+        tokenIntrospectionUrl = try container.sdkDecodeRequired(.tokenIntrospectionUrl)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+    }
+}
+
+public extension OAuthApplication {
+    init(
+        object: OAuthApplicationObject,
+        id: String,
+        instanceId: String,
+        name: String,
+        clientId: String,
+        clientUri: String?,
+        clientImageUrl: String?,
+        dynamicallyRegistered: Bool,
+        consentScreenEnabled: Bool,
+        pkceRequired: Bool,
+        audienceUri: String?,
+        tokenExchangeEnabled: Bool,
+        deviceAuthorizationGrantEnabled: Bool,
+        public: Bool,
+        scopes: String,
+        redirectUris: [String],
+        callbackUrl: String,
+        authorizeUrl: String,
+        tokenFetchUrl: String,
+        userInfoUrl: String,
+        discoveryUrl: String,
+        tokenIntrospectionUrl: String,
+        createdAt: Int,
+        updatedAt: Int
+    ) {
         (self.object, self.id) = (object, id)
         (self.instanceId, self.name) = (instanceId, name)
         (self.clientId, self.clientUri) = (clientId, clientUri)
         (self.clientImageUrl, self.dynamicallyRegistered) = (clientImageUrl, dynamicallyRegistered)
         (self.consentScreenEnabled, self.pkceRequired) = (consentScreenEnabled, pkceRequired)
         (self.audienceUri, self.tokenExchangeEnabled) = (audienceUri, tokenExchangeEnabled)
-        (self.deviceAuthorizationGrantEnabled, self.`public`) = (deviceAuthorizationGrantEnabled, `public`)
+        (self.deviceAuthorizationGrantEnabled, self.public) = (deviceAuthorizationGrantEnabled, `public`)
         (self.scopes, self.redirectUris) = (scopes, redirectUris)
         (self.callbackUrl, self.authorizeUrl) = (callbackUrl, authorizeUrl)
         (self.tokenFetchUrl, self.userInfoUrl) = (tokenFetchUrl, userInfoUrl)
@@ -279,25 +334,35 @@ public struct OAuthApplications: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OAuthApplications {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension OAuthApplications {
-    public init(data: [OAuthApplication], totalCount: Int) {
+public extension OAuthApplications {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension OAuthApplications {
+    init(data: [OAuthApplication], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -311,19 +376,19 @@ public struct OAuthApplicationWithSecretVariant1: Codable {
     }
 
     init() {
-        self.clientSecret = nil
+        clientSecret = nil
     }
 }
 
-extension OAuthApplicationWithSecretVariant1 {
-    public init(from decoder: Decoder) throws {
+public extension OAuthApplicationWithSecretVariant1 {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.clientSecret = try container.sdkDecodeIfPresent(.clientSecret)
+        clientSecret = try container.sdkDecodeIfPresent(.clientSecret)
     }
 }
 
-extension OAuthApplicationWithSecretVariant1 {
-    public init(clientSecret: String? = nil) {
+public extension OAuthApplicationWithSecretVariant1 {
+    init(clientSecret: String? = nil) {
         self.init()
         self.clientSecret = clientSecret
     }
@@ -333,12 +398,15 @@ extension OAuthApplicationWithSecretVariant1 {
 public struct OAuthApplicationObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let oauthApplication = OAuthApplicationObject(rawValue: "oauth_application")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Shared domain models
+/// Shared domain models
 public typealias ReassignmentMappings = [String: String]
 
 /// Typed representation of the `Role` API schema.
@@ -39,26 +39,38 @@ public struct Role: Codable {
         case updatedAt = "updated_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension Role {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.key = try container.sdkDecodeRequired(.key)
-        self.description = try container.sdkDecodeNullable(.description)
-        self.isCreatorEligible = try container.sdkDecodeRequired(.isCreatorEligible)
-        self.permissions = try container.sdkDecodeRequired(.permissions)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension Role {
-    public init(object: RoleObject, id: String, name: String, key: String, description: String?, isCreatorEligible: Bool, permissions: [Permission], createdAt: Int, updatedAt: Int) {
+public extension Role {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        key = try container.sdkDecodeRequired(.key)
+        description = try container.sdkDecodeNullable(.description)
+        isCreatorEligible = try container.sdkDecodeRequired(.isCreatorEligible)
+        permissions = try container.sdkDecodeRequired(.permissions)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+    }
+}
+
+public extension Role {
+    init(
+        object: RoleObject,
+        id: String,
+        name: String,
+        key: String,
+        description: String?,
+        isCreatorEligible: Bool,
+        permissions: [Permission],
+        createdAt: Int,
+        updatedAt: Int
+    ) {
         (self.object, self.id) = (object, id)
         (self.name, self.key) = (name, key)
         (self.description, self.isCreatorEligible) = (description, isCreatorEligible)
@@ -79,28 +91,38 @@ public struct IdentificationLink: Codable {
         case id
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension IdentificationLink {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.type) else {
-            throw SdkValidationError(field: "type", code: "required", message: "Validation failed for 'type': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        self.type = try container.sdkDecodeRequired(.type)
-        self.id = try container.sdkDecodeRequired(.id)
-            try sdkValidatePattern("type", self.type, sdkPattern028ffc56072e)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension IdentificationLink {
-    public init(type: String, id: String) throws {
+public extension IdentificationLink {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.type) else {
+            throw SdkValidationError(
+                field: "type",
+                code: "required",
+                message: "Validation failed for 'type': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        type = try container.sdkDecodeRequired(.type)
+        id = try container.sdkDecodeRequired(.id)
+        try sdkValidatePattern("type", type, sdkPattern028ffc56072e)
+    }
+}
+
+public extension IdentificationLink {
+    init(type: String, id: String) throws {
         (self.type, self.id) = (type, id)
-            try sdkValidatePattern("type", self.type, sdkPattern028ffc56072e)
+        try sdkValidatePattern("type", self.type, sdkPattern028ffc56072e)
     }
 }
 
@@ -126,31 +148,51 @@ public struct AdjustCreditBalanceRequest: Codable {
         case note
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension AdjustCreditBalanceRequest {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        guard container.contains(.action) else {
-            throw SdkValidationError(field: "action", code: "required", message: "Validation failed for 'action': value is required")
-        }
-        guard container.contains(.idempotencyKey) else {
-            throw SdkValidationError(field: "idempotency_key", code: "required", message: "Validation failed for 'idempotency_key': value is required")
-        }
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.action = try container.sdkDecodeRequired(.action)
-        self.idempotencyKey = try container.sdkDecodeRequired(.idempotencyKey)
-        self.currency = try container.sdkDecodeIfPresent(.currency)
-        self.note = try container.sdkDecodeIfPresent(.note)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension AdjustCreditBalanceRequest {
-    public init(amount: Int, action: AdjustCreditBalanceRequestAction, idempotencyKey: String, currency: String? = nil, note: String? = nil) {
+public extension AdjustCreditBalanceRequest {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.amount) else {
+            throw SdkValidationError(
+                field: "amount",
+                code: "required",
+                message: "Validation failed for 'amount': value is required"
+            )
+        }
+        guard container.contains(.action) else {
+            throw SdkValidationError(
+                field: "action",
+                code: "required",
+                message: "Validation failed for 'action': value is required"
+            )
+        }
+        guard container.contains(.idempotencyKey) else {
+            throw SdkValidationError(
+                field: "idempotency_key",
+                code: "required",
+                message: "Validation failed for 'idempotency_key': value is required"
+            )
+        }
+        amount = try container.sdkDecodeRequired(.amount)
+        action = try container.sdkDecodeRequired(.action)
+        idempotencyKey = try container.sdkDecodeRequired(.idempotencyKey)
+        currency = try container.sdkDecodeIfPresent(.currency)
+        note = try container.sdkDecodeIfPresent(.note)
+    }
+}
+
+public extension AdjustCreditBalanceRequest {
+    init(
+        amount: Int,
+        action: AdjustCreditBalanceRequestAction,
+        idempotencyKey: String,
+        currency: String? = nil,
+        note: String? = nil
+    ) {
         (self.amount, self.action) = (amount, action)
         (self.idempotencyKey, self.currency) = (idempotencyKey, currency)
         self.note = note
@@ -187,25 +229,36 @@ public struct Permission: Codable {
         case updatedAt = "updated_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension Permission {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.key = try container.sdkDecodeRequired(.key)
-        self.description = try container.sdkDecodeRequired(.description)
-        self.type = try container.sdkDecodeRequired(.type)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension Permission {
-    public init(object: PermissionObject, id: String, name: String, key: String, description: String, type: String, createdAt: Int, updatedAt: Int) {
+public extension Permission {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        key = try container.sdkDecodeRequired(.key)
+        description = try container.sdkDecodeRequired(.description)
+        type = try container.sdkDecodeRequired(.type)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+    }
+}
+
+public extension Permission {
+    init(
+        object: PermissionObject,
+        id: String,
+        name: String,
+        key: String,
+        description: String,
+        type: String,
+        createdAt: Int,
+        updatedAt: Int
+    ) {
         (self.object, self.id) = (object, id)
         (self.name, self.key) = (name, key)
         (self.description, self.type) = (description, type)
@@ -237,41 +290,74 @@ public struct FeatureResponse: Codable {
         case avatarUrl = "avatar_url"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension FeatureResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.description) else {
-            throw SdkValidationError(field: "description", code: "required", message: "Validation failed for 'description': value is required")
-        }
-        guard container.contains(.slug) else {
-            throw SdkValidationError(field: "slug", code: "required", message: "Validation failed for 'slug': value is required")
-        }
-        guard container.contains(.avatarUrl) else {
-            throw SdkValidationError(field: "avatar_url", code: "required", message: "Validation failed for 'avatar_url': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.description = try container.sdkDecodeNullable(.description)
-        self.slug = try container.sdkDecodeRequired(.slug)
-        self.avatarUrl = try container.sdkDecodeNullable(.avatarUrl)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension FeatureResponse {
-    public init(object: FeatureResponseObject, id: String, name: String, description: String?, slug: String, avatarUrl: String?) {
+public extension FeatureResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.description) else {
+            throw SdkValidationError(
+                field: "description",
+                code: "required",
+                message: "Validation failed for 'description': value is required"
+            )
+        }
+        guard container.contains(.slug) else {
+            throw SdkValidationError(
+                field: "slug",
+                code: "required",
+                message: "Validation failed for 'slug': value is required"
+            )
+        }
+        guard container.contains(.avatarUrl) else {
+            throw SdkValidationError(
+                field: "avatar_url",
+                code: "required",
+                message: "Validation failed for 'avatar_url': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        description = try container.sdkDecodeNullable(.description)
+        slug = try container.sdkDecodeRequired(.slug)
+        avatarUrl = try container.sdkDecodeNullable(.avatarUrl)
+    }
+}
+
+public extension FeatureResponse {
+    init(
+        object: FeatureResponseObject,
+        id: String,
+        name: String,
+        description: String?,
+        slug: String,
+        avatarUrl: String?
+    ) {
         (self.object, self.id) = (object, id)
         (self.name, self.description) = (name, description)
         (self.slug, self.avatarUrl) = (slug, avatarUrl)
@@ -315,55 +401,96 @@ public struct Invitation: Codable {
         case expiresAt = "expires_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension Invitation {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.emailAddress) else {
-            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
-        }
-        guard container.contains(.publicMetadata) else {
-            throw SdkValidationError(field: "public_metadata", code: "required", message: "Validation failed for 'public_metadata': value is required")
-        }
-        guard container.contains(.status) else {
-            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        guard container.contains(.updatedAt) else {
-            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        self.publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.revoked = try container.sdkDecodeIfPresent(.revoked)
-        self.url = try container.sdkDecodeIfPresent(.url)
-        self.expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
-            try sdkValidateEmail("email_address", self.emailAddress)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension Invitation {
-    public init(object: InvitationObject, id: String, emailAddress: String, publicMetadata: [String: JSONValue], status: InvitationStatus, createdAt: Int, updatedAt: Int, revoked: Bool? = nil, url: String? = nil, expiresAt: Int? = nil) throws {
+public extension Invitation {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.emailAddress) else {
+            throw SdkValidationError(
+                field: "email_address",
+                code: "required",
+                message: "Validation failed for 'email_address': value is required"
+            )
+        }
+        guard container.contains(.publicMetadata) else {
+            throw SdkValidationError(
+                field: "public_metadata",
+                code: "required",
+                message: "Validation failed for 'public_metadata': value is required"
+            )
+        }
+        guard container.contains(.status) else {
+            throw SdkValidationError(
+                field: "status",
+                code: "required",
+                message: "Validation failed for 'status': value is required"
+            )
+        }
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        guard container.contains(.updatedAt) else {
+            throw SdkValidationError(
+                field: "updated_at",
+                code: "required",
+                message: "Validation failed for 'updated_at': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
+        status = try container.sdkDecodeRequired(.status)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        revoked = try container.sdkDecodeIfPresent(.revoked)
+        url = try container.sdkDecodeIfPresent(.url)
+        expiresAt = try container.sdkDecodeIfPresent(.expiresAt)
+        try sdkValidateEmail("email_address", emailAddress)
+    }
+}
+
+public extension Invitation {
+    init(
+        object: InvitationObject,
+        id: String,
+        emailAddress: String,
+        publicMetadata: [String: JSONValue],
+        status: InvitationStatus,
+        createdAt: Int,
+        updatedAt: Int,
+        revoked: Bool? = nil,
+        url: String? = nil,
+        expiresAt: Int? = nil
+    ) throws {
         (self.object, self.id) = (object, id)
         (self.emailAddress, self.publicMetadata) = (emailAddress, publicMetadata)
         (self.status, self.createdAt) = (status, createdAt)
         (self.updatedAt, self.revoked) = (updatedAt, revoked)
         (self.url, self.expiresAt) = (url, expiresAt)
-            try sdkValidateEmail("email_address", self.emailAddress)
+        try sdkValidateEmail("email_address", self.emailAddress)
     }
 }
 
@@ -388,28 +515,38 @@ public struct DeletedObject: Codable {
         case externalId = "external_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension DeletedObject {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.deleted) else {
-            throw SdkValidationError(field: "deleted", code: "required", message: "Validation failed for 'deleted': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.deleted = try container.sdkDecodeRequired(.deleted)
-        self.id = try container.sdkDecodeIfPresent(.id)
-        self.slug = try container.sdkDecodeIfPresent(.slug)
-        self.externalId = try container.sdkDecodeIfPresent(.externalId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension DeletedObject {
-    public init(object: String, deleted: Bool, id: String? = nil, slug: String? = nil, externalId: String? = nil) {
+public extension DeletedObject {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.deleted) else {
+            throw SdkValidationError(
+                field: "deleted",
+                code: "required",
+                message: "Validation failed for 'deleted': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        deleted = try container.sdkDecodeRequired(.deleted)
+        id = try container.sdkDecodeIfPresent(.id)
+        slug = try container.sdkDecodeIfPresent(.slug)
+        externalId = try container.sdkDecodeIfPresent(.externalId)
+    }
+}
+
+public extension DeletedObject {
+    init(object: String, deleted: Bool, id: String? = nil, slug: String? = nil, externalId: String? = nil) {
         (self.object, self.deleted) = (object, deleted)
         (self.id, self.slug) = (id, slug)
         self.externalId = externalId
@@ -420,7 +557,10 @@ extension DeletedObject {
 public struct InvitationStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let pending = InvitationStatus(rawValue: "pending")
     public static let accepted = InvitationStatus(rawValue: "accepted")
     public static let revoked = InvitationStatus(rawValue: "revoked")
@@ -428,7 +568,7 @@ public struct InvitationStatus: RawRepresentable, Hashable, Codable, Sendable, S
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -441,13 +581,16 @@ public struct InvitationStatus: RawRepresentable, Hashable, Codable, Sendable, S
 public struct AdjustCreditBalanceRequestAction: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let increase = AdjustCreditBalanceRequestAction(rawValue: "increase")
     public static let decrease = AdjustCreditBalanceRequestAction(rawValue: "decrease")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -460,12 +603,15 @@ public struct AdjustCreditBalanceRequestAction: RawRepresentable, Hashable, Coda
 public struct FeatureResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let feature = FeatureResponseObject(rawValue: "feature")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -478,12 +624,15 @@ public struct FeatureResponseObject: RawRepresentable, Hashable, Codable, Sendab
 public struct RoleObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let role = RoleObject(rawValue: "role")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

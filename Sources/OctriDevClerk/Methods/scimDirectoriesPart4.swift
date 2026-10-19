@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension ScimDirectoriesMethods {
-    /// Updates the configuration of a SCIM directory. Supply only the settings you want to change; `attribute_mapping` entries are merged, and setting a key to `null` removes it from the mapping.
+public extension ScimDirectoriesMethods {
+    /// Updates the configuration of a SCIM directory. Supply only the settings you want to change; `attribute_mapping`
+    /// entries are merged, and setting a key to `null` removes it from the mapping.
     ///
     /// Updates a directory.
     ///
@@ -21,17 +22,60 @@ extension ScimDirectoriesMethods {
     ///   mapping.
     /// - groupRoleMappingEnabled: Whether group-to-role mapping is enabled for this
     ///   directory.
-    public static func updateScimDirectory(config: ClientConfig, scimDirectoryId: String, name: String? = nil, enabled: Bool? = nil, provider: String? = nil, attributeMapping: [String: String?]? = nil, groupRoleMappingEnabled: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> SCIMDirectory {
-        let requestBody = UpdateScimDirectoryRequestBody(name: name, enabled: enabled, provider: provider, attributeMapping: attributeMapping, groupRoleMappingEnabled: groupRoleMappingEnabled)
+    static func updateScimDirectory(
+        config: ClientConfig,
+        scimDirectoryId: String,
+        name: String? = nil,
+        enabled: Bool? = nil,
+        provider: String? = nil,
+        attributeMapping: [String: String?]? = nil,
+        groupRoleMappingEnabled: Bool? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SCIMDirectory {
+        let requestBody = UpdateScimDirectoryRequestBody(
+            name: name,
+            enabled: enabled,
+            provider: provider,
+            attributeMapping: attributeMapping,
+            groupRoleMappingEnabled: groupRoleMappingEnabled
+        )
 
-        return try (await sdkRequest("PATCH", ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateSCIMDirectory", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId))].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdateSCIMDirectory",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 
-    /// Deletes a directory and stops provisioning for it. SCIM requests authenticated with the directory's API key are rejected afterwards.
+    /// Deletes a directory and stops provisioning for it. SCIM requests authenticated with the directory's API key are
+    /// rejected afterwards.
     ///
     /// - Parameters:
     /// - scimDirectoryId: The ID of the directory to delete
-    public static func deleteScimDirectory(config: ClientConfig, scimDirectoryId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try (await sdkRequest("DELETE", ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId))].joined(), config: config, decoder: .json, operationId: "DeleteSCIMDirectory", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func deleteScimDirectory(
+        config: ClientConfig,
+        scimDirectoryId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeletedObject {
+        try await (sdkRequest(
+            "DELETE",
+            ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "DeleteSCIMDirectory",
+            options: requestOptions,
+            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

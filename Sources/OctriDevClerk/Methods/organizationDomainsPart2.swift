@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OrganizationDomainsMethods {
+public extension OrganizationDomainsMethods {
     /// Creates a new organization domain. By default the domain is verified, but can be optionally set to unverified.
     ///
     /// - Parameters:
@@ -17,9 +17,29 @@ extension OrganizationDomainsMethods {
     ///   `automatic_invitation`, `automatic_suggestion`, `manual_invitation` or
     ///   `enterprise_sso`
     /// - verified: The status of domain's verification. Defaults to true
-    public static func createOrganizationDomain(config: ClientConfig, organizationId: String, name: String? = nil, enrollmentMode: String? = nil, verified: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationDomain {
-        let requestBody = CreateOrganizationDomainRequestBody(name: name, enrollmentMode: enrollmentMode, verified: verified)
+    static func createOrganizationDomain(
+        config: ClientConfig,
+        organizationId: String,
+        name: String? = nil,
+        enrollmentMode: String? = nil,
+        verified: SdkOptional<Bool>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationDomain {
+        let requestBody = CreateOrganizationDomainRequestBody(
+            name: name,
+            enrollmentMode: enrollmentMode,
+            verified: verified
+        )
 
-        return try (await sdkRequest("POST", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/domains"].joined(), config: config, body: requestBody, decoder: .json, operationId: "CreateOrganizationDomain", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/domains"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "CreateOrganizationDomain",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }
