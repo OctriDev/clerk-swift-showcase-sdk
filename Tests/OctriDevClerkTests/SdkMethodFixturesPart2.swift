@@ -228,9 +228,9 @@ let sdkMethodFixture36Expected = String(
 
 let sdkMethodFixture37Expected = String(
     data: Data(base64Encoded: [
-        "eyJvYmplY3QiOiJibG9ja2xpc3RfaWRlbnRpZmllciIsImlkIjoiaWQtMSIsImlkZW50aWZpZXIiOiJp",
-        "ZGVudGlmaWVyIiwiaWRlbnRpZmllcl90eXBlIjoiZW1haWxfYWRkcmVzcyIsImluc3RhbmNlX2lkIjoi",
-        "aW5zdGFuY2UtMSIsImNyZWF0ZWRfYXQiOjEsInVwZGF0ZWRfYXQiOjF9",
+        "eyJvYmplY3QiOiJibG9ja2xpc3RfaWRlbnRpZmllciIsImlkIjoiaWQtMSIsImlkZW50aWZpZXIiOiJ1",
+        "c2VyQGV4YW1wbGUuY29tIiwiaWRlbnRpZmllcl90eXBlIjoiZW1haWxfYWRkcmVzcyIsImluc3RhbmNl",
+        "X2lkIjoiaW5zdGFuY2UtMSIsImNyZWF0ZWRfYXQiOjEsInVwZGF0ZWRfYXQiOjF9",
     ].joined())!,
     encoding: .utf8
 )!
