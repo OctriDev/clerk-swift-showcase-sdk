@@ -8,9 +8,8 @@ import Foundation
 #endif
 public enum MachinesMethods {}
 
-public extension MachinesMethods {
-    /// This request returns the list of machines for an instance. The machines are ordered by descending creation date
-    /// (i.e. most recent machines will be returned first)
+extension MachinesMethods {
+    /// This request returns the list of machines for an instance. The machines are ordered by descending creation date (i.e. most recent machines will be returned first)
     ///
     /// - Parameters:
     /// - limit: Applies a limit to the number of results returned. Can be used for
@@ -25,36 +24,20 @@ public extension MachinesMethods {
     ///   For example, to return machines in descending order by `created_at`, use
     ///   `-created_at`. If you don't use `+` or `-`, then `+` is implied. Defaults to
     ///   `-created_at`.
-    static func listMachines(
-        config: ClientConfig,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        query: String? = nil,
-        orderBy: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> MachineList {
-        if let limit {
+    public static func listMachines(config: ClientConfig, limit: Int? = nil, offset: Int? = nil, query: String? = nil, orderBy: String? = nil, requestOptions: RequestOptions? = nil) async throws -> MachineList {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/machines",
-            config: config,
-            query: [
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-                SdkQueryParameter("query", value: query),
-                SdkQueryParameter("order_by", value: orderBy),
-            ],
-            decoder: .json,
-            operationId: "ListMachines",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", "/machines", config: config, query: [
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+            SdkQueryParameter("query", value: query),
+            SdkQueryParameter("order_by", value: orderBy),
+        ], decoder: .json, operationId: "ListMachines", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

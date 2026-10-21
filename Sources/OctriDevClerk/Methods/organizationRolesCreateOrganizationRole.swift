@@ -6,12 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationRolesMethods {
-    /// Creates a new organization role with the given name and permissions for an instance. The key must be unique for
-    /// the instance and start with the 'org:' prefix, followed by lowercase alphanumeric characters and underscores
-    /// only. You can optionally provide a description for the role and specify whether it should be included in the
-    /// initial role set. Organization roles support permissions that can be assigned to control access within the
-    /// organization.
+extension OrganizationRolesMethods {
+    /// Creates a new organization role with the given name and permissions for an instance. The key must be unique for the instance and start with the 'org:' prefix, followed by lowercase alphanumeric characters and underscores only. You can optionally provide a description for the role and specify whether it should be included in the initial role set. Organization roles support permissions that can be assigned to control access within the organization.
     ///
     /// - Parameters:
     /// - name: The name of the new organization role
@@ -21,59 +17,17 @@ public extension OrganizationRolesMethods {
     /// - permissions: Array of permission IDs to assign to the role
     /// - includeInInitialRoleSet: Whether this role should be included in the
     ///   initial role set
-    static func createOrganizationRole(
-        config: ClientConfig,
-        name: String,
-        key: String,
-        description: SdkOptional<String>? = nil,
-        permissions: SdkOptional<[String]>? = nil,
-        includeInInitialRoleSet: SdkOptional<Bool>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Role {
-        let requestBody = CreateOrganizationRoleRequestBody(
-            name: name,
-            key: key,
-            description: description,
-            permissions: permissions,
-            includeInInitialRoleSet: includeInInitialRoleSet
-        )
+    public static func createOrganizationRole(config: ClientConfig, name: String, key: String, description: SdkOptional<String>? = nil, permissions: SdkOptional<[String]>? = nil, includeInInitialRoleSet: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> Role {
+        let requestBody = CreateOrganizationRoleRequestBody(name: name, key: key, description: description, permissions: permissions, includeInInitialRoleSet: includeInInitialRoleSet)
 
-        return try await (sdkRequest(
-            "POST",
-            "/organization_roles",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateOrganizationRole",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "402": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/organization_roles", config: config, body: requestBody, decoder: .json, operationId: "CreateOrganizationRole", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 
     /// Use this request to retrieve an existing organization role by its ID.
     ///
     /// - Parameters:
     /// - organizationRoleId: The ID of the organization role
-    static func getOrganizationRole(
-        config: ClientConfig,
-        organizationRoleId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Role {
-        try await (sdkRequest(
-            "GET",
-            ["/organization_roles/", sdkEncodePathSegment(sdkWireString(organizationRoleId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "GetOrganizationRole",
-            options: requestOptions,
-            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func getOrganizationRole(config: ClientConfig, organizationRoleId: String, requestOptions: RequestOptions? = nil) async throws -> Role {
+        return try (await sdkRequest("GET", ["/organization_roles/", sdkEncodePathSegment(sdkWireString(organizationRoleId))].joined(), config: config, decoder: .json, operationId: "GetOrganizationRole", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

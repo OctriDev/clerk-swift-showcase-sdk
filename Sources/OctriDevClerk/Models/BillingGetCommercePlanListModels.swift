@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Billing domain models
+// Billing domain models
 /// Typed representation of the `PaginatedCommercePlanResponse` API schema.
 public struct PaginatedCommercePlanResponse: Codable {
     /// Array of plans.
@@ -16,35 +16,25 @@ public struct PaginatedCommercePlanResponse: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension PaginatedCommercePlanResponse {
-    init(from decoder: Decoder) throws {
+extension PaginatedCommercePlanResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
+            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.totalCount = try container.sdkDecodeRequired(.totalCount)
     }
 }
 
-public extension PaginatedCommercePlanResponse {
-    init(data: [CommercePlan], totalCount: Int) {
+extension PaginatedCommercePlanResponse {
+    public init(data: [CommercePlan], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }

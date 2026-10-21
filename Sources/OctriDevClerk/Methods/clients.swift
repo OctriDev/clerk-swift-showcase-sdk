@@ -8,9 +8,8 @@ import Foundation
 #endif
 public enum ClientsMethods {}
 
-public extension ClientsMethods {
-    /// Returns a list of all clients. The clients are returned sorted by creation date, with the newest clients
-    /// appearing first. Warning: the endpoint is being deprecated and will be removed in future versions.
+extension ClientsMethods {
+    /// Returns a list of all clients. The clients are returned sorted by creation date, with the newest clients appearing first. Warning: the endpoint is being deprecated and will be removed in future versions.
     ///
     /// - Parameters:
     /// - paginated: Whether to paginate the results. If true, the results will be
@@ -21,57 +20,29 @@ public extension ClientsMethods {
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    static func listClients(
-        config: ClientConfig,
-        paginated: Bool? = nil,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> [Client] {
-        if let limit {
+    public static func listClients(config: ClientConfig, paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> [Client] {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/clients",
-            config: config,
-            query: [
-                SdkQueryParameter("paginated", value: paginated),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-            ],
-            decoder: .json,
-            operationId: "listClients",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "410": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", "/clients", config: config, query: [
+            SdkQueryParameter("paginated", value: paginated),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "listClients", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "410": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 
-    /// Retrieves the details of a client and its associated session information. Use `client_id` to look up the client
-    /// whose sessions and authentication state you need to inspect.
+    /// Retrieves the details of a client and its associated session information. Use `client_id` to look up the client whose sessions and authentication state you need to inspect.
     ///
     /// Returns the details of a client.
     ///
     /// - Parameters:
     /// - clientId: Client ID.
-    static func getClient(
-        config: ClientConfig,
-        clientId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Client {
-        try await (sdkRequest(
-            "GET",
-            ["/clients/", sdkEncodePathSegment(sdkWireString(clientId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "GetClient",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func getClient(config: ClientConfig, clientId: String, requestOptions: RequestOptions? = nil) async throws -> Client {
+        return try (await sdkRequest("GET", ["/clients/", sdkEncodePathSegment(sdkWireString(clientId))].joined(), config: config, decoder: .json, operationId: "GetClient", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

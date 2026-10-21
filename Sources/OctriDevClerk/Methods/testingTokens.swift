@@ -7,21 +7,10 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum TestingTokensMethods {
-    /// Creates a testing token for use with Frontend API requests. Pass the returned `token` value in the
-    /// `__clerk_testing_token` query parameter; the response includes its expiration time as `expires_at`.
+    /// Creates a testing token for use with Frontend API requests. Pass the returned `token` value in the `__clerk_testing_token` query parameter; the response includes its expiration time as `expires_at`.
     ///
     /// Retrieve a new testing token.
-    public static func createTestingToken(
-        config: ClientConfig,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> TestingToken {
-        try await (sdkRequest(
-            "POST",
-            "/testing_tokens",
-            config: config,
-            decoder: .json,
-            operationId: "CreateTestingToken",
-            options: requestOptions
-        )).data
+    public static func createTestingToken(config: ClientConfig, requestOptions: RequestOptions? = nil) async throws -> TestingToken {
+        return try (await sdkRequest("POST", "/testing_tokens", config: config, decoder: .json, operationId: "CreateTestingToken", options: requestOptions)).data
     }
 }

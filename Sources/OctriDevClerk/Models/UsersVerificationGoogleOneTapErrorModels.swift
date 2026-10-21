@@ -3,35 +3,27 @@
 
 import Foundation
 
-/// Users domain models
+// Users domain models
 public indirect enum VerificationGoogleOneTapError {
     case clerkError(ClerkError)
 }
 
 extension VerificationGoogleOneTapError: Codable {
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) {
-            self = value; return
-        }
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "No variant matched for VerificationGoogleOneTapError"
-        )
+        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for VerificationGoogleOneTapError")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
     }
 }
 
 extension VerificationGoogleOneTapError {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(ClerkError.self) {
-            return .clerkError(value)
-        }
+        if let value = try? container.decode(ClerkError.self) { return .clerkError(value) }
         return nil
     }
 }
@@ -206,118 +198,66 @@ public struct User: Codable {
         case scim
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension User {
-    init(from decoder: Decoder) throws {
+extension User {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.sdkDecodeRequired(.id)
-        object = try container.sdkDecodeRequired(.object)
-        externalId = try container.sdkDecodeNullable(.externalId)
-        primaryEmailAddressId = try container.sdkDecodeNullable(.primaryEmailAddressId)
-        primaryPhoneNumberId = try container.sdkDecodeNullable(.primaryPhoneNumberId)
-        primaryWeb3WalletId = try container.sdkDecodeNullable(.primaryWeb3WalletId)
-        username = try container.sdkDecodeNullable(.username)
-        firstName = try container.sdkDecodeNullable(.firstName)
-        lastName = try container.sdkDecodeNullable(.lastName)
-        hasImage = try container.sdkDecodeRequired(.hasImage)
-        publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
-        emailAddresses = try container.sdkDecodeRequired(.emailAddresses)
-        phoneNumbers = try container.sdkDecodeRequired(.phoneNumbers)
-        web3Wallets = try container.sdkDecodeRequired(.web3Wallets)
-        passkeys = try container.sdkDecodeRequired(.passkeys)
-        passwordEnabled = try container.sdkDecodeRequired(.passwordEnabled)
-        twoFactorEnabled = try container.sdkDecodeRequired(.twoFactorEnabled)
-        totpEnabled = try container.sdkDecodeRequired(.totpEnabled)
-        backupCodeEnabled = try container.sdkDecodeRequired(.backupCodeEnabled)
-        mfaEnabledAt = try container.sdkDecodeNullable(.mfaEnabledAt)
-        mfaDisabledAt = try container.sdkDecodeNullable(.mfaDisabledAt)
-        externalAccounts = try container.sdkDecodeRequired(.externalAccounts)
-        samlAccounts = try container.sdkDecodeRequired(.samlAccounts)
-        enterpriseAccounts = try container.sdkDecodeRequired(.enterpriseAccounts)
-        lastSignInAt = try container.sdkDecodeNullable(.lastSignInAt)
-        banned = try container.sdkDecodeRequired(.banned)
-        locked = try container.sdkDecodeRequired(.locked)
-        lockoutExpiresInSeconds = try container.sdkDecodeNullable(.lockoutExpiresInSeconds)
-        verificationAttemptsRemaining = try container.sdkDecodeNullable(.verificationAttemptsRemaining)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        deleteSelfEnabled = try container.sdkDecodeRequired(.deleteSelfEnabled)
-        createOrganizationEnabled = try container.sdkDecodeRequired(.createOrganizationEnabled)
-        lastActiveAt = try container.sdkDecodeNullable(.lastActiveAt)
-        legalAcceptedAt = try container.sdkDecodeNullable(.legalAcceptedAt)
-        locale = try container.sdkDecodeIfPresent(.locale)
-        timezone = try container.sdkDecodeIfPresent(.timezone)
-        profileImageUrl = try container.sdkDecodeIfPresent(.profileImageUrl)
-        imageUrl = try container.sdkDecodeIfPresent(.imageUrl)
-        privateMetadata = try container.sdkDecodeIfPresent(.privateMetadata)
-        unsafeMetadata = try container.sdkDecodeIfPresent(.unsafeMetadata)
-        passwordLastUpdatedAt = try container.sdkDecodeIfPresent(.passwordLastUpdatedAt)
-        organizationMemberships = try container.sdkDecodeIfPresent(.organizationMemberships)
-        deprovisioned = try container.sdkDecodeIfPresent(.deprovisioned)
-        createOrganizationsLimit = try container.sdkDecodeIfPresent(.createOrganizationsLimit)
-        bypassClientTrust = try container.sdkDecodeIfPresent(.bypassClientTrust)
-        directories = try container.sdkDecodeIfPresent(.directories)
-        directory = try container.sdkDecodeIfPresent(.directory)
-        scim = try container.sdkDecodeIfPresent(.scim)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.externalId = try container.sdkDecodeNullable(.externalId)
+        self.primaryEmailAddressId = try container.sdkDecodeNullable(.primaryEmailAddressId)
+        self.primaryPhoneNumberId = try container.sdkDecodeNullable(.primaryPhoneNumberId)
+        self.primaryWeb3WalletId = try container.sdkDecodeNullable(.primaryWeb3WalletId)
+        self.username = try container.sdkDecodeNullable(.username)
+        self.firstName = try container.sdkDecodeNullable(.firstName)
+        self.lastName = try container.sdkDecodeNullable(.lastName)
+        self.hasImage = try container.sdkDecodeRequired(.hasImage)
+        self.publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
+        self.emailAddresses = try container.sdkDecodeRequired(.emailAddresses)
+        self.phoneNumbers = try container.sdkDecodeRequired(.phoneNumbers)
+        self.web3Wallets = try container.sdkDecodeRequired(.web3Wallets)
+        self.passkeys = try container.sdkDecodeRequired(.passkeys)
+        self.passwordEnabled = try container.sdkDecodeRequired(.passwordEnabled)
+        self.twoFactorEnabled = try container.sdkDecodeRequired(.twoFactorEnabled)
+        self.totpEnabled = try container.sdkDecodeRequired(.totpEnabled)
+        self.backupCodeEnabled = try container.sdkDecodeRequired(.backupCodeEnabled)
+        self.mfaEnabledAt = try container.sdkDecodeNullable(.mfaEnabledAt)
+        self.mfaDisabledAt = try container.sdkDecodeNullable(.mfaDisabledAt)
+        self.externalAccounts = try container.sdkDecodeRequired(.externalAccounts)
+        self.samlAccounts = try container.sdkDecodeRequired(.samlAccounts)
+        self.enterpriseAccounts = try container.sdkDecodeRequired(.enterpriseAccounts)
+        self.lastSignInAt = try container.sdkDecodeNullable(.lastSignInAt)
+        self.banned = try container.sdkDecodeRequired(.banned)
+        self.locked = try container.sdkDecodeRequired(.locked)
+        self.lockoutExpiresInSeconds = try container.sdkDecodeNullable(.lockoutExpiresInSeconds)
+        self.verificationAttemptsRemaining = try container.sdkDecodeNullable(.verificationAttemptsRemaining)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.deleteSelfEnabled = try container.sdkDecodeRequired(.deleteSelfEnabled)
+        self.createOrganizationEnabled = try container.sdkDecodeRequired(.createOrganizationEnabled)
+        self.lastActiveAt = try container.sdkDecodeNullable(.lastActiveAt)
+        self.legalAcceptedAt = try container.sdkDecodeNullable(.legalAcceptedAt)
+        self.locale = try container.sdkDecodeIfPresent(.locale)
+        self.timezone = try container.sdkDecodeIfPresent(.timezone)
+        self.profileImageUrl = try container.sdkDecodeIfPresent(.profileImageUrl)
+        self.imageUrl = try container.sdkDecodeIfPresent(.imageUrl)
+        self.privateMetadata = try container.sdkDecodeIfPresent(.privateMetadata)
+        self.unsafeMetadata = try container.sdkDecodeIfPresent(.unsafeMetadata)
+        self.passwordLastUpdatedAt = try container.sdkDecodeIfPresent(.passwordLastUpdatedAt)
+        self.organizationMemberships = try container.sdkDecodeIfPresent(.organizationMemberships)
+        self.deprovisioned = try container.sdkDecodeIfPresent(.deprovisioned)
+        self.createOrganizationsLimit = try container.sdkDecodeIfPresent(.createOrganizationsLimit)
+        self.bypassClientTrust = try container.sdkDecodeIfPresent(.bypassClientTrust)
+        self.directories = try container.sdkDecodeIfPresent(.directories)
+        self.directory = try container.sdkDecodeIfPresent(.directory)
+        self.scim = try container.sdkDecodeIfPresent(.scim)
     }
 }
 
-public extension User {
-    init(
-        id: String,
-        object: UserObject,
-        externalId: String?,
-        primaryEmailAddressId: String?,
-        primaryPhoneNumberId: String?,
-        primaryWeb3WalletId: String?,
-        username: String?,
-        firstName: String?,
-        lastName: String?,
-        hasImage: Bool,
-        publicMetadata: [String: JSONValue],
-        emailAddresses: [EmailAddress],
-        phoneNumbers: [PhoneNumber],
-        web3Wallets: [Web3Wallet],
-        passkeys: [Passkey],
-        passwordEnabled: Bool,
-        twoFactorEnabled: Bool,
-        totpEnabled: Bool,
-        backupCodeEnabled: Bool,
-        mfaEnabledAt: Int?,
-        mfaDisabledAt: Int?,
-        externalAccounts: [ExternalAccountWithVerification],
-        samlAccounts: [SAMLAccount],
-        enterpriseAccounts: [EnterpriseAccount],
-        lastSignInAt: Int?,
-        banned: Bool,
-        locked: Bool,
-        lockoutExpiresInSeconds: Int?,
-        verificationAttemptsRemaining: Int?,
-        updatedAt: Int,
-        createdAt: Int,
-        deleteSelfEnabled: Bool,
-        createOrganizationEnabled: Bool,
-        lastActiveAt: Int?,
-        legalAcceptedAt: Int?,
-        locale: String? = nil,
-        timezone: String? = nil,
-        profileImageUrl: String? = nil,
-        imageUrl: String? = nil,
-        privateMetadata: [String: JSONValue]? = nil,
-        unsafeMetadata: [String: JSONValue]? = nil,
-        passwordLastUpdatedAt: Int? = nil,
-        organizationMemberships: [OrganizationMembership]? = nil,
-        deprovisioned: Bool? = nil,
-        createOrganizationsLimit: Int? = nil,
-        bypassClientTrust: Bool? = nil,
-        directories: [SCIMUserMetadata]? = nil,
-        directory: SCIMUserMetadata? = nil,
-        scim: SCIMUserMetadata? = nil
-    ) {
+extension User {
+    public init(id: String, object: UserObject, externalId: String?, primaryEmailAddressId: String?, primaryPhoneNumberId: String?, primaryWeb3WalletId: String?, username: String?, firstName: String?, lastName: String?, hasImage: Bool, publicMetadata: [String: JSONValue], emailAddresses: [EmailAddress], phoneNumbers: [PhoneNumber], web3Wallets: [Web3Wallet], passkeys: [Passkey], passwordEnabled: Bool, twoFactorEnabled: Bool, totpEnabled: Bool, backupCodeEnabled: Bool, mfaEnabledAt: Int?, mfaDisabledAt: Int?, externalAccounts: [ExternalAccountWithVerification], samlAccounts: [SAMLAccount], enterpriseAccounts: [EnterpriseAccount], lastSignInAt: Int?, banned: Bool, locked: Bool, lockoutExpiresInSeconds: Int?, verificationAttemptsRemaining: Int?, updatedAt: Int, createdAt: Int, deleteSelfEnabled: Bool, createOrganizationEnabled: Bool, lastActiveAt: Int?, legalAcceptedAt: Int?, locale: String? = nil, timezone: String? = nil, profileImageUrl: String? = nil, imageUrl: String? = nil, privateMetadata: [String: JSONValue]? = nil, unsafeMetadata: [String: JSONValue]? = nil, passwordLastUpdatedAt: Int? = nil, organizationMemberships: [OrganizationMembership]? = nil, deprovisioned: Bool? = nil, createOrganizationsLimit: Int? = nil, bypassClientTrust: Bool? = nil, directories: [SCIMUserMetadata]? = nil, directory: SCIMUserMetadata? = nil, scim: SCIMUserMetadata? = nil) {
         (self.id, self.object) = (id, object)
         (self.externalId, self.primaryEmailAddressId) = (externalId, primaryEmailAddressId)
         (self.primaryPhoneNumberId, self.primaryWeb3WalletId) = (primaryPhoneNumberId, primaryWeb3WalletId)
@@ -378,85 +318,46 @@ public struct SCIMUserMetadata: Codable {
         case groups
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SCIMUserMetadata {
-    init(from decoder: Decoder) throws {
+extension SCIMUserMetadata {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.directoryName) else {
-            throw SdkValidationError(
-                field: "directory_name",
-                code: "required",
-                message: "Validation failed for 'directory_name': value is required"
-            )
+            throw SdkValidationError(field: "directory_name", code: "required", message: "Validation failed for 'directory_name': value is required")
         }
         guard container.contains(.provider) else {
-            throw SdkValidationError(
-                field: "provider",
-                code: "required",
-                message: "Validation failed for 'provider': value is required"
-            )
+            throw SdkValidationError(field: "provider", code: "required", message: "Validation failed for 'provider': value is required")
         }
         guard container.contains(.enterpriseConnectionId) else {
-            throw SdkValidationError(
-                field: "enterprise_connection_id",
-                code: "required",
-                message: "Validation failed for 'enterprise_connection_id': value is required"
-            )
+            throw SdkValidationError(field: "enterprise_connection_id", code: "required", message: "Validation failed for 'enterprise_connection_id': value is required")
         }
         guard container.contains(.directoryId) else {
-            throw SdkValidationError(
-                field: "directory_id",
-                code: "required",
-                message: "Validation failed for 'directory_id': value is required"
-            )
+            throw SdkValidationError(field: "directory_id", code: "required", message: "Validation failed for 'directory_id': value is required")
         }
         guard container.contains(.directoryEnabled) else {
-            throw SdkValidationError(
-                field: "directory_enabled",
-                code: "required",
-                message: "Validation failed for 'directory_enabled': value is required"
-            )
+            throw SdkValidationError(field: "directory_enabled", code: "required", message: "Validation failed for 'directory_enabled': value is required")
         }
         guard container.contains(.externalId) else {
-            throw SdkValidationError(
-                field: "external_id",
-                code: "required",
-                message: "Validation failed for 'external_id': value is required"
-            )
+            throw SdkValidationError(field: "external_id", code: "required", message: "Validation failed for 'external_id': value is required")
         }
-        id = try container.sdkDecodeRequired(.id)
-        directoryName = try container.sdkDecodeRequired(.directoryName)
-        provider = try container.sdkDecodeRequired(.provider)
-        enterpriseConnectionId = try container.sdkDecodeNullable(.enterpriseConnectionId)
-        directoryId = try container.sdkDecodeRequired(.directoryId)
-        directoryEnabled = try container.sdkDecodeRequired(.directoryEnabled)
-        externalId = try container.sdkDecodeNullable(.externalId)
-        groups = try container.sdkDecodeIfPresent(.groups)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.directoryName = try container.sdkDecodeRequired(.directoryName)
+        self.provider = try container.sdkDecodeRequired(.provider)
+        self.enterpriseConnectionId = try container.sdkDecodeNullable(.enterpriseConnectionId)
+        self.directoryId = try container.sdkDecodeRequired(.directoryId)
+        self.directoryEnabled = try container.sdkDecodeRequired(.directoryEnabled)
+        self.externalId = try container.sdkDecodeNullable(.externalId)
+        self.groups = try container.sdkDecodeIfPresent(.groups)
     }
 }
 
-public extension SCIMUserMetadata {
-    init(
-        id: String,
-        directoryName: String,
-        provider: String,
-        enterpriseConnectionId: String?,
-        directoryId: String,
-        directoryEnabled: Bool,
-        externalId: String?,
-        groups: [SCIMUserMetadataGroupsItem]? = nil
-    ) {
+extension SCIMUserMetadata {
+    public init(id: String, directoryName: String, provider: String, enterpriseConnectionId: String?, directoryId: String, directoryEnabled: Bool, externalId: String?, groups: [SCIMUserMetadataGroupsItem]? = nil) {
         (self.id, self.directoryName) = (id, directoryName)
         (self.provider, self.enterpriseConnectionId) = (provider, enterpriseConnectionId)
         (self.directoryId, self.directoryEnabled) = (directoryId, directoryEnabled)
@@ -503,42 +404,28 @@ public struct TrustedDevice: Codable {
         case revokedAt = "revoked_at"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension TrustedDevice {
-    init(from decoder: Decoder) throws {
+extension TrustedDevice {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        platform = try container.sdkDecodeRequired(.platform)
-        appIdentifier = try container.sdkDecodeRequired(.appIdentifier)
-        algorithm = try container.sdkDecodeRequired(.algorithm)
-        status = try container.sdkDecodeRequired(.status)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        name = try container.sdkDecodeIfPresent(.name)
-        lastUsedAt = try container.sdkDecodeIfPresent(.lastUsedAt)
-        revokedAt = try container.sdkDecodeIfPresent(.revokedAt)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.platform = try container.sdkDecodeRequired(.platform)
+        self.appIdentifier = try container.sdkDecodeRequired(.appIdentifier)
+        self.algorithm = try container.sdkDecodeRequired(.algorithm)
+        self.status = try container.sdkDecodeRequired(.status)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.name = try container.sdkDecodeIfPresent(.name)
+        self.lastUsedAt = try container.sdkDecodeIfPresent(.lastUsedAt)
+        self.revokedAt = try container.sdkDecodeIfPresent(.revokedAt)
     }
 }
 
-public extension TrustedDevice {
-    init(
-        object: TrustedDeviceObject,
-        id: String,
-        platform: TrustedDevicePlatform,
-        appIdentifier: String,
-        algorithm: TrustedDeviceAlgorithm,
-        status: TrustedDeviceStatus,
-        createdAt: Int,
-        updatedAt: Int,
-        name: String? = nil,
-        lastUsedAt: Int? = nil,
-        revokedAt: Int? = nil
-    ) {
+extension TrustedDevice {
+    public init(object: TrustedDeviceObject, id: String, platform: TrustedDevicePlatform, appIdentifier: String, algorithm: TrustedDeviceAlgorithm, status: TrustedDeviceStatus, createdAt: Int, updatedAt: Int, name: String? = nil, lastUsedAt: Int? = nil, revokedAt: Int? = nil) {
         (self.object, self.id) = (object, id)
         (self.platform, self.appIdentifier) = (platform, appIdentifier)
         (self.algorithm, self.status) = (algorithm, status)
@@ -570,16 +457,13 @@ public enum VerificationWeb3Object: String, CaseIterable, Codable {
 public struct BiometricCredentialStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let active = BiometricCredentialStatus(rawValue: "active")
     public static let revoked = BiometricCredentialStatus(rawValue: "revoked")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -592,10 +476,7 @@ public struct BiometricCredentialStatus: RawRepresentable, Hashable, Codable, Se
 public struct VerificationOauthStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let unverified = VerificationOauthStatus(rawValue: "unverified")
     public static let verified = VerificationOauthStatus(rawValue: "verified")
     public static let failed = VerificationOauthStatus(rawValue: "failed")
@@ -604,7 +485,7 @@ public struct VerificationOauthStatus: RawRepresentable, Hashable, Codable, Send
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -617,15 +498,12 @@ public struct VerificationOauthStatus: RawRepresentable, Hashable, Codable, Send
 public struct SAMLAccountObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let samlAccount = SAMLAccountObject(rawValue: "saml_account")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -6,32 +6,14 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension UsersMethods {
+extension UsersMethods {
     /// Delete the web3 wallet identification for a given user.
     ///
     /// - Parameters:
     /// - userId: The ID of the user that owns the web3 wallet
     /// - web3WalletIdentificationId: The ID of the web3 wallet identity to be
     ///   deleted
-    static func deleteUsersWeb3Wallet(
-        config: ClientConfig,
-        userId: String,
-        web3WalletIdentificationId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DeletedObject {
-        try await (sdkRequest(
-            "DELETE",
-            [
-                "/users/",
-                sdkEncodePathSegment(sdkWireString(userId)),
-                "/web3_wallets/",
-                sdkEncodePathSegment(sdkWireString(web3WalletIdentificationId)),
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "deleteUsersWeb3Wallet",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self]
-        )).data
+    public static func deleteUsersWeb3Wallet(config: ClientConfig, userId: String, web3WalletIdentificationId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
+        return try (await sdkRequest("DELETE", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/web3_wallets/", sdkEncodePathSegment(sdkWireString(web3WalletIdentificationId))].joined(), config: config, decoder: .json, operationId: "deleteUsersWeb3Wallet", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 }

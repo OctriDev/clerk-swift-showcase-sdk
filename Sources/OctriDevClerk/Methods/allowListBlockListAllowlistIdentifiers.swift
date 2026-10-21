@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension AllowListBlockListMethods {
+extension AllowListBlockListMethods {
     /// Get a list of all identifiers allowed to sign up to an instance
     ///
     /// - Parameters:
@@ -16,35 +16,20 @@ public extension AllowListBlockListMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    static func listAllowlistIdentifiers(
-        config: ClientConfig,
-        paginated: Bool? = nil,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> [AllowlistIdentifier] {
-        if let limit {
+    public static func listAllowlistIdentifiers(config: ClientConfig, paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> [AllowlistIdentifier] {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/allowlist_identifiers",
-            config: config,
-            query: [
-                SdkQueryParameter("paginated", value: paginated),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-            ],
-            decoder: .json,
-            operationId: "ListAllowlistIdentifiers",
-            options: requestOptions,
-            errors: ["401": ClerkErrors.self, "402": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", "/allowlist_identifiers", config: config, query: [
+            SdkQueryParameter("paginated", value: paginated),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "ListAllowlistIdentifiers", options: requestOptions, errors: ["401": ClerkErrors.self, "402": ClerkErrors.self])).data
     }
 
     /// Create an identifier allowed to sign up to an instance
@@ -55,23 +40,9 @@ public extension AllowListBlockListMethods {
     /// - notify: This flag denotes whether the given identifier will receive an
     ///   invitation to join the application. Note that this only works for email
     ///   address and phone number identifiers.
-    static func createAllowlistIdentifier(
-        config: ClientConfig,
-        identifier: String,
-        notify: Bool? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> AllowlistIdentifier {
+    public static func createAllowlistIdentifier(config: ClientConfig, identifier: String, notify: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> AllowlistIdentifier {
         let requestBody = CreateAllowlistIdentifierRequestBody(identifier: identifier, notify: notify)
 
-        return try await (sdkRequest(
-            "POST",
-            "/allowlist_identifiers",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateAllowlistIdentifier",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("POST", "/allowlist_identifiers", config: config, body: requestBody, decoder: .json, operationId: "CreateAllowlistIdentifier", options: requestOptions, errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

@@ -8,9 +8,8 @@ import Foundation
 #endif
 public enum SignInTokensMethods {}
 
-public extension SignInTokensMethods {
-    /// Creates a new sign-in token and associates it with the given user. By default, sign-in tokens expire in 30 days.
-    /// You can optionally supply a different duration in seconds using the `expires_in_seconds` property.
+extension SignInTokensMethods {
+    /// Creates a new sign-in token and associates it with the given user. By default, sign-in tokens expire in 30 days. You can optionally supply a different duration in seconds using the `expires_in_seconds` property.
     ///
     /// - Parameters:
     /// - userId: The ID of the user that can use the newly created sign in token
@@ -32,34 +31,13 @@ public extension SignInTokensMethods {
     ///   token created with this parameter signs in a user with a second factor
     ///   enabled without prompting for it, so `expires_in_seconds` defaults to 10
     ///   minutes. We recommend keeping it short.
-    static func createSignInToken(
-        config: ClientConfig,
-        userId: String,
-        orgId: SdkOptional<String>? = nil,
-        expiresInSeconds: SdkOptional<Int>? = nil,
-        secondFactorVerification: SdkOptional<CreateSignInTokenRequestBodySecondFactorVerification>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SignInToken {
+    public static func createSignInToken(config: ClientConfig, userId: String, orgId: SdkOptional<String>? = nil, expiresInSeconds: SdkOptional<Int>? = nil, secondFactorVerification: SdkOptional<CreateSignInTokenRequestBodySecondFactorVerification>? = nil, requestOptions: RequestOptions? = nil) async throws -> SignInToken {
         if let expiresInSeconds = expiresInSeconds?.valueOrNil {
             try validateRange("expires_in_seconds", Double(expiresInSeconds), min: 1)
         }
 
-        let requestBody = CreateSignInTokenRequestBody(
-            userId: userId,
-            orgId: orgId,
-            expiresInSeconds: expiresInSeconds,
-            secondFactorVerification: secondFactorVerification
-        )
+        let requestBody = CreateSignInTokenRequestBody(userId: userId, orgId: orgId, expiresInSeconds: expiresInSeconds, secondFactorVerification: secondFactorVerification)
 
-        return try await (sdkRequest(
-            "POST",
-            "/sign_in_tokens",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateSignInToken",
-            options: requestOptions,
-            errors: ["403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("POST", "/sign_in_tokens", config: config, body: requestBody, decoder: .json, operationId: "CreateSignInToken", options: requestOptions, errors: ["403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

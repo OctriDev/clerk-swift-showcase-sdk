@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Machines domain models
+// Machines domain models
 /// Typed representation of the `MachineScopeDeleted` API schema.
 public struct MachineScopeDeleted: Codable {
     /// String representing the object's type.
@@ -22,51 +22,33 @@ public struct MachineScopeDeleted: Codable {
         case deleted
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension MachineScopeDeleted {
-    init(from decoder: Decoder) throws {
+extension MachineScopeDeleted {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
+            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
         }
         guard container.contains(.fromMachineId) else {
-            throw SdkValidationError(
-                field: "from_machine_id",
-                code: "required",
-                message: "Validation failed for 'from_machine_id': value is required"
-            )
+            throw SdkValidationError(field: "from_machine_id", code: "required", message: "Validation failed for 'from_machine_id': value is required")
         }
         guard container.contains(.toMachineId) else {
-            throw SdkValidationError(
-                field: "to_machine_id",
-                code: "required",
-                message: "Validation failed for 'to_machine_id': value is required"
-            )
+            throw SdkValidationError(field: "to_machine_id", code: "required", message: "Validation failed for 'to_machine_id': value is required")
         }
         guard container.contains(.deleted) else {
-            throw SdkValidationError(
-                field: "deleted",
-                code: "required",
-                message: "Validation failed for 'deleted': value is required"
-            )
+            throw SdkValidationError(field: "deleted", code: "required", message: "Validation failed for 'deleted': value is required")
         }
-        object = try container.sdkDecodeRequired(.object)
-        fromMachineId = try container.sdkDecodeRequired(.fromMachineId)
-        toMachineId = try container.sdkDecodeRequired(.toMachineId)
-        deleted = try container.sdkDecodeRequired(.deleted)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.fromMachineId = try container.sdkDecodeRequired(.fromMachineId)
+        self.toMachineId = try container.sdkDecodeRequired(.toMachineId)
+        self.deleted = try container.sdkDecodeRequired(.deleted)
     }
 }
 
-public extension MachineScopeDeleted {
-    init(object: MachineScopeDeletedObject, fromMachineId: String, toMachineId: String, deleted: Bool) {
+extension MachineScopeDeleted {
+    public init(object: MachineScopeDeletedObject, fromMachineId: String, toMachineId: String, deleted: Bool) {
         (self.object, self.fromMachineId) = (object, fromMachineId)
         (self.toMachineId, self.deleted) = (toMachineId, deleted)
     }
@@ -76,15 +58,12 @@ public extension MachineScopeDeleted {
 public struct MachineScopeDeletedObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let machineScope = MachineScopeDeletedObject(rawValue: "machine_scope")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

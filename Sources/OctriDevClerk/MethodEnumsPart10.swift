@@ -17,13 +17,13 @@ struct CreateJwtTemplateRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encode(claims, forKey: SdkCodingKey("claims"))
-        try keyedContainer.encodeIfPresent(lifetime, forKey: SdkCodingKey("lifetime"))
-        try keyedContainer.encodeIfPresent(allowedClockSkew, forKey: SdkCodingKey("allowed_clock_skew"))
-        try keyedContainer.encodeIfPresent(customSigningKey, forKey: SdkCodingKey("custom_signing_key"))
-        try keyedContainer.encodeIfPresent(signingAlgorithm, forKey: SdkCodingKey("signing_algorithm"))
-        try keyedContainer.encodeIfPresent(signingKey, forKey: SdkCodingKey("signing_key"))
+        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encode(self.claims, forKey: SdkCodingKey("claims"))
+        try keyedContainer.encodeIfPresent(self.lifetime, forKey: SdkCodingKey("lifetime"))
+        try keyedContainer.encodeIfPresent(self.allowedClockSkew, forKey: SdkCodingKey("allowed_clock_skew"))
+        try keyedContainer.encodeIfPresent(self.customSigningKey, forKey: SdkCodingKey("custom_signing_key"))
+        try keyedContainer.encodeIfPresent(self.signingAlgorithm, forKey: SdkCodingKey("signing_algorithm"))
+        try keyedContainer.encodeIfPresent(self.signingKey, forKey: SdkCodingKey("signing_key"))
     }
 }
 
@@ -38,23 +38,23 @@ struct UpdateJwtTemplateRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encode(claims, forKey: SdkCodingKey("claims"))
-        try keyedContainer.encodeIfPresent(lifetime, forKey: SdkCodingKey("lifetime"))
-        try keyedContainer.encodeIfPresent(allowedClockSkew, forKey: SdkCodingKey("allowed_clock_skew"))
-        try keyedContainer.encodeIfPresent(customSigningKey, forKey: SdkCodingKey("custom_signing_key"))
-        try keyedContainer.encodeIfPresent(signingAlgorithm, forKey: SdkCodingKey("signing_algorithm"))
-        try keyedContainer.encodeIfPresent(signingKey, forKey: SdkCodingKey("signing_key"))
+        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encode(self.claims, forKey: SdkCodingKey("claims"))
+        try keyedContainer.encodeIfPresent(self.lifetime, forKey: SdkCodingKey("lifetime"))
+        try keyedContainer.encodeIfPresent(self.allowedClockSkew, forKey: SdkCodingKey("allowed_clock_skew"))
+        try keyedContainer.encodeIfPresent(self.customSigningKey, forKey: SdkCodingKey("custom_signing_key"))
+        try keyedContainer.encodeIfPresent(self.signingAlgorithm, forKey: SdkCodingKey("signing_algorithm"))
+        try keyedContainer.encodeIfPresent(self.signingKey, forKey: SdkCodingKey("signing_key"))
     }
 
     init(options: JwtTemplatesMethods.UpdateJWTTemplateOptions) {
-        name = options.name
-        claims = options.claims
-        lifetime = options.lifetime
-        allowedClockSkew = options.allowedClockSkew
-        customSigningKey = options.customSigningKey
-        signingAlgorithm = options.signingAlgorithm
-        signingKey = options.signingKey
+        self.name = options.name
+        self.claims = options.claims
+        self.lifetime = options.lifetime
+        self.allowedClockSkew = options.allowedClockSkew
+        self.customSigningKey = options.customSigningKey
+        self.signingAlgorithm = options.signingAlgorithm
+        self.signingKey = options.signingKey
     }
 }
 
@@ -65,9 +65,9 @@ struct CreateMachineRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(scopedMachines, forKey: SdkCodingKey("scoped_machines"))
-        try keyedContainer.encodeIfPresent(defaultTokenTtl, forKey: SdkCodingKey("default_token_ttl"))
+        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.scopedMachines, forKey: SdkCodingKey("scoped_machines"))
+        try keyedContainer.encodeIfPresent(self.defaultTokenTtl, forKey: SdkCodingKey("default_token_ttl"))
     }
 }
 
@@ -77,8 +77,8 @@ struct UpdateMachineRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(defaultTokenTtl, forKey: SdkCodingKey("default_token_ttl"))
+        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.defaultTokenTtl, forKey: SdkCodingKey("default_token_ttl"))
     }
 }
 
@@ -87,7 +87,7 @@ struct RotateMachineSecretKeyRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(previousTokenTtl, forKey: SdkCodingKey("previous_token_ttl"))
+        try keyedContainer.encode(self.previousTokenTtl, forKey: SdkCodingKey("previous_token_ttl"))
     }
 }
 
@@ -96,7 +96,7 @@ struct CreateMachineScopeRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(toMachineId, forKey: SdkCodingKey("to_machine_id"))
+        try keyedContainer.encode(self.toMachineId, forKey: SdkCodingKey("to_machine_id"))
     }
 }
 
@@ -112,25 +112,25 @@ struct CreateOrganizationRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(createdBy, forKey: SdkCodingKey("created_by"))
-        try keyedContainer.encodeIfPresent(privateMetadata, forKey: SdkCodingKey("private_metadata"))
-        try keyedContainer.encodeIfPresent(publicMetadata, forKey: SdkCodingKey("public_metadata"))
-        try keyedContainer.encodeIfPresent(slug, forKey: SdkCodingKey("slug"))
-        try keyedContainer.encodeIfPresent(maxAllowedMemberships, forKey: SdkCodingKey("max_allowed_memberships"))
-        try keyedContainer.encodeIfPresent(createdAt, forKey: SdkCodingKey("created_at"))
-        try keyedContainer.encodeIfPresent(roleSetKey, forKey: SdkCodingKey("role_set_key"))
+        try keyedContainer.encode(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.createdBy, forKey: SdkCodingKey("created_by"))
+        try keyedContainer.encodeIfPresent(self.privateMetadata, forKey: SdkCodingKey("private_metadata"))
+        try keyedContainer.encodeIfPresent(self.publicMetadata, forKey: SdkCodingKey("public_metadata"))
+        try keyedContainer.encodeIfPresent(self.slug, forKey: SdkCodingKey("slug"))
+        try keyedContainer.encodeIfPresent(self.maxAllowedMemberships, forKey: SdkCodingKey("max_allowed_memberships"))
+        try keyedContainer.encodeIfPresent(self.createdAt, forKey: SdkCodingKey("created_at"))
+        try keyedContainer.encodeIfPresent(self.roleSetKey, forKey: SdkCodingKey("role_set_key"))
     }
 
     init(options: OrganizationsMethods.CreateOrganizationOptions) {
-        name = options.name
-        createdBy = options.createdBy
-        privateMetadata = options.privateMetadata
-        publicMetadata = options.publicMetadata
-        slug = options.slug
-        maxAllowedMemberships = options.maxAllowedMemberships
-        createdAt = options.createdAt
-        roleSetKey = options.roleSetKey
+        self.name = options.name
+        self.createdBy = options.createdBy
+        self.privateMetadata = options.privateMetadata
+        self.publicMetadata = options.publicMetadata
+        self.slug = options.slug
+        self.maxAllowedMemberships = options.maxAllowedMemberships
+        self.createdAt = options.createdAt
+        self.roleSetKey = options.roleSetKey
     }
 }
 
@@ -147,30 +147,27 @@ struct UpdateOrganizationRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(name, forKey: SdkCodingKey("name"))
-        try keyedContainer.encodeIfPresent(slug, forKey: SdkCodingKey("slug"))
-        try keyedContainer.encodeIfPresent(maxAllowedMemberships, forKey: SdkCodingKey("max_allowed_memberships"))
-        try keyedContainer.encodeIfPresent(adminDeleteEnabled, forKey: SdkCodingKey("admin_delete_enabled"))
-        try keyedContainer.encodeIfPresent(selfServeSsoEnabled, forKey: SdkCodingKey("self_serve_sso_enabled"))
-        try keyedContainer.encodeIfPresent(
-            selfServeDirectorySyncEnabled,
-            forKey: SdkCodingKey("self_serve_directory_sync_enabled")
-        )
-        try keyedContainer.encodeIfPresent(createdAt, forKey: SdkCodingKey("created_at"))
-        try keyedContainer.encodeIfPresent(roleSetKey, forKey: SdkCodingKey("role_set_key"))
-        try keyedContainer.encodeIfPresent(reassignmentMappings, forKey: SdkCodingKey("reassignment_mappings"))
+        try keyedContainer.encodeIfPresent(self.name, forKey: SdkCodingKey("name"))
+        try keyedContainer.encodeIfPresent(self.slug, forKey: SdkCodingKey("slug"))
+        try keyedContainer.encodeIfPresent(self.maxAllowedMemberships, forKey: SdkCodingKey("max_allowed_memberships"))
+        try keyedContainer.encodeIfPresent(self.adminDeleteEnabled, forKey: SdkCodingKey("admin_delete_enabled"))
+        try keyedContainer.encodeIfPresent(self.selfServeSsoEnabled, forKey: SdkCodingKey("self_serve_sso_enabled"))
+        try keyedContainer.encodeIfPresent(self.selfServeDirectorySyncEnabled, forKey: SdkCodingKey("self_serve_directory_sync_enabled"))
+        try keyedContainer.encodeIfPresent(self.createdAt, forKey: SdkCodingKey("created_at"))
+        try keyedContainer.encodeIfPresent(self.roleSetKey, forKey: SdkCodingKey("role_set_key"))
+        try keyedContainer.encodeIfPresent(self.reassignmentMappings, forKey: SdkCodingKey("reassignment_mappings"))
     }
 
     init(options: OrganizationsMethods.UpdateOrganizationOptions) {
-        name = options.name
-        slug = options.slug
-        maxAllowedMemberships = options.maxAllowedMemberships
-        adminDeleteEnabled = options.adminDeleteEnabled
-        selfServeSsoEnabled = options.selfServeSsoEnabled
-        selfServeDirectorySyncEnabled = options.selfServeDirectorySyncEnabled
-        createdAt = options.createdAt
-        roleSetKey = options.roleSetKey
-        reassignmentMappings = options.reassignmentMappings
+        self.name = options.name
+        self.slug = options.slug
+        self.maxAllowedMemberships = options.maxAllowedMemberships
+        self.adminDeleteEnabled = options.adminDeleteEnabled
+        self.selfServeSsoEnabled = options.selfServeSsoEnabled
+        self.selfServeDirectorySyncEnabled = options.selfServeDirectorySyncEnabled
+        self.createdAt = options.createdAt
+        self.roleSetKey = options.roleSetKey
+        self.reassignmentMappings = options.reassignmentMappings
     }
 }
 
@@ -180,8 +177,8 @@ struct MergeOrganizationMetadataRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(publicMetadata, forKey: SdkCodingKey("public_metadata"))
-        try keyedContainer.encodeIfPresent(privateMetadata, forKey: SdkCodingKey("private_metadata"))
+        try keyedContainer.encodeIfPresent(self.publicMetadata, forKey: SdkCodingKey("public_metadata"))
+        try keyedContainer.encodeIfPresent(self.privateMetadata, forKey: SdkCodingKey("private_metadata"))
     }
 }
 
@@ -191,8 +188,8 @@ struct ReplaceOrganizationMetadataRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(publicMetadata, forKey: SdkCodingKey("public_metadata"))
-        try keyedContainer.encodeIfPresent(privateMetadata, forKey: SdkCodingKey("private_metadata"))
+        try keyedContainer.encodeIfPresent(self.publicMetadata, forKey: SdkCodingKey("public_metadata"))
+        try keyedContainer.encodeIfPresent(self.privateMetadata, forKey: SdkCodingKey("private_metadata"))
     }
 }
 
@@ -205,10 +202,10 @@ struct AdjustOrganizationBillingCreditBalanceRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(amount, forKey: SdkCodingKey("amount"))
-        try keyedContainer.encode(action, forKey: SdkCodingKey("action"))
-        try keyedContainer.encode(idempotencyKey, forKey: SdkCodingKey("idempotency_key"))
-        try keyedContainer.encodeIfPresent(currency, forKey: SdkCodingKey("currency"))
-        try keyedContainer.encodeIfPresent(note, forKey: SdkCodingKey("note"))
+        try keyedContainer.encode(self.amount, forKey: SdkCodingKey("amount"))
+        try keyedContainer.encode(self.action, forKey: SdkCodingKey("action"))
+        try keyedContainer.encode(self.idempotencyKey, forKey: SdkCodingKey("idempotency_key"))
+        try keyedContainer.encodeIfPresent(self.currency, forKey: SdkCodingKey("currency"))
+        try keyedContainer.encodeIfPresent(self.note, forKey: SdkCodingKey("note"))
     }
 }

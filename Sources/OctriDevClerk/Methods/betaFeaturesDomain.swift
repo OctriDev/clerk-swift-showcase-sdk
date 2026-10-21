@@ -6,14 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BetaFeaturesMethods {
-    /// Change the domain of a production instance. Changing the domain requires updating the [DNS
-    /// records](https://clerk.com/docs/deployments/overview#dns-records) accordingly, deploying new [SSL
-    /// certificates](https://clerk.com/docs/deployments/overview#deploy-certificates), updating your Social
-    /// Connection's redirect URLs and setting the new keys in your code. WARNING: Changing your domain will invalidate
-    /// all current user sessions (i.e. users will be logged out). Also, while your application is being deployed, a
-    /// small downtime is expected to occur. Returns 403 `domain_managed_by_integration` for applications in a
-    /// Vercel-managed workspace; change the domain from the Vercel integration instead.
+extension BetaFeaturesMethods {
+    /// Change the domain of a production instance. Changing the domain requires updating the [DNS records](https://clerk.com/docs/deployments/overview#dns-records) accordingly, deploying new [SSL certificates](https://clerk.com/docs/deployments/overview#deploy-certificates), updating your Social Connection's redirect URLs and setting the new keys in your code. WARNING: Changing your domain will invalidate all current user sessions (i.e. users will be logged out). Also, while your application is being deployed, a small downtime is expected to occur. Returns 403 `domain_managed_by_integration` for applications in a Vercel-managed workspace; change the domain from the Vercel integration instead.
     ///
     /// - Parameters:
     /// - homeUrl: The new home URL of the production instance e.g.
@@ -21,23 +15,9 @@ public extension BetaFeaturesMethods {
     /// - isSecondary: Whether the domain is a secondary app.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    static func updateProductionInstanceDomain(
-        config: ClientConfig,
-        homeUrl: String? = nil,
-        isSecondary: Bool? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SdkEmptyResponse {
+    public static func updateProductionInstanceDomain(config: ClientConfig, homeUrl: String? = nil, isSecondary: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> SdkEmptyResponse {
         let requestBody = UpdateProductionInstanceDomainRequestBody(homeUrl: homeUrl, isSecondary: isSecondary)
 
-        return try await (sdkRequest(
-            "PUT",
-            "/beta_features/domain",
-            config: config,
-            body: requestBody,
-            decoder: .empty,
-            operationId: "UpdateProductionInstanceDomain",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("PUT", "/beta_features/domain", config: config, body: requestBody, decoder: .empty, operationId: "UpdateProductionInstanceDomain", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

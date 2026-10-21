@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SAMLConnections domain models
+// SAMLConnections domain models
 /// Required object value serialized in the `idp_certificates[]` wire field.
 public struct SAMLConnectionIdpCertificatesItem: Codable {
     /// The X.509 certificate, base64 DER without PEM armor
@@ -19,43 +19,29 @@ public struct SAMLConnectionIdpCertificatesItem: Codable {
         case expiresAt = "expires_at"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SAMLConnectionIdpCertificatesItem {
-    init(from decoder: Decoder) throws {
+extension SAMLConnectionIdpCertificatesItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.certificate) else {
-            throw SdkValidationError(
-                field: "certificate",
-                code: "required",
-                message: "Validation failed for 'certificate': value is required"
-            )
+            throw SdkValidationError(field: "certificate", code: "required", message: "Validation failed for 'certificate': value is required")
         }
         guard container.contains(.issuedAt) else {
-            throw SdkValidationError(
-                field: "issued_at",
-                code: "required",
-                message: "Validation failed for 'issued_at': value is required"
-            )
+            throw SdkValidationError(field: "issued_at", code: "required", message: "Validation failed for 'issued_at': value is required")
         }
         guard container.contains(.expiresAt) else {
-            throw SdkValidationError(
-                field: "expires_at",
-                code: "required",
-                message: "Validation failed for 'expires_at': value is required"
-            )
+            throw SdkValidationError(field: "expires_at", code: "required", message: "Validation failed for 'expires_at': value is required")
         }
-        certificate = try container.sdkDecodeRequired(.certificate)
-        issuedAt = try container.sdkDecodeNullable(.issuedAt)
-        expiresAt = try container.sdkDecodeNullable(.expiresAt)
+        self.certificate = try container.sdkDecodeRequired(.certificate)
+        self.issuedAt = try container.sdkDecodeNullable(.issuedAt)
+        self.expiresAt = try container.sdkDecodeNullable(.expiresAt)
     }
 }
 
-public extension SAMLConnectionIdpCertificatesItem {
-    init(certificate: String, issuedAt: Int?, expiresAt: Int?) {
+extension SAMLConnectionIdpCertificatesItem {
+    public init(certificate: String, issuedAt: Int?, expiresAt: Int?) {
         (self.certificate, self.issuedAt) = (certificate, issuedAt)
         self.expiresAt = expiresAt
     }
@@ -73,35 +59,25 @@ public struct SAMLConnections: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SAMLConnections {
-    init(from decoder: Decoder) throws {
+extension SAMLConnections {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
+            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.totalCount = try container.sdkDecodeRequired(.totalCount)
     }
 }
 
-public extension SAMLConnections {
-    init(data: [SAMLConnection], totalCount: Int) {
+extension SAMLConnections {
+    public init(data: [SAMLConnection], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -124,51 +100,33 @@ public struct SAMLConnectionAttributeMapping: Codable {
         case lastName = "last_name"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SAMLConnectionAttributeMapping {
-    init(from decoder: Decoder) throws {
+extension SAMLConnectionAttributeMapping {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.userId) else {
-            throw SdkValidationError(
-                field: "user_id",
-                code: "required",
-                message: "Validation failed for 'user_id': value is required"
-            )
+            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
         }
         guard container.contains(.emailAddress) else {
-            throw SdkValidationError(
-                field: "email_address",
-                code: "required",
-                message: "Validation failed for 'email_address': value is required"
-            )
+            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
         }
         guard container.contains(.firstName) else {
-            throw SdkValidationError(
-                field: "first_name",
-                code: "required",
-                message: "Validation failed for 'first_name': value is required"
-            )
+            throw SdkValidationError(field: "first_name", code: "required", message: "Validation failed for 'first_name': value is required")
         }
         guard container.contains(.lastName) else {
-            throw SdkValidationError(
-                field: "last_name",
-                code: "required",
-                message: "Validation failed for 'last_name': value is required"
-            )
+            throw SdkValidationError(field: "last_name", code: "required", message: "Validation failed for 'last_name': value is required")
         }
-        userId = try container.sdkDecodeRequired(.userId)
-        emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        firstName = try container.sdkDecodeRequired(.firstName)
-        lastName = try container.sdkDecodeRequired(.lastName)
+        self.userId = try container.sdkDecodeRequired(.userId)
+        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        self.firstName = try container.sdkDecodeRequired(.firstName)
+        self.lastName = try container.sdkDecodeRequired(.lastName)
     }
 }
 
-public extension SAMLConnectionAttributeMapping {
-    init(userId: String, emailAddress: String, firstName: String, lastName: String) {
+extension SAMLConnectionAttributeMapping {
+    public init(userId: String, emailAddress: String, firstName: String, lastName: String) {
         (self.userId, self.emailAddress) = (userId, emailAddress)
         (self.firstName, self.lastName) = (firstName, lastName)
     }
@@ -276,82 +234,48 @@ public struct SAMLConnection: Codable {
         case enterpriseConnectionId = "enterprise_connection_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SAMLConnection {
-    init(from decoder: Decoder) throws {
+extension SAMLConnection {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        name = try container.sdkDecodeRequired(.name)
-        idpEntityId = try container.sdkDecodeNullable(.idpEntityId)
-        idpSsoUrl = try container.sdkDecodeNullable(.idpSsoUrl)
-        idpCertificate = try container.sdkDecodeNullable(.idpCertificate)
-        idpCertificateIssuedAt = try container.sdkDecodeNullable(.idpCertificateIssuedAt)
-        idpCertificateExpiresAt = try container.sdkDecodeNullable(.idpCertificateExpiresAt)
-        idpCertificates = try container.sdkDecodeRequired(.idpCertificates)
-        acsUrl = try container.sdkDecodeRequired(.acsUrl)
-        spEntityId = try container.sdkDecodeRequired(.spEntityId)
-        spMetadataUrl = try container.sdkDecodeRequired(.spMetadataUrl)
-        active = try container.sdkDecodeRequired(.active)
-        provider = try container.sdkDecodeRequired(.provider)
-        userCount = try container.sdkDecodeRequired(.userCount)
-        syncUserAttributes = try container.sdkDecodeRequired(.syncUserAttributes)
-        allowSubdomains = try container.sdkDecodeRequired(.allowSubdomains)
-        allowIdpInitiated = try container.sdkDecodeRequired(.allowIdpInitiated)
-        disableAdditionalIdentifications = try container.sdkDecodeRequired(.disableAdditionalIdentifications)
-        allowOrganizationAccountLinking = try container.sdkDecodeRequired(.allowOrganizationAccountLinking)
-        forceAuthn = try container.sdkDecodeRequired(.forceAuthn)
-        loginHint = try container.sdkDecodeRequired(.loginHint)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        domain = try container.sdkDecodeIfPresent(.domain)
-        domains = try container.sdkDecodeIfPresent(.domains)
-        idpMetadataUrl = try container.sdkDecodeIfPresent(.idpMetadataUrl)
-        idpMetadata = try container.sdkDecodeIfPresent(.idpMetadata)
-        organizationId = try container.sdkDecodeIfPresent(.organizationId)
-        attributeMapping = try container.sdkDecodeIfPresent(.attributeMapping)
-        enterpriseConnectionId = try container.sdkDecodeIfPresent(.enterpriseConnectionId)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.idpEntityId = try container.sdkDecodeNullable(.idpEntityId)
+        self.idpSsoUrl = try container.sdkDecodeNullable(.idpSsoUrl)
+        self.idpCertificate = try container.sdkDecodeNullable(.idpCertificate)
+        self.idpCertificateIssuedAt = try container.sdkDecodeNullable(.idpCertificateIssuedAt)
+        self.idpCertificateExpiresAt = try container.sdkDecodeNullable(.idpCertificateExpiresAt)
+        self.idpCertificates = try container.sdkDecodeRequired(.idpCertificates)
+        self.acsUrl = try container.sdkDecodeRequired(.acsUrl)
+        self.spEntityId = try container.sdkDecodeRequired(.spEntityId)
+        self.spMetadataUrl = try container.sdkDecodeRequired(.spMetadataUrl)
+        self.active = try container.sdkDecodeRequired(.active)
+        self.provider = try container.sdkDecodeRequired(.provider)
+        self.userCount = try container.sdkDecodeRequired(.userCount)
+        self.syncUserAttributes = try container.sdkDecodeRequired(.syncUserAttributes)
+        self.allowSubdomains = try container.sdkDecodeRequired(.allowSubdomains)
+        self.allowIdpInitiated = try container.sdkDecodeRequired(.allowIdpInitiated)
+        self.disableAdditionalIdentifications = try container.sdkDecodeRequired(.disableAdditionalIdentifications)
+        self.allowOrganizationAccountLinking = try container.sdkDecodeRequired(.allowOrganizationAccountLinking)
+        self.forceAuthn = try container.sdkDecodeRequired(.forceAuthn)
+        self.loginHint = try container.sdkDecodeRequired(.loginHint)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.domain = try container.sdkDecodeIfPresent(.domain)
+        self.domains = try container.sdkDecodeIfPresent(.domains)
+        self.idpMetadataUrl = try container.sdkDecodeIfPresent(.idpMetadataUrl)
+        self.idpMetadata = try container.sdkDecodeIfPresent(.idpMetadata)
+        self.organizationId = try container.sdkDecodeIfPresent(.organizationId)
+        self.attributeMapping = try container.sdkDecodeIfPresent(.attributeMapping)
+        self.enterpriseConnectionId = try container.sdkDecodeIfPresent(.enterpriseConnectionId)
     }
 }
 
-public extension SAMLConnection {
-    init(
-        object: SAMLConnectionObject,
-        id: String,
-        name: String,
-        idpEntityId: String?,
-        idpSsoUrl: String?,
-        idpCertificate: String?,
-        idpCertificateIssuedAt: Int?,
-        idpCertificateExpiresAt: Int?,
-        idpCertificates: [SAMLConnectionIdpCertificatesItem],
-        acsUrl: String,
-        spEntityId: String,
-        spMetadataUrl: String,
-        active: Bool,
-        provider: String,
-        userCount: Int,
-        syncUserAttributes: Bool,
-        allowSubdomains: Bool,
-        allowIdpInitiated: Bool,
-        disableAdditionalIdentifications: Bool,
-        allowOrganizationAccountLinking: Bool,
-        forceAuthn: Bool,
-        loginHint: SAMLConnectionLoginHint,
-        createdAt: Int,
-        updatedAt: Int,
-        domain: String? = nil,
-        domains: [String]? = nil,
-        idpMetadataUrl: String? = nil,
-        idpMetadata: String? = nil,
-        organizationId: String? = nil,
-        attributeMapping: SAMLConnectionAttributeMapping? = nil,
-        enterpriseConnectionId: String? = nil
-    ) {
+extension SAMLConnection {
+    public init(object: SAMLConnectionObject, id: String, name: String, idpEntityId: String?, idpSsoUrl: String?, idpCertificate: String?, idpCertificateIssuedAt: Int?, idpCertificateExpiresAt: Int?, idpCertificates: [SAMLConnectionIdpCertificatesItem], acsUrl: String, spEntityId: String, spMetadataUrl: String, active: Bool, provider: String, userCount: Int, syncUserAttributes: Bool, allowSubdomains: Bool, allowIdpInitiated: Bool, disableAdditionalIdentifications: Bool, allowOrganizationAccountLinking: Bool, forceAuthn: Bool, loginHint: SAMLConnectionLoginHint, createdAt: Int, updatedAt: Int, domain: String? = nil, domains: [String]? = nil, idpMetadataUrl: String? = nil, idpMetadata: String? = nil, organizationId: String? = nil, attributeMapping: SAMLConnectionAttributeMapping? = nil, enterpriseConnectionId: String? = nil) {
         (self.object, self.id) = (object, id)
         (self.name, self.idpEntityId) = (name, idpEntityId)
         (self.idpSsoUrl, self.idpCertificate) = (idpSsoUrl, idpCertificate)
@@ -385,28 +309,22 @@ public struct SAMLConnectionLoginHint: Codable {
         case source
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SAMLConnectionLoginHint {
-    init(from decoder: Decoder) throws {
+extension SAMLConnectionLoginHint {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.mode) else {
-            throw SdkValidationError(
-                field: "mode",
-                code: "required",
-                message: "Validation failed for 'mode': value is required"
-            )
+            throw SdkValidationError(field: "mode", code: "required", message: "Validation failed for 'mode': value is required")
         }
-        mode = try container.sdkDecodeRequired(.mode)
-        source = try container.sdkDecodeIfPresent(.source)
+        self.mode = try container.sdkDecodeRequired(.mode)
+        self.source = try container.sdkDecodeIfPresent(.source)
     }
 }
 
-public extension SAMLConnectionLoginHint {
-    init(mode: SAMLConnectionLoginHintMode, source: String? = nil) {
+extension SAMLConnectionLoginHint {
+    public init(mode: SAMLConnectionLoginHintMode, source: String? = nil) {
         (self.mode, self.source) = (mode, source)
     }
 }
@@ -415,15 +333,12 @@ public extension SAMLConnectionLoginHint {
 public struct SAMLConnectionObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let samlConnection = SAMLConnectionObject(rawValue: "saml_connection")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -436,17 +351,14 @@ public struct SAMLConnectionObject: RawRepresentable, Hashable, Codable, Sendabl
 public struct SAMLConnectionLoginHintMode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let emailAddress = SAMLConnectionLoginHintMode(rawValue: "email_address")
     public static let customAttribute = SAMLConnectionLoginHintMode(rawValue: "custom_attribute")
     public static let off = SAMLConnectionLoginHintMode(rawValue: "off")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

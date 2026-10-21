@@ -6,41 +6,14 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BillingMethods {
-    /// Removes the active discount from a subscription item. The discount_id must match the subscription item's
-    /// currently active discount.
+extension BillingMethods {
+    /// Removes the active discount from a subscription item. The discount_id must match the subscription item's currently active discount.
     ///
     /// - Parameters:
     /// - subscriptionItemId: The ID of the subscription item to remove the discount
     ///   from
     /// - discountId: The ID of the discount to remove
-    static func removeBillingSubscriptionItemDiscount(
-        config: ClientConfig,
-        subscriptionItemId: String,
-        discountId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> CommerceDiscountRedemptionResponse {
-        try await (sdkRequest(
-            "DELETE",
-            [
-                "/billing/subscription_items/",
-                sdkEncodePathSegment(sdkWireString(subscriptionItemId)),
-                "/discounts/",
-                sdkEncodePathSegment(sdkWireString(discountId)),
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "RemoveBillingSubscriptionItemDiscount",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "409": ClerkErrors.self,
-                "422": ClerkErrors.self,
-                "500": ClerkErrors.self,
-            ]
-        )).data
+    public static func removeBillingSubscriptionItemDiscount(config: ClientConfig, subscriptionItemId: String, discountId: String, requestOptions: RequestOptions? = nil) async throws -> CommerceDiscountRedemptionResponse {
+        return try (await sdkRequest("DELETE", ["/billing/subscription_items/", sdkEncodePathSegment(sdkWireString(subscriptionItemId)), "/discounts/", sdkEncodePathSegment(sdkWireString(discountId))].joined(), config: config, decoder: .json, operationId: "RemoveBillingSubscriptionItemDiscount", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 }

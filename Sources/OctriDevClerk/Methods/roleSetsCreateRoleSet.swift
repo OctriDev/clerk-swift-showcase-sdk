@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension RoleSetsMethods {
-    /// Creates a new role set with the given name and roles. The key must be unique for the instance and start with the
-    /// 'role_set:' prefix, followed by lowercase alphanumeric characters and underscores only. You must provide at
-    /// least one role and specify a default role key and creator role key.
+extension RoleSetsMethods {
+    /// Creates a new role set with the given name and roles. The key must be unique for the instance and start with the 'role_set:' prefix, followed by lowercase alphanumeric characters and underscores only. You must provide at least one role and specify a default role key and creator role key.
     ///
     /// - Parameters:
     /// - name: The name of the new role set
@@ -25,43 +23,9 @@ public extension RoleSetsMethods {
     /// - description: Optional description for the role set
     /// - type: The type of the role set. "initial" role sets are the default for
     ///   new organizations. Only one role set can be "initial" per instance.
-    static func createRoleSet(
-        config: ClientConfig,
-        name: String,
-        defaultRoleKey: String,
-        creatorRoleKey: String,
-        roles: [String],
-        key: String? = nil,
-        description: SdkOptional<String>? = nil,
-        type: CreateRoleSetRequestBodyType? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> RoleSet {
-        let requestBody = CreateRoleSetRequestBody(
-            name: name,
-            defaultRoleKey: defaultRoleKey,
-            creatorRoleKey: creatorRoleKey,
-            roles: roles,
-            key: key,
-            description: description,
-            type: type
-        )
+    public static func createRoleSet(config: ClientConfig, name: String, defaultRoleKey: String, creatorRoleKey: String, roles: [String], key: String? = nil, description: SdkOptional<String>? = nil, type: CreateRoleSetRequestBodyType? = nil, requestOptions: RequestOptions? = nil) async throws -> RoleSet {
+        let requestBody = CreateRoleSetRequestBody(name: name, defaultRoleKey: defaultRoleKey, creatorRoleKey: creatorRoleKey, roles: roles, key: key, description: description, type: type)
 
-        return try await (sdkRequest(
-            "POST",
-            "/role_sets",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateRoleSet",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "402": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/role_sets", config: config, body: requestBody, decoder: .json, operationId: "CreateRoleSet", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

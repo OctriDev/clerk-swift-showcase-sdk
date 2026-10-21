@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension UsersMethods {
-    /// Increases or decreases the credit balance for the specified user. Each adjustment is recorded as a ledger entry.
-    /// The idempotency_key parameter ensures that duplicate requests are safely handled.
+extension UsersMethods {
+    /// Increases or decreases the credit balance for the specified user. Each adjustment is recorded as a ledger entry. The idempotency_key parameter ensures that duplicate requests are safely handled.
     ///
     /// - Parameters:
     /// - userId: The ID of the user whose credit balance to adjust
@@ -18,41 +17,9 @@ public extension UsersMethods {
     ///   once. Repeated requests with the same key return the original ledger entry.
     /// - currency: The currency code (e.g. "USD"). Defaults to USD if not provided.
     /// - note: An optional note to attach to the ledger entry.
-    static func adjustUserBillingCreditBalance(
-        config: ClientConfig,
-        userId: String,
-        amount: Int,
-        action: AdjustCreditBalanceRequestAction,
-        idempotencyKey: String,
-        currency: String? = nil,
-        note: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> CommerceCreditLedgerResponse {
-        let requestBody = AdjustUserBillingCreditBalanceRequestBody(
-            amount: amount,
-            action: action,
-            idempotencyKey: idempotencyKey,
-            currency: currency,
-            note: note
-        )
+    public static func adjustUserBillingCreditBalance(config: ClientConfig, userId: String, amount: Int, action: AdjustCreditBalanceRequestAction, idempotencyKey: String, currency: String? = nil, note: String? = nil, requestOptions: RequestOptions? = nil) async throws -> CommerceCreditLedgerResponse {
+        let requestBody = AdjustUserBillingCreditBalanceRequestBody(amount: amount, action: action, idempotencyKey: idempotencyKey, currency: currency, note: note)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/billing/credits"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "AdjustUserBillingCreditBalance",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "409": ClerkErrors.self,
-                "422": ClerkErrors.self,
-                "500": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/billing/credits"].joined(), config: config, body: requestBody, decoder: .json, operationId: "AdjustUserBillingCreditBalance", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 }

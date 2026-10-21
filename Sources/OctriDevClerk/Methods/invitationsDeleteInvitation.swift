@@ -6,27 +6,12 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension InvitationsMethods {
-    /// Permanently deletes the given invitation and the copies of the invitation email Clerk stored for its recipient.
-    /// Unlike revoking, deleting removes the invitation record itself, which helps honor a data erasure request from
-    /// someone who was invited but never signed up. Other records that contain the same email address, such as users or
-    /// organization invitations, are not affected. Invitations of any status can be deleted.
+extension InvitationsMethods {
+    /// Permanently deletes the given invitation and the copies of the invitation email Clerk stored for its recipient. Unlike revoking, deleting removes the invitation record itself, which helps honor a data erasure request from someone who was invited but never signed up. Other records that contain the same email address, such as users or organization invitations, are not affected. Invitations of any status can be deleted.
     ///
     /// - Parameters:
     /// - invitationId: The ID of the invitation to delete
-    static func deleteInvitation(
-        config: ClientConfig,
-        invitationId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DeletedObject {
-        try await (sdkRequest(
-            "DELETE",
-            ["/invitations/", sdkEncodePathSegment(sdkWireString(invitationId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DeleteInvitation",
-            options: requestOptions,
-            errors: ["404": ClerkErrors.self]
-        )).data
+    public static func deleteInvitation(config: ClientConfig, invitationId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
+        return try (await sdkRequest("DELETE", ["/invitations/", sdkEncodePathSegment(sdkWireString(invitationId))].joined(), config: config, decoder: .json, operationId: "DeleteInvitation", options: requestOptions, errors: ["404": ClerkErrors.self])).data
     }
 }

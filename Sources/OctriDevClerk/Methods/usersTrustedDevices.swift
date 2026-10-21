@@ -6,27 +6,15 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension UsersMethods {
+extension UsersMethods {
     /// Returns the active trusted devices enrolled by the user.
     ///
     /// - Parameters:
     /// - userId: The ID of the user whose trusted devices are returned
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    static func listUserTrustedDevices(
-        config: ClientConfig,
-        userId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> TrustedDeviceList {
-        try await (sdkRequest(
-            "GET",
-            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/trusted_devices"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "ListUserTrustedDevices",
-            options: requestOptions,
-            errors: ["403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self]
-        )).data
+    public static func listUserTrustedDevices(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> TrustedDeviceList {
+        return try (await sdkRequest("GET", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/trusted_devices"].joined(), config: config, decoder: .json, operationId: "ListUserTrustedDevices", options: requestOptions, errors: ["403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 
     /// Revokes an active trusted device enrolled by the user.
@@ -36,25 +24,7 @@ public extension UsersMethods {
     /// - trustedDeviceId: The ID of the trusted device to revoke
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    static func revokeUserTrustedDevice(
-        config: ClientConfig,
-        userId: String,
-        trustedDeviceId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> TrustedDevice {
-        try await (sdkRequest(
-            "DELETE",
-            [
-                "/users/",
-                sdkEncodePathSegment(sdkWireString(userId)),
-                "/trusted_devices/",
-                sdkEncodePathSegment(sdkWireString(trustedDeviceId)),
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "RevokeUserTrustedDevice",
-            options: requestOptions,
-            errors: ["403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self]
-        )).data
+    public static func revokeUserTrustedDevice(config: ClientConfig, userId: String, trustedDeviceId: String, requestOptions: RequestOptions? = nil) async throws -> TrustedDevice {
+        return try (await sdkRequest("DELETE", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/trusted_devices/", sdkEncodePathSegment(sdkWireString(trustedDeviceId))].joined(), config: config, decoder: .json, operationId: "RevokeUserTrustedDevice", options: requestOptions, errors: ["403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 }

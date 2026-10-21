@@ -7,30 +7,15 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum OAuthAccessTokensMethods {
-    /// Verifies an OAuth access token and returns its token details or active status. Supply the token in
-    /// `access_token`; the legacy `secret` field is deprecated. Use this endpoint to check whether an access token is
-    /// active and retrieve its associated client, subject, and scopes when available.
+    /// Verifies an OAuth access token and returns its token details or active status. Supply the token in `access_token`; the legacy `secret` field is deprecated. Use this endpoint to check whether an access token is active and retrieve its associated client, subject, and scopes when available.
     ///
     /// - Parameters:
     /// - accessToken: The access token to verify.
     /// - secret: The access token to verify. This is deprecated, use `access_token`
     ///   instead.
-    public static func verifyOAuthAccessToken(
-        config: ClientConfig,
-        accessToken: String? = nil,
-        secret: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> VerifyOAuthAccessTokenResponse {
+    public static func verifyOAuthAccessToken(config: ClientConfig, accessToken: String? = nil, secret: String? = nil, requestOptions: RequestOptions? = nil) async throws -> VerifyOAuthAccessTokenResponse {
         let requestBody = VerifyOAuthAccessTokenRequestBody(accessToken: accessToken, secret: secret)
 
-        return try await (sdkRequest(
-            "POST",
-            "/oauth_applications/access_tokens/verify",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "verifyOAuthAccessToken",
-            options: requestOptions
-        )).data
+        return try (await sdkRequest("POST", "/oauth_applications/access_tokens/verify", config: config, body: requestBody, decoder: .json, operationId: "verifyOAuthAccessToken", options: requestOptions)).data
     }
 }

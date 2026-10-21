@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension RoleSetsMethods {
-    /// Updates an existing role set. You can update the name, key, description, type, default role, or creator role.
-    /// All parameters are optional - you can update only the fields you want to change.
+extension RoleSetsMethods {
+    /// Updates an existing role set. You can update the name, key, description, type, default role, or creator role. All parameters are optional - you can update only the fields you want to change.
     ///
     /// - Parameters:
     /// - roleSetKeyOrId: The key or ID of the role set to update
@@ -23,41 +22,9 @@ public extension RoleSetsMethods {
     ///   organization members. Must be an existing role in the role set.
     /// - creatorRoleKey: The key of the role to assign to organization creators.
     ///   Must be an existing role in the role set.
-    static func updateRoleSet(
-        config: ClientConfig,
-        roleSetKeyOrId: String,
-        name: SdkOptional<String>? = nil,
-        key: SdkOptional<String>? = nil,
-        description: SdkOptional<String>? = nil,
-        type: SdkOptional<UpdateRoleSetRequestBodyType>? = nil,
-        defaultRoleKey: SdkOptional<String>? = nil,
-        creatorRoleKey: SdkOptional<String>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> RoleSet {
-        let requestBody = UpdateRoleSetRequestBody(
-            name: name,
-            key: key,
-            description: description,
-            type: type,
-            defaultRoleKey: defaultRoleKey,
-            creatorRoleKey: creatorRoleKey
-        )
+    public static func updateRoleSet(config: ClientConfig, roleSetKeyOrId: String, name: SdkOptional<String>? = nil, key: SdkOptional<String>? = nil, description: SdkOptional<String>? = nil, type: SdkOptional<UpdateRoleSetRequestBodyType>? = nil, defaultRoleKey: SdkOptional<String>? = nil, creatorRoleKey: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> RoleSet {
+        let requestBody = UpdateRoleSetRequestBody(name: name, key: key, description: description, type: type, defaultRoleKey: defaultRoleKey, creatorRoleKey: creatorRoleKey)
 
-        return try await (sdkRequest(
-            "PATCH",
-            ["/role_sets/", sdkEncodePathSegment(sdkWireString(roleSetKeyOrId))].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "UpdateRoleSet",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("PATCH", ["/role_sets/", sdkEncodePathSegment(sdkWireString(roleSetKeyOrId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateRoleSet", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

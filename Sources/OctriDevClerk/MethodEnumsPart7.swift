@@ -11,7 +11,7 @@ struct ToggleTemplateDeliveryRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(deliveredByClerk, forKey: SdkCodingKey("delivered_by_clerk"))
+        try keyedContainer.encodeIfPresent(self.deliveredByClerk, forKey: SdkCodingKey("delivered_by_clerk"))
     }
 }
 
@@ -51,82 +51,73 @@ struct CreateUserRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(externalId, forKey: SdkCodingKey("external_id"))
-        try keyedContainer.encodeIfPresent(firstName, forKey: SdkCodingKey("first_name"))
-        try keyedContainer.encodeIfPresent(lastName, forKey: SdkCodingKey("last_name"))
-        try keyedContainer.encodeIfPresent(locale, forKey: SdkCodingKey("locale"))
-        try keyedContainer.encodeIfPresent(timezone, forKey: SdkCodingKey("timezone"))
-        try keyedContainer.encodeIfPresent(emailAddress, forKey: SdkCodingKey("email_address"))
-        try keyedContainer.encodeIfPresent(
-            emailAddressIdentificationStatus,
-            forKey: SdkCodingKey("email_address_identification_status")
-        )
-        try keyedContainer.encodeIfPresent(phoneNumber, forKey: SdkCodingKey("phone_number"))
-        try keyedContainer.encodeIfPresent(
-            phoneNumberIdentificationStatus,
-            forKey: SdkCodingKey("phone_number_identification_status")
-        )
-        try keyedContainer.encodeIfPresent(web3Wallet, forKey: SdkCodingKey("web3_wallet"))
-        try keyedContainer.encodeIfPresent(username, forKey: SdkCodingKey("username"))
-        try keyedContainer.encodeIfPresent(password, forKey: SdkCodingKey("password"))
-        try keyedContainer.encodeIfPresent(passwordDigest, forKey: SdkCodingKey("password_digest"))
-        try keyedContainer.encodeIfPresent(passwordHasher, forKey: SdkCodingKey("password_hasher"))
-        try keyedContainer.encodeIfPresent(skipPasswordChecks, forKey: SdkCodingKey("skip_password_checks"))
-        try keyedContainer.encodeIfPresent(skipPasswordRequirement, forKey: SdkCodingKey("skip_password_requirement"))
-        try keyedContainer.encodeIfPresent(skipRestrictionChecks, forKey: SdkCodingKey("skip_restriction_checks"))
-        try keyedContainer.encodeIfPresent(totpSecret, forKey: SdkCodingKey("totp_secret"))
-        try keyedContainer.encodeIfPresent(backupCodes, forKey: SdkCodingKey("backup_codes"))
-        try keyedContainer.encodeIfPresent(publicMetadata, forKey: SdkCodingKey("public_metadata"))
-        try keyedContainer.encodeIfPresent(privateMetadata, forKey: SdkCodingKey("private_metadata"))
-        try keyedContainer.encodeIfPresent(unsafeMetadata, forKey: SdkCodingKey("unsafe_metadata"))
-        try keyedContainer.encodeIfPresent(deleteSelfEnabled, forKey: SdkCodingKey("delete_self_enabled"))
-        try keyedContainer.encodeIfPresent(legalAcceptedAt, forKey: SdkCodingKey("legal_accepted_at"))
-        try keyedContainer.encodeIfPresent(skipLegalChecks, forKey: SdkCodingKey("skip_legal_checks"))
-        try keyedContainer.encodeIfPresent(skipUserRequirement, forKey: SdkCodingKey("skip_user_requirement"))
-        try keyedContainer.encodeIfPresent(
-            createOrganizationEnabled,
-            forKey: SdkCodingKey("create_organization_enabled")
-        )
-        try keyedContainer.encodeIfPresent(createOrganizationsLimit, forKey: SdkCodingKey("create_organizations_limit"))
-        try keyedContainer.encodeIfPresent(createdAt, forKey: SdkCodingKey("created_at"))
-        try keyedContainer.encodeIfPresent(bypassClientTrust, forKey: SdkCodingKey("bypass_client_trust"))
-        try keyedContainer.encodeIfPresent(banned, forKey: SdkCodingKey("banned"))
-        try keyedContainer.encodeIfPresent(locked, forKey: SdkCodingKey("locked"))
+        try keyedContainer.encodeIfPresent(self.externalId, forKey: SdkCodingKey("external_id"))
+        try keyedContainer.encodeIfPresent(self.firstName, forKey: SdkCodingKey("first_name"))
+        try keyedContainer.encodeIfPresent(self.lastName, forKey: SdkCodingKey("last_name"))
+        try keyedContainer.encodeIfPresent(self.locale, forKey: SdkCodingKey("locale"))
+        try keyedContainer.encodeIfPresent(self.timezone, forKey: SdkCodingKey("timezone"))
+        try keyedContainer.encodeIfPresent(self.emailAddress, forKey: SdkCodingKey("email_address"))
+        try keyedContainer.encodeIfPresent(self.emailAddressIdentificationStatus, forKey: SdkCodingKey("email_address_identification_status"))
+        try keyedContainer.encodeIfPresent(self.phoneNumber, forKey: SdkCodingKey("phone_number"))
+        try keyedContainer.encodeIfPresent(self.phoneNumberIdentificationStatus, forKey: SdkCodingKey("phone_number_identification_status"))
+        try keyedContainer.encodeIfPresent(self.web3Wallet, forKey: SdkCodingKey("web3_wallet"))
+        try keyedContainer.encodeIfPresent(self.username, forKey: SdkCodingKey("username"))
+        try keyedContainer.encodeIfPresent(self.password, forKey: SdkCodingKey("password"))
+        try keyedContainer.encodeIfPresent(self.passwordDigest, forKey: SdkCodingKey("password_digest"))
+        try keyedContainer.encodeIfPresent(self.passwordHasher, forKey: SdkCodingKey("password_hasher"))
+        try keyedContainer.encodeIfPresent(self.skipPasswordChecks, forKey: SdkCodingKey("skip_password_checks"))
+        try keyedContainer.encodeIfPresent(self.skipPasswordRequirement, forKey: SdkCodingKey("skip_password_requirement"))
+        try keyedContainer.encodeIfPresent(self.skipRestrictionChecks, forKey: SdkCodingKey("skip_restriction_checks"))
+        try keyedContainer.encodeIfPresent(self.totpSecret, forKey: SdkCodingKey("totp_secret"))
+        try keyedContainer.encodeIfPresent(self.backupCodes, forKey: SdkCodingKey("backup_codes"))
+        try keyedContainer.encodeIfPresent(self.publicMetadata, forKey: SdkCodingKey("public_metadata"))
+        try keyedContainer.encodeIfPresent(self.privateMetadata, forKey: SdkCodingKey("private_metadata"))
+        try keyedContainer.encodeIfPresent(self.unsafeMetadata, forKey: SdkCodingKey("unsafe_metadata"))
+        try keyedContainer.encodeIfPresent(self.deleteSelfEnabled, forKey: SdkCodingKey("delete_self_enabled"))
+        try keyedContainer.encodeIfPresent(self.legalAcceptedAt, forKey: SdkCodingKey("legal_accepted_at"))
+        try keyedContainer.encodeIfPresent(self.skipLegalChecks, forKey: SdkCodingKey("skip_legal_checks"))
+        try keyedContainer.encodeIfPresent(self.skipUserRequirement, forKey: SdkCodingKey("skip_user_requirement"))
+        try keyedContainer.encodeIfPresent(self.createOrganizationEnabled, forKey: SdkCodingKey("create_organization_enabled"))
+        try keyedContainer.encodeIfPresent(self.createOrganizationsLimit, forKey: SdkCodingKey("create_organizations_limit"))
+        try keyedContainer.encodeIfPresent(self.createdAt, forKey: SdkCodingKey("created_at"))
+        try keyedContainer.encodeIfPresent(self.bypassClientTrust, forKey: SdkCodingKey("bypass_client_trust"))
+        try keyedContainer.encodeIfPresent(self.banned, forKey: SdkCodingKey("banned"))
+        try keyedContainer.encodeIfPresent(self.locked, forKey: SdkCodingKey("locked"))
     }
 
     init(options: UsersMethods.CreateUserOptions) {
-        externalId = options.externalId
-        firstName = options.firstName
-        lastName = options.lastName
-        locale = options.locale
-        timezone = options.timezone
-        emailAddress = options.emailAddress
-        emailAddressIdentificationStatus = options.emailAddressIdentificationStatus
-        phoneNumber = options.phoneNumber
-        phoneNumberIdentificationStatus = options.phoneNumberIdentificationStatus
-        web3Wallet = options.web3Wallet
-        username = options.username
-        password = options.password
-        passwordDigest = options.passwordDigest
-        passwordHasher = options.passwordHasher
-        skipPasswordChecks = options.skipPasswordChecks
-        skipPasswordRequirement = options.skipPasswordRequirement
-        skipRestrictionChecks = options.skipRestrictionChecks
-        totpSecret = options.totpSecret
-        backupCodes = options.backupCodes
-        publicMetadata = options.publicMetadata
-        privateMetadata = options.privateMetadata
-        unsafeMetadata = options.unsafeMetadata
-        deleteSelfEnabled = options.deleteSelfEnabled
-        legalAcceptedAt = options.legalAcceptedAt
-        skipLegalChecks = options.skipLegalChecks
-        skipUserRequirement = options.skipUserRequirement
-        createOrganizationEnabled = options.createOrganizationEnabled
-        createOrganizationsLimit = options.createOrganizationsLimit
-        createdAt = options.createdAt
-        bypassClientTrust = options.bypassClientTrust
-        banned = options.banned
-        locked = options.locked
+        self.externalId = options.externalId
+        self.firstName = options.firstName
+        self.lastName = options.lastName
+        self.locale = options.locale
+        self.timezone = options.timezone
+        self.emailAddress = options.emailAddress
+        self.emailAddressIdentificationStatus = options.emailAddressIdentificationStatus
+        self.phoneNumber = options.phoneNumber
+        self.phoneNumberIdentificationStatus = options.phoneNumberIdentificationStatus
+        self.web3Wallet = options.web3Wallet
+        self.username = options.username
+        self.password = options.password
+        self.passwordDigest = options.passwordDigest
+        self.passwordHasher = options.passwordHasher
+        self.skipPasswordChecks = options.skipPasswordChecks
+        self.skipPasswordRequirement = options.skipPasswordRequirement
+        self.skipRestrictionChecks = options.skipRestrictionChecks
+        self.totpSecret = options.totpSecret
+        self.backupCodes = options.backupCodes
+        self.publicMetadata = options.publicMetadata
+        self.privateMetadata = options.privateMetadata
+        self.unsafeMetadata = options.unsafeMetadata
+        self.deleteSelfEnabled = options.deleteSelfEnabled
+        self.legalAcceptedAt = options.legalAcceptedAt
+        self.skipLegalChecks = options.skipLegalChecks
+        self.skipUserRequirement = options.skipUserRequirement
+        self.createOrganizationEnabled = options.createOrganizationEnabled
+        self.createOrganizationsLimit = options.createOrganizationsLimit
+        self.createdAt = options.createdAt
+        self.bypassClientTrust = options.bypassClientTrust
+        self.banned = options.banned
+        self.locked = options.locked
     }
 }
 
@@ -159,65 +150,59 @@ struct UpdateUserRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encodeIfPresent(externalId, forKey: SdkCodingKey("external_id"))
-        try keyedContainer.encodeIfPresent(firstName, forKey: SdkCodingKey("first_name"))
-        try keyedContainer.encodeIfPresent(lastName, forKey: SdkCodingKey("last_name"))
-        try keyedContainer.encodeIfPresent(locale, forKey: SdkCodingKey("locale"))
-        try keyedContainer.encodeIfPresent(timezone, forKey: SdkCodingKey("timezone"))
-        try keyedContainer.encodeIfPresent(primaryEmailAddressId, forKey: SdkCodingKey("primary_email_address_id"))
-        try keyedContainer.encodeIfPresent(
-            notifyPrimaryEmailAddressChanged,
-            forKey: SdkCodingKey("notify_primary_email_address_changed")
-        )
-        try keyedContainer.encodeIfPresent(primaryPhoneNumberId, forKey: SdkCodingKey("primary_phone_number_id"))
-        try keyedContainer.encodeIfPresent(primaryWeb3WalletId, forKey: SdkCodingKey("primary_web3_wallet_id"))
-        try keyedContainer.encodeIfPresent(username, forKey: SdkCodingKey("username"))
-        try keyedContainer.encodeIfPresent(profileImageId, forKey: SdkCodingKey("profile_image_id"))
-        try keyedContainer.encodeIfPresent(password, forKey: SdkCodingKey("password"))
-        try keyedContainer.encodeIfPresent(passwordDigest, forKey: SdkCodingKey("password_digest"))
-        try keyedContainer.encodeIfPresent(passwordHasher, forKey: SdkCodingKey("password_hasher"))
-        try keyedContainer.encodeIfPresent(skipPasswordChecks, forKey: SdkCodingKey("skip_password_checks"))
-        try keyedContainer.encodeIfPresent(signOutOfOtherSessions, forKey: SdkCodingKey("sign_out_of_other_sessions"))
-        try keyedContainer.encodeIfPresent(totpSecret, forKey: SdkCodingKey("totp_secret"))
-        try keyedContainer.encodeIfPresent(backupCodes, forKey: SdkCodingKey("backup_codes"))
-        try keyedContainer.encodeIfPresent(deleteSelfEnabled, forKey: SdkCodingKey("delete_self_enabled"))
-        try keyedContainer.encodeIfPresent(
-            createOrganizationEnabled,
-            forKey: SdkCodingKey("create_organization_enabled")
-        )
-        try keyedContainer.encodeIfPresent(legalAcceptedAt, forKey: SdkCodingKey("legal_accepted_at"))
-        try keyedContainer.encodeIfPresent(skipLegalChecks, forKey: SdkCodingKey("skip_legal_checks"))
-        try keyedContainer.encodeIfPresent(createOrganizationsLimit, forKey: SdkCodingKey("create_organizations_limit"))
-        try keyedContainer.encodeIfPresent(createdAt, forKey: SdkCodingKey("created_at"))
-        try keyedContainer.encodeIfPresent(bypassClientTrust, forKey: SdkCodingKey("bypass_client_trust"))
+        try keyedContainer.encodeIfPresent(self.externalId, forKey: SdkCodingKey("external_id"))
+        try keyedContainer.encodeIfPresent(self.firstName, forKey: SdkCodingKey("first_name"))
+        try keyedContainer.encodeIfPresent(self.lastName, forKey: SdkCodingKey("last_name"))
+        try keyedContainer.encodeIfPresent(self.locale, forKey: SdkCodingKey("locale"))
+        try keyedContainer.encodeIfPresent(self.timezone, forKey: SdkCodingKey("timezone"))
+        try keyedContainer.encodeIfPresent(self.primaryEmailAddressId, forKey: SdkCodingKey("primary_email_address_id"))
+        try keyedContainer.encodeIfPresent(self.notifyPrimaryEmailAddressChanged, forKey: SdkCodingKey("notify_primary_email_address_changed"))
+        try keyedContainer.encodeIfPresent(self.primaryPhoneNumberId, forKey: SdkCodingKey("primary_phone_number_id"))
+        try keyedContainer.encodeIfPresent(self.primaryWeb3WalletId, forKey: SdkCodingKey("primary_web3_wallet_id"))
+        try keyedContainer.encodeIfPresent(self.username, forKey: SdkCodingKey("username"))
+        try keyedContainer.encodeIfPresent(self.profileImageId, forKey: SdkCodingKey("profile_image_id"))
+        try keyedContainer.encodeIfPresent(self.password, forKey: SdkCodingKey("password"))
+        try keyedContainer.encodeIfPresent(self.passwordDigest, forKey: SdkCodingKey("password_digest"))
+        try keyedContainer.encodeIfPresent(self.passwordHasher, forKey: SdkCodingKey("password_hasher"))
+        try keyedContainer.encodeIfPresent(self.skipPasswordChecks, forKey: SdkCodingKey("skip_password_checks"))
+        try keyedContainer.encodeIfPresent(self.signOutOfOtherSessions, forKey: SdkCodingKey("sign_out_of_other_sessions"))
+        try keyedContainer.encodeIfPresent(self.totpSecret, forKey: SdkCodingKey("totp_secret"))
+        try keyedContainer.encodeIfPresent(self.backupCodes, forKey: SdkCodingKey("backup_codes"))
+        try keyedContainer.encodeIfPresent(self.deleteSelfEnabled, forKey: SdkCodingKey("delete_self_enabled"))
+        try keyedContainer.encodeIfPresent(self.createOrganizationEnabled, forKey: SdkCodingKey("create_organization_enabled"))
+        try keyedContainer.encodeIfPresent(self.legalAcceptedAt, forKey: SdkCodingKey("legal_accepted_at"))
+        try keyedContainer.encodeIfPresent(self.skipLegalChecks, forKey: SdkCodingKey("skip_legal_checks"))
+        try keyedContainer.encodeIfPresent(self.createOrganizationsLimit, forKey: SdkCodingKey("create_organizations_limit"))
+        try keyedContainer.encodeIfPresent(self.createdAt, forKey: SdkCodingKey("created_at"))
+        try keyedContainer.encodeIfPresent(self.bypassClientTrust, forKey: SdkCodingKey("bypass_client_trust"))
     }
 
     init(options: UsersMethods.UpdateUserOptions) {
-        externalId = options.externalId
-        firstName = options.firstName
-        lastName = options.lastName
-        locale = options.locale
-        timezone = options.timezone
-        primaryEmailAddressId = options.primaryEmailAddressId
-        notifyPrimaryEmailAddressChanged = options.notifyPrimaryEmailAddressChanged
-        primaryPhoneNumberId = options.primaryPhoneNumberId
-        primaryWeb3WalletId = options.primaryWeb3WalletId
-        username = options.username
-        profileImageId = options.profileImageId
-        password = options.password
-        passwordDigest = options.passwordDigest
-        passwordHasher = options.passwordHasher
-        skipPasswordChecks = options.skipPasswordChecks
-        signOutOfOtherSessions = options.signOutOfOtherSessions
-        totpSecret = options.totpSecret
-        backupCodes = options.backupCodes
-        deleteSelfEnabled = options.deleteSelfEnabled
-        createOrganizationEnabled = options.createOrganizationEnabled
-        legalAcceptedAt = options.legalAcceptedAt
-        skipLegalChecks = options.skipLegalChecks
-        createOrganizationsLimit = options.createOrganizationsLimit
-        createdAt = options.createdAt
-        bypassClientTrust = options.bypassClientTrust
+        self.externalId = options.externalId
+        self.firstName = options.firstName
+        self.lastName = options.lastName
+        self.locale = options.locale
+        self.timezone = options.timezone
+        self.primaryEmailAddressId = options.primaryEmailAddressId
+        self.notifyPrimaryEmailAddressChanged = options.notifyPrimaryEmailAddressChanged
+        self.primaryPhoneNumberId = options.primaryPhoneNumberId
+        self.primaryWeb3WalletId = options.primaryWeb3WalletId
+        self.username = options.username
+        self.profileImageId = options.profileImageId
+        self.password = options.password
+        self.passwordDigest = options.passwordDigest
+        self.passwordHasher = options.passwordHasher
+        self.skipPasswordChecks = options.skipPasswordChecks
+        self.signOutOfOtherSessions = options.signOutOfOtherSessions
+        self.totpSecret = options.totpSecret
+        self.backupCodes = options.backupCodes
+        self.deleteSelfEnabled = options.deleteSelfEnabled
+        self.createOrganizationEnabled = options.createOrganizationEnabled
+        self.legalAcceptedAt = options.legalAcceptedAt
+        self.skipLegalChecks = options.skipLegalChecks
+        self.createOrganizationsLimit = options.createOrganizationsLimit
+        self.createdAt = options.createdAt
+        self.bypassClientTrust = options.bypassClientTrust
     }
 }
 
@@ -226,6 +211,6 @@ struct BanUsersBulkRequestBody: Encodable {
 
     func encode(to encoder: Encoder) throws {
         var keyedContainer = encoder.container(keyedBy: SdkCodingKey.self)
-        try keyedContainer.encode(userIds, forKey: SdkCodingKey("user_ids"))
+        try keyedContainer.encode(self.userIds, forKey: SdkCodingKey("user_ids"))
     }
 }

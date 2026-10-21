@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// InstanceSettings domain models
+// InstanceSettings domain models
 /// Typed representation of the `Instance` API schema.
 public struct Instance: Codable {
     /// String representing the object's type. Objects of the same type share the same value.
@@ -39,83 +39,45 @@ public struct Instance: Codable {
         case workspaceId = "workspace_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension Instance {
-    init(from decoder: Decoder) throws {
+extension Instance {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
+            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
         }
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.environmentType) else {
-            throw SdkValidationError(
-                field: "environment_type",
-                code: "required",
-                message: "Validation failed for 'environment_type': value is required"
-            )
+            throw SdkValidationError(field: "environment_type", code: "required", message: "Validation failed for 'environment_type': value is required")
         }
         guard container.contains(.allowedOrigins) else {
-            throw SdkValidationError(
-                field: "allowed_origins",
-                code: "required",
-                message: "Validation failed for 'allowed_origins': value is required"
-            )
+            throw SdkValidationError(field: "allowed_origins", code: "required", message: "Validation failed for 'allowed_origins': value is required")
         }
         guard container.contains(.allowedSubdomains) else {
-            throw SdkValidationError(
-                field: "allowed_subdomains",
-                code: "required",
-                message: "Validation failed for 'allowed_subdomains': value is required"
-            )
+            throw SdkValidationError(field: "allowed_subdomains", code: "required", message: "Validation failed for 'allowed_subdomains': value is required")
         }
         guard container.contains(.subdomainAllowlistEnabled) else {
-            throw SdkValidationError(
-                field: "subdomain_allowlist_enabled",
-                code: "required",
-                message: "Validation failed for 'subdomain_allowlist_enabled': value is required"
-            )
+            throw SdkValidationError(field: "subdomain_allowlist_enabled", code: "required", message: "Validation failed for 'subdomain_allowlist_enabled': value is required")
         }
         guard container.contains(.workspaceId) else {
-            throw SdkValidationError(
-                field: "workspace_id",
-                code: "required",
-                message: "Validation failed for 'workspace_id': value is required"
-            )
+            throw SdkValidationError(field: "workspace_id", code: "required", message: "Validation failed for 'workspace_id': value is required")
         }
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        environmentType = try container.sdkDecodeRequired(.environmentType)
-        allowedOrigins = try container.sdkDecodeNullable(.allowedOrigins)
-        allowedSubdomains = try container.sdkDecodeRequired(.allowedSubdomains)
-        subdomainAllowlistEnabled = try container.sdkDecodeRequired(.subdomainAllowlistEnabled)
-        workspaceId = try container.sdkDecodeNullable(.workspaceId)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.environmentType = try container.sdkDecodeRequired(.environmentType)
+        self.allowedOrigins = try container.sdkDecodeNullable(.allowedOrigins)
+        self.allowedSubdomains = try container.sdkDecodeRequired(.allowedSubdomains)
+        self.subdomainAllowlistEnabled = try container.sdkDecodeRequired(.subdomainAllowlistEnabled)
+        self.workspaceId = try container.sdkDecodeNullable(.workspaceId)
     }
 }
 
-public extension Instance {
-    init(
-        object: InstanceObject,
-        id: String,
-        environmentType: String,
-        allowedOrigins: [String]?,
-        allowedSubdomains: [String],
-        subdomainAllowlistEnabled: Bool,
-        workspaceId: String?
-    ) {
+extension Instance {
+    public init(object: InstanceObject, id: String, environmentType: String, allowedOrigins: [String]?, allowedSubdomains: [String], subdomainAllowlistEnabled: Bool, workspaceId: String?) {
         (self.object, self.id) = (object, id)
         (self.environmentType, self.allowedOrigins) = (environmentType, allowedOrigins)
         self.allowedSubdomains = allowedSubdomains
@@ -127,15 +89,12 @@ public extension Instance {
 public struct InstanceObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let instance = InstanceObject(rawValue: "instance")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

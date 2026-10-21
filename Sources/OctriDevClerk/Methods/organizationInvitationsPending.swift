@@ -6,12 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationInvitationsMethods {
-    /// This request returns the list of organization invitations with "pending" status. These are the organization
-    /// invitations that can still be used to join the organization, but have not been accepted by the invited user yet.
-    /// Results can be paginated using the optional `limit` and `offset` query parameters. The organization invitations
-    /// are ordered by descending creation date. Most recent invitations will be returned first. Any invitations created
-    /// as a result of an Organization Domain are not included in the results.
+extension OrganizationInvitationsMethods {
+    /// This request returns the list of organization invitations with "pending" status. These are the organization invitations that can still be used to join the organization, but have not been accepted by the invited user yet. Results can be paginated using the optional `limit` and `offset` query parameters. The organization invitations are ordered by descending creation date. Most recent invitations will be returned first. Any invitations created as a result of an Organization Domain are not included in the results.
     ///
     /// - Parameters:
     /// - organizationId: The organization ID.
@@ -21,33 +17,18 @@ public extension OrganizationInvitationsMethods {
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    static func listPendingOrganizationInvitations(
-        config: ClientConfig,
-        organizationId: String,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OrganizationInvitations {
-        if let limit {
+    public static func listPendingOrganizationInvitations(config: ClientConfig, organizationId: String, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationInvitations {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/invitations/pending"].joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-            ],
-            decoder: .json,
-            operationId: "ListPendingOrganizationInvitations",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/invitations/pending"].joined(), config: config, query: [
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "ListPendingOrganizationInvitations", options: requestOptions, errors: ["400": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

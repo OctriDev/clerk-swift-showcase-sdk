@@ -8,12 +8,8 @@ import Foundation
 #endif
 public enum SessionsMethods {}
 
-public extension SessionsMethods {
-    /// Returns a list of sessions matching the provided criteria. The sessions are returned sorted by creation date,
-    /// with the newest sessions appearing first. Note: This endpoint does not return all sessions that have ever
-    /// existed. Old and inactive sessions are periodically cleaned up and will not be included in the results.
-    /// **Deprecation Notice (2024-01-01):** All parameters were initially considered optional, however moving forward
-    /// at least one of `client_id` or `user_id` parameters should be provided.
+extension SessionsMethods {
+    /// Returns a list of sessions matching the provided criteria. The sessions are returned sorted by creation date, with the newest sessions appearing first. Note: This endpoint does not return all sessions that have ever existed. Old and inactive sessions are periodically cleaned up and will not be included in the results. **Deprecation Notice (2024-01-01):** All parameters were initially considered optional, however moving forward at least one of `client_id` or `user_id` parameters should be provided.
     ///
     /// - Parameters:
     /// - clientId: List sessions for the given client
@@ -25,70 +21,34 @@ public extension SessionsMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    static func listSessions(
-        config: ClientConfig,
-        clientId: String? = nil,
-        userId: String? = nil,
-        status: ListSessionsParameter? = nil,
-        paginated: Bool? = nil,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> [Session] {
-        if let limit {
+    public static func listSessions(config: ClientConfig, clientId: String? = nil, userId: String? = nil, status: ListSessionsParameter? = nil, paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> [Session] {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/sessions",
-            config: config,
-            query: [
-                SdkQueryParameter("client_id", value: clientId),
-                SdkQueryParameter("user_id", value: userId),
-                SdkQueryParameter("status", value: status),
-                SdkQueryParameter("paginated", value: paginated),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-            ],
-            decoder: .json,
-            operationId: "listSessions",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", "/sessions", config: config, query: [
+            SdkQueryParameter("client_id", value: clientId),
+            SdkQueryParameter("user_id", value: userId),
+            SdkQueryParameter("status", value: status),
+            SdkQueryParameter("paginated", value: paginated),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "listSessions", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 
-    /// Create a new active session for the provided user ID. **This operation is intended only for use in testing, and
-    /// is not available for production instances.** If you are looking to generate a user session from the backend, we
-    /// recommend using the [Sign-in
-    /// Tokens](https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens#operation/CreateSignInToken) resource
-    /// instead.
+    /// Create a new active session for the provided user ID. **This operation is intended only for use in testing, and is not available for production instances.** If you are looking to generate a user session from the backend, we recommend using the [Sign-in Tokens](https://clerk.com/docs/reference/backend-api/tag/Sign-in-Tokens#operation/CreateSignInToken) resource instead.
     ///
     /// - Parameters:
     /// - userId: The ID representing the user
     /// - activeOrganizationId: The ID of the organization to set as active for this
     ///   session
-    static func createSession(
-        config: ClientConfig,
-        userId: String,
-        activeOrganizationId: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Session {
+    public static func createSession(config: ClientConfig, userId: String, activeOrganizationId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> Session {
         let requestBody = CreateSessionRequestBody(userId: userId, activeOrganizationId: activeOrganizationId)
 
-        return try await (sdkRequest(
-            "POST",
-            "/sessions",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "createSession",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("POST", "/sessions", config: config, body: requestBody, decoder: .json, operationId: "createSession", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

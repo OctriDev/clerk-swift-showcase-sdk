@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension SamlConnectionsMethods {
-    struct CreateSAMLConnectionOptions: Codable {
+extension SamlConnectionsMethods {
+    public struct CreateSAMLConnectionOptions: Codable {
         public var name: String
         public var provider: CreateSAMLConnectionRequestBodyProvider
         public var domain: String?
@@ -29,8 +29,7 @@ public extension SamlConnectionsMethods {
         }
     }
 
-    /// Create a new SAML Connection. Deprecated: Use the Enterprise Connections API instead. This endpoint will be
-    /// removed in future versions.
+    /// Create a new SAML Connection. Deprecated: Use the Enterprise Connections API instead. This endpoint will be removed in future versions.
     ///
     /// - Parameters:
     /// - name: The name to use as a label for this SAML Connection
@@ -59,32 +58,13 @@ public extension SamlConnectionsMethods {
     /// - loginHint: Configuration for the login_hint sent to the IdP on SSO sign-in
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    static func createSamlConnection(
-        config: ClientConfig,
-        options: CreateSAMLConnectionOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SAMLConnection {
+    public static func createSamlConnection(config: ClientConfig, options: CreateSAMLConnectionOptions, requestOptions: RequestOptions? = nil) async throws -> SAMLConnection {
         if let idpCertificates = options.idpCertificates {
             try validateItems("idp_certificates", idpCertificates, min: 1, max: 5)
         }
 
         let requestBody = CreateSamlConnectionRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "POST",
-            "/saml_connections",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateSAMLConnection",
-            options: requestOptions,
-            errors: [
-                "402": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "409": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/saml_connections", config: config, body: requestBody, decoder: .json, operationId: "CreateSAMLConnection", options: requestOptions, errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

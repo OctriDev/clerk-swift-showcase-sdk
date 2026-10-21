@@ -6,34 +6,15 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension UsersMethods {
-    /// Deletes an external account associated with a user. Supply the `user_id` and `external_account_id` for the
-    /// account you want to remove.
+extension UsersMethods {
+    /// Deletes an external account associated with a user. Supply the `user_id` and `external_account_id` for the account you want to remove.
     ///
     /// Delete an external account by ID.
     ///
     /// - Parameters:
     /// - userId: The ID of the user's external account
     /// - externalAccountId: The ID of the external account to delete
-    static func deleteExternalAccount(
-        config: ClientConfig,
-        userId: String,
-        externalAccountId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DeletedObject {
-        try await (sdkRequest(
-            "DELETE",
-            [
-                "/users/",
-                sdkEncodePathSegment(sdkWireString(userId)),
-                "/external_accounts/",
-                sdkEncodePathSegment(sdkWireString(externalAccountId)),
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DeleteExternalAccount",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self]
-        )).data
+    public static func deleteExternalAccount(config: ClientConfig, userId: String, externalAccountId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
+        return try (await sdkRequest("DELETE", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/external_accounts/", sdkEncodePathSegment(sdkWireString(externalAccountId))].joined(), config: config, decoder: .json, operationId: "DeleteExternalAccount", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 }

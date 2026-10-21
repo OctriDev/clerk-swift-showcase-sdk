@@ -6,27 +6,14 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension UsersMethods {
-    /// Removes the lock from a user account. Use `user_id` to identify the user whose lock you want to remove. A 200
-    /// response returns the updated user object.
+extension UsersMethods {
+    /// Removes the lock from a user account. Use `user_id` to identify the user whose lock you want to remove. A 200 response returns the updated user object.
     ///
     /// Removes the lock from the given user.
     ///
     /// - Parameters:
     /// - userId: The ID of the user to unlock
-    static func unlockUser(
-        config: ClientConfig,
-        userId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> User {
-        try await (sdkRequest(
-            "POST",
-            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/unlock"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "UnlockUser",
-            options: requestOptions,
-            errors: ["403": ClerkErrors.self]
-        )).data
+    public static func unlockUser(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> User {
+        return try (await sdkRequest("POST", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/unlock"].joined(), config: config, decoder: .json, operationId: "UnlockUser", options: requestOptions, errors: ["403": ClerkErrors.self])).data
     }
 }

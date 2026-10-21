@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// EnterpriseConnections domain models
+// EnterpriseConnections domain models
 /// Typed representation of the `EnterpriseConnections` API schema.
 public struct EnterpriseConnections: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -16,35 +16,25 @@ public struct EnterpriseConnections: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension EnterpriseConnections {
-    init(from decoder: Decoder) throws {
+extension EnterpriseConnections {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
+            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.totalCount = try container.sdkDecodeRequired(.totalCount)
     }
 }
 
-public extension EnterpriseConnections {
-    init(data: [EnterpriseConnection], totalCount: Int) {
+extension EnterpriseConnections {
+    public init(data: [EnterpriseConnection], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }

@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationInvitationsMethods {
-    struct CreateOrganizationInvitationOptions: Codable {
+extension OrganizationInvitationsMethods {
+    public struct CreateOrganizationInvitationOptions: Codable {
         public var organizationId: String
         public var emailAddress: String
         public var role: String
@@ -25,17 +25,7 @@ public extension OrganizationInvitationsMethods {
         }
     }
 
-    /// Creates a new organization invitation and sends an email to the provided `email_address` with a link to accept
-    /// the invitation and join the organization. You can specify the `role` for the invited organization member. New
-    /// organization invitations get a "pending" status until they are revoked by an organization administrator or
-    /// accepted by the invitee. The request body supports passing an optional `redirect_url` parameter. When the
-    /// invited user clicks the link to accept the invitation, they will be redirected to the URL provided. Use this
-    /// parameter to implement a custom invitation acceptance flow. You can specify the ID of the user that will send
-    /// the invitation with the `inviter_user_id` parameter. That user must be a member with administrator privileges in
-    /// the organization. Only "admin" members can create organization invitations. You can optionally provide public
-    /// and private metadata for the organization invitation. The public metadata are visible by both the Frontend and
-    /// the Backend whereas the private ones only by the Backend. When the organization invitation is accepted, the
-    /// metadata will be transferred to the newly created organization membership.
+    /// Creates a new organization invitation and sends an email to the provided `email_address` with a link to accept the invitation and join the organization. You can specify the `role` for the invited organization member. New organization invitations get a "pending" status until they are revoked by an organization administrator or accepted by the invitee. The request body supports passing an optional `redirect_url` parameter. When the invited user clicks the link to accept the invitation, they will be redirected to the URL provided. Use this parameter to implement a custom invitation acceptance flow. You can specify the ID of the user that will send the invitation with the `inviter_user_id` parameter. That user must be a member with administrator privileges in the organization. Only "admin" members can create organization invitations. You can optionally provide public and private metadata for the organization invitation. The public metadata are visible by both the Frontend and the Backend whereas the private ones only by the Backend. When the organization invitation is accepted, the metadata will be transferred to the newly created organization membership.
     ///
     /// - Parameters:
     /// - organizationId: The ID of the organization for which to send the
@@ -59,32 +49,13 @@ public extension OrganizationInvitationsMethods {
     ///   default, the invitation has a 30 days expire.
     /// - notify: Optional flag which denotes whether an email invitation should be
     ///   sent to the given email address. Defaults to `true`.
-    static func createOrganizationInvitation(
-        config: ClientConfig,
-        options: CreateOrganizationInvitationOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OrganizationInvitation {
+    public static func createOrganizationInvitation(config: ClientConfig, options: CreateOrganizationInvitationOptions, requestOptions: RequestOptions? = nil) async throws -> OrganizationInvitation {
         if let expiresInDays = options.expiresInDays?.valueOrNil {
             try validateRange("expires_in_days", Double(expiresInDays), min: 1, max: 365)
         }
 
         let requestBody = CreateOrganizationInvitationRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/organizations/", sdkEncodePathSegment(sdkWireString(options.organizationId)), "/invitations"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateOrganizationInvitation",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "402": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/organizations/", sdkEncodePathSegment(sdkWireString(options.organizationId)), "/invitations"].joined(), config: config, body: requestBody, decoder: .json, operationId: "CreateOrganizationInvitation", options: requestOptions, errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

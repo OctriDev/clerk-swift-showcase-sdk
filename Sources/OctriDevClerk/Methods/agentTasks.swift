@@ -8,9 +8,8 @@ import Foundation
 #endif
 public enum AgentTasksMethods {}
 
-public extension AgentTasksMethods {
-    /// Create an agent task on behalf of a user. The response contains a URL that, when visited, creates a session for
-    /// the user. The agent_id is stable per agent_name within an instance. The agent_task_id is unique per call.
+extension AgentTasksMethods {
+    /// Create an agent task on behalf of a user. The response contains a URL that, when visited, creates a session for the user. The agent_id is stable per agent_name within an instance. The agent_task_id is unique per call.
     ///
     /// - Parameters:
     /// - onBehalfOf: Identifies the user on whose behalf the agent task is created.
@@ -30,36 +29,11 @@ public extension AgentTasksMethods {
     /// - sessionMaxDurationInSeconds: The maximum duration that the session which
     ///   will be created by the generated agent task should last. By default, the
     ///   duration of a session created via an agent task lasts 30 minutes.
-    static func createAgentTask(
-        config: ClientConfig,
-        onBehalfOf: CreateAgentTaskRequestBodyOnBehalfOf,
-        permissions: CreateAgentTaskRequestBodyPermissions,
-        agentName: String,
-        taskDescription: String,
-        redirectUrl: String,
-        sessionMaxDurationInSeconds: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> AgentTask {
+    public static func createAgentTask(config: ClientConfig, onBehalfOf: CreateAgentTaskRequestBodyOnBehalfOf, permissions: CreateAgentTaskRequestBodyPermissions, agentName: String, taskDescription: String, redirectUrl: String, sessionMaxDurationInSeconds: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> AgentTask {
         try sdkValidateUri("redirect_url", redirectUrl)
 
-        let requestBody = CreateAgentTaskRequestBody(
-            onBehalfOf: onBehalfOf,
-            permissions: permissions,
-            agentName: agentName,
-            taskDescription: taskDescription,
-            redirectUrl: redirectUrl,
-            sessionMaxDurationInSeconds: sessionMaxDurationInSeconds
-        )
+        let requestBody = CreateAgentTaskRequestBody(onBehalfOf: onBehalfOf, permissions: permissions, agentName: agentName, taskDescription: taskDescription, redirectUrl: redirectUrl, sessionMaxDurationInSeconds: sessionMaxDurationInSeconds)
 
-        return try await (sdkRequest(
-            "POST",
-            "/agents/tasks",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateAgentTask",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("POST", "/agents/tasks", config: config, body: requestBody, decoder: .json, operationId: "CreateAgentTask", options: requestOptions, errors: ["400": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

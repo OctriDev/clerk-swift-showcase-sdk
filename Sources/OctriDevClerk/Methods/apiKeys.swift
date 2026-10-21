@@ -8,8 +8,8 @@ import Foundation
 #endif
 public enum ApiKeysMethods {}
 
-public extension ApiKeysMethods {
-    struct CreateApiKeyOptions: Codable {
+extension ApiKeysMethods {
+    public struct CreateApiKeyOptions: Codable {
         public var name: String
         public var subject: String
         public var type: String?
@@ -25,13 +25,8 @@ public extension ApiKeysMethods {
         }
     }
 
-    /// Creates an API key for the specified subject. Supply `name` and `subject`, and provide optional claims, scopes,
-    /// creator, and expiration settings as needed. The response includes the key secret, so handle it as a credential.
-    static func createApiKey(
-        config: ClientConfig,
-        options: CreateApiKeyOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> CreateApiKeyResponse {
+    /// Creates an API key for the specified subject. Supply `name` and `subject`, and provide optional claims, scopes, creator, and expiration settings as needed. The response includes the key secret, so handle it as a credential.
+    public static func createApiKey(config: ClientConfig, options: CreateApiKeyOptions, requestOptions: RequestOptions? = nil) async throws -> CreateApiKeyResponse {
         try validateLength("name", options.name, min: 3)
         try sdkValidatePattern("name", options.name, sdkPattern4ec7a429f183)
 
@@ -55,44 +50,26 @@ public extension ApiKeysMethods {
 
         let requestBody = CreateApiKeyRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "POST",
-            "/api_keys",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "createApiKey",
-            options: requestOptions
-        )).data
+        return try (await sdkRequest("POST", "/api_keys", config: config, body: requestBody, decoder: .json, operationId: "createApiKey", options: requestOptions)).data
     }
 
-    /// Lists API keys associated with a specified subject. Use `include_invalid` to control whether invalid keys are
-    /// included, and use `query` to filter the results. Use `limit` and `offset` to paginate the results.
-    static func listApiKeys(
-        config: ClientConfig,
-        subject: String,
-        type: String? = nil,
-        includeInvalid: ListApiKeysParameter? = nil,
-        limit: Double? = nil,
-        offset: Double? = nil,
-        query: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> ListApiKeysResponse {
+    /// Lists API keys associated with a specified subject. Use `include_invalid` to control whether invalid keys are included, and use `query` to filter the results. Use `limit` and `offset` to paginate the results.
+    public static func listApiKeys(config: ClientConfig, subject: String, type: String? = nil, includeInvalid: ListApiKeysParameter? = nil, limit: Double? = nil, offset: Double? = nil, query: String? = nil, requestOptions: RequestOptions? = nil) async throws -> ListApiKeysResponse {
         try sdkValidatePattern("subject", subject, sdkPattern0d567ba9fa16)
 
-        if let type {
+        if let type = type {
             try validateLength("type", type, min: 3)
         }
 
-        if let limit {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 100)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest("GET", "/api_keys", config: config, query: [
+        return try (await sdkRequest("GET", "/api_keys", config: config, query: [
             SdkQueryParameter("subject", value: subject),
             SdkQueryParameter("type", value: type),
             SdkQueryParameter("include_invalid", value: includeInvalid),
@@ -102,44 +79,22 @@ public extension ApiKeysMethods {
         ], decoder: .json, operationId: "listApiKeys", options: requestOptions)).data
     }
 
-    /// Retrieves an API key by its identifier. Supply the key ID in the path using either the `ak_` or `api_key_`
-    /// prefix followed by 32 hexadecimal characters. The response contains the key's configuration and status.
-    static func getApiKey(
-        config: ClientConfig,
-        apiKeyId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> GetApiKeyResponse {
+    /// Retrieves an API key by its identifier. Supply the key ID in the path using either the `ak_` or `api_key_` prefix followed by 32 hexadecimal characters. The response contains the key's configuration and status.
+    public static func getApiKey(config: ClientConfig, apiKeyId: String, requestOptions: RequestOptions? = nil) async throws -> GetApiKeyResponse {
         try sdkValidatePattern("apiKeyID", apiKeyId, sdkPattern4f1a58be85d5)
 
-        return try await (sdkRequest(
-            "GET",
-            ["/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "getApiKey",
-            options: requestOptions
-        )).data
+        return try (await sdkRequest("GET", ["/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId))].joined(), config: config, decoder: .json, operationId: "getApiKey", options: requestOptions)).data
     }
 
-    /// Updates configurable properties of an API key. Include only the fields you want to change, such as `scopes`,
-    /// `description`, `subject`, or `seconds_until_expiration`. The response contains the updated API key object.
-    static func updateApiKey(
-        config: ClientConfig,
-        apiKeyId: String,
-        claims: SdkOptional<JSONValue>? = nil,
-        scopes: [String]? = nil,
-        description: SdkOptional<String>? = nil,
-        subject: String? = nil,
-        secondsUntilExpiration: SdkOptional<Double>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> UpdateApiKeyResponse {
+    /// Updates configurable properties of an API key. Include only the fields you want to change, such as `scopes`, `description`, `subject`, or `seconds_until_expiration`. The response contains the updated API key object.
+    public static func updateApiKey(config: ClientConfig, apiKeyId: String, claims: SdkOptional<JSONValue>? = nil, scopes: [String]? = nil, description: SdkOptional<String>? = nil, subject: String? = nil, secondsUntilExpiration: SdkOptional<Double>? = nil, requestOptions: RequestOptions? = nil) async throws -> UpdateApiKeyResponse {
         try sdkValidatePattern("apiKeyID", apiKeyId, sdkPattern4f1a58be85d5)
 
         if let description = description?.valueOrNil {
             try validateLength("description", description, max: 255)
         }
 
-        if let subject {
+        if let subject = subject {
             try sdkValidatePattern("subject", subject, sdkPattern0d567ba9fa16)
         }
 
@@ -147,22 +102,8 @@ public extension ApiKeysMethods {
             try validateRange("seconds_until_expiration", Double(secondsUntilExpiration), exclusiveMin: 0)
         }
 
-        let requestBody = UpdateApiKeyRequestBody(
-            claims: claims,
-            scopes: scopes,
-            description: description,
-            subject: subject,
-            secondsUntilExpiration: secondsUntilExpiration
-        )
+        let requestBody = UpdateApiKeyRequestBody(claims: claims, scopes: scopes, description: description, subject: subject, secondsUntilExpiration: secondsUntilExpiration)
 
-        return try await (sdkRequest(
-            "PATCH",
-            ["/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId))].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "updateApiKey",
-            options: requestOptions
-        )).data
+        return try (await sdkRequest("PATCH", ["/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "updateApiKey", options: requestOptions)).data
     }
 }

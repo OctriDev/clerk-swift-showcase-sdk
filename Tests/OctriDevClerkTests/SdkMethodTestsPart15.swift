@@ -35,8 +35,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.listBiometricCredentials(
-                userId: decoded("\"user-1\"")
-            )
+            userId: decoded("\"user-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -135,8 +135,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.list(
-                options: options
-            )
+            options: options
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -181,8 +181,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.listTrustedDevices(
-                userId: decoded("\"user-1\"")
-            )
+            userId: decoded("\"user-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -249,8 +249,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.lock(
-                userId: decoded("\"user-1\"")
-            )
+            userId: decoded("\"user-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 403)
@@ -297,10 +297,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizations.mergeMetadata(
-                organizationId: decoded("\"organization-1\""),
-                publicMetadata: decoded("{}"),
-                privateMetadata: decoded("{}")
-            )
+            organizationId: decoded("\"organization-1\""),
+            publicMetadata: decoded("{}"),
+            privateMetadata: decoded("{}")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -334,8 +334,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testPrepareEmailAddressVerificationPrepareEmailAddressVerification400ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testPrepareEmailAddressVerificationPrepareEmailAddressVerification400ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -346,8 +345,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.emailAddresses.prepareEmailAddressVerification(
-                emailAddressId: decoded("\"email_address-1\"")
-            )
+            emailAddressId: decoded("\"email_address-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -381,8 +380,7 @@ extension SdkMethodTests {
         )
     }
 
-    func testPreparePhoneNumberVerificationPreparePhoneNumberVerification400ReachesMockAndDecodesResponse(
-    ) async throws {
+    func testPreparePhoneNumberVerificationPreparePhoneNumberVerification400ReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -393,8 +391,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.phoneNumbers.prepareVerification(
-                phoneNumberId: decoded("\"phone_number-1\"")
-            )
+            phoneNumberId: decoded("\"phone_number-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -444,13 +442,13 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.emailSmsTemplates.previewTemplate(
-                templateType: decoded("\"template_type\""),
-                slug: decoded("\"slug\""),
-                subject: decoded("\"subject\""),
-                body: decoded("\"body\""),
-                fromEmailName: decoded("\"user@example.com\""),
-                replyToEmailName: decoded("\"user@example.com\"")
-            )
+            templateType: decoded("\"template_type\""),
+            slug: decoded("\"slug\""),
+            subject: decoded("\"subject\""),
+            body: decoded("\"body\""),
+            fromEmailName: decoded("\"user@example.com\""),
+            replyToEmailName: decoded("\"user@example.com\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -501,14 +499,14 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.sessions.refresh(
-                sessionId: decoded("\"session-1\""),
-                expiredToken: decoded("\"expired_token\""),
-                refreshToken: decoded("\"refresh_token\""),
-                requestOrigin: decoded("\"request_origin\""),
-                requestHeaders: decoded("{}"),
-                format: decoded("\"token\""),
-                requestOriginatingIp: decoded("\"request_originating_ip\"")
-            )
+            sessionId: decoded("\"session-1\""),
+            expiredToken: decoded("\"expired_token\""),
+            refreshToken: decoded("\"refresh_token\""),
+            requestOrigin: decoded("\"request_origin\""),
+            requestHeaders: decoded("{}"),
+            format: decoded("\"token\""),
+            requestOriginatingIp: decoded("\"request_originating_ip\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -553,8 +551,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.waitlistEntries.reject(
-                waitlistEntryId: decoded("\"waitlist_entry-1\"")
-            )
+            waitlistEntryId: decoded("\"waitlist_entry-1\"")
+        )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)

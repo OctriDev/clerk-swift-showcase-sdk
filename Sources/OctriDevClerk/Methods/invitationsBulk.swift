@@ -6,35 +6,15 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension InvitationsMethods {
-    /// Creates multiple invitations for the supplied email addresses. Include an `email_address` in each item; set
-    /// `ignore_existing` to allow an existing invitation, but you cannot invite an address associated with an existing
-    /// user. Send at most 10 invitations per request, and use `notify` to control whether invitation emails are sent.
+extension InvitationsMethods {
+    /// Creates multiple invitations for the supplied email addresses. Include an `email_address` in each item; set `ignore_existing` to allow an existing invitation, but you cannot invite an address associated with an existing user. Send at most 10 invitations per request, and use `notify` to control whether invitation emails are sent.
     ///
-    /// Use this API operation to create multiple invitations for the provided email addresses. You can choose to send
-    /// the invitations as emails by setting the `notify` parameter to `true`. There cannot be an existing invitation
-    /// for any of the email addresses you provide unless you set `ignore_existing` to `true` for specific email
-    /// addresses. Please note that there must be no existing user for any of the email addresses you provide, and this
-    /// rule cannot be bypassed. This endpoint is limited to a maximum of 10 invitations per API call. If you need to
-    /// send more invitations, please make multiple requests.
-    static func createBulkInvitations(
-        config: ClientConfig,
-        body: [CreateBulkInvitationsRequestBodyItem]? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> [Invitation] {
-        if let body {
+    /// Use this API operation to create multiple invitations for the provided email addresses. You can choose to send the invitations as emails by setting the `notify` parameter to `true`. There cannot be an existing invitation for any of the email addresses you provide unless you set `ignore_existing` to `true` for specific email addresses. Please note that there must be no existing user for any of the email addresses you provide, and this rule cannot be bypassed. This endpoint is limited to a maximum of 10 invitations per API call. If you need to send more invitations, please make multiple requests.
+    public static func createBulkInvitations(config: ClientConfig, body: [CreateBulkInvitationsRequestBodyItem]? = nil, requestOptions: RequestOptions? = nil) async throws -> [Invitation] {
+        if let body = body {
             try validateItems("body", body, min: 1, max: 10)
         }
 
-        return try await (sdkRequest(
-            "POST",
-            "/invitations/bulk",
-            config: config,
-            rawBody: (body.map { try sdkEncodeBody($0, contentType: "application/json") }),
-            decoder: .json,
-            operationId: "CreateBulkInvitations",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("POST", "/invitations/bulk", config: config, rawBody: (try body.map { try sdkEncodeBody($0, contentType: "application/json") }), decoder: .json, operationId: "CreateBulkInvitations", options: requestOptions, errors: ["400": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

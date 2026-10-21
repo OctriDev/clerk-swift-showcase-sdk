@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension WaitlistEntriesMethods {
+extension WaitlistEntriesMethods {
     /// Send an invite to the email address in a waitlist entry.
     ///
     /// - Parameters:
@@ -14,23 +14,9 @@ public extension WaitlistEntriesMethods {
     /// - ignoreExisting: Whether an invitation should be created if there is
     ///   already an existing invitation for this email address, or it's claimed by
     ///   another user.
-    static func inviteWaitlistEntry(
-        config: ClientConfig,
-        waitlistEntryId: String,
-        ignoreExisting: SdkOptional<Bool>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> WaitlistEntry {
+    public static func inviteWaitlistEntry(config: ClientConfig, waitlistEntryId: String, ignoreExisting: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> WaitlistEntry {
         let requestBody = InviteWaitlistEntryRequestBody(ignoreExisting: ignoreExisting)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/waitlist_entries/", sdkEncodePathSegment(sdkWireString(waitlistEntryId)), "/invite"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "InviteWaitlistEntry",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("POST", ["/waitlist_entries/", sdkEncodePathSegment(sdkWireString(waitlistEntryId)), "/invite"].joined(), config: config, body: requestBody, decoder: .json, operationId: "InviteWaitlistEntry", options: requestOptions, errors: ["400": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

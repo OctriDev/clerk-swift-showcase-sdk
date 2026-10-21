@@ -6,65 +6,26 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationRolesMethods {
-    /// Assigns a permission to an organization role. Use the `organization_role_id` and `permission_id` path parameters
-    /// to identify the role and permission to link. The response contains the updated role and its permissions.
+extension OrganizationRolesMethods {
+    /// Assigns a permission to an organization role. Use the `organization_role_id` and `permission_id` path parameters to identify the role and permission to link. The response contains the updated role and its permissions.
     ///
     /// Assigns a permission to an organization role
     ///
     /// - Parameters:
     /// - organizationRoleId: The ID of the organization role
     /// - permissionId: The ID of the permission to assign
-    static func assignPermissionToOrganizationRole(
-        config: ClientConfig,
-        organizationRoleId: String,
-        permissionId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Role {
-        try await (sdkRequest(
-            "POST",
-            [
-                "/organization_roles/",
-                sdkEncodePathSegment(sdkWireString(organizationRoleId)),
-                "/permissions/",
-                sdkEncodePathSegment(sdkWireString(permissionId)),
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "AssignPermissionToOrganizationRole",
-            options: requestOptions,
-            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self]
-        )).data
+    public static func assignPermissionToOrganizationRole(config: ClientConfig, organizationRoleId: String, permissionId: String, requestOptions: RequestOptions? = nil) async throws -> Role {
+        return try (await sdkRequest("POST", ["/organization_roles/", sdkEncodePathSegment(sdkWireString(organizationRoleId)), "/permissions/", sdkEncodePathSegment(sdkWireString(permissionId))].joined(), config: config, decoder: .json, operationId: "AssignPermissionToOrganizationRole", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self])).data
     }
 
-    /// Removes a permission from an organization role. Use the `organization_role_id` and `permission_id` path
-    /// parameters to identify the role and permission to unlink. The response contains the updated role and its
-    /// remaining permissions.
+    /// Removes a permission from an organization role. Use the `organization_role_id` and `permission_id` path parameters to identify the role and permission to unlink. The response contains the updated role and its remaining permissions.
     ///
     /// Removes a permission from an organization role
     ///
     /// - Parameters:
     /// - organizationRoleId: The ID of the organization role
     /// - permissionId: The ID of the permission to remove
-    static func removePermissionFromOrganizationRole(
-        config: ClientConfig,
-        organizationRoleId: String,
-        permissionId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Role {
-        try await (sdkRequest(
-            "DELETE",
-            [
-                "/organization_roles/",
-                sdkEncodePathSegment(sdkWireString(organizationRoleId)),
-                "/permissions/",
-                sdkEncodePathSegment(sdkWireString(permissionId)),
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "RemovePermissionFromOrganizationRole",
-            options: requestOptions,
-            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+    public static func removePermissionFromOrganizationRole(config: ClientConfig, organizationRoleId: String, permissionId: String, requestOptions: RequestOptions? = nil) async throws -> Role {
+        return try (await sdkRequest("DELETE", ["/organization_roles/", sdkEncodePathSegment(sdkWireString(organizationRoleId)), "/permissions/", sdkEncodePathSegment(sdkWireString(permissionId))].joined(), config: config, decoder: .json, operationId: "RemovePermissionFromOrganizationRole", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

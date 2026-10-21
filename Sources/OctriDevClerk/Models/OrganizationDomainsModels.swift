@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// OrganizationDomains domain models
+// OrganizationDomains domain models
 /// Typed representation of the `OrganizationDomains` API schema.
 public struct OrganizationDomains: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -16,35 +16,25 @@ public struct OrganizationDomains: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension OrganizationDomains {
-    init(from decoder: Decoder) throws {
+extension OrganizationDomains {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
+            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.totalCount = try container.sdkDecodeRequired(.totalCount)
     }
 }
 
-public extension OrganizationDomains {
-    init(data: [OrganizationDomain], totalCount: Int) {
+extension OrganizationDomains {
+    public init(data: [OrganizationDomain], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -71,59 +61,37 @@ public struct OrganizationDomainVerification: Codable {
         case verifiedAt = "verified_at"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension OrganizationDomainVerification {
-    init(from decoder: Decoder) throws {
+extension OrganizationDomainVerification {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.status) else {
-            throw SdkValidationError(
-                field: "status",
-                code: "required",
-                message: "Validation failed for 'status': value is required"
-            )
+            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
         }
         guard container.contains(.strategy) else {
-            throw SdkValidationError(
-                field: "strategy",
-                code: "required",
-                message: "Validation failed for 'strategy': value is required"
-            )
+            throw SdkValidationError(field: "strategy", code: "required", message: "Validation failed for 'strategy': value is required")
         }
         guard container.contains(.attempts) else {
-            throw SdkValidationError(
-                field: "attempts",
-                code: "required",
-                message: "Validation failed for 'attempts': value is required"
-            )
+            throw SdkValidationError(field: "attempts", code: "required", message: "Validation failed for 'attempts': value is required")
         }
         guard container.contains(.expireAt) else {
-            throw SdkValidationError(
-                field: "expire_at",
-                code: "required",
-                message: "Validation failed for 'expire_at': value is required"
-            )
+            throw SdkValidationError(field: "expire_at", code: "required", message: "Validation failed for 'expire_at': value is required")
         }
         guard container.contains(.verifiedAt) else {
-            throw SdkValidationError(
-                field: "verified_at",
-                code: "required",
-                message: "Validation failed for 'verified_at': value is required"
-            )
+            throw SdkValidationError(field: "verified_at", code: "required", message: "Validation failed for 'verified_at': value is required")
         }
-        status = try container.sdkDecodeRequired(.status)
-        strategy = try container.sdkDecodeRequired(.strategy)
-        attempts = try container.sdkDecodeNullable(.attempts)
-        expireAt = try container.sdkDecodeNullable(.expireAt)
-        verifiedAt = try container.sdkDecodeNullable(.verifiedAt)
+        self.status = try container.sdkDecodeRequired(.status)
+        self.strategy = try container.sdkDecodeRequired(.strategy)
+        self.attempts = try container.sdkDecodeNullable(.attempts)
+        self.expireAt = try container.sdkDecodeNullable(.expireAt)
+        self.verifiedAt = try container.sdkDecodeNullable(.verifiedAt)
     }
 }
 
-public extension OrganizationDomainVerification {
-    init(status: String, strategy: String, attempts: Int?, expireAt: Int?, verifiedAt: Int?) {
+extension OrganizationDomainVerification {
+    public init(status: String, strategy: String, attempts: Int?, expireAt: Int?, verifiedAt: Int?) {
         (self.status, self.strategy) = (status, strategy)
         (self.attempts, self.expireAt) = (attempts, expireAt)
         self.verifiedAt = verifiedAt
@@ -182,48 +150,31 @@ public struct OrganizationDomain: Codable {
         case publicOrganizationData = "public_organization_data"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension OrganizationDomain {
-    init(from decoder: Decoder) throws {
+extension OrganizationDomain {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeRequired(.object)
-        id = try container.sdkDecodeRequired(.id)
-        organizationId = try container.sdkDecodeRequired(.organizationId)
-        name = try container.sdkDecodeRequired(.name)
-        enrollmentMode = try container.sdkDecodeRequired(.enrollmentMode)
-        affiliationEmailAddress = try container.sdkDecodeNullable(.affiliationEmailAddress)
-        affiliationVerification = try container.sdkDecodeNullable(.affiliationVerification)
-        ownershipVerification = try container.sdkDecodeNullable(.ownershipVerification)
-        verification = try container.sdkDecodeNullable(.verification)
-        totalPendingInvitations = try container.sdkDecodeRequired(.totalPendingInvitations)
-        totalPendingSuggestions = try container.sdkDecodeRequired(.totalPendingSuggestions)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        publicOrganizationData = try container.sdkDecodeIfPresent(.publicOrganizationData)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.organizationId = try container.sdkDecodeRequired(.organizationId)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.enrollmentMode = try container.sdkDecodeRequired(.enrollmentMode)
+        self.affiliationEmailAddress = try container.sdkDecodeNullable(.affiliationEmailAddress)
+        self.affiliationVerification = try container.sdkDecodeNullable(.affiliationVerification)
+        self.ownershipVerification = try container.sdkDecodeNullable(.ownershipVerification)
+        self.verification = try container.sdkDecodeNullable(.verification)
+        self.totalPendingInvitations = try container.sdkDecodeRequired(.totalPendingInvitations)
+        self.totalPendingSuggestions = try container.sdkDecodeRequired(.totalPendingSuggestions)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.publicOrganizationData = try container.sdkDecodeIfPresent(.publicOrganizationData)
     }
 }
 
-public extension OrganizationDomain {
-    init(
-        object: OrganizationDomainObject,
-        id: String,
-        organizationId: String,
-        name: String,
-        enrollmentMode: OrganizationDomainEnrollmentMode,
-        affiliationEmailAddress: String?,
-        affiliationVerification: OrganizationDomainVerification?,
-        ownershipVerification: OrganizationDomainVerification?,
-        verification: OrganizationDomainVerification?,
-        totalPendingInvitations: Int,
-        totalPendingSuggestions: Int,
-        createdAt: Int,
-        updatedAt: Int,
-        publicOrganizationData: OrganizationInvitationPublicOrganizationData? = nil
-    ) {
+extension OrganizationDomain {
+    public init(object: OrganizationDomainObject, id: String, organizationId: String, name: String, enrollmentMode: OrganizationDomainEnrollmentMode, affiliationEmailAddress: String?, affiliationVerification: OrganizationDomainVerification?, ownershipVerification: OrganizationDomainVerification?, verification: OrganizationDomainVerification?, totalPendingInvitations: Int, totalPendingSuggestions: Int, createdAt: Int, updatedAt: Int, publicOrganizationData: OrganizationInvitationPublicOrganizationData? = nil) {
         (self.object, self.id) = (object, id)
         (self.organizationId, self.name) = (organizationId, name)
         (self.enrollmentMode, self.affiliationEmailAddress) = (enrollmentMode, affiliationEmailAddress)
@@ -239,10 +190,7 @@ public extension OrganizationDomain {
 public struct OrganizationDomainEnrollmentMode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let manualInvitation = OrganizationDomainEnrollmentMode(rawValue: "manual_invitation")
     public static let automaticInvitation = OrganizationDomainEnrollmentMode(rawValue: "automatic_invitation")
     public static let automaticSuggestion = OrganizationDomainEnrollmentMode(rawValue: "automatic_suggestion")
@@ -250,7 +198,7 @@ public struct OrganizationDomainEnrollmentMode: RawRepresentable, Hashable, Coda
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -264,15 +212,12 @@ public struct OrganizationDomainEnrollmentMode: RawRepresentable, Hashable, Coda
 public struct OrganizationDomainObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let organizationDomain = OrganizationDomainObject(rawValue: "organization_domain")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

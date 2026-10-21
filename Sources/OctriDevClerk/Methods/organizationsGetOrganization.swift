@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationsMethods {
+extension OrganizationsMethods {
     /// Fetches the organization whose ID or slug matches the provided `id_or_slug` URL query parameter.
     ///
     /// - Parameters:
@@ -16,28 +16,10 @@ public extension OrganizationsMethods {
     /// - includeMissingMemberWithElevatedPermissions: Flag to denote whether or not
     ///   to include a member with elevated permissions who is not currently a member
     ///   of the organization.
-    static func getOrganization(
-        config: ClientConfig,
-        organizationId: String,
-        includeMembersCount: Bool? = nil,
-        includeMissingMemberWithElevatedPermissions: Bool? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Organization {
-        try await (sdkRequest(
-            "GET",
-            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId))].joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("include_members_count", value: includeMembersCount),
-                SdkQueryParameter(
-                    "include_missing_member_with_elevated_permissions",
-                    value: includeMissingMemberWithElevatedPermissions
-                ),
-            ],
-            decoder: .json,
-            operationId: "GetOrganization",
-            options: requestOptions,
-            errors: ["403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func getOrganization(config: ClientConfig, organizationId: String, includeMembersCount: Bool? = nil, includeMissingMemberWithElevatedPermissions: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> Organization {
+        return try (await sdkRequest("GET", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId))].joined(), config: config, query: [
+            SdkQueryParameter("include_members_count", value: includeMembersCount),
+            SdkQueryParameter("include_missing_member_with_elevated_permissions", value: includeMissingMemberWithElevatedPermissions),
+        ], decoder: .json, operationId: "GetOrganization", options: requestOptions, errors: ["403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

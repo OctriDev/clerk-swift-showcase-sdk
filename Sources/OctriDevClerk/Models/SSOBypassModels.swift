@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// SSOBypass domain models
+// SSOBypass domain models
 public typealias SSOBypassAllowlistUsers = [SSOBypassAllowlistUser]
 
 /// A user who may verify an email code instead of reaching their identity provider when enterprise SSO is
@@ -28,65 +28,37 @@ public struct SSOBypassAllowlistUser: Codable {
         case updatedAt = "updated_at"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SSOBypassAllowlistUser {
-    init(from decoder: Decoder) throws {
+extension SSOBypassAllowlistUser {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
+            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
         }
         guard container.contains(.userId) else {
-            throw SdkValidationError(
-                field: "user_id",
-                code: "required",
-                message: "Validation failed for 'user_id': value is required"
-            )
+            throw SdkValidationError(field: "user_id", code: "required", message: "Validation failed for 'user_id': value is required")
         }
         guard container.contains(.publicUserData) else {
-            throw SdkValidationError(
-                field: "public_user_data",
-                code: "required",
-                message: "Validation failed for 'public_user_data': value is required"
-            )
+            throw SdkValidationError(field: "public_user_data", code: "required", message: "Validation failed for 'public_user_data': value is required")
         }
         guard container.contains(.createdAt) else {
-            throw SdkValidationError(
-                field: "created_at",
-                code: "required",
-                message: "Validation failed for 'created_at': value is required"
-            )
+            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
         }
         guard container.contains(.updatedAt) else {
-            throw SdkValidationError(
-                field: "updated_at",
-                code: "required",
-                message: "Validation failed for 'updated_at': value is required"
-            )
+            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
         }
-        object = try container.sdkDecodeRequired(.object)
-        userId = try container.sdkDecodeRequired(.userId)
-        publicUserData = try container.sdkDecodeRequired(.publicUserData)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.userId = try container.sdkDecodeRequired(.userId)
+        self.publicUserData = try container.sdkDecodeRequired(.publicUserData)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
     }
 }
 
-public extension SSOBypassAllowlistUser {
-    init(
-        object: SSOBypassAllowlistUserObject,
-        userId: String,
-        publicUserData: SSOBypassAllowlistPublicUserData,
-        createdAt: Int,
-        updatedAt: Int
-    ) {
+extension SSOBypassAllowlistUser {
+    public init(object: SSOBypassAllowlistUserObject, userId: String, publicUserData: SSOBypassAllowlistPublicUserData, createdAt: Int, updatedAt: Int) {
         (self.object, self.userId) = (object, userId)
         (self.publicUserData, self.createdAt) = (publicUserData, createdAt)
         self.updatedAt = updatedAt
@@ -120,76 +92,42 @@ public struct SSOBypassAllowlistPublicUserData: Codable {
         case imageUrl = "image_url"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SSOBypassAllowlistPublicUserData {
-    init(from decoder: Decoder) throws {
+extension SSOBypassAllowlistPublicUserData {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.firstName) else {
-            throw SdkValidationError(
-                field: "first_name",
-                code: "required",
-                message: "Validation failed for 'first_name': value is required"
-            )
+            throw SdkValidationError(field: "first_name", code: "required", message: "Validation failed for 'first_name': value is required")
         }
         guard container.contains(.lastName) else {
-            throw SdkValidationError(
-                field: "last_name",
-                code: "required",
-                message: "Validation failed for 'last_name': value is required"
-            )
+            throw SdkValidationError(field: "last_name", code: "required", message: "Validation failed for 'last_name': value is required")
         }
         guard container.contains(.hasImage) else {
-            throw SdkValidationError(
-                field: "has_image",
-                code: "required",
-                message: "Validation failed for 'has_image': value is required"
-            )
+            throw SdkValidationError(field: "has_image", code: "required", message: "Validation failed for 'has_image': value is required")
         }
         guard container.contains(.identifier) else {
-            throw SdkValidationError(
-                field: "identifier",
-                code: "required",
-                message: "Validation failed for 'identifier': value is required"
-            )
+            throw SdkValidationError(field: "identifier", code: "required", message: "Validation failed for 'identifier': value is required")
         }
         guard container.contains(.username) else {
-            throw SdkValidationError(
-                field: "username",
-                code: "required",
-                message: "Validation failed for 'username': value is required"
-            )
+            throw SdkValidationError(field: "username", code: "required", message: "Validation failed for 'username': value is required")
         }
         guard container.contains(.profileImageUrl) else {
-            throw SdkValidationError(
-                field: "profile_image_url",
-                code: "required",
-                message: "Validation failed for 'profile_image_url': value is required"
-            )
+            throw SdkValidationError(field: "profile_image_url", code: "required", message: "Validation failed for 'profile_image_url': value is required")
         }
-        firstName = try container.sdkDecodeNullable(.firstName)
-        lastName = try container.sdkDecodeNullable(.lastName)
-        hasImage = try container.sdkDecodeRequired(.hasImage)
-        identifier = try container.sdkDecodeRequired(.identifier)
-        username = try container.sdkDecodeNullable(.username)
-        profileImageUrl = try container.sdkDecodeNullable(.profileImageUrl)
-        imageUrl = try container.sdkDecodeIfPresent(.imageUrl)
+        self.firstName = try container.sdkDecodeNullable(.firstName)
+        self.lastName = try container.sdkDecodeNullable(.lastName)
+        self.hasImage = try container.sdkDecodeRequired(.hasImage)
+        self.identifier = try container.sdkDecodeRequired(.identifier)
+        self.username = try container.sdkDecodeNullable(.username)
+        self.profileImageUrl = try container.sdkDecodeNullable(.profileImageUrl)
+        self.imageUrl = try container.sdkDecodeIfPresent(.imageUrl)
     }
 }
 
-public extension SSOBypassAllowlistPublicUserData {
-    init(
-        firstName: String?,
-        lastName: String?,
-        hasImage: Bool,
-        identifier: String,
-        username: String?,
-        profileImageUrl: String?,
-        imageUrl: String? = nil
-    ) {
+extension SSOBypassAllowlistPublicUserData {
+    public init(firstName: String?, lastName: String?, hasImage: Bool, identifier: String, username: String?, profileImageUrl: String?, imageUrl: String? = nil) {
         (self.firstName, self.lastName) = (firstName, lastName)
         (self.hasImage, self.identifier) = (hasImage, identifier)
         (self.username, self.profileImageUrl) = (username, profileImageUrl)
@@ -201,15 +139,12 @@ public extension SSOBypassAllowlistPublicUserData {
 public struct SSOBypassAllowlistUserObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let ssoBypassAllowlistUser = SSOBypassAllowlistUserObject(rawValue: "sso_bypass_allowlist_user")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

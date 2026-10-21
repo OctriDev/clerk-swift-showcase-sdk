@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension BillingMethods {
-    struct GetCommerceSubscriptionItemListOptions: Codable {
+extension BillingMethods {
+    public struct GetCommerceSubscriptionItemListOptions: Codable {
         public var paginated: Bool?
         public var limit: Int?
         public var offset: Int?
@@ -20,9 +20,7 @@ public extension BillingMethods {
         public init() {}
     }
 
-    /// Returns a list of all subscription items for the instance. The subscription items are returned sorted by
-    /// creation date, with the newest appearing first. This includes subscriptions for both users and organizations.
-    /// Pagination is supported.
+    /// Returns a list of all subscription items for the instance. The subscription items are returned sorted by creation date, with the newest appearing first. This includes subscriptions for both users and organizations. Pagination is supported.
     ///
     /// - Parameters:
     /// - paginated: Whether to paginate the results. If true, the results will be
@@ -36,11 +34,7 @@ public extension BillingMethods {
     /// - planId: Filter subscription items by plan ID
     /// - includeFree: Whether to include free plan subscription items
     /// - query: Search query to filter subscription items
-    static func getCommerceSubscriptionItemList(
-        config: ClientConfig,
-        options: GetCommerceSubscriptionItemListOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> PaginatedCommerceSubscriptionItemResponse {
+    public static func getCommerceSubscriptionItemList(config: ClientConfig, options: GetCommerceSubscriptionItemListOptions, requestOptions: RequestOptions? = nil) async throws -> PaginatedCommerceSubscriptionItemResponse {
         if let limit = options.limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
@@ -49,24 +43,15 @@ public extension BillingMethods {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/billing/subscription_items",
-            config: config,
-            query: [
-                SdkQueryParameter("paginated", value: options.paginated),
-                SdkQueryParameter("limit", value: options.limit),
-                SdkQueryParameter("offset", value: options.offset),
-                SdkQueryParameter("status", value: options.status),
-                SdkQueryParameter("payer_type", value: options.payerType),
-                SdkQueryParameter("plan_id", value: options.planId),
-                SdkQueryParameter("include_free", value: options.includeFree),
-                SdkQueryParameter("query", value: options.query),
-            ],
-            decoder: .json,
-            operationId: "GetCommerceSubscriptionItemList",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", "/billing/subscription_items", config: config, query: [
+            SdkQueryParameter("paginated", value: options.paginated),
+            SdkQueryParameter("limit", value: options.limit),
+            SdkQueryParameter("offset", value: options.offset),
+            SdkQueryParameter("status", value: options.status),
+            SdkQueryParameter("payer_type", value: options.payerType),
+            SdkQueryParameter("plan_id", value: options.planId),
+            SdkQueryParameter("include_free", value: options.includeFree),
+            SdkQueryParameter("query", value: options.query),
+        ], decoder: .json, operationId: "GetCommerceSubscriptionItemList", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 }

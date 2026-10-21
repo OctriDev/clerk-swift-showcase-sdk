@@ -6,9 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension SessionsMethods {
-    /// Refreshes a session by creating a new session token. A 401 is returned when there are validation errors, which
-    /// signals the SDKs to fall back to the handshake flow.
+extension SessionsMethods {
+    /// Refreshes a session by creating a new session token. A 401 is returned when there are validation errors, which signals the SDKs to fall back to the handshake flow.
     ///
     /// - Parameters:
     /// - sessionId: The ID of the session
@@ -20,35 +19,9 @@ public extension SessionsMethods {
     /// - requestHeaders: The headers of the request.
     /// - format: The format of the response.
     /// - requestOriginatingIp: The IP address of the request.
-    static func refreshSession(
-        config: ClientConfig,
-        sessionId: String,
-        expiredToken: String,
-        refreshToken: String,
-        requestOrigin: String,
-        requestHeaders: SdkOptional<[String: JSONValue]>? = nil,
-        format: SdkOptional<RefreshSessionRequestBodyFormat>? = nil,
-        requestOriginatingIp: SdkOptional<String>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SessionRefresh {
-        let requestBody = RefreshSessionRequestBody(
-            expiredToken: expiredToken,
-            refreshToken: refreshToken,
-            requestOrigin: requestOrigin,
-            requestHeaders: requestHeaders,
-            format: format,
-            requestOriginatingIp: requestOriginatingIp
-        )
+    public static func refreshSession(config: ClientConfig, sessionId: String, expiredToken: String, refreshToken: String, requestOrigin: String, requestHeaders: SdkOptional<[String: JSONValue]>? = nil, format: SdkOptional<RefreshSessionRequestBodyFormat>? = nil, requestOriginatingIp: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> SessionRefresh {
+        let requestBody = RefreshSessionRequestBody(expiredToken: expiredToken, refreshToken: refreshToken, requestOrigin: requestOrigin, requestHeaders: requestHeaders, format: format, requestOriginatingIp: requestOriginatingIp)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "/refresh"].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "RefreshSession",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("POST", ["/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "/refresh"].joined(), config: config, body: requestBody, decoder: .json, operationId: "RefreshSession", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self])).data
     }
 }

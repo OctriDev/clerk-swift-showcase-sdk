@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// EnterpriseConnections domain models
+// EnterpriseConnections domain models
 /// Typed representation of the `EnterpriseConnectionTestRunResponse` API schema.
 public struct EnterpriseConnectionTestRunResponse: Codable {
     /// A short-lived URL that can be used to initiate the test run flow
@@ -13,27 +13,21 @@ public struct EnterpriseConnectionTestRunResponse: Codable {
         case url
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension EnterpriseConnectionTestRunResponse {
-    init(from decoder: Decoder) throws {
+extension EnterpriseConnectionTestRunResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.url) else {
-            throw SdkValidationError(
-                field: "url",
-                code: "required",
-                message: "Validation failed for 'url': value is required"
-            )
+            throw SdkValidationError(field: "url", code: "required", message: "Validation failed for 'url': value is required")
         }
-        url = try container.sdkDecodeRequired(.url)
+        self.url = try container.sdkDecodeRequired(.url)
     }
 }
 
-public extension EnterpriseConnectionTestRunResponse {
-    init(url: String) {
+extension EnterpriseConnectionTestRunResponse {
+    public init(url: String) {
         self.url = url
     }
 }

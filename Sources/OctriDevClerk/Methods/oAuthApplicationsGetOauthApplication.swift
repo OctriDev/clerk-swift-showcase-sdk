@@ -6,24 +6,12 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OAuthApplicationsMethods {
+extension OAuthApplicationsMethods {
     /// Fetches the OAuth application whose ID matches the provided `id` in the path.
     ///
     /// - Parameters:
     /// - oauthApplicationId: The ID of the OAuth application
-    static func getOAuthApplication(
-        config: ClientConfig,
-        oauthApplicationId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OAuthApplication {
-        try await (sdkRequest(
-            "GET",
-            ["/oauth_applications/", sdkEncodePathSegment(sdkWireString(oauthApplicationId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "GetOAuthApplication",
-            options: requestOptions,
-            errors: ["403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func getOAuthApplication(config: ClientConfig, oauthApplicationId: String, requestOptions: RequestOptions? = nil) async throws -> OAuthApplication {
+        return try (await sdkRequest("GET", ["/oauth_applications/", sdkEncodePathSegment(sdkWireString(oauthApplicationId))].joined(), config: config, decoder: .json, operationId: "GetOAuthApplication", options: requestOptions, errors: ["403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

@@ -6,20 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension InstanceSettingsMethods {
-    /// Retrieves the settings for OAuth applications for the instance (dynamic client registration, JWT access tokens,
-    /// etc.).
-    static func getInstanceOAuthApplicationSettings(
-        config: ClientConfig,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OAuthApplicationSettings {
-        try await (sdkRequest(
-            "GET",
-            "/instance/oauth_application_settings",
-            config: config,
-            decoder: .json,
-            operationId: "GetInstanceOAuthApplicationSettings",
-            options: requestOptions
-        )).data
+extension InstanceSettingsMethods {
+    /// Retrieves the settings for OAuth applications for the instance (dynamic client registration, JWT access tokens, etc.).
+    public static func getInstanceOAuthApplicationSettings(config: ClientConfig, requestOptions: RequestOptions? = nil) async throws -> OAuthApplicationSettings {
+        return try (await sdkRequest("GET", "/instance/oauth_application_settings", config: config, decoder: .json, operationId: "GetInstanceOAuthApplicationSettings", options: requestOptions)).data
     }
 }

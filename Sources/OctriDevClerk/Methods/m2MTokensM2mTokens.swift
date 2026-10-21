@@ -6,10 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension M2MTokensMethods {
-    /// Creates a new M2M token for the machine associated with the Machine Secret Key used to authenticate the request.
-    /// Use `token_format` to choose opaque or JWT format and `seconds_until_expiration` to set the token lifetime. Set
-    /// `min_remaining_ttl_seconds` to reuse an eligible existing opaque token instead of minting a new one.
+extension M2MTokensMethods {
+    /// Creates a new M2M token for the machine associated with the Machine Secret Key used to authenticate the request. Use `token_format` to choose opaque or JWT format and `seconds_until_expiration` to set the token lifetime. Set `min_remaining_ttl_seconds` to reuse an eligible existing opaque token instead of minting a new one.
     ///
     /// Creates a new M2M Token. Must be authenticated via a Machine Secret Key.
     ///
@@ -29,37 +27,17 @@ public extension M2MTokensMethods {
     ///   400, since no freshly-minted token would ever satisfy the requirement. Only
     ///   applies to opaque-format tokens (`token_format` defaults to `opaque`).
     ///   JWT-format tokens are stateless and are never deduplicated.
-    static func createM2MToken(
-        config: ClientConfig,
-        tokenFormat: CreateM2MTokenRequestBodyTokenFormat? = nil,
-        secondsUntilExpiration: SdkOptional<Double>? = nil,
-        claims: SdkOptional<JSONValue>? = nil,
-        minRemainingTtlSeconds: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> CreateM2MTokenResponse {
+    public static func createM2MToken(config: ClientConfig, tokenFormat: CreateM2MTokenRequestBodyTokenFormat? = nil, secondsUntilExpiration: SdkOptional<Double>? = nil, claims: SdkOptional<JSONValue>? = nil, minRemainingTtlSeconds: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> CreateM2MTokenResponse {
         if let secondsUntilExpiration = secondsUntilExpiration?.valueOrNil {
             try validateRange("seconds_until_expiration", Double(secondsUntilExpiration), exclusiveMin: 0)
         }
 
-        if let minRemainingTtlSeconds {
+        if let minRemainingTtlSeconds = minRemainingTtlSeconds {
             try validateRange("min_remaining_ttl_seconds", Double(minRemainingTtlSeconds), min: 0)
         }
 
-        let requestBody = CreateM2MTokenRequestBody(
-            tokenFormat: tokenFormat,
-            secondsUntilExpiration: secondsUntilExpiration,
-            claims: claims,
-            minRemainingTtlSeconds: minRemainingTtlSeconds
-        )
+        let requestBody = CreateM2MTokenRequestBody(tokenFormat: tokenFormat, secondsUntilExpiration: secondsUntilExpiration, claims: claims, minRemainingTtlSeconds: minRemainingTtlSeconds)
 
-        return try await (sdkRequest(
-            "POST",
-            "/m2m_tokens",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "createM2MToken",
-            options: requestOptions
-        )).data
+        return try (await sdkRequest("POST", "/m2m_tokens", config: config, body: requestBody, decoder: .json, operationId: "createM2MToken", options: requestOptions)).data
     }
 }

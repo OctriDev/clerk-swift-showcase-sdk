@@ -6,27 +6,14 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension AllowListBlockListMethods {
-    /// Deletes an identifier from the instance allow-list. Use the `identifier_id` path parameter to select the entry
-    /// to remove. The response confirms whether the object was deleted.
+extension AllowListBlockListMethods {
+    /// Deletes an identifier from the instance allow-list. Use the `identifier_id` path parameter to select the entry to remove. The response confirms whether the object was deleted.
     ///
     /// Delete an identifier from the instance allow-list
     ///
     /// - Parameters:
     /// - identifierId: The ID of the identifier to delete from the allow-list
-    static func deleteAllowlistIdentifier(
-        config: ClientConfig,
-        identifierId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DeletedObject {
-        try await (sdkRequest(
-            "DELETE",
-            ["/allowlist_identifiers/", sdkEncodePathSegment(sdkWireString(identifierId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DeleteAllowlistIdentifier",
-            options: requestOptions,
-            errors: ["402": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func deleteAllowlistIdentifier(config: ClientConfig, identifierId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
+        return try (await sdkRequest("DELETE", ["/allowlist_identifiers/", sdkEncodePathSegment(sdkWireString(identifierId))].joined(), config: config, decoder: .json, operationId: "DeleteAllowlistIdentifier", options: requestOptions, errors: ["402": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

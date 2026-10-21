@@ -3,12 +3,10 @@
 
 import Foundation
 
-/// Users domain models
+// Users domain models
 extension SAMLAccountSamlConnection {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(SAMLAccountConnection.self) {
-            return .sAmlAccountConnection(value)
-        }
+        if let value = try? container.decode(SAMLAccountConnection.self) { return .sAmlAccountConnection(value) }
         return nil
     }
 }
@@ -46,67 +44,38 @@ public struct Web3Wallet: Codable {
         case id
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension Web3Wallet {
-    init(from decoder: Decoder) throws {
+extension Web3Wallet {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
+            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
         }
         guard container.contains(.web3Wallet) else {
-            throw SdkValidationError(
-                field: "web3_wallet",
-                code: "required",
-                message: "Validation failed for 'web3_wallet': value is required"
-            )
+            throw SdkValidationError(field: "web3_wallet", code: "required", message: "Validation failed for 'web3_wallet': value is required")
         }
         guard container.contains(.verification) else {
-            throw SdkValidationError(
-                field: "verification",
-                code: "required",
-                message: "Validation failed for 'verification': value is required"
-            )
+            throw SdkValidationError(field: "verification", code: "required", message: "Validation failed for 'verification': value is required")
         }
         guard container.contains(.createdAt) else {
-            throw SdkValidationError(
-                field: "created_at",
-                code: "required",
-                message: "Validation failed for 'created_at': value is required"
-            )
+            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
         }
         guard container.contains(.updatedAt) else {
-            throw SdkValidationError(
-                field: "updated_at",
-                code: "required",
-                message: "Validation failed for 'updated_at': value is required"
-            )
+            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
         }
-        object = try container.sdkDecodeRequired(.object)
-        web3Wallet = try container.sdkDecodeRequired(.web3Wallet)
-        verification = try container.sdkDecodeNullable(.verification)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        id = try container.sdkDecodeIfPresent(.id)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.web3Wallet = try container.sdkDecodeRequired(.web3Wallet)
+        self.verification = try container.sdkDecodeNullable(.verification)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.id = try container.sdkDecodeIfPresent(.id)
     }
 }
 
-public extension Web3Wallet {
-    init(
-        object: Web3WalletObject,
-        web3Wallet: String,
-        verification: Web3WalletVerification?,
-        createdAt: Int,
-        updatedAt: Int,
-        id: String? = nil
-    ) {
+extension Web3Wallet {
+    public init(object: Web3WalletObject, web3Wallet: String, verification: Web3WalletVerification?, createdAt: Int, updatedAt: Int, id: String? = nil) {
         (self.object, self.web3Wallet) = (object, web3Wallet)
         (self.verification, self.createdAt) = (verification, createdAt)
         (self.updatedAt, self.id) = (updatedAt, id)
@@ -118,30 +87,21 @@ public indirect enum EnterpriseAccountEnterpriseConnection {
 }
 
 extension EnterpriseAccountEnterpriseConnection: Codable {
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) {
-            self = value; return
-        }
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "No variant matched for EnterpriseAccountEnterpriseConnection"
-        )
+        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for EnterpriseAccountEnterpriseConnection")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
     }
 }
 
 extension EnterpriseAccountEnterpriseConnection {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container
-            .decode(EnterpriseAccountConnection.self) {
-            return .enterpriseAccountConnection(value)
-        }
+        if let value = try? container.decode(EnterpriseAccountConnection.self) { return .enterpriseAccountConnection(value) }
         return nil
     }
 }
@@ -203,49 +163,32 @@ public struct EnterpriseAccountConnection: Codable {
         case domains
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension EnterpriseAccountConnection {
-    init(from decoder: Decoder) throws {
+extension EnterpriseAccountConnection {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.sdkDecodeRequired(.id)
-        self.protocol = try container.sdkDecodeRequired(.protocol)
-        provider = try container.sdkDecodeRequired(.provider)
-        name = try container.sdkDecodeRequired(.name)
-        logoPublicUrl = try container.sdkDecodeNullable(.logoPublicUrl)
-        active = try container.sdkDecodeRequired(.active)
-        syncUserAttributes = try container.sdkDecodeRequired(.syncUserAttributes)
-        allowSubdomains = try container.sdkDecodeRequired(.allowSubdomains)
-        allowIdpInitiated = try container.sdkDecodeRequired(.allowIdpInitiated)
-        disableAdditionalIdentifications = try container.sdkDecodeRequired(.disableAdditionalIdentifications)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        domain = try container.sdkDecodeIfPresent(.domain)
-        domains = try container.sdkDecodeIfPresent(.domains)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.`protocol` = try container.sdkDecodeRequired(.`protocol`)
+        self.provider = try container.sdkDecodeRequired(.provider)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.logoPublicUrl = try container.sdkDecodeNullable(.logoPublicUrl)
+        self.active = try container.sdkDecodeRequired(.active)
+        self.syncUserAttributes = try container.sdkDecodeRequired(.syncUserAttributes)
+        self.allowSubdomains = try container.sdkDecodeRequired(.allowSubdomains)
+        self.allowIdpInitiated = try container.sdkDecodeRequired(.allowIdpInitiated)
+        self.disableAdditionalIdentifications = try container.sdkDecodeRequired(.disableAdditionalIdentifications)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.domain = try container.sdkDecodeIfPresent(.domain)
+        self.domains = try container.sdkDecodeIfPresent(.domains)
     }
 }
 
-public extension EnterpriseAccountConnection {
-    init(
-        id: String,
-        protocol: String,
-        provider: String,
-        name: String,
-        logoPublicUrl: String?,
-        active: Bool,
-        syncUserAttributes: Bool,
-        allowSubdomains: Bool,
-        allowIdpInitiated: Bool,
-        disableAdditionalIdentifications: Bool,
-        createdAt: Int,
-        updatedAt: Int,
-        domain: String? = nil,
-        domains: [String]? = nil
-    ) {
-        (self.id, self.protocol) = (id, `protocol`)
+extension EnterpriseAccountConnection {
+    public init(id: String, `protocol`: String, provider: String, name: String, logoPublicUrl: String?, active: Bool, syncUserAttributes: Bool, allowSubdomains: Bool, allowIdpInitiated: Bool, disableAdditionalIdentifications: Bool, createdAt: Int, updatedAt: Int, domain: String? = nil, domains: [String]? = nil) {
+        (self.id, self.`protocol`) = (id, `protocol`)
         (self.provider, self.name) = (provider, name)
         (self.logoPublicUrl, self.active) = (logoPublicUrl, active)
         (self.syncUserAttributes, self.allowSubdomains) = (syncUserAttributes, allowSubdomains)
@@ -286,67 +229,40 @@ public struct VerificationPasskey: Codable {
         case verifiedAtClient = "verified_at_client"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension VerificationPasskey {
-    init(from decoder: Decoder) throws {
+extension VerificationPasskey {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.status) else {
-            throw SdkValidationError(
-                field: "status",
-                code: "required",
-                message: "Validation failed for 'status': value is required"
-            )
+            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
         }
         guard container.contains(.strategy) else {
-            throw SdkValidationError(
-                field: "strategy",
-                code: "required",
-                message: "Validation failed for 'strategy': value is required"
-            )
+            throw SdkValidationError(field: "strategy", code: "required", message: "Validation failed for 'strategy': value is required")
         }
         guard container.contains(.attempts) else {
-            throw SdkValidationError(
-                field: "attempts",
-                code: "required",
-                message: "Validation failed for 'attempts': value is required"
-            )
+            throw SdkValidationError(field: "attempts", code: "required", message: "Validation failed for 'attempts': value is required")
         }
         guard container.contains(.expireAt) else {
-            throw SdkValidationError(
-                field: "expire_at",
-                code: "required",
-                message: "Validation failed for 'expire_at': value is required"
-            )
+            throw SdkValidationError(field: "expire_at", code: "required", message: "Validation failed for 'expire_at': value is required")
         }
-        status = try container.sdkDecodeRequired(.status)
-        strategy = try container.sdkDecodeRequired(.strategy)
-        attempts = try container.sdkDecodeNullable(.attempts)
-        expireAt = try container.sdkDecodeNullable(.expireAt)
-        object = try container.sdkDecodeIfPresent(.object)
-        nonce = try container.sdkDecodeIfPresent(.nonce)
-        message = try container.sdkDecodeIfPresent(.message)
-        verifiedAtClient = try container.sdkDecodeIfPresent(.verifiedAtClient)
-        if let value = object {
+        self.status = try container.sdkDecodeRequired(.status)
+        self.strategy = try container.sdkDecodeRequired(.strategy)
+        self.attempts = try container.sdkDecodeNullable(.attempts)
+        self.expireAt = try container.sdkDecodeNullable(.expireAt)
+        self.object = try container.sdkDecodeIfPresent(.object)
+        self.nonce = try container.sdkDecodeIfPresent(.nonce)
+        self.message = try container.sdkDecodeIfPresent(.message)
+        self.verifiedAtClient = try container.sdkDecodeIfPresent(.verifiedAtClient)
+        if let value = self.object {
             try sdkValidateRawEnum("object", value, VerificationPasskeyObject.allCases.map(\.rawValue))
         }
     }
 }
 
-public extension VerificationPasskey {
-    init(
-        status: VerificationPasskeyStatus,
-        strategy: VerificationPasskeyStrategy,
-        attempts: Int?,
-        expireAt: Int?,
-        object: VerificationPasskeyObject? = nil,
-        nonce: VerificationPasskeyNonce? = nil,
-        message: String? = nil,
-        verifiedAtClient: String? = nil
-    ) throws {
+extension VerificationPasskey {
+    public init(status: VerificationPasskeyStatus, strategy: VerificationPasskeyStrategy, attempts: Int?, expireAt: Int?, object: VerificationPasskeyObject? = nil, nonce: VerificationPasskeyNonce? = nil, message: String? = nil, verifiedAtClient: String? = nil) throws {
         (self.status, self.strategy) = (status, strategy)
         (self.attempts, self.expireAt) = (attempts, expireAt)
         (self.object, self.nonce) = (object, nonce)
@@ -399,93 +315,50 @@ public struct SAMLAccountConnection: Codable {
         case disableAdditionalIdentifications = "disable_additional_identifications"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension SAMLAccountConnection {
-    init(from decoder: Decoder) throws {
+extension SAMLAccountConnection {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.id) else {
-            throw SdkValidationError(
-                field: "id",
-                code: "required",
-                message: "Validation failed for 'id': value is required"
-            )
+            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
         }
         guard container.contains(.name) else {
-            throw SdkValidationError(
-                field: "name",
-                code: "required",
-                message: "Validation failed for 'name': value is required"
-            )
+            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
         }
         guard container.contains(.active) else {
-            throw SdkValidationError(
-                field: "active",
-                code: "required",
-                message: "Validation failed for 'active': value is required"
-            )
+            throw SdkValidationError(field: "active", code: "required", message: "Validation failed for 'active': value is required")
         }
         guard container.contains(.provider) else {
-            throw SdkValidationError(
-                field: "provider",
-                code: "required",
-                message: "Validation failed for 'provider': value is required"
-            )
+            throw SdkValidationError(field: "provider", code: "required", message: "Validation failed for 'provider': value is required")
         }
         guard container.contains(.syncUserAttributes) else {
-            throw SdkValidationError(
-                field: "sync_user_attributes",
-                code: "required",
-                message: "Validation failed for 'sync_user_attributes': value is required"
-            )
+            throw SdkValidationError(field: "sync_user_attributes", code: "required", message: "Validation failed for 'sync_user_attributes': value is required")
         }
         guard container.contains(.createdAt) else {
-            throw SdkValidationError(
-                field: "created_at",
-                code: "required",
-                message: "Validation failed for 'created_at': value is required"
-            )
+            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
         }
         guard container.contains(.updatedAt) else {
-            throw SdkValidationError(
-                field: "updated_at",
-                code: "required",
-                message: "Validation failed for 'updated_at': value is required"
-            )
+            throw SdkValidationError(field: "updated_at", code: "required", message: "Validation failed for 'updated_at': value is required")
         }
-        id = try container.sdkDecodeRequired(.id)
-        name = try container.sdkDecodeRequired(.name)
-        active = try container.sdkDecodeRequired(.active)
-        provider = try container.sdkDecodeRequired(.provider)
-        syncUserAttributes = try container.sdkDecodeRequired(.syncUserAttributes)
-        createdAt = try container.sdkDecodeRequired(.createdAt)
-        updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        domain = try container.sdkDecodeIfPresent(.domain)
-        domains = try container.sdkDecodeIfPresent(.domains)
-        allowSubdomains = try container.sdkDecodeIfPresent(.allowSubdomains)
-        allowIdpInitiated = try container.sdkDecodeIfPresent(.allowIdpInitiated)
-        disableAdditionalIdentifications = try container.sdkDecodeIfPresent(.disableAdditionalIdentifications)
+        self.id = try container.sdkDecodeRequired(.id)
+        self.name = try container.sdkDecodeRequired(.name)
+        self.active = try container.sdkDecodeRequired(.active)
+        self.provider = try container.sdkDecodeRequired(.provider)
+        self.syncUserAttributes = try container.sdkDecodeRequired(.syncUserAttributes)
+        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        self.domain = try container.sdkDecodeIfPresent(.domain)
+        self.domains = try container.sdkDecodeIfPresent(.domains)
+        self.allowSubdomains = try container.sdkDecodeIfPresent(.allowSubdomains)
+        self.allowIdpInitiated = try container.sdkDecodeIfPresent(.allowIdpInitiated)
+        self.disableAdditionalIdentifications = try container.sdkDecodeIfPresent(.disableAdditionalIdentifications)
     }
 }
 
-public extension SAMLAccountConnection {
-    init(
-        id: String,
-        name: String,
-        active: Bool,
-        provider: String,
-        syncUserAttributes: Bool,
-        createdAt: Int,
-        updatedAt: Int,
-        domain: String? = nil,
-        domains: [String]? = nil,
-        allowSubdomains: Bool? = nil,
-        allowIdpInitiated: Bool? = nil,
-        disableAdditionalIdentifications: Bool? = nil
-    ) {
+extension SAMLAccountConnection {
+    public init(id: String, name: String, active: Bool, provider: String, syncUserAttributes: Bool, createdAt: Int, updatedAt: Int, domain: String? = nil, domains: [String]? = nil, allowSubdomains: Bool? = nil, allowIdpInitiated: Bool? = nil, disableAdditionalIdentifications: Bool? = nil) {
         (self.id, self.name) = (id, name)
         (self.active, self.provider) = (active, provider)
         (self.syncUserAttributes, self.createdAt) = (syncUserAttributes, createdAt)
@@ -501,29 +374,21 @@ public indirect enum VerificationOauthError {
 }
 
 extension VerificationOauthError: Codable {
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = Self.decodeGroup1(from: container) {
-            self = value; return
-        }
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "No variant matched for VerificationOauthError"
-        )
+        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for VerificationOauthError")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) {
-            return
-        }
+        if try encodeGroup1(to: encoder) { return }
     }
 }
 
 extension VerificationOauthError {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(ClerkError.self) {
-            return .clerkError(value)
-        }
+        if let value = try? container.decode(ClerkError.self) { return .clerkError(value) }
         return nil
     }
 }
@@ -567,51 +432,33 @@ public struct VerificationWeb3: Codable {
         case verifiedAtClient = "verified_at_client"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension VerificationWeb3 {
-    init(from decoder: Decoder) throws {
+extension VerificationWeb3 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.status) else {
-            throw SdkValidationError(
-                field: "status",
-                code: "required",
-                message: "Validation failed for 'status': value is required"
-            )
+            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
         }
         guard container.contains(.strategy) else {
-            throw SdkValidationError(
-                field: "strategy",
-                code: "required",
-                message: "Validation failed for 'strategy': value is required"
-            )
+            throw SdkValidationError(field: "strategy", code: "required", message: "Validation failed for 'strategy': value is required")
         }
         guard container.contains(.attempts) else {
-            throw SdkValidationError(
-                field: "attempts",
-                code: "required",
-                message: "Validation failed for 'attempts': value is required"
-            )
+            throw SdkValidationError(field: "attempts", code: "required", message: "Validation failed for 'attempts': value is required")
         }
         guard container.contains(.expireAt) else {
-            throw SdkValidationError(
-                field: "expire_at",
-                code: "required",
-                message: "Validation failed for 'expire_at': value is required"
-            )
+            throw SdkValidationError(field: "expire_at", code: "required", message: "Validation failed for 'expire_at': value is required")
         }
-        status = try container.sdkDecodeRequired(.status)
-        strategy = try container.sdkDecodeRequired(.strategy)
-        attempts = try container.sdkDecodeNullable(.attempts)
-        expireAt = try container.sdkDecodeNullable(.expireAt)
-        object = try container.sdkDecodeIfPresent(.object)
-        nonce = try container.sdkDecodeIfPresent(.nonce)
-        message = try container.sdkDecodeIfPresent(.message)
-        verifiedAtClient = try container.sdkDecodeIfPresent(.verifiedAtClient)
-        if let value = object {
+        self.status = try container.sdkDecodeRequired(.status)
+        self.strategy = try container.sdkDecodeRequired(.strategy)
+        self.attempts = try container.sdkDecodeNullable(.attempts)
+        self.expireAt = try container.sdkDecodeNullable(.expireAt)
+        self.object = try container.sdkDecodeIfPresent(.object)
+        self.nonce = try container.sdkDecodeIfPresent(.nonce)
+        self.message = try container.sdkDecodeIfPresent(.message)
+        self.verifiedAtClient = try container.sdkDecodeIfPresent(.verifiedAtClient)
+        if let value = self.object {
             try sdkValidateRawEnum("object", value, VerificationWeb3Object.allCases.map(\.rawValue))
         }
     }

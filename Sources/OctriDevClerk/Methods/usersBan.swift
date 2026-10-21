@@ -6,51 +6,24 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension UsersMethods {
-    /// Marks the given user as banned, which means that all their sessions are revoked and they are not allowed to sign
-    /// in again.
+extension UsersMethods {
+    /// Marks the given user as banned, which means that all their sessions are revoked and they are not allowed to sign in again.
     ///
     /// - Parameters:
     /// - userId: The ID of the user to ban
-    static func banUser(
-        config: ClientConfig,
-        userId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> User {
-        try await (sdkRequest(
-            "POST",
-            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/ban"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "BanUser",
-            options: requestOptions,
-            errors: ["402": ClerkErrors.self]
-        )).data
+    public static func banUser(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> User {
+        return try (await sdkRequest("POST", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/ban"].joined(), config: config, decoder: .json, operationId: "BanUser", options: requestOptions, errors: ["402": ClerkErrors.self])).data
     }
 
-    /// Marks multiple users as banned, which means that all their sessions are revoked and they are not allowed to sign
-    /// in again.
+    /// Marks multiple users as banned, which means that all their sessions are revoked and they are not allowed to sign in again.
     ///
     /// - Parameters:
     /// - userIds: Array of user IDs to ban
-    static func banUsersBulk(
-        config: ClientConfig,
-        userIds: [String],
-        requestOptions: RequestOptions? = nil
-    ) async throws -> [User] {
+    public static func banUsersBulk(config: ClientConfig, userIds: [String], requestOptions: RequestOptions? = nil) async throws -> [User] {
         try validateItems("user_ids", userIds, min: 1, max: 50)
 
         let requestBody = BanUsersBulkRequestBody(userIds: userIds)
 
-        return try await (sdkRequest(
-            "POST",
-            "/users/ban",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "banUsersBulk",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "402": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("POST", "/users/ban", config: config, body: requestBody, decoder: .json, operationId: "banUsersBulk", options: requestOptions, errors: ["400": ClerkErrors.self, "402": ClerkErrors.self])).data
     }
 }

@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// TestingTokens domain models
+// TestingTokens domain models
 /// Typed representation of the `TestingToken` API schema.
 public struct TestingToken: Codable {
     /// Required enumerated value serialized in the `object` wire field.
@@ -22,43 +22,29 @@ public struct TestingToken: Codable {
         case expiresAt = "expires_at"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension TestingToken {
-    init(from decoder: Decoder) throws {
+extension TestingToken {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
+            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
         }
         guard container.contains(.token) else {
-            throw SdkValidationError(
-                field: "token",
-                code: "required",
-                message: "Validation failed for 'token': value is required"
-            )
+            throw SdkValidationError(field: "token", code: "required", message: "Validation failed for 'token': value is required")
         }
         guard container.contains(.expiresAt) else {
-            throw SdkValidationError(
-                field: "expires_at",
-                code: "required",
-                message: "Validation failed for 'expires_at': value is required"
-            )
+            throw SdkValidationError(field: "expires_at", code: "required", message: "Validation failed for 'expires_at': value is required")
         }
-        object = try container.sdkDecodeRequired(.object)
-        token = try container.sdkDecodeRequired(.token)
-        expiresAt = try container.sdkDecodeRequired(.expiresAt)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.token = try container.sdkDecodeRequired(.token)
+        self.expiresAt = try container.sdkDecodeRequired(.expiresAt)
     }
 }
 
-public extension TestingToken {
-    init(object: TestingTokenObject, token: String, expiresAt: Int) {
+extension TestingToken {
+    public init(object: TestingTokenObject, token: String, expiresAt: Int) {
         (self.object, self.token) = (object, token)
         self.expiresAt = expiresAt
     }
@@ -68,15 +54,12 @@ public extension TestingToken {
 public struct TestingTokenObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let testingToken = TestingTokenObject(rawValue: "testing_token")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

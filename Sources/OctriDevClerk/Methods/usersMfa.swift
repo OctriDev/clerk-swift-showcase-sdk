@@ -6,24 +6,12 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension UsersMethods {
+extension UsersMethods {
     /// Disable all of a user's MFA methods (e.g. OTP sent via SMS, TOTP on their authenticator app) at once.
     ///
     /// - Parameters:
     /// - userId: The ID of the user whose MFA methods are to be disabled
-    static func disableMfa(
-        config: ClientConfig,
-        userId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DisableMFAResponse {
-        try await (sdkRequest(
-            "DELETE",
-            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/mfa"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DisableMFA",
-            options: requestOptions,
-            errors: ["404": ClerkErrors.self, "500": ClerkErrors.self]
-        )).data
+    public static func disableMfa(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> DisableMFAResponse {
+        return try (await sdkRequest("DELETE", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/mfa"].joined(), config: config, decoder: .json, operationId: "DisableMFA", options: requestOptions, errors: ["404": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 }

@@ -6,26 +6,12 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension ScimDirectoriesMethods {
-    /// Generates a new API key for the directory and returns it in the `api_key` field. This is the only way to obtain
-    /// the key after creation, so make sure to update it in your identity provider. The previous key remains valid for
-    /// a short grace period before it expires.
+extension ScimDirectoriesMethods {
+    /// Generates a new API key for the directory and returns it in the `api_key` field. This is the only way to obtain the key after creation, so make sure to update it in your identity provider. The previous key remains valid for a short grace period before it expires.
     ///
     /// - Parameters:
     /// - scimDirectoryId: The ID of the directory whose API key to rotate
-    static func rotateScimDirectoryApiKey(
-        config: ClientConfig,
-        scimDirectoryId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SCIMDirectory {
-        try await (sdkRequest(
-            "POST",
-            ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId)), "/rotate_api_key"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "RotateSCIMDirectoryAPIKey",
-            options: requestOptions,
-            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+    public static func rotateScimDirectoryApiKey(config: ClientConfig, scimDirectoryId: String, requestOptions: RequestOptions? = nil) async throws -> SCIMDirectory {
+        return try (await sdkRequest("POST", ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId)), "/rotate_api_key"].joined(), config: config, decoder: .json, operationId: "RotateSCIMDirectoryAPIKey", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

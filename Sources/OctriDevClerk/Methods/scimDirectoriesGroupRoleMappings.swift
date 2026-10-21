@@ -6,30 +6,16 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension ScimDirectoriesMethods {
+extension ScimDirectoriesMethods {
     /// Returns the list of SCIM group to organization role mappings for a directory, ordered by precedence.
     ///
     /// - Parameters:
     /// - scimDirectoryId: The ID of the directory.
-    static func listScimGroupRoleMappings(
-        config: ClientConfig,
-        scimDirectoryId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SCIMGroupRoleMappingList {
-        try await (sdkRequest(
-            "GET",
-            ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId)), "/group_role_mappings"]
-                .joined(),
-            config: config,
-            decoder: .json,
-            operationId: "ListSCIMGroupRoleMappings",
-            options: requestOptions,
-            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func listScimGroupRoleMappings(config: ClientConfig, scimDirectoryId: String, requestOptions: RequestOptions? = nil) async throws -> SCIMGroupRoleMappingList {
+        return try (await sdkRequest("GET", ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId)), "/group_role_mappings"].joined(), config: config, decoder: .json, operationId: "ListSCIMGroupRoleMappings", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 
-    /// Creates a new SCIM group to organization role mapping for a directory. Mappings can be created while group role
-    /// mapping is disabled on the directory, but they only take effect once it is enabled.
+    /// Creates a new SCIM group to organization role mapping for a directory. Mappings can be created while group role mapping is disabled on the directory, but they only take effect once it is enabled.
     ///
     /// - Parameters:
     /// - scimDirectoryId: The ID of the directory.
@@ -39,40 +25,13 @@ public extension ScimDirectoriesMethods {
     /// - precedence: The precedence for this mapping. Lower values take priority
     ///   when a user belongs to multiple mapped groups. If omitted, the mapping is
     ///   appended with the next-highest precedence.
-    static func createScimGroupRoleMapping(
-        config: ClientConfig,
-        scimDirectoryId: String,
-        scimGroupId: String,
-        roleId: String,
-        precedence: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SCIMGroupRoleMapping {
-        if let precedence {
+    public static func createScimGroupRoleMapping(config: ClientConfig, scimDirectoryId: String, scimGroupId: String, roleId: String, precedence: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> SCIMGroupRoleMapping {
+        if let precedence = precedence {
             try validateRange("precedence", Double(precedence), min: 1)
         }
 
-        let requestBody = CreateScimGroupRoleMappingRequestBody(
-            scimGroupId: scimGroupId,
-            roleId: roleId,
-            precedence: precedence
-        )
+        let requestBody = CreateScimGroupRoleMappingRequestBody(scimGroupId: scimGroupId, roleId: roleId, precedence: precedence)
 
-        return try await (sdkRequest(
-            "POST",
-            ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId)), "/group_role_mappings"]
-                .joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateSCIMGroupRoleMapping",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", ["/scim_directories/", sdkEncodePathSegment(sdkWireString(scimDirectoryId)), "/group_role_mappings"].joined(), config: config, body: requestBody, decoder: .json, operationId: "CreateSCIMGroupRoleMapping", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

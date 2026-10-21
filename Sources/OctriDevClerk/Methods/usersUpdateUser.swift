@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension UsersMethods {
-    struct UpdateUserOptions: Codable {
+extension UsersMethods {
+    public struct UpdateUserOptions: Codable {
         public var userId: String
         public var externalId: SdkOptional<String>?
         public var firstName: SdkOptional<String>?
@@ -40,13 +40,7 @@ public extension UsersMethods {
         }
     }
 
-    /// Update a user's attributes. You can set the user's primary contact identifiers (email address and phone numbers)
-    /// by updating the `primary_email_address_id` and `primary_phone_number_id` attributes respectively. Both IDs
-    /// should correspond to verified identifications that belong to the user. You can remove a user's username by
-    /// setting the username attribute to null or the blank string "". As of API version 2026-05-12, this endpoint no
-    /// longer accepts `public_metadata`, `private_metadata`, or `unsafe_metadata`. Use `PATCH
-    /// /v1/users/{user_id}/metadata` to merge updates into existing metadata, or `PUT /v1/users/{user_id}/metadata` to
-    /// replace a metadata field entirely.
+    /// Update a user's attributes. You can set the user's primary contact identifiers (email address and phone numbers) by updating the `primary_email_address_id` and `primary_phone_number_id` attributes respectively. Both IDs should correspond to verified identifications that belong to the user. You can remove a user's username by setting the username attribute to null or the blank string "". As of API version 2026-05-12, this endpoint no longer accepts `public_metadata`, `private_metadata`, or `unsafe_metadata`. Use `PATCH /v1/users/{user_id}/metadata` to merge updates into existing metadata, or `PUT /v1/users/{user_id}/metadata` to replace a metadata field entirely.
     ///
     /// - Parameters:
     /// - userId: The ID of the user to update
@@ -123,28 +117,9 @@ public extension UsersMethods {
     ///   application.
     /// - bypassClientTrust: When set to `true`, the user will bypass Device Trust
     ///   checks during sign-in.
-    static func updateUser(
-        config: ClientConfig,
-        options: UpdateUserOptions,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> User {
+    public static func updateUser(config: ClientConfig, options: UpdateUserOptions, requestOptions: RequestOptions? = nil) async throws -> User {
         let requestBody = UpdateUserRequestBody(options: options)
 
-        return try await (sdkRequest(
-            "PATCH",
-            ["/users/", sdkEncodePathSegment(sdkWireString(options.userId))].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "UpdateUser",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "409": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("PATCH", ["/users/", sdkEncodePathSegment(sdkWireString(options.userId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateUser", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

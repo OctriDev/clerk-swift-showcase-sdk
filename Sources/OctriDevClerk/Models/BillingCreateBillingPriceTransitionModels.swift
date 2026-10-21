@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Billing domain models
+// Billing domain models
 /// Typed representation of the `CommercePriceTransitionResponse` API schema.
 public struct CommercePriceTransitionResponse: Codable {
     /// String representing the object's type. Objects of the same type share the same value.
@@ -19,47 +19,29 @@ public struct CommercePriceTransitionResponse: Codable {
         case transition
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CommercePriceTransitionResponse {
-    init(from decoder: Decoder) throws {
+extension CommercePriceTransitionResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
+            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
         }
         guard container.contains(.subscriptionItem) else {
-            throw SdkValidationError(
-                field: "subscription_item",
-                code: "required",
-                message: "Validation failed for 'subscription_item': value is required"
-            )
+            throw SdkValidationError(field: "subscription_item", code: "required", message: "Validation failed for 'subscription_item': value is required")
         }
         guard container.contains(.transition) else {
-            throw SdkValidationError(
-                field: "transition",
-                code: "required",
-                message: "Validation failed for 'transition': value is required"
-            )
+            throw SdkValidationError(field: "transition", code: "required", message: "Validation failed for 'transition': value is required")
         }
-        object = try container.sdkDecodeRequired(.object)
-        subscriptionItem = try container.sdkDecodeRequired(.subscriptionItem)
-        transition = try container.sdkDecodeRequired(.transition)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.subscriptionItem = try container.sdkDecodeRequired(.subscriptionItem)
+        self.transition = try container.sdkDecodeRequired(.transition)
     }
 }
 
-public extension CommercePriceTransitionResponse {
-    init(
-        object: CommercePriceTransitionResponseObject,
-        subscriptionItem: CommerceSubscriptionItem2,
-        transition: CommercePriceTransitionDetails
-    ) {
+extension CommercePriceTransitionResponse {
+    public init(object: CommercePriceTransitionResponseObject, subscriptionItem: CommerceSubscriptionItem2, transition: CommercePriceTransitionDetails) {
         (self.object, self.subscriptionItem) = (object, subscriptionItem)
         self.transition = transition
     }
@@ -98,87 +80,47 @@ public struct CommercePriceTransitionDetails: Codable {
         case immediateCharge = "immediate_charge"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CommercePriceTransitionDetails {
-    init(from decoder: Decoder) throws {
+extension CommercePriceTransitionDetails {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.previousPlan) else {
-            throw SdkValidationError(
-                field: "previous_plan",
-                code: "required",
-                message: "Validation failed for 'previous_plan': value is required"
-            )
+            throw SdkValidationError(field: "previous_plan", code: "required", message: "Validation failed for 'previous_plan': value is required")
         }
         guard container.contains(.previousPrice) else {
-            throw SdkValidationError(
-                field: "previous_price",
-                code: "required",
-                message: "Validation failed for 'previous_price': value is required"
-            )
+            throw SdkValidationError(field: "previous_price", code: "required", message: "Validation failed for 'previous_price': value is required")
         }
         guard container.contains(.effectiveAt) else {
-            throw SdkValidationError(
-                field: "effective_at",
-                code: "required",
-                message: "Validation failed for 'effective_at': value is required"
-            )
+            throw SdkValidationError(field: "effective_at", code: "required", message: "Validation failed for 'effective_at': value is required")
         }
         guard container.contains(.effectiveMode) else {
-            throw SdkValidationError(
-                field: "effective_mode",
-                code: "required",
-                message: "Validation failed for 'effective_mode': value is required"
-            )
+            throw SdkValidationError(field: "effective_mode", code: "required", message: "Validation failed for 'effective_mode': value is required")
         }
         guard container.contains(.chargedImmediately) else {
-            throw SdkValidationError(
-                field: "charged_immediately",
-                code: "required",
-                message: "Validation failed for 'charged_immediately': value is required"
-            )
+            throw SdkValidationError(field: "charged_immediately", code: "required", message: "Validation failed for 'charged_immediately': value is required")
         }
         guard container.contains(.previousSubscriptionItemStatus) else {
-            throw SdkValidationError(
-                field: "previous_subscription_item_status",
-                code: "required",
-                message: "Validation failed for 'previous_subscription_item_status': value is required"
-            )
+            throw SdkValidationError(field: "previous_subscription_item_status", code: "required", message: "Validation failed for 'previous_subscription_item_status': value is required")
         }
         guard container.contains(.previousSubscriptionItemId) else {
-            throw SdkValidationError(
-                field: "previous_subscription_item_id",
-                code: "required",
-                message: "Validation failed for 'previous_subscription_item_id': value is required"
-            )
+            throw SdkValidationError(field: "previous_subscription_item_id", code: "required", message: "Validation failed for 'previous_subscription_item_id': value is required")
         }
-        previousPlan = try container.sdkDecodeRequired(.previousPlan)
-        previousPrice = try container.sdkDecodeRequired(.previousPrice)
-        effectiveAt = try container.sdkDecodeRequired(.effectiveAt)
-        effectiveMode = try container.sdkDecodeRequired(.effectiveMode)
-        chargedImmediately = try container.sdkDecodeRequired(.chargedImmediately)
-        previousSubscriptionItemStatus = try container.sdkDecodeRequired(.previousSubscriptionItemStatus)
-        previousSubscriptionItemId = try container.sdkDecodeRequired(.previousSubscriptionItemId)
-        nextBillingDate = try container.sdkDecodeIfPresent(.nextBillingDate)
-        immediateCharge = try container.sdkDecodeIfPresent(.immediateCharge)
+        self.previousPlan = try container.sdkDecodeRequired(.previousPlan)
+        self.previousPrice = try container.sdkDecodeRequired(.previousPrice)
+        self.effectiveAt = try container.sdkDecodeRequired(.effectiveAt)
+        self.effectiveMode = try container.sdkDecodeRequired(.effectiveMode)
+        self.chargedImmediately = try container.sdkDecodeRequired(.chargedImmediately)
+        self.previousSubscriptionItemStatus = try container.sdkDecodeRequired(.previousSubscriptionItemStatus)
+        self.previousSubscriptionItemId = try container.sdkDecodeRequired(.previousSubscriptionItemId)
+        self.nextBillingDate = try container.sdkDecodeIfPresent(.nextBillingDate)
+        self.immediateCharge = try container.sdkDecodeIfPresent(.immediateCharge)
     }
 }
 
-public extension CommercePriceTransitionDetails {
-    init(
-        previousPlan: CommercePlan2,
-        previousPrice: BillingPriceResponse,
-        effectiveAt: Int,
-        effectiveMode: CommercePriceTransitionDetailsEffectiveMode,
-        chargedImmediately: Bool,
-        previousSubscriptionItemStatus: CommercePriceTransitionDetailsPreviousSubscriptionItemStatus,
-        previousSubscriptionItemId: String,
-        nextBillingDate: Int? = nil,
-        immediateCharge: CommerceMoneyResponse? = nil
-    ) {
+extension CommercePriceTransitionDetails {
+    public init(previousPlan: CommercePlan2, previousPrice: BillingPriceResponse, effectiveAt: Int, effectiveMode: CommercePriceTransitionDetailsEffectiveMode, chargedImmediately: Bool, previousSubscriptionItemStatus: CommercePriceTransitionDetailsPreviousSubscriptionItemStatus, previousSubscriptionItemId: String, nextBillingDate: Int? = nil, immediateCharge: CommerceMoneyResponse? = nil) {
         (self.previousPlan, self.previousPrice) = (previousPlan, previousPrice)
         (self.effectiveAt, self.effectiveMode) = (effectiveAt, effectiveMode)
         self.chargedImmediately = chargedImmediately
@@ -200,54 +142,40 @@ public struct PriceTransitionRequest: Codable {
         case toPriceId = "to_price_id"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension PriceTransitionRequest {
-    init(from decoder: Decoder) throws {
+extension PriceTransitionRequest {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.fromPriceId) else {
-            throw SdkValidationError(
-                field: "from_price_id",
-                code: "required",
-                message: "Validation failed for 'from_price_id': value is required"
-            )
+            throw SdkValidationError(field: "from_price_id", code: "required", message: "Validation failed for 'from_price_id': value is required")
         }
         guard container.contains(.toPriceId) else {
-            throw SdkValidationError(
-                field: "to_price_id",
-                code: "required",
-                message: "Validation failed for 'to_price_id': value is required"
-            )
+            throw SdkValidationError(field: "to_price_id", code: "required", message: "Validation failed for 'to_price_id': value is required")
         }
-        fromPriceId = try container.sdkDecodeRequired(.fromPriceId)
-        toPriceId = try container.sdkDecodeRequired(.toPriceId)
+        self.fromPriceId = try container.sdkDecodeRequired(.fromPriceId)
+        self.toPriceId = try container.sdkDecodeRequired(.toPriceId)
     }
 }
 
-public extension PriceTransitionRequest {
-    init(fromPriceId: String, toPriceId: String) {
+extension PriceTransitionRequest {
+    public init(fromPriceId: String, toPriceId: String) {
         (self.fromPriceId, self.toPriceId) = (fromPriceId, toPriceId)
     }
 }
 
 /// When the new price takes effect.
-public struct CommercePriceTransitionDetailsEffectiveMode: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct CommercePriceTransitionDetailsEffectiveMode: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let immediate = CommercePriceTransitionDetailsEffectiveMode(rawValue: "immediate")
     public static let endOfPeriod = CommercePriceTransitionDetailsEffectiveMode(rawValue: "end_of_period")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -257,21 +185,17 @@ public struct CommercePriceTransitionDetailsEffectiveMode: RawRepresentable, Has
 }
 
 /// The status of the previous subscription item after transition.
-public struct CommercePriceTransitionDetailsPreviousSubscriptionItemStatus: RawRepresentable, Hashable, Codable,
-    Sendable, SdkWireConvertible {
+public struct CommercePriceTransitionDetailsPreviousSubscriptionItemStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let canceled = CommercePriceTransitionDetailsPreviousSubscriptionItemStatus(rawValue: "canceled")
     public static let ended = CommercePriceTransitionDetailsPreviousSubscriptionItemStatus(rawValue: "ended")
     public static let abandoned = CommercePriceTransitionDetailsPreviousSubscriptionItemStatus(rawValue: "abandoned")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -284,16 +208,12 @@ public struct CommercePriceTransitionDetailsPreviousSubscriptionItemStatus: RawR
 public struct CommercePriceTransitionResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
-    public static let commercePriceTransition =
-        CommercePriceTransitionResponseObject(rawValue: "commerce_price_transition")
+    public init(rawValue: String) { self.rawValue = rawValue }
+    public static let commercePriceTransition = CommercePriceTransitionResponseObject(rawValue: "commerce_price_transition")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

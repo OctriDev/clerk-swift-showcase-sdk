@@ -6,25 +6,12 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension SessionsMethods {
-    /// Sets the status of a session as "revoked", which is an unauthenticated state. In multi-session mode, a revoked
-    /// session will still be returned along with its client object, however the user will need to sign in again.
+extension SessionsMethods {
+    /// Sets the status of a session as "revoked", which is an unauthenticated state. In multi-session mode, a revoked session will still be returned along with its client object, however the user will need to sign in again.
     ///
     /// - Parameters:
     /// - sessionId: The ID of the session
-    static func revokeSession(
-        config: ClientConfig,
-        sessionId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Session {
-        try await (sdkRequest(
-            "POST",
-            ["/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "/revoke"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "RevokeSession",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func revokeSession(config: ClientConfig, sessionId: String, requestOptions: RequestOptions? = nil) async throws -> Session {
+        return try (await sdkRequest("POST", ["/sessions/", sdkEncodePathSegment(sdkWireString(sessionId)), "/revoke"].joined(), config: config, decoder: .json, operationId: "RevokeSession", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

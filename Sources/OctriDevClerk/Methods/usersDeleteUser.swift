@@ -6,27 +6,14 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension UsersMethods {
-    /// Deletes the specified user. Use `user_id` to identify the user to remove; the response confirms whether the
-    /// deletion occurred.
+extension UsersMethods {
+    /// Deletes the specified user. Use `user_id` to identify the user to remove; the response confirms whether the deletion occurred.
     ///
     /// Delete the specified user
     ///
     /// - Parameters:
     /// - userId: The ID of the user to delete
-    static func deleteUser(
-        config: ClientConfig,
-        userId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DeletedObject {
-        try await (sdkRequest(
-            "DELETE",
-            ["/users/", sdkEncodePathSegment(sdkWireString(userId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DeleteUser",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func deleteUser(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
+        return try (await sdkRequest("DELETE", ["/users/", sdkEncodePathSegment(sdkWireString(userId))].joined(), config: config, decoder: .json, operationId: "DeleteUser", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationPermissionsMethods {
+extension OrganizationPermissionsMethods {
     /// Creates a new organization permission for the given instance.
     ///
     /// - Parameters:
@@ -17,50 +17,17 @@ public extension OrganizationPermissionsMethods {
     ///   Cannot begin with "org:sys_" as that prefix is reserved for system
     ///   permissions.
     /// - description: A description of the permission.
-    static func createOrganizationPermission(
-        config: ClientConfig,
-        name: String,
-        key: String,
-        description: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Permission {
+    public static func createOrganizationPermission(config: ClientConfig, name: String, key: String, description: String? = nil, requestOptions: RequestOptions? = nil) async throws -> Permission {
         let requestBody = CreateOrganizationPermissionRequestBody(name: name, key: key, description: description)
 
-        return try await (sdkRequest(
-            "POST",
-            "/organization_permissions",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateOrganizationPermission",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "402": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-            ]
-        )).data
+        return try (await sdkRequest("POST", "/organization_permissions", config: config, body: requestBody, decoder: .json, operationId: "CreateOrganizationPermission", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "402": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 
     /// Retrieves the details of an organization permission.
     ///
     /// - Parameters:
     /// - permissionId: The ID of the permission to retrieve
-    static func getOrganizationPermission(
-        config: ClientConfig,
-        permissionId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Permission {
-        try await (sdkRequest(
-            "GET",
-            ["/organization_permissions/", sdkEncodePathSegment(sdkWireString(permissionId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "GetOrganizationPermission",
-            options: requestOptions,
-            errors: ["401": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func getOrganizationPermission(config: ClientConfig, permissionId: String, requestOptions: RequestOptions? = nil) async throws -> Permission {
+        return try (await sdkRequest("GET", ["/organization_permissions/", sdkEncodePathSegment(sdkWireString(permissionId))].joined(), config: config, decoder: .json, operationId: "GetOrganizationPermission", options: requestOptions, errors: ["401": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

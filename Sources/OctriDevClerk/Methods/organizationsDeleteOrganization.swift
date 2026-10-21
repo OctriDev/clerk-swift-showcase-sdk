@@ -6,26 +6,12 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationsMethods {
-    /// Deletes the given organization. Please note that deleting an organization will also delete all memberships and
-    /// invitations. This is not reversible. After the organization is deleted, any user's active sessions that contain
-    /// the deleted organization will be cleared.
+extension OrganizationsMethods {
+    /// Deletes the given organization. Please note that deleting an organization will also delete all memberships and invitations. This is not reversible. After the organization is deleted, any user's active sessions that contain the deleted organization will be cleared.
     ///
     /// - Parameters:
     /// - organizationId: The ID of the organization to delete
-    static func deleteOrganization(
-        config: ClientConfig,
-        organizationId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DeletedObject {
-        try await (sdkRequest(
-            "DELETE",
-            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DeleteOrganization",
-            options: requestOptions,
-            errors: ["404": ClerkErrors.self]
-        )).data
+    public static func deleteOrganization(config: ClientConfig, organizationId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
+        return try (await sdkRequest("DELETE", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId))].joined(), config: config, decoder: .json, operationId: "DeleteOrganization", options: requestOptions, errors: ["404": ClerkErrors.self])).data
     }
 }

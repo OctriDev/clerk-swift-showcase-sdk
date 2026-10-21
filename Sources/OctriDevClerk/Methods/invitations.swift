@@ -8,10 +8,8 @@ import Foundation
 #endif
 public enum InvitationsMethods {}
 
-public extension InvitationsMethods {
-    /// Creates a new invitation for the given email address and sends the invitation email. Keep in mind that you
-    /// cannot create an invitation if there is already one for the given email address. Also, trying to create an
-    /// invitation for an email address that already exists in your application will result to an error.
+extension InvitationsMethods {
+    /// Creates a new invitation for the given email address and sends the invitation email. Keep in mind that you cannot create an invitation if there is already one for the given email address. Also, trying to create an invitation for an email address that already exists in your application will result to an error.
     ///
     /// - Parameters:
     /// - emailAddress: The email address the invitation will be sent to
@@ -33,40 +31,13 @@ public extension InvitationsMethods {
     ///   default, the invitation expires after 30 days.
     /// - templateSlug: The slug of the email template to use for the invitation
     ///   email.
-    static func createInvitation(
-        config: ClientConfig,
-        emailAddress: String,
-        publicMetadata: [String: JSONValue]? = nil,
-        redirectUrl: String? = nil,
-        notify: SdkOptional<Bool>? = nil,
-        ignoreExisting: SdkOptional<Bool>? = nil,
-        expiresInDays: SdkOptional<Int>? = nil,
-        templateSlug: CreateInvitationRequestBodyTemplateSlug? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Invitation {
+    public static func createInvitation(config: ClientConfig, emailAddress: String, publicMetadata: [String: JSONValue]? = nil, redirectUrl: String? = nil, notify: SdkOptional<Bool>? = nil, ignoreExisting: SdkOptional<Bool>? = nil, expiresInDays: SdkOptional<Int>? = nil, templateSlug: CreateInvitationRequestBodyTemplateSlug? = nil, requestOptions: RequestOptions? = nil) async throws -> Invitation {
         if let expiresInDays = expiresInDays?.valueOrNil {
             try validateRange("expires_in_days", Double(expiresInDays), min: 1, max: 365)
         }
 
-        let requestBody = CreateInvitationRequestBody(
-            emailAddress: emailAddress,
-            publicMetadata: publicMetadata,
-            redirectUrl: redirectUrl,
-            notify: notify,
-            ignoreExisting: ignoreExisting,
-            expiresInDays: expiresInDays,
-            templateSlug: templateSlug
-        )
+        let requestBody = CreateInvitationRequestBody(emailAddress: emailAddress, publicMetadata: publicMetadata, redirectUrl: redirectUrl, notify: notify, ignoreExisting: ignoreExisting, expiresInDays: expiresInDays, templateSlug: templateSlug)
 
-        return try await (sdkRequest(
-            "POST",
-            "/invitations",
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "CreateInvitation",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("POST", "/invitations", config: config, body: requestBody, decoder: .json, operationId: "CreateInvitation", options: requestOptions, errors: ["400": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

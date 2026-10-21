@@ -6,36 +6,15 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension WaitlistEntriesMethods {
-    /// Creates multiple waitlist entries from email addresses in a single request. Each entry requires `email_address`;
-    /// `notify` defaults to true when omitted. You can submit 1 to 50 entries per request, but duplicate email
-    /// addresses within the request are not allowed, and existing waitlist entries are returned without creating new
-    /// entries.
+extension WaitlistEntriesMethods {
+    /// Creates multiple waitlist entries from email addresses in a single request. Each entry requires `email_address`; `notify` defaults to true when omitted. You can submit 1 to 50 entries per request, but duplicate email addresses within the request are not allowed, and existing waitlist entries are returned without creating new entries.
     ///
-    /// Creates multiple waitlist entries for the provided email addresses. You can choose whether to send confirmation
-    /// emails by setting the `notify` parameter to `true` or `false` for each entry. If the `notify` parameter is
-    /// omitted, it defaults to `true`. If an email address is already on the waitlist, no new entry will be created and
-    /// the existing waitlist entry will be returned. Duplicate email addresses within the same request are not allowed.
-    /// This endpoint is limited to a maximum of 50 entries per API call. If you need to add more entries, please make
-    /// multiple requests.
-    static func createBulkWaitlistEntries(
-        config: ClientConfig,
-        body: [CreateBulkWaitlistEntriesRequestBodyItem]? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> [WaitlistEntry] {
-        if let body {
+    /// Creates multiple waitlist entries for the provided email addresses. You can choose whether to send confirmation emails by setting the `notify` parameter to `true` or `false` for each entry. If the `notify` parameter is omitted, it defaults to `true`. If an email address is already on the waitlist, no new entry will be created and the existing waitlist entry will be returned. Duplicate email addresses within the same request are not allowed. This endpoint is limited to a maximum of 50 entries per API call. If you need to add more entries, please make multiple requests.
+    public static func createBulkWaitlistEntries(config: ClientConfig, body: [CreateBulkWaitlistEntriesRequestBodyItem]? = nil, requestOptions: RequestOptions? = nil) async throws -> [WaitlistEntry] {
+        if let body = body {
             try validateItems("body", body, min: 1, max: 50)
         }
 
-        return try await (sdkRequest(
-            "POST",
-            "/waitlist_entries/bulk",
-            config: config,
-            rawBody: (body.map { try sdkEncodeBody($0, contentType: "application/json") }),
-            decoder: .json,
-            operationId: "CreateBulkWaitlistEntries",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("POST", "/waitlist_entries/bulk", config: config, rawBody: (try body.map { try sdkEncodeBody($0, contentType: "application/json") }), decoder: .json, operationId: "CreateBulkWaitlistEntries", options: requestOptions, errors: ["400": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

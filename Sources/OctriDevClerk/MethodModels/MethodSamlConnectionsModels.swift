@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-/// Canonical samlConnections operation model declarations
+// Canonical samlConnections operation model declarations
 /// Configuration for the login_hint sent to the IdP on SSO sign-in
 public struct UpdateSAMLConnectionRequestBodyLoginHint: Codable {
     /// Controls the login_hint sent to the IdP on SSO sign-in
@@ -20,28 +20,22 @@ public struct UpdateSAMLConnectionRequestBodyLoginHint: Codable {
         case source
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension UpdateSAMLConnectionRequestBodyLoginHint {
-    init(from decoder: Decoder) throws {
+extension UpdateSAMLConnectionRequestBodyLoginHint {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.mode) else {
-            throw SdkValidationError(
-                field: "mode",
-                code: "required",
-                message: "Validation failed for 'mode': value is required"
-            )
+            throw SdkValidationError(field: "mode", code: "required", message: "Validation failed for 'mode': value is required")
         }
-        mode = try container.sdkDecodeRequired(.mode)
-        source = try container.sdkDecodeIfPresent(.source)
+        self.mode = try container.sdkDecodeRequired(.mode)
+        self.source = try container.sdkDecodeIfPresent(.source)
     }
 }
 
-public extension UpdateSAMLConnectionRequestBodyLoginHint {
-    init(mode: UpdateSAMLConnectionRequestBodyLoginHintMode, source: String? = nil) {
+extension UpdateSAMLConnectionRequestBodyLoginHint {
+    public init(mode: UpdateSAMLConnectionRequestBodyLoginHintMode, source: String? = nil) {
         (self.mode, self.source) = (mode, source)
     }
 }
@@ -61,22 +55,22 @@ public struct UpdateSAMLConnectionRequestBodyAttributeMapping: Codable {
     }
 
     init() {
-        (userId, emailAddress, firstName, lastName) = (nil, nil, nil, nil)
+        (self.userId, self.emailAddress, self.firstName, self.lastName) = (nil, nil, nil, nil)
     }
 }
 
-public extension UpdateSAMLConnectionRequestBodyAttributeMapping {
-    init(from decoder: Decoder) throws {
+extension UpdateSAMLConnectionRequestBodyAttributeMapping {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        userId = try container.sdkDecodeIfPresent(.userId)
-        emailAddress = try container.sdkDecodeIfPresent(.emailAddress)
-        firstName = try container.sdkDecodeIfPresent(.firstName)
-        lastName = try container.sdkDecodeIfPresent(.lastName)
+        self.userId = try container.sdkDecodeIfPresent(.userId)
+        self.emailAddress = try container.sdkDecodeIfPresent(.emailAddress)
+        self.firstName = try container.sdkDecodeIfPresent(.firstName)
+        self.lastName = try container.sdkDecodeIfPresent(.lastName)
     }
 }
 
-public extension UpdateSAMLConnectionRequestBodyAttributeMapping {
-    init(userId: String? = nil, emailAddress: String? = nil, firstName: String? = nil, lastName: String? = nil) {
+extension UpdateSAMLConnectionRequestBodyAttributeMapping {
+    public init(userId: String? = nil, emailAddress: String? = nil, firstName: String? = nil, lastName: String? = nil) {
         self.init()
         (self.userId, self.emailAddress) = (userId, emailAddress)
         (self.firstName, self.lastName) = (firstName, lastName)
@@ -98,22 +92,22 @@ public struct CreateSAMLConnectionRequestBodyAttributeMapping: Codable {
     }
 
     init() {
-        (userId, emailAddress, firstName, lastName) = (nil, nil, nil, nil)
+        (self.userId, self.emailAddress, self.firstName, self.lastName) = (nil, nil, nil, nil)
     }
 }
 
-public extension CreateSAMLConnectionRequestBodyAttributeMapping {
-    init(from decoder: Decoder) throws {
+extension CreateSAMLConnectionRequestBodyAttributeMapping {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        userId = try container.sdkDecodeIfPresent(.userId)
-        emailAddress = try container.sdkDecodeIfPresent(.emailAddress)
-        firstName = try container.sdkDecodeIfPresent(.firstName)
-        lastName = try container.sdkDecodeIfPresent(.lastName)
+        self.userId = try container.sdkDecodeIfPresent(.userId)
+        self.emailAddress = try container.sdkDecodeIfPresent(.emailAddress)
+        self.firstName = try container.sdkDecodeIfPresent(.firstName)
+        self.lastName = try container.sdkDecodeIfPresent(.lastName)
     }
 }
 
-public extension CreateSAMLConnectionRequestBodyAttributeMapping {
-    init(userId: String? = nil, emailAddress: String? = nil, firstName: String? = nil, lastName: String? = nil) {
+extension CreateSAMLConnectionRequestBodyAttributeMapping {
+    public init(userId: String? = nil, emailAddress: String? = nil, firstName: String? = nil, lastName: String? = nil) {
         self.init()
         (self.userId, self.emailAddress) = (userId, emailAddress)
         (self.firstName, self.lastName) = (firstName, lastName)
@@ -132,28 +126,22 @@ public struct CreateSAMLConnectionRequestBodyLoginHint: Codable {
         case source
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CreateSAMLConnectionRequestBodyLoginHint {
-    init(from decoder: Decoder) throws {
+extension CreateSAMLConnectionRequestBodyLoginHint {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.mode) else {
-            throw SdkValidationError(
-                field: "mode",
-                code: "required",
-                message: "Validation failed for 'mode': value is required"
-            )
+            throw SdkValidationError(field: "mode", code: "required", message: "Validation failed for 'mode': value is required")
         }
-        mode = try container.sdkDecodeRequired(.mode)
-        source = try container.sdkDecodeIfPresent(.source)
+        self.mode = try container.sdkDecodeRequired(.mode)
+        self.source = try container.sdkDecodeIfPresent(.source)
     }
 }
 
-public extension CreateSAMLConnectionRequestBodyLoginHint {
-    init(mode: CreateSAMLConnectionRequestBodyLoginHintMode, source: String? = nil) {
+extension CreateSAMLConnectionRequestBodyLoginHint {
+    public init(mode: CreateSAMLConnectionRequestBodyLoginHintMode, source: String? = nil) {
         (self.mode, self.source) = (mode, source)
     }
 }

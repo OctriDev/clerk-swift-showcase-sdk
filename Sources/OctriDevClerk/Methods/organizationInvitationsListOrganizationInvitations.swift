@@ -6,12 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationInvitationsMethods {
-    /// This request returns the list of organization invitations. Results can be paginated using the optional `limit`
-    /// and `offset` query parameters. You can filter them by providing the 'status' query parameter, that accepts
-    /// multiple values. The organization invitations are ordered by descending creation date. Most recent invitations
-    /// will be returned first. Any invitations created as a result of an Organization Domain are not included in the
-    /// results.
+extension OrganizationInvitationsMethods {
+    /// This request returns the list of organization invitations. Results can be paginated using the optional `limit` and `offset` query parameters. You can filter them by providing the 'status' query parameter, that accepts multiple values. The organization invitations are ordered by descending creation date. Most recent invitations will be returned first. Any invitations created as a result of an Organization Domain are not included in the results.
     ///
     /// - Parameters:
     /// - organizationId: The organization ID.
@@ -29,39 +25,21 @@ public extension OrganizationInvitationsMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    static func listOrganizationInvitations(
-        config: ClientConfig,
-        organizationId: String,
-        status: ListOrganizationInvitationsParameter? = nil,
-        emailAddress: String? = nil,
-        orderBy: String? = nil,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OrganizationInvitations {
-        if let limit {
+    public static func listOrganizationInvitations(config: ClientConfig, organizationId: String, status: ListOrganizationInvitationsParameter? = nil, emailAddress: String? = nil, orderBy: String? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationInvitations {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/invitations"].joined(),
-            config: config,
-            query: [
-                SdkQueryParameter("status", value: status),
-                SdkQueryParameter("email_address", value: emailAddress),
-                SdkQueryParameter("order_by", value: orderBy),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-            ],
-            decoder: .json,
-            operationId: "ListOrganizationInvitations",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/invitations"].joined(), config: config, query: [
+            SdkQueryParameter("status", value: status),
+            SdkQueryParameter("email_address", value: emailAddress),
+            SdkQueryParameter("order_by", value: orderBy),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "ListOrganizationInvitations", options: requestOptions, errors: ["400": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

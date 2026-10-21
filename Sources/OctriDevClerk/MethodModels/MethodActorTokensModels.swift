@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-/// Canonical actorTokens operation model declarations
+// Canonical actorTokens operation model declarations
 /// The actor payload. It needs to include a sub property which should contain the ID of the actor. This whole
 /// payload will be also included in the JWT session token.
 public struct CreateActorTokenRequestBodyActor: Codable {
@@ -20,34 +20,28 @@ public struct CreateActorTokenRequestBodyActor: Codable {
         case sub
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CreateActorTokenRequestBodyActor {
-    init(from decoder: Decoder) throws {
+extension CreateActorTokenRequestBodyActor {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.sub) else {
-            throw SdkValidationError(
-                field: "sub",
-                code: "required",
-                message: "Validation failed for 'sub': value is required"
-            )
+            throw SdkValidationError(field: "sub", code: "required", message: "Validation failed for 'sub': value is required")
         }
-        sub = try container.sdkDecodeRequired(.sub)
+        self.sub = try container.sdkDecodeRequired(.sub)
         additionalProperties = try decoder.sdkAdditionalProperties(besides: CodingKeys.self)
     }
 }
 
-public extension CreateActorTokenRequestBodyActor {
-    init(sub: String) {
+extension CreateActorTokenRequestBodyActor {
+    public init(sub: String) {
         self.sub = sub
     }
 }
 
-public extension CreateActorTokenRequestBodyActor {
-    func encode(to encoder: Encoder) throws {
+extension CreateActorTokenRequestBodyActor {
+    public func encode(to encoder: Encoder) throws {
         try encoder.sdkEncodeAdditionalProperties(additionalProperties)
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(sub, forKey: .sub)

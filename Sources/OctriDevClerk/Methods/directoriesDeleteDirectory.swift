@@ -6,25 +6,12 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension DirectoriesMethods {
-    /// Deletes a directory and stops provisioning for it. Provisioning requests authenticated with the directory's API
-    /// key are rejected afterwards.
+extension DirectoriesMethods {
+    /// Deletes a directory and stops provisioning for it. Provisioning requests authenticated with the directory's API key are rejected afterwards.
     ///
     /// - Parameters:
     /// - directoryId: The ID of the directory to delete
-    static func deleteDirectory(
-        config: ClientConfig,
-        directoryId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DeletedObject {
-        try await (sdkRequest(
-            "DELETE",
-            ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId))].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DeleteDirectory",
-            options: requestOptions,
-            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func deleteDirectory(config: ClientConfig, directoryId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
+        return try (await sdkRequest("DELETE", ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId))].joined(), config: config, decoder: .json, operationId: "DeleteDirectory", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

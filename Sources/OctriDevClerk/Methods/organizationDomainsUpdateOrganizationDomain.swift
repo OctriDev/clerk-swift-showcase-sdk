@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension OrganizationDomainsMethods {
+extension OrganizationDomainsMethods {
     /// Updates the properties of an existing organization domain.
     ///
     /// - Parameters:
@@ -16,60 +16,20 @@ public extension OrganizationDomainsMethods {
     ///   `automatic_invitation`, `automatic_suggestion`, `manual_invitation` or
     ///   `enterprise_sso`
     /// - verified: The status of the domain's verification
-    static func updateOrganizationDomain(
-        config: ClientConfig,
-        organizationId: String,
-        domainId: String,
-        enrollmentMode: SdkOptional<String>? = nil,
-        verified: SdkOptional<Bool>? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> OrganizationDomain {
+    public static func updateOrganizationDomain(config: ClientConfig, organizationId: String, domainId: String, enrollmentMode: SdkOptional<String>? = nil, verified: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationDomain {
         let requestBody = UpdateOrganizationDomainRequestBody(enrollmentMode: enrollmentMode, verified: verified)
 
-        return try await (sdkRequest(
-            "PATCH",
-            [
-                "/organizations/",
-                sdkEncodePathSegment(sdkWireString(organizationId)),
-                "/domains/",
-                sdkEncodePathSegment(sdkWireString(domainId)),
-            ].joined(),
-            config: config,
-            body: requestBody,
-            decoder: .json,
-            operationId: "UpdateOrganizationDomain",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("PATCH", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/domains/", sdkEncodePathSegment(sdkWireString(domainId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateOrganizationDomain", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 
-    /// Deletes a domain from an organization. Use the `organization_id` and `domain_id` path parameters to identify the
-    /// organization and domain to remove. A successful response indicates that the domain was deleted.
+    /// Deletes a domain from an organization. Use the `organization_id` and `domain_id` path parameters to identify the organization and domain to remove. A successful response indicates that the domain was deleted.
     ///
     /// Removes the given domain from the organization.
     ///
     /// - Parameters:
     /// - organizationId: The ID of the organization to which the domain belongs
     /// - domainId: The ID of the domain
-    static func deleteOrganizationDomain(
-        config: ClientConfig,
-        organizationId: String,
-        domainId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> DeletedObject {
-        try await (sdkRequest(
-            "DELETE",
-            [
-                "/organizations/",
-                sdkEncodePathSegment(sdkWireString(organizationId)),
-                "/domains/",
-                sdkEncodePathSegment(sdkWireString(domainId)),
-            ].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "DeleteOrganizationDomain",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
-        )).data
+    public static func deleteOrganizationDomain(config: ClientConfig, organizationId: String, domainId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
+        return try (await sdkRequest("DELETE", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/domains/", sdkEncodePathSegment(sdkWireString(domainId))].joined(), config: config, decoder: .json, operationId: "DeleteOrganizationDomain", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
     }
 }

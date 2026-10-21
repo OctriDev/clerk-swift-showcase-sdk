@@ -8,50 +8,15 @@ import Foundation
 #endif
 public enum WebhooksMethods {
     /// Create a Svix app and associate it with the current instance
-    public static func createSvixApp(
-        config: ClientConfig,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SvixURL {
-        try await (sdkRequest(
-            "POST",
-            "/webhooks/svix",
-            config: config,
-            decoder: .json,
-            operationId: "CreateSvixApp",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self]
-        )).data
+    public static func createSvixApp(config: ClientConfig, requestOptions: RequestOptions? = nil) async throws -> SvixURL {
+        return try (await sdkRequest("POST", "/webhooks/svix", config: config, decoder: .json, operationId: "CreateSvixApp", options: requestOptions, errors: ["400": ClerkErrors.self])).data
     }
-
     /// Delete a Svix app and disassociate it from the current instance
-    public static func deleteSvixApp(
-        config: ClientConfig,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SdkEmptyResponse {
-        try await (sdkRequest(
-            "DELETE",
-            "/webhooks/svix",
-            config: config,
-            decoder: .empty,
-            operationId: "DeleteSvixApp",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self]
-        )).data
+    public static func deleteSvixApp(config: ClientConfig, requestOptions: RequestOptions? = nil) async throws -> SdkEmptyResponse {
+        return try (await sdkRequest("DELETE", "/webhooks/svix", config: config, decoder: .empty, operationId: "DeleteSvixApp", options: requestOptions, errors: ["400": ClerkErrors.self])).data
     }
-
     /// Generate a new URL for accessing the Svix's management dashboard for that particular instance
-    public static func generateSvixAuthUrl(
-        config: ClientConfig,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> SvixURL {
-        try await (sdkRequest(
-            "POST",
-            "/webhooks/svix_url",
-            config: config,
-            decoder: .json,
-            operationId: "GenerateSvixAuthURL",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self]
-        )).data
+    public static func generateSvixAuthUrl(config: ClientConfig, requestOptions: RequestOptions? = nil) async throws -> SvixURL {
+        return try (await sdkRequest("POST", "/webhooks/svix_url", config: config, decoder: .json, operationId: "GenerateSvixAuthURL", options: requestOptions, errors: ["400": ClerkErrors.self])).data
     }
 }

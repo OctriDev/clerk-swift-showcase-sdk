@@ -8,10 +8,8 @@ import Foundation
 #endif
 public enum OrganizationRolesMethods {}
 
-public extension OrganizationRolesMethods {
-    /// This request returns the list of organization roles for the instance. Results can be paginated using the
-    /// optional `limit` and `offset` query parameters. The organization roles are ordered by descending creation date.
-    /// Most recent roles will be returned first.
+extension OrganizationRolesMethods {
+    /// This request returns the list of organization roles for the instance. Results can be paginated using the optional `limit` and `offset` query parameters. The organization roles are ordered by descending creation date. Most recent roles will be returned first.
     ///
     /// - Parameters:
     /// - query: Returns organization roles with ID, name, or key that match the
@@ -28,36 +26,20 @@ public extension OrganizationRolesMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    static func listOrganizationRoles(
-        config: ClientConfig,
-        query: String? = nil,
-        orderBy: String? = nil,
-        limit: Int? = nil,
-        offset: Int? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> Roles {
-        if let limit {
+    public static func listOrganizationRoles(config: ClientConfig, query: String? = nil, orderBy: String? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> Roles {
+        if let limit = limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset {
+        if let offset = offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try await (sdkRequest(
-            "GET",
-            "/organization_roles",
-            config: config,
-            query: [
-                SdkQueryParameter("query", value: query),
-                SdkQueryParameter("order_by", value: orderBy),
-                SdkQueryParameter("limit", value: limit),
-                SdkQueryParameter("offset", value: offset),
-            ],
-            decoder: .json,
-            operationId: "ListOrganizationRoles",
-            options: requestOptions,
-            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self]
-        )).data
+        return try (await sdkRequest("GET", "/organization_roles", config: config, query: [
+            SdkQueryParameter("query", value: query),
+            SdkQueryParameter("order_by", value: orderBy),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "ListOrganizationRoles", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
     }
 }

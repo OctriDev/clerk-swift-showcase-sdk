@@ -6,23 +6,11 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension ApiKeysMethods {
-    /// Retrieves the secret for an API key by its identifier. Supply the key ID using the `ak_` or `api_key_` prefix
-    /// followed by 32 hexadecimal characters. Treat the returned secret as a credential.
-    static func getApiKeySecret(
-        config: ClientConfig,
-        apiKeyId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> GetApiKeySecretResponse {
+extension ApiKeysMethods {
+    /// Retrieves the secret for an API key by its identifier. Supply the key ID using the `ak_` or `api_key_` prefix followed by 32 hexadecimal characters. Treat the returned secret as a credential.
+    public static func getApiKeySecret(config: ClientConfig, apiKeyId: String, requestOptions: RequestOptions? = nil) async throws -> GetApiKeySecretResponse {
         try sdkValidatePattern("apiKeyID", apiKeyId, sdkPattern4f1a58be85d5)
 
-        return try await (sdkRequest(
-            "GET",
-            ["/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "/secret"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "getApiKeySecret",
-            options: requestOptions
-        )).data
+        return try (await sdkRequest("GET", ["/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "/secret"].joined(), config: config, decoder: .json, operationId: "getApiKeySecret", options: requestOptions)).data
     }
 }

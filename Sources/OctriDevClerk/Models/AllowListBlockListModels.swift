@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// AllowListBlockList domain models
+// AllowListBlockList domain models
 /// Typed representation of the `BlocklistIdentifiers` API schema.
 public struct BlocklistIdentifiers: Codable {
     /// Required array value serialized in the `data` wire field.
@@ -16,35 +16,25 @@ public struct BlocklistIdentifiers: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension BlocklistIdentifiers {
-    init(from decoder: Decoder) throws {
+extension BlocklistIdentifiers {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.data) else {
-            throw SdkValidationError(
-                field: "data",
-                code: "required",
-                message: "Validation failed for 'data': value is required"
-            )
+            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
         }
         guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
+            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
         }
-        data = try container.sdkDecodeRequired(.data)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
+        self.data = try container.sdkDecodeRequired(.data)
+        self.totalCount = try container.sdkDecodeRequired(.totalCount)
     }
 }
 
-public extension BlocklistIdentifiers {
-    init(data: [BlocklistIdentifier], totalCount: Int) {
+extension BlocklistIdentifiers {
+    public init(data: [BlocklistIdentifier], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -80,36 +70,27 @@ public struct AllowlistIdentifier: Codable {
     }
 
     init() {
-        (object, id, invitationId, identifier, identifierType) = (nil, nil, nil, nil, nil)
-        (instanceId, createdAt, updatedAt) = (nil, nil, nil)
+        (self.object, self.id, self.invitationId, self.identifier, self.identifierType) = (nil, nil, nil, nil, nil)
+        (self.instanceId, self.createdAt, self.updatedAt) = (nil, nil, nil)
     }
 }
 
-public extension AllowlistIdentifier {
-    init(from decoder: Decoder) throws {
+extension AllowlistIdentifier {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeIfPresent(.object)
-        id = try container.sdkDecodeIfPresent(.id)
-        invitationId = try container.sdkDecodeIfPresent(.invitationId)
-        identifier = try container.sdkDecodeIfPresent(.identifier)
-        identifierType = try container.sdkDecodeIfPresent(.identifierType)
-        instanceId = try container.sdkDecodeIfPresent(.instanceId)
-        createdAt = try container.sdkDecodeIfPresent(.createdAt)
-        updatedAt = try container.sdkDecodeIfPresent(.updatedAt)
+        self.object = try container.sdkDecodeIfPresent(.object)
+        self.id = try container.sdkDecodeIfPresent(.id)
+        self.invitationId = try container.sdkDecodeIfPresent(.invitationId)
+        self.identifier = try container.sdkDecodeIfPresent(.identifier)
+        self.identifierType = try container.sdkDecodeIfPresent(.identifierType)
+        self.instanceId = try container.sdkDecodeIfPresent(.instanceId)
+        self.createdAt = try container.sdkDecodeIfPresent(.createdAt)
+        self.updatedAt = try container.sdkDecodeIfPresent(.updatedAt)
     }
 }
 
-public extension AllowlistIdentifier {
-    init(
-        object: AllowlistIdentifierObject? = nil,
-        id: String? = nil,
-        invitationId: String? = nil,
-        identifier: String? = nil,
-        identifierType: AllowlistIdentifierIdentifierType? = nil,
-        instanceId: String? = nil,
-        createdAt: Int? = nil,
-        updatedAt: Int? = nil
-    ) {
+extension AllowlistIdentifier {
+    public init(object: AllowlistIdentifierObject? = nil, id: String? = nil, invitationId: String? = nil, identifier: String? = nil, identifierType: AllowlistIdentifierIdentifierType? = nil, instanceId: String? = nil, createdAt: Int? = nil, updatedAt: Int? = nil) {
         self.init()
         (self.object, self.id) = (object, id)
         (self.invitationId, self.identifier) = (invitationId, identifier)
@@ -146,34 +127,26 @@ public struct BlocklistIdentifier: Codable {
     }
 
     init() {
-        (object, id, identifier, identifierType, instanceId) = (nil, nil, nil, nil, nil)
-        (createdAt, updatedAt) = (nil, nil)
+        (self.object, self.id, self.identifier, self.identifierType, self.instanceId) = (nil, nil, nil, nil, nil)
+        (self.createdAt, self.updatedAt) = (nil, nil)
     }
 }
 
-public extension BlocklistIdentifier {
-    init(from decoder: Decoder) throws {
+extension BlocklistIdentifier {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        object = try container.sdkDecodeIfPresent(.object)
-        id = try container.sdkDecodeIfPresent(.id)
-        identifier = try container.sdkDecodeIfPresent(.identifier)
-        identifierType = try container.sdkDecodeIfPresent(.identifierType)
-        instanceId = try container.sdkDecodeIfPresent(.instanceId)
-        createdAt = try container.sdkDecodeIfPresent(.createdAt)
-        updatedAt = try container.sdkDecodeIfPresent(.updatedAt)
+        self.object = try container.sdkDecodeIfPresent(.object)
+        self.id = try container.sdkDecodeIfPresent(.id)
+        self.identifier = try container.sdkDecodeIfPresent(.identifier)
+        self.identifierType = try container.sdkDecodeIfPresent(.identifierType)
+        self.instanceId = try container.sdkDecodeIfPresent(.instanceId)
+        self.createdAt = try container.sdkDecodeIfPresent(.createdAt)
+        self.updatedAt = try container.sdkDecodeIfPresent(.updatedAt)
     }
 }
 
-public extension BlocklistIdentifier {
-    init(
-        object: BlocklistIdentifierObject? = nil,
-        id: String? = nil,
-        identifier: String? = nil,
-        identifierType: BlocklistIdentifierIdentifierType? = nil,
-        instanceId: String? = nil,
-        createdAt: Int? = nil,
-        updatedAt: Int? = nil
-    ) {
+extension BlocklistIdentifier {
+    public init(object: BlocklistIdentifierObject? = nil, id: String? = nil, identifier: String? = nil, identifierType: BlocklistIdentifierIdentifierType? = nil, instanceId: String? = nil, createdAt: Int? = nil, updatedAt: Int? = nil) {
         self.init()
         (self.object, self.id) = (object, id)
         (self.identifier, self.identifierType) = (identifier, identifierType)
@@ -186,15 +159,12 @@ public extension BlocklistIdentifier {
 public struct AllowlistIdentifierObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let allowlistIdentifier = AllowlistIdentifierObject(rawValue: "allowlist_identifier")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -207,17 +177,14 @@ public struct AllowlistIdentifierObject: RawRepresentable, Hashable, Codable, Se
 public struct BlocklistIdentifierIdentifierType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let emailAddress = BlocklistIdentifierIdentifierType(rawValue: "email_address")
     public static let phoneNumber = BlocklistIdentifierIdentifierType(rawValue: "phone_number")
     public static let web3Wallet = BlocklistIdentifierIdentifierType(rawValue: "web3_wallet")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -230,17 +197,14 @@ public struct BlocklistIdentifierIdentifierType: RawRepresentable, Hashable, Cod
 public struct AllowlistIdentifierIdentifierType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let emailAddress = AllowlistIdentifierIdentifierType(rawValue: "email_address")
     public static let phoneNumber = AllowlistIdentifierIdentifierType(rawValue: "phone_number")
     public static let web3Wallet = AllowlistIdentifierIdentifierType(rawValue: "web3_wallet")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -253,15 +217,12 @@ public struct AllowlistIdentifierIdentifierType: RawRepresentable, Hashable, Cod
 public struct BlocklistIdentifierObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let blocklistIdentifier = BlocklistIdentifierObject(rawValue: "blocklist_identifier")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

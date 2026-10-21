@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-/// Canonical m2MTokens operation model declarations
+// Canonical m2MTokens operation model declarations
 public struct VerifyM2MTokenResponseX08af616e: Codable {
     public var errors: [VerifyM2MTokenResponseErrorsItemXd34892bc]
 
@@ -15,27 +15,21 @@ public struct VerifyM2MTokenResponseX08af616e: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension VerifyM2MTokenResponseX08af616e {
-    init(from decoder: Decoder) throws {
+extension VerifyM2MTokenResponseX08af616e {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension VerifyM2MTokenResponseX08af616e {
-    init(errors: [VerifyM2MTokenResponseErrorsItemXd34892bc]) {
+extension VerifyM2MTokenResponseX08af616e {
+    public init(errors: [VerifyM2MTokenResponseErrorsItemXd34892bc]) {
         self.errors = errors
     }
 }
@@ -54,43 +48,29 @@ public struct RevokeM2MTokenResponseErrorsItemXdd2616b6: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RevokeM2MTokenResponseErrorsItemXdd2616b6 {
-    init(from decoder: Decoder) throws {
+extension RevokeM2MTokenResponseErrorsItemXdd2616b6 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension RevokeM2MTokenResponseErrorsItemXdd2616b6 {
-    init(message: String, longMessage: String, code: String) {
+extension RevokeM2MTokenResponseErrorsItemXdd2616b6 {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -110,43 +90,29 @@ public struct GetM2MTokensResponseErrorsItemX0970f416: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension GetM2MTokensResponseErrorsItemX0970f416 {
-    init(from decoder: Decoder) throws {
+extension GetM2MTokensResponseErrorsItemX0970f416 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension GetM2MTokensResponseErrorsItemX0970f416 {
-    init(message: String, longMessage: String, code: String) {
+extension GetM2MTokensResponseErrorsItemX0970f416 {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -159,27 +125,21 @@ public struct GetM2MTokensResponseX90e8b1a1: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension GetM2MTokensResponseX90e8b1a1 {
-    init(from decoder: Decoder) throws {
+extension GetM2MTokensResponseX90e8b1a1 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension GetM2MTokensResponseX90e8b1a1 {
-    init(errors: [GetM2MTokensResponseErrorsItem]) {
+extension GetM2MTokensResponseX90e8b1a1 {
+    public init(errors: [GetM2MTokensResponseErrorsItem]) {
         self.errors = errors
     }
 }
@@ -198,43 +158,29 @@ public struct CreateM2MTokenResponseErrorsItemX9c405e78: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CreateM2MTokenResponseErrorsItemX9c405e78 {
-    init(from decoder: Decoder) throws {
+extension CreateM2MTokenResponseErrorsItemX9c405e78 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension CreateM2MTokenResponseErrorsItemX9c405e78 {
-    init(message: String, longMessage: String, code: String) {
+extension CreateM2MTokenResponseErrorsItemX9c405e78 {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -247,27 +193,21 @@ public struct RevokeM2MTokenResponseX4eec137d: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RevokeM2MTokenResponseX4eec137d {
-    init(from decoder: Decoder) throws {
+extension RevokeM2MTokenResponseX4eec137d {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension RevokeM2MTokenResponseX4eec137d {
-    init(errors: [RevokeM2MTokenResponseErrorsItem]) {
+extension RevokeM2MTokenResponseX4eec137d {
+    public init(errors: [RevokeM2MTokenResponseErrorsItem]) {
         self.errors = errors
     }
 }
@@ -279,27 +219,21 @@ public struct CreateM2MTokenResponseXcc891007: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CreateM2MTokenResponseXcc891007 {
-    init(from decoder: Decoder) throws {
+extension CreateM2MTokenResponseXcc891007 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension CreateM2MTokenResponseXcc891007 {
-    init(errors: [CreateM2MTokenResponseErrorsItemX9c405e78]) {
+extension CreateM2MTokenResponseXcc891007 {
+    public init(errors: [CreateM2MTokenResponseErrorsItemX9c405e78]) {
         self.errors = errors
     }
 }
@@ -318,43 +252,29 @@ public struct VerifyM2MTokenResponseErrorsItemXd34892bc: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension VerifyM2MTokenResponseErrorsItemXd34892bc {
-    init(from decoder: Decoder) throws {
+extension VerifyM2MTokenResponseErrorsItemXd34892bc {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension VerifyM2MTokenResponseErrorsItemXd34892bc {
-    init(message: String, longMessage: String, code: String) {
+extension VerifyM2MTokenResponseErrorsItemXd34892bc {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }
@@ -367,27 +287,21 @@ public struct GetM2MTokensResponseXafea2361: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension GetM2MTokensResponseXafea2361 {
-    init(from decoder: Decoder) throws {
+extension GetM2MTokensResponseXafea2361 {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension GetM2MTokensResponseXafea2361 {
-    init(errors: [GetM2MTokensResponseErrorsItemX15be281a]) {
+extension GetM2MTokensResponseXafea2361 {
+    public init(errors: [GetM2MTokensResponseErrorsItemX15be281a]) {
         self.errors = errors
     }
 }
@@ -399,27 +313,21 @@ public struct VerifyM2MTokenResponseX520aa78a: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension VerifyM2MTokenResponseX520aa78a {
-    init(from decoder: Decoder) throws {
+extension VerifyM2MTokenResponseX520aa78a {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension VerifyM2MTokenResponseX520aa78a {
-    init(errors: [VerifyM2MTokenResponseErrorsItem]) {
+extension VerifyM2MTokenResponseX520aa78a {
+    public init(errors: [VerifyM2MTokenResponseErrorsItem]) {
         self.errors = errors
     }
 }
@@ -433,35 +341,25 @@ public struct GetM2MTokensResponse: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension GetM2MTokensResponse {
-    init(from decoder: Decoder) throws {
+extension GetM2MTokensResponse {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.m2mTokens) else {
-            throw SdkValidationError(
-                field: "m2m_tokens",
-                code: "required",
-                message: "Validation failed for 'm2m_tokens': value is required"
-            )
+            throw SdkValidationError(field: "m2m_tokens", code: "required", message: "Validation failed for 'm2m_tokens': value is required")
         }
         guard container.contains(.totalCount) else {
-            throw SdkValidationError(
-                field: "total_count",
-                code: "required",
-                message: "Validation failed for 'total_count': value is required"
-            )
+            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
         }
-        m2mTokens = try container.sdkDecodeRequired(.m2mTokens)
-        totalCount = try container.sdkDecodeRequired(.totalCount)
+        self.m2mTokens = try container.sdkDecodeRequired(.m2mTokens)
+        self.totalCount = try container.sdkDecodeRequired(.totalCount)
     }
 }
 
-public extension GetM2MTokensResponse {
-    init(m2mTokens: [GetM2MTokensResponseM2mTokensItem], totalCount: Double) {
+extension GetM2MTokensResponse {
+    public init(m2mTokens: [GetM2MTokensResponseM2mTokensItem], totalCount: Double) {
         (self.m2mTokens, self.totalCount) = (m2mTokens, totalCount)
     }
 }
@@ -473,27 +371,21 @@ public struct RevokeM2MTokenResponseXf63ed3cd: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RevokeM2MTokenResponseXf63ed3cd {
-    init(from decoder: Decoder) throws {
+extension RevokeM2MTokenResponseXf63ed3cd {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension RevokeM2MTokenResponseXf63ed3cd {
-    init(errors: [RevokeM2MTokenResponseErrorsItemXdd2616b6]) {
+extension RevokeM2MTokenResponseXf63ed3cd {
+    public init(errors: [RevokeM2MTokenResponseErrorsItemXdd2616b6]) {
         self.errors = errors
     }
 }
@@ -505,27 +397,21 @@ public struct GetM2MTokensResponseX5ee5638f: Codable {
         case errors
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension GetM2MTokensResponseX5ee5638f {
-    init(from decoder: Decoder) throws {
+extension GetM2MTokensResponseX5ee5638f {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.errors) else {
-            throw SdkValidationError(
-                field: "errors",
-                code: "required",
-                message: "Validation failed for 'errors': value is required"
-            )
+            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
         }
-        errors = try container.sdkDecodeRequired(.errors)
+        self.errors = try container.sdkDecodeRequired(.errors)
     }
 }
 
-public extension GetM2MTokensResponseX5ee5638f {
-    init(errors: [GetM2MTokensResponseErrorsItemX0970f416]) {
+extension GetM2MTokensResponseX5ee5638f {
+    public init(errors: [GetM2MTokensResponseErrorsItemX0970f416]) {
         self.errors = errors
     }
 }
@@ -544,43 +430,29 @@ public struct RevokeM2MTokenResponseErrorsItem: Codable {
         case code
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension RevokeM2MTokenResponseErrorsItem {
-    init(from decoder: Decoder) throws {
+extension RevokeM2MTokenResponseErrorsItem {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.message) else {
-            throw SdkValidationError(
-                field: "message",
-                code: "required",
-                message: "Validation failed for 'message': value is required"
-            )
+            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
         }
         guard container.contains(.longMessage) else {
-            throw SdkValidationError(
-                field: "long_message",
-                code: "required",
-                message: "Validation failed for 'long_message': value is required"
-            )
+            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
         }
         guard container.contains(.code) else {
-            throw SdkValidationError(
-                field: "code",
-                code: "required",
-                message: "Validation failed for 'code': value is required"
-            )
+            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
         }
-        message = try container.sdkDecodeRequired(.message)
-        longMessage = try container.sdkDecodeRequired(.longMessage)
-        code = try container.sdkDecodeRequired(.code)
+        self.message = try container.sdkDecodeRequired(.message)
+        self.longMessage = try container.sdkDecodeRequired(.longMessage)
+        self.code = try container.sdkDecodeRequired(.code)
     }
 }
 
-public extension RevokeM2MTokenResponseErrorsItem {
-    init(message: String, longMessage: String, code: String) {
+extension RevokeM2MTokenResponseErrorsItem {
+    public init(message: String, longMessage: String, code: String) {
         (self.message, self.longMessage) = (message, longMessage)
         self.code = code
     }

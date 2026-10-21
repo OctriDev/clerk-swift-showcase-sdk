@@ -6,61 +6,20 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-public extension UsersMethods {
-    /// Retrieves the billing subscription for the specified user. This includes subscription details, active plans,
-    /// billing information, and payment status. The subscription contains subscription items which represent the
-    /// individual plans the user is subscribed to.
+extension UsersMethods {
+    /// Retrieves the billing subscription for the specified user. This includes subscription details, active plans, billing information, and payment status. The subscription contains subscription items which represent the individual plans the user is subscribed to.
     ///
     /// - Parameters:
     /// - userId: The ID of the user whose subscription to retrieve
-    static func getUserBillingSubscription(
-        config: ClientConfig,
-        userId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> CommerceSubscription {
-        try await (sdkRequest(
-            "GET",
-            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/billing/subscription"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "GetUserBillingSubscription",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-                "500": ClerkErrors.self,
-            ]
-        )).data
+    public static func getUserBillingSubscription(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> CommerceSubscription {
+        return try (await sdkRequest("GET", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/billing/subscription"].joined(), config: config, decoder: .json, operationId: "GetUserBillingSubscription", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 
-    /// Retrieves the current credit balance for the specified user. Credits can be applied during checkout to reduce
-    /// the charge or automatically applied to upcoming recurring charges
+    /// Retrieves the current credit balance for the specified user. Credits can be applied during checkout to reduce the charge or automatically applied to upcoming recurring charges
     ///
     /// - Parameters:
     /// - userId: The ID of the user whose credit balance to retrieve
-    static func getUserBillingCreditBalance(
-        config: ClientConfig,
-        userId: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> CommerceCreditBalanceResponse {
-        try await (sdkRequest(
-            "GET",
-            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/billing/credits"].joined(),
-            config: config,
-            decoder: .json,
-            operationId: "GetUserBillingCreditBalance",
-            options: requestOptions,
-            errors: [
-                "400": ClerkErrors.self,
-                "401": ClerkErrors.self,
-                "403": ClerkErrors.self,
-                "404": ClerkErrors.self,
-                "422": ClerkErrors.self,
-                "500": ClerkErrors.self,
-            ]
-        )).data
+    public static func getUserBillingCreditBalance(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> CommerceCreditBalanceResponse {
+        return try (await sdkRequest("GET", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/billing/credits"].joined(), config: config, decoder: .json, operationId: "GetUserBillingCreditBalance", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
     }
 }

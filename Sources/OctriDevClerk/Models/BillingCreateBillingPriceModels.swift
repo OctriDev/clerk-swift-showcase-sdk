@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Billing domain models
+// Billing domain models
 /// Typed representation of the `CreateBillingPriceRequest` API schema.
 public struct CreateBillingPriceRequest: Codable {
     /// The ID of the plan this price belongs to.
@@ -30,46 +30,29 @@ public struct CreateBillingPriceRequest: Codable {
         case supportedBillingPeriods = "supported_billing_periods"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension CreateBillingPriceRequest {
-    init(from decoder: Decoder) throws {
+extension CreateBillingPriceRequest {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.planId) else {
-            throw SdkValidationError(
-                field: "plan_id",
-                code: "required",
-                message: "Validation failed for 'plan_id': value is required"
-            )
+            throw SdkValidationError(field: "plan_id", code: "required", message: "Validation failed for 'plan_id': value is required")
         }
         guard container.contains(.amount) else {
-            throw SdkValidationError(
-                field: "amount",
-                code: "required",
-                message: "Validation failed for 'amount': value is required"
-            )
+            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
         }
-        planId = try container.sdkDecodeRequired(.planId)
-        amount = try container.sdkDecodeNullable(.amount)
-        currency = try container.sdkDecodeIfPresent(.currency)
-        annualMonthlyAmount = try container.sdkDecodeIfPresent(.annualMonthlyAmount)
-        description = try container.sdkDecodeIfPresent(.description)
-        supportedBillingPeriods = try container.sdkDecodeIfPresent(.supportedBillingPeriods)
+        self.planId = try container.sdkDecodeRequired(.planId)
+        self.amount = try container.sdkDecodeNullable(.amount)
+        self.currency = try container.sdkDecodeIfPresent(.currency)
+        self.annualMonthlyAmount = try container.sdkDecodeIfPresent(.annualMonthlyAmount)
+        self.description = try container.sdkDecodeIfPresent(.description)
+        self.supportedBillingPeriods = try container.sdkDecodeIfPresent(.supportedBillingPeriods)
     }
 }
 
-public extension CreateBillingPriceRequest {
-    init(
-        planId: String,
-        amount: Int?,
-        currency: String? = nil,
-        annualMonthlyAmount: Int? = nil,
-        description: String? = nil,
-        supportedBillingPeriods: CreateBillingPriceRequestSupportedBillingPeriods? = nil
-    ) {
+extension CreateBillingPriceRequest {
+    public init(planId: String, amount: Int?, currency: String? = nil, annualMonthlyAmount: Int? = nil, description: String? = nil, supportedBillingPeriods: CreateBillingPriceRequestSupportedBillingPeriods? = nil) {
         (self.planId, self.amount) = (planId, amount)
         (self.currency, self.annualMonthlyAmount) = (currency, annualMonthlyAmount)
         (self.description, self.supportedBillingPeriods) = (description, supportedBillingPeriods)
@@ -77,21 +60,17 @@ public extension CreateBillingPriceRequest {
 }
 
 /// Which billing periods this price supports. Inferred from amounts if omitted.
-public struct CreateBillingPriceRequestSupportedBillingPeriods: RawRepresentable, Hashable, Codable, Sendable,
-    SdkWireConvertible {
+public struct CreateBillingPriceRequestSupportedBillingPeriods: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let month = CreateBillingPriceRequestSupportedBillingPeriods(rawValue: "month")
     public static let annual = CreateBillingPriceRequestSupportedBillingPeriods(rawValue: "annual")
     public static let both = CreateBillingPriceRequestSupportedBillingPeriods(rawValue: "both")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

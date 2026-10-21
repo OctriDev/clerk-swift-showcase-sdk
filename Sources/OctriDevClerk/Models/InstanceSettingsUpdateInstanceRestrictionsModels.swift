@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// InstanceSettings domain models
+// InstanceSettings domain models
 /// Typed representation of the `InstanceRestrictions` API schema.
 public struct InstanceRestrictions: Codable {
     /// String representing the object's type. Objects of the same type share the same value.
@@ -28,74 +28,41 @@ public struct InstanceRestrictions: Codable {
         case blockDisposableEmailDomains = "block_disposable_email_domains"
     }
 
-    private init(sdkCopy value: Self) {
-        self = value
-    }
+    private init(sdkCopy value: Self) { self = value }
 }
 
-public extension InstanceRestrictions {
-    init(from decoder: Decoder) throws {
+extension InstanceRestrictions {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.object) else {
-            throw SdkValidationError(
-                field: "object",
-                code: "required",
-                message: "Validation failed for 'object': value is required"
-            )
+            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
         }
         guard container.contains(.allowlist) else {
-            throw SdkValidationError(
-                field: "allowlist",
-                code: "required",
-                message: "Validation failed for 'allowlist': value is required"
-            )
+            throw SdkValidationError(field: "allowlist", code: "required", message: "Validation failed for 'allowlist': value is required")
         }
         guard container.contains(.blocklist) else {
-            throw SdkValidationError(
-                field: "blocklist",
-                code: "required",
-                message: "Validation failed for 'blocklist': value is required"
-            )
+            throw SdkValidationError(field: "blocklist", code: "required", message: "Validation failed for 'blocklist': value is required")
         }
         guard container.contains(.allowlistBlocklistDisabledOnSignIn) else {
-            throw SdkValidationError(
-                field: "allowlist_blocklist_disabled_on_sign_in",
-                code: "required",
-                message: "Validation failed for 'allowlist_blocklist_disabled_on_sign_in': value is required"
-            )
+            throw SdkValidationError(field: "allowlist_blocklist_disabled_on_sign_in", code: "required", message: "Validation failed for 'allowlist_blocklist_disabled_on_sign_in': value is required")
         }
         guard container.contains(.blockEmailSubaddresses) else {
-            throw SdkValidationError(
-                field: "block_email_subaddresses",
-                code: "required",
-                message: "Validation failed for 'block_email_subaddresses': value is required"
-            )
+            throw SdkValidationError(field: "block_email_subaddresses", code: "required", message: "Validation failed for 'block_email_subaddresses': value is required")
         }
         guard container.contains(.blockDisposableEmailDomains) else {
-            throw SdkValidationError(
-                field: "block_disposable_email_domains",
-                code: "required",
-                message: "Validation failed for 'block_disposable_email_domains': value is required"
-            )
+            throw SdkValidationError(field: "block_disposable_email_domains", code: "required", message: "Validation failed for 'block_disposable_email_domains': value is required")
         }
-        object = try container.sdkDecodeRequired(.object)
-        allowlist = try container.sdkDecodeRequired(.allowlist)
-        blocklist = try container.sdkDecodeRequired(.blocklist)
-        allowlistBlocklistDisabledOnSignIn = try container.sdkDecodeRequired(.allowlistBlocklistDisabledOnSignIn)
-        blockEmailSubaddresses = try container.sdkDecodeRequired(.blockEmailSubaddresses)
-        blockDisposableEmailDomains = try container.sdkDecodeRequired(.blockDisposableEmailDomains)
+        self.object = try container.sdkDecodeRequired(.object)
+        self.allowlist = try container.sdkDecodeRequired(.allowlist)
+        self.blocklist = try container.sdkDecodeRequired(.blocklist)
+        self.allowlistBlocklistDisabledOnSignIn = try container.sdkDecodeRequired(.allowlistBlocklistDisabledOnSignIn)
+        self.blockEmailSubaddresses = try container.sdkDecodeRequired(.blockEmailSubaddresses)
+        self.blockDisposableEmailDomains = try container.sdkDecodeRequired(.blockDisposableEmailDomains)
     }
 }
 
-public extension InstanceRestrictions {
-    init(
-        object: InstanceRestrictionsObject,
-        allowlist: Bool,
-        blocklist: Bool,
-        allowlistBlocklistDisabledOnSignIn: Bool,
-        blockEmailSubaddresses: Bool,
-        blockDisposableEmailDomains: Bool
-    ) {
+extension InstanceRestrictions {
+    public init(object: InstanceRestrictionsObject, allowlist: Bool, blocklist: Bool, allowlistBlocklistDisabledOnSignIn: Bool, blockEmailSubaddresses: Bool, blockDisposableEmailDomains: Bool) {
         (self.object, self.allowlist) = (object, allowlist)
         self.blocklist = blocklist
         self.allowlistBlocklistDisabledOnSignIn = allowlistBlocklistDisabledOnSignIn
@@ -108,15 +75,12 @@ public extension InstanceRestrictions {
 public struct InstanceRestrictionsObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) {
-        self.rawValue = rawValue
-    }
-
+    public init(rawValue: String) { self.rawValue = rawValue }
     public static let instanceRestrictions = InstanceRestrictionsObject(rawValue: "instance_restrictions")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        try self.init(rawValue: container.decode(String.self))
+        self.init(rawValue: try container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
