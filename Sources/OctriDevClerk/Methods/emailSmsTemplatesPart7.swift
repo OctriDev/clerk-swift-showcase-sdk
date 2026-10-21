@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension EmailSmsTemplatesMethods {
-    /// Toggles the delivery by Clerk for a template of a given type and slug. If disabled, Clerk will not deliver the resulting email or SMS. The app developer will need to listen to the `email.created` or `sms.created` webhooks in order to handle delivery themselves.
+public extension EmailSmsTemplatesMethods {
+    /// Toggles the delivery by Clerk for a template of a given type and slug. If disabled, Clerk will not deliver the
+    /// resulting email or SMS. The app developer will need to listen to the `email.created` or `sms.created` webhooks
+    /// in order to handle delivery themselves.
     ///
     /// - Parameters:
     /// - templateType: The type of template to toggle delivery for
@@ -16,9 +18,36 @@ extension EmailSmsTemplatesMethods {
     ///   based on the current template
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public static func toggleTemplateDelivery(config: ClientConfig, templateType: ToggleTemplateDeliveryParameter, slug: String, deliveredByClerk: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> Template {
+    static func toggleTemplateDelivery(
+        config: ClientConfig,
+        templateType: ToggleTemplateDeliveryParameter,
+        slug: String,
+        deliveredByClerk: Bool? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Template {
         let requestBody = ToggleTemplateDeliveryRequestBody(deliveredByClerk: deliveredByClerk)
 
-        return try (await sdkRequest("POST", ["/templates/", sdkEncodePathSegment(sdkWireString(templateType)), "/", sdkEncodePathSegment(sdkWireString(slug)), "/toggle_delivery"].joined(), config: config, body: requestBody, decoder: .json, operationId: "ToggleTemplateDelivery", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "423": ClerkErrors.self, "429": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            [
+                "/templates/",
+                sdkEncodePathSegment(sdkWireString(templateType)),
+                "/",
+                sdkEncodePathSegment(sdkWireString(slug)),
+                "/toggle_delivery",
+            ].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "ToggleTemplateDelivery",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "423": ClerkErrors.self,
+                "429": ClerkErrors.self,
+            ]
+        )).data
     }
 }

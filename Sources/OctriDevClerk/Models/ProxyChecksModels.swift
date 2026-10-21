@@ -3,7 +3,7 @@
 
 import Foundation
 
-// ProxyChecks domain models
+/// ProxyChecks domain models
 /// Typed representation of the `ProxyCheck` API schema.
 public struct ProxyCheck: Codable {
     /// Required enumerated value serialized in the `object` wire field.
@@ -34,25 +34,36 @@ public struct ProxyCheck: Codable {
         case updatedAt = "updated_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ProxyCheck {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.domainId = try container.sdkDecodeRequired(.domainId)
-        self.lastRunAt = try container.sdkDecodeNullable(.lastRunAt)
-        self.proxyUrl = try container.sdkDecodeRequired(.proxyUrl)
-        self.successful = try container.sdkDecodeRequired(.successful)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ProxyCheck {
-    public init(object: ProxyCheckObject, id: String, domainId: String, lastRunAt: Int?, proxyUrl: String, successful: Bool, createdAt: Int, updatedAt: Int) {
+public extension ProxyCheck {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        domainId = try container.sdkDecodeRequired(.domainId)
+        lastRunAt = try container.sdkDecodeNullable(.lastRunAt)
+        proxyUrl = try container.sdkDecodeRequired(.proxyUrl)
+        successful = try container.sdkDecodeRequired(.successful)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+    }
+}
+
+public extension ProxyCheck {
+    init(
+        object: ProxyCheckObject,
+        id: String,
+        domainId: String,
+        lastRunAt: Int?,
+        proxyUrl: String,
+        successful: Bool,
+        createdAt: Int,
+        updatedAt: Int
+    ) {
         (self.object, self.id) = (object, id)
         (self.domainId, self.lastRunAt) = (domainId, lastRunAt)
         (self.proxyUrl, self.successful) = (proxyUrl, successful)
@@ -64,12 +75,15 @@ extension ProxyCheck {
 public struct ProxyCheckObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let proxyCheck = ProxyCheckObject(rawValue: "proxy_check")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

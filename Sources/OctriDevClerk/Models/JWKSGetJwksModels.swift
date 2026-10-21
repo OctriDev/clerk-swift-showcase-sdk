@@ -3,7 +3,7 @@
 
 import Foundation
 
-// JWKS domain models
+/// JWKS domain models
 public indirect enum JWKSKeysItem {
     case jWksEd25519PublicKey(JWKSEd25519PublicKey)
     case jWksEcdsaPublicKey(JWKSEcdsaPublicKey)
@@ -15,18 +15,23 @@ public indirect enum JWKSKeysItem {
 }
 
 extension JWKSKeysItem: Codable {
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if let raw = try? container.decode(JSONValue.self) {
-            if let value = Self.decodeLossless1(from: container, raw) { self = value; return }
+            if let value = Self.decodeLossless1(from: container, raw) {
+                self = value; return
+            }
         }
-        if let value = Self.decodeGroup1(from: container) { self = value; return }
+        if let value = Self.decodeGroup1(from: container) {
+            self = value; return
+        }
         throw DecodingError.dataCorruptedError(in: container, debugDescription: "No variant matched for JWKSKeysItem")
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
     }
 }
 
@@ -59,13 +64,27 @@ extension JWKSKeysItem {
 
 extension JWKSKeysItem {
     static func decodeGroup1(from container: SingleValueDecodingContainer) -> Self? {
-        if let value = try? container.decode(JWKSEd25519PublicKey.self) { return .jWksEd25519PublicKey(value) }
-        if let value = try? container.decode(JWKSEcdsaPublicKey.self) { return .jWksEcdsaPublicKey(value) }
-        if let value = try? container.decode(JWKSRsaPublicKey.self) { return .jWksRsaPublicKey(value) }
-        if let value = try? container.decode(JWKSEd25519PrivateKey.self) { return .jWksEd25519PrivateKey(value) }
-        if let value = try? container.decode(JWKSEcdsaPrivateKey.self) { return .jWksEcdsaPrivateKey(value) }
-        if let value = try? container.decode(JWKSRsaPrivateKey.self) { return .jWksRsaPrivateKey(value) }
-        if let value = try? container.decode(JWKSSymmetricKey.self) { return .jWksSymmetricKey(value) }
+        if let value = try? container.decode(JWKSEd25519PublicKey.self) {
+            return .jWksEd25519PublicKey(value)
+        }
+        if let value = try? container.decode(JWKSEcdsaPublicKey.self) {
+            return .jWksEcdsaPublicKey(value)
+        }
+        if let value = try? container.decode(JWKSRsaPublicKey.self) {
+            return .jWksRsaPublicKey(value)
+        }
+        if let value = try? container.decode(JWKSEd25519PrivateKey.self) {
+            return .jWksEd25519PrivateKey(value)
+        }
+        if let value = try? container.decode(JWKSEcdsaPrivateKey.self) {
+            return .jWksEcdsaPrivateKey(value)
+        }
+        if let value = try? container.decode(JWKSRsaPrivateKey.self) {
+            return .jWksRsaPrivateKey(value)
+        }
+        if let value = try? container.decode(JWKSSymmetricKey.self) {
+            return .jWksSymmetricKey(value)
+        }
         return nil
     }
 }
@@ -118,41 +137,73 @@ public struct JWKSSymmetricKey: Codable {
         case x5u
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension JWKSSymmetricKey {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.kid) else {
-            throw SdkValidationError(field: "kid", code: "required", message: "Validation failed for 'kid': value is required")
-        }
-        guard container.contains(.alg) else {
-            throw SdkValidationError(field: "alg", code: "required", message: "Validation failed for 'alg': value is required")
-        }
-        guard container.contains(.use) else {
-            throw SdkValidationError(field: "use", code: "required", message: "Validation failed for 'use': value is required")
-        }
-        guard container.contains(.kty) else {
-            throw SdkValidationError(field: "kty", code: "required", message: "Validation failed for 'kty': value is required")
-        }
-        guard container.contains(.k) else {
-            throw SdkValidationError(field: "k", code: "required", message: "Validation failed for 'k': value is required")
-        }
-        self.kid = try container.sdkDecodeRequired(.kid)
-        self.alg = try container.sdkDecodeRequired(.alg)
-        self.use = try container.sdkDecodeRequired(.use)
-        self.kty = try container.sdkDecodeRequired(.kty)
-        self.k = try container.sdkDecodeRequired(.k)
-        self.x5c = try container.sdkDecodeIfPresent(.x5c)
-        self.x5t = try container.sdkDecodeIfPresent(.x5t)
-        self.x5tS256 = try container.sdkDecodeIfPresent(.x5tS256)
-        self.x5u = try container.sdkDecodeIfPresent(.x5u)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension JWKSSymmetricKey {
-    public init(kid: String, alg: String, use: String, kty: JWKSSymmetricKeyKty, k: String, x5c: [String]? = nil, x5t: String? = nil, x5tS256: String? = nil, x5u: String? = nil) {
+public extension JWKSSymmetricKey {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.kid) else {
+            throw SdkValidationError(
+                field: "kid",
+                code: "required",
+                message: "Validation failed for 'kid': value is required"
+            )
+        }
+        guard container.contains(.alg) else {
+            throw SdkValidationError(
+                field: "alg",
+                code: "required",
+                message: "Validation failed for 'alg': value is required"
+            )
+        }
+        guard container.contains(.use) else {
+            throw SdkValidationError(
+                field: "use",
+                code: "required",
+                message: "Validation failed for 'use': value is required"
+            )
+        }
+        guard container.contains(.kty) else {
+            throw SdkValidationError(
+                field: "kty",
+                code: "required",
+                message: "Validation failed for 'kty': value is required"
+            )
+        }
+        guard container.contains(.k) else {
+            throw SdkValidationError(
+                field: "k",
+                code: "required",
+                message: "Validation failed for 'k': value is required"
+            )
+        }
+        kid = try container.sdkDecodeRequired(.kid)
+        alg = try container.sdkDecodeRequired(.alg)
+        use = try container.sdkDecodeRequired(.use)
+        kty = try container.sdkDecodeRequired(.kty)
+        k = try container.sdkDecodeRequired(.k)
+        x5c = try container.sdkDecodeIfPresent(.x5c)
+        x5t = try container.sdkDecodeIfPresent(.x5t)
+        x5tS256 = try container.sdkDecodeIfPresent(.x5tS256)
+        x5u = try container.sdkDecodeIfPresent(.x5u)
+    }
+}
+
+public extension JWKSSymmetricKey {
+    init(
+        kid: String,
+        alg: String,
+        use: String,
+        kty: JWKSSymmetricKeyKty,
+        k: String,
+        x5c: [String]? = nil,
+        x5t: String? = nil,
+        x5tS256: String? = nil,
+        x5u: String? = nil
+    ) {
         (self.kid, self.alg) = (kid, alg)
         (self.use, self.kty) = (use, kty)
         (self.k, self.x5c) = (k, x5c)
@@ -171,19 +222,19 @@ public struct JWKS: Codable {
     }
 
     init() {
-        self.keys = nil
+        keys = nil
     }
 }
 
-extension JWKS {
-    public init(from decoder: Decoder) throws {
+public extension JWKS {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.keys = try container.sdkDecodeIfPresent(.keys)
+        keys = try container.sdkDecodeIfPresent(.keys)
     }
 }
 
-extension JWKS {
-    public init(keys: [JWKSKeysItem]? = nil) {
+public extension JWKS {
+    init(keys: [JWKSKeysItem]? = nil) {
         self.init()
         self.keys = keys
     }
@@ -243,33 +294,52 @@ public struct JWKSRsaPrivateKey: Codable {
         case x5u
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension JWKSRsaPrivateKey {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.kid = try container.sdkDecodeRequired(.kid)
-        self.alg = try container.sdkDecodeRequired(.alg)
-        self.use = try container.sdkDecodeRequired(.use)
-        self.kty = try container.sdkDecodeRequired(.kty)
-        self.n = try container.sdkDecodeRequired(.n)
-        self.e = try container.sdkDecodeRequired(.e)
-        self.d = try container.sdkDecodeRequired(.d)
-        self.p = try container.sdkDecodeRequired(.p)
-        self.q = try container.sdkDecodeRequired(.q)
-        self.dp = try container.sdkDecodeIfPresent(.dp)
-        self.dq = try container.sdkDecodeIfPresent(.dq)
-        self.qi = try container.sdkDecodeIfPresent(.qi)
-        self.x5c = try container.sdkDecodeIfPresent(.x5c)
-        self.x5t = try container.sdkDecodeIfPresent(.x5t)
-        self.x5tS256 = try container.sdkDecodeIfPresent(.x5tS256)
-        self.x5u = try container.sdkDecodeIfPresent(.x5u)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension JWKSRsaPrivateKey {
-    public init(kid: String, alg: String, use: String, kty: JWKSRsaPrivateKeyKty, n: String, e: String, d: String, p: String, q: String, dp: String? = nil, dq: String? = nil, qi: String? = nil, x5c: [String]? = nil, x5t: String? = nil, x5tS256: String? = nil, x5u: String? = nil) {
+public extension JWKSRsaPrivateKey {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        kid = try container.sdkDecodeRequired(.kid)
+        alg = try container.sdkDecodeRequired(.alg)
+        use = try container.sdkDecodeRequired(.use)
+        kty = try container.sdkDecodeRequired(.kty)
+        n = try container.sdkDecodeRequired(.n)
+        e = try container.sdkDecodeRequired(.e)
+        d = try container.sdkDecodeRequired(.d)
+        p = try container.sdkDecodeRequired(.p)
+        q = try container.sdkDecodeRequired(.q)
+        dp = try container.sdkDecodeIfPresent(.dp)
+        dq = try container.sdkDecodeIfPresent(.dq)
+        qi = try container.sdkDecodeIfPresent(.qi)
+        x5c = try container.sdkDecodeIfPresent(.x5c)
+        x5t = try container.sdkDecodeIfPresent(.x5t)
+        x5tS256 = try container.sdkDecodeIfPresent(.x5tS256)
+        x5u = try container.sdkDecodeIfPresent(.x5u)
+    }
+}
+
+public extension JWKSRsaPrivateKey {
+    init(
+        kid: String,
+        alg: String,
+        use: String,
+        kty: JWKSRsaPrivateKeyKty,
+        n: String,
+        e: String,
+        d: String,
+        p: String,
+        q: String,
+        dp: String? = nil,
+        dq: String? = nil,
+        qi: String? = nil,
+        x5c: [String]? = nil,
+        x5t: String? = nil,
+        x5tS256: String? = nil,
+        x5u: String? = nil
+    ) {
         (self.kid, self.alg) = (kid, alg)
         (self.use, self.kty) = (use, kty)
         (self.n, self.e) = (n, e)
@@ -323,29 +393,44 @@ public struct JWKSEcdsaPrivateKey: Codable {
         case x5u
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension JWKSEcdsaPrivateKey {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.kid = try container.sdkDecodeRequired(.kid)
-        self.alg = try container.sdkDecodeRequired(.alg)
-        self.use = try container.sdkDecodeRequired(.use)
-        self.kty = try container.sdkDecodeRequired(.kty)
-        self.crv = try container.sdkDecodeRequired(.crv)
-        self.x = try container.sdkDecodeRequired(.x)
-        self.y = try container.sdkDecodeRequired(.y)
-        self.d = try container.sdkDecodeRequired(.d)
-        self.x5c = try container.sdkDecodeIfPresent(.x5c)
-        self.x5t = try container.sdkDecodeIfPresent(.x5t)
-        self.x5tS256 = try container.sdkDecodeIfPresent(.x5tS256)
-        self.x5u = try container.sdkDecodeIfPresent(.x5u)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension JWKSEcdsaPrivateKey {
-    public init(kid: String, alg: String, use: String, kty: JWKSEcdsaPrivateKeyKty, crv: String, x: String, y: String, d: String, x5c: [String]? = nil, x5t: String? = nil, x5tS256: String? = nil, x5u: String? = nil) {
+public extension JWKSEcdsaPrivateKey {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        kid = try container.sdkDecodeRequired(.kid)
+        alg = try container.sdkDecodeRequired(.alg)
+        use = try container.sdkDecodeRequired(.use)
+        kty = try container.sdkDecodeRequired(.kty)
+        crv = try container.sdkDecodeRequired(.crv)
+        x = try container.sdkDecodeRequired(.x)
+        y = try container.sdkDecodeRequired(.y)
+        d = try container.sdkDecodeRequired(.d)
+        x5c = try container.sdkDecodeIfPresent(.x5c)
+        x5t = try container.sdkDecodeIfPresent(.x5t)
+        x5tS256 = try container.sdkDecodeIfPresent(.x5tS256)
+        x5u = try container.sdkDecodeIfPresent(.x5u)
+    }
+}
+
+public extension JWKSEcdsaPrivateKey {
+    init(
+        kid: String,
+        alg: String,
+        use: String,
+        kty: JWKSEcdsaPrivateKeyKty,
+        crv: String,
+        x: String,
+        y: String,
+        d: String,
+        x5c: [String]? = nil,
+        x5t: String? = nil,
+        x5tS256: String? = nil,
+        x5u: String? = nil
+    ) {
         (self.kid, self.alg) = (kid, alg)
         (self.use, self.kty) = (use, kty)
         (self.crv, self.x) = (crv, x)
@@ -391,45 +476,82 @@ public struct JWKSEd25519PublicKey: Codable {
         case x5u
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension JWKSEd25519PublicKey {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.kid) else {
-            throw SdkValidationError(field: "kid", code: "required", message: "Validation failed for 'kid': value is required")
-        }
-        guard container.contains(.alg) else {
-            throw SdkValidationError(field: "alg", code: "required", message: "Validation failed for 'alg': value is required")
-        }
-        guard container.contains(.use) else {
-            throw SdkValidationError(field: "use", code: "required", message: "Validation failed for 'use': value is required")
-        }
-        guard container.contains(.kty) else {
-            throw SdkValidationError(field: "kty", code: "required", message: "Validation failed for 'kty': value is required")
-        }
-        guard container.contains(.crv) else {
-            throw SdkValidationError(field: "crv", code: "required", message: "Validation failed for 'crv': value is required")
-        }
-        guard container.contains(.x) else {
-            throw SdkValidationError(field: "x", code: "required", message: "Validation failed for 'x': value is required")
-        }
-        self.kid = try container.sdkDecodeRequired(.kid)
-        self.alg = try container.sdkDecodeRequired(.alg)
-        self.use = try container.sdkDecodeRequired(.use)
-        self.kty = try container.sdkDecodeRequired(.kty)
-        self.crv = try container.sdkDecodeRequired(.crv)
-        self.x = try container.sdkDecodeRequired(.x)
-        self.x5c = try container.sdkDecodeIfPresent(.x5c)
-        self.x5t = try container.sdkDecodeIfPresent(.x5t)
-        self.x5tS256 = try container.sdkDecodeIfPresent(.x5tS256)
-        self.x5u = try container.sdkDecodeIfPresent(.x5u)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension JWKSEd25519PublicKey {
-    public init(kid: String, alg: String, use: String, kty: JWKSEd25519PublicKeyKty, crv: JWKSEd25519PublicKeyCrv, x: String, x5c: [String]? = nil, x5t: String? = nil, x5tS256: String? = nil, x5u: String? = nil) {
+public extension JWKSEd25519PublicKey {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.kid) else {
+            throw SdkValidationError(
+                field: "kid",
+                code: "required",
+                message: "Validation failed for 'kid': value is required"
+            )
+        }
+        guard container.contains(.alg) else {
+            throw SdkValidationError(
+                field: "alg",
+                code: "required",
+                message: "Validation failed for 'alg': value is required"
+            )
+        }
+        guard container.contains(.use) else {
+            throw SdkValidationError(
+                field: "use",
+                code: "required",
+                message: "Validation failed for 'use': value is required"
+            )
+        }
+        guard container.contains(.kty) else {
+            throw SdkValidationError(
+                field: "kty",
+                code: "required",
+                message: "Validation failed for 'kty': value is required"
+            )
+        }
+        guard container.contains(.crv) else {
+            throw SdkValidationError(
+                field: "crv",
+                code: "required",
+                message: "Validation failed for 'crv': value is required"
+            )
+        }
+        guard container.contains(.x) else {
+            throw SdkValidationError(
+                field: "x",
+                code: "required",
+                message: "Validation failed for 'x': value is required"
+            )
+        }
+        kid = try container.sdkDecodeRequired(.kid)
+        alg = try container.sdkDecodeRequired(.alg)
+        use = try container.sdkDecodeRequired(.use)
+        kty = try container.sdkDecodeRequired(.kty)
+        crv = try container.sdkDecodeRequired(.crv)
+        x = try container.sdkDecodeRequired(.x)
+        x5c = try container.sdkDecodeIfPresent(.x5c)
+        x5t = try container.sdkDecodeIfPresent(.x5t)
+        x5tS256 = try container.sdkDecodeIfPresent(.x5tS256)
+        x5u = try container.sdkDecodeIfPresent(.x5u)
+    }
+}
+
+public extension JWKSEd25519PublicKey {
+    init(
+        kid: String,
+        alg: String,
+        use: String,
+        kty: JWKSEd25519PublicKeyKty,
+        crv: JWKSEd25519PublicKeyCrv,
+        x: String,
+        x5c: [String]? = nil,
+        x5t: String? = nil,
+        x5tS256: String? = nil,
+        x5u: String? = nil
+    ) {
         (self.kid, self.alg) = (kid, alg)
         (self.use, self.kty) = (use, kty)
         (self.crv, self.x) = (crv, x)
@@ -477,5 +599,7 @@ public struct JWKSEd25519PrivateKey: Codable {
         case x5u
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }

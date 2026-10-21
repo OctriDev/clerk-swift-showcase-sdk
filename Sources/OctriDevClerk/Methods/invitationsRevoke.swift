@@ -6,12 +6,26 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension InvitationsMethods {
-    /// Revokes the given invitation. Revoking an invitation will prevent the user from using the invitation link that was sent to them. However, it doesn't prevent the user from signing up if they follow the sign up flow. Only active (i.e. non-revoked) invitations can be revoked.
+public extension InvitationsMethods {
+    /// Revokes the given invitation. Revoking an invitation will prevent the user from using the invitation link that
+    /// was sent to them. However, it doesn't prevent the user from signing up if they follow the sign up flow. Only
+    /// active (i.e. non-revoked) invitations can be revoked.
     ///
     /// - Parameters:
     /// - invitationId: The ID of the invitation to be revoked
-    public static func revokeInvitation(config: ClientConfig, invitationId: String, requestOptions: RequestOptions? = nil) async throws -> InvitationRevoked {
-        return try (await sdkRequest("POST", ["/invitations/", sdkEncodePathSegment(sdkWireString(invitationId)), "/revoke"].joined(), config: config, decoder: .json, operationId: "RevokeInvitation", options: requestOptions, errors: ["400": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func revokeInvitation(
+        config: ClientConfig,
+        invitationId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> InvitationRevoked {
+        try await (sdkRequest(
+            "POST",
+            ["/invitations/", sdkEncodePathSegment(sdkWireString(invitationId)), "/revoke"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "RevokeInvitation",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

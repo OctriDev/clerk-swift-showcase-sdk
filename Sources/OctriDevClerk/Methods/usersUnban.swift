@@ -6,28 +6,55 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
-    /// Removes the ban mark from a user account. Use `user_id` to identify the user whose ban you want to remove. A 200 response returns the updated user object.
+public extension UsersMethods {
+    /// Removes the ban mark from a user account. Use `user_id` to identify the user whose ban you want to remove. A 200
+    /// response returns the updated user object.
     ///
     /// Removes the ban mark from the given user.
     ///
     /// - Parameters:
     /// - userId: The ID of the user to unban
-    public static func unbanUser(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> User {
-        return try (await sdkRequest("POST", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/unban"].joined(), config: config, decoder: .json, operationId: "UnbanUser", options: requestOptions, errors: ["402": ClerkErrors.self])).data
+    static func unbanUser(
+        config: ClientConfig,
+        userId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> User {
+        try await (sdkRequest(
+            "POST",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/unban"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "UnbanUser",
+            options: requestOptions,
+            errors: ["402": ClerkErrors.self]
+        )).data
     }
 
-    /// Removes the ban marks from multiple user accounts in one request. Supply `user_ids` with between 1 and 50 user IDs. A 200 response returns the updated user objects.
+    /// Removes the ban marks from multiple user accounts in one request. Supply `user_ids` with between 1 and 50 user
+    /// IDs. A 200 response returns the updated user objects.
     ///
     /// Removes the ban mark from multiple users.
     ///
     /// - Parameters:
     /// - userIds: Array of user IDs to unban
-    public static func unbanUsersBulk(config: ClientConfig, userIds: [String], requestOptions: RequestOptions? = nil) async throws -> [User] {
+    static func unbanUsersBulk(
+        config: ClientConfig,
+        userIds: [String],
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [User] {
         try validateItems("user_ids", userIds, min: 1, max: 50)
 
         let requestBody = UnbanUsersBulkRequestBody(userIds: userIds)
 
-        return try (await sdkRequest("POST", "/users/unban", config: config, body: requestBody, decoder: .json, operationId: "unbanUsersBulk", options: requestOptions, errors: ["400": ClerkErrors.self, "402": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/users/unban",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "unbanUsersBulk",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "402": ClerkErrors.self]
+        )).data
     }
 }

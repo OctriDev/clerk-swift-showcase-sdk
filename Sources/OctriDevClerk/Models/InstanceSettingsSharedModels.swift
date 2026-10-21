@@ -3,7 +3,7 @@
 
 import Foundation
 
-// InstanceSettings domain models
+/// InstanceSettings domain models
 /// Typed representation of the `InstanceProtect` API schema.
 public struct InstanceProtect: Codable {
     /// Required enumerated value serialized in the `object` wire field.
@@ -31,41 +31,74 @@ public struct InstanceProtect: Codable {
         case checksExempt = "checks_exempt"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension InstanceProtect {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.rulesEnabled) else {
-            throw SdkValidationError(field: "rules_enabled", code: "required", message: "Validation failed for 'rules_enabled': value is required")
-        }
-        guard container.contains(.specterEnabled) else {
-            throw SdkValidationError(field: "specter_enabled", code: "required", message: "Validation failed for 'specter_enabled': value is required")
-        }
-        guard container.contains(.checksBypassed) else {
-            throw SdkValidationError(field: "checks_bypassed", code: "required", message: "Validation failed for 'checks_bypassed': value is required")
-        }
-        guard container.contains(.checksVerified) else {
-            throw SdkValidationError(field: "checks_verified", code: "required", message: "Validation failed for 'checks_verified': value is required")
-        }
-        guard container.contains(.checksExempt) else {
-            throw SdkValidationError(field: "checks_exempt", code: "required", message: "Validation failed for 'checks_exempt': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.rulesEnabled = try container.sdkDecodeRequired(.rulesEnabled)
-        self.specterEnabled = try container.sdkDecodeRequired(.specterEnabled)
-        self.checksBypassed = try container.sdkDecodeRequired(.checksBypassed)
-        self.checksVerified = try container.sdkDecodeRequired(.checksVerified)
-        self.checksExempt = try container.sdkDecodeRequired(.checksExempt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension InstanceProtect {
-    public init(object: InstanceProtectObject, rulesEnabled: Bool, specterEnabled: Bool, checksBypassed: Bool, checksVerified: Bool, checksExempt: Bool) {
+public extension InstanceProtect {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.rulesEnabled) else {
+            throw SdkValidationError(
+                field: "rules_enabled",
+                code: "required",
+                message: "Validation failed for 'rules_enabled': value is required"
+            )
+        }
+        guard container.contains(.specterEnabled) else {
+            throw SdkValidationError(
+                field: "specter_enabled",
+                code: "required",
+                message: "Validation failed for 'specter_enabled': value is required"
+            )
+        }
+        guard container.contains(.checksBypassed) else {
+            throw SdkValidationError(
+                field: "checks_bypassed",
+                code: "required",
+                message: "Validation failed for 'checks_bypassed': value is required"
+            )
+        }
+        guard container.contains(.checksVerified) else {
+            throw SdkValidationError(
+                field: "checks_verified",
+                code: "required",
+                message: "Validation failed for 'checks_verified': value is required"
+            )
+        }
+        guard container.contains(.checksExempt) else {
+            throw SdkValidationError(
+                field: "checks_exempt",
+                code: "required",
+                message: "Validation failed for 'checks_exempt': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        rulesEnabled = try container.sdkDecodeRequired(.rulesEnabled)
+        specterEnabled = try container.sdkDecodeRequired(.specterEnabled)
+        checksBypassed = try container.sdkDecodeRequired(.checksBypassed)
+        checksVerified = try container.sdkDecodeRequired(.checksVerified)
+        checksExempt = try container.sdkDecodeRequired(.checksExempt)
+    }
+}
+
+public extension InstanceProtect {
+    init(
+        object: InstanceProtectObject,
+        rulesEnabled: Bool,
+        specterEnabled: Bool,
+        checksBypassed: Bool,
+        checksVerified: Bool,
+        checksExempt: Bool
+    ) {
         (self.object, self.rulesEnabled) = (object, rulesEnabled)
         (self.specterEnabled, self.checksBypassed) = (specterEnabled, checksBypassed)
         (self.checksVerified, self.checksExempt) = (checksVerified, checksExempt)
@@ -120,31 +153,48 @@ public struct OrganizationSettings: Codable {
         case initialRoleSetKey = "initial_role_set_key"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OrganizationSettings {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.enabled = try container.sdkDecodeRequired(.enabled)
-        self.maxAllowedMemberships = try container.sdkDecodeRequired(.maxAllowedMemberships)
-        self.maxAllowedRoles = try container.sdkDecodeRequired(.maxAllowedRoles)
-        self.maxAllowedDomains = try container.sdkDecodeRequired(.maxAllowedDomains)
-        self.creatorRole = try container.sdkDecodeRequired(.creatorRole)
-        self.adminDeleteEnabled = try container.sdkDecodeRequired(.adminDeleteEnabled)
-        self.domainsEnabled = try container.sdkDecodeRequired(.domainsEnabled)
-        self.domainsEnrollmentModes = try container.sdkDecodeRequired(.domainsEnrollmentModes)
-        self.domainsDefaultRole = try container.sdkDecodeRequired(.domainsDefaultRole)
-        self.maxRoleSetsAllowed = try container.sdkDecodeIfPresent(.maxRoleSetsAllowed)
-        self.maxAllowedPermissions = try container.sdkDecodeIfPresent(.maxAllowedPermissions)
-        self.slugDisabled = try container.sdkDecodeIfPresent(.slugDisabled)
-        self.initialRoleSetKey = try container.sdkDecodeIfPresent(.initialRoleSetKey)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension OrganizationSettings {
-    public init(object: OrganizationSettingsObject, enabled: Bool, maxAllowedMemberships: Int, maxAllowedRoles: Int, maxAllowedDomains: Int, creatorRole: String, adminDeleteEnabled: Bool, domainsEnabled: Bool, domainsEnrollmentModes: [OrganizationSettingsDomainsEnrollmentModesItem], domainsDefaultRole: String, maxRoleSetsAllowed: Int? = nil, maxAllowedPermissions: Int? = nil, slugDisabled: Bool? = nil, initialRoleSetKey: String? = nil) {
+public extension OrganizationSettings {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        enabled = try container.sdkDecodeRequired(.enabled)
+        maxAllowedMemberships = try container.sdkDecodeRequired(.maxAllowedMemberships)
+        maxAllowedRoles = try container.sdkDecodeRequired(.maxAllowedRoles)
+        maxAllowedDomains = try container.sdkDecodeRequired(.maxAllowedDomains)
+        creatorRole = try container.sdkDecodeRequired(.creatorRole)
+        adminDeleteEnabled = try container.sdkDecodeRequired(.adminDeleteEnabled)
+        domainsEnabled = try container.sdkDecodeRequired(.domainsEnabled)
+        domainsEnrollmentModes = try container.sdkDecodeRequired(.domainsEnrollmentModes)
+        domainsDefaultRole = try container.sdkDecodeRequired(.domainsDefaultRole)
+        maxRoleSetsAllowed = try container.sdkDecodeIfPresent(.maxRoleSetsAllowed)
+        maxAllowedPermissions = try container.sdkDecodeIfPresent(.maxAllowedPermissions)
+        slugDisabled = try container.sdkDecodeIfPresent(.slugDisabled)
+        initialRoleSetKey = try container.sdkDecodeIfPresent(.initialRoleSetKey)
+    }
+}
+
+public extension OrganizationSettings {
+    init(
+        object: OrganizationSettingsObject,
+        enabled: Bool,
+        maxAllowedMemberships: Int,
+        maxAllowedRoles: Int,
+        maxAllowedDomains: Int,
+        creatorRole: String,
+        adminDeleteEnabled: Bool,
+        domainsEnabled: Bool,
+        domainsEnrollmentModes: [OrganizationSettingsDomainsEnrollmentModesItem],
+        domainsDefaultRole: String,
+        maxRoleSetsAllowed: Int? = nil,
+        maxAllowedPermissions: Int? = nil,
+        slugDisabled: Bool? = nil,
+        initialRoleSetKey: String? = nil
+    ) {
         (self.object, self.enabled) = (object, enabled)
         (self.maxAllowedMemberships, self.maxAllowedRoles) = (maxAllowedMemberships, maxAllowedRoles)
         (self.maxAllowedDomains, self.creatorRole) = (maxAllowedDomains, creatorRole)
@@ -169,25 +219,35 @@ public struct InstanceCommunication: Codable {
         case blockedCountryCodes = "blocked_country_codes"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension InstanceCommunication {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.blockedCountryCodes) else {
-            throw SdkValidationError(field: "blocked_country_codes", code: "required", message: "Validation failed for 'blocked_country_codes': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.blockedCountryCodes = try container.sdkDecodeRequired(.blockedCountryCodes)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension InstanceCommunication {
-    public init(object: InstanceCommunicationObject, blockedCountryCodes: [String]) {
+public extension InstanceCommunication {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.blockedCountryCodes) else {
+            throw SdkValidationError(
+                field: "blocked_country_codes",
+                code: "required",
+                message: "Validation failed for 'blocked_country_codes': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        blockedCountryCodes = try container.sdkDecodeRequired(.blockedCountryCodes)
+    }
+}
+
+public extension InstanceCommunication {
+    init(object: InstanceCommunicationObject, blockedCountryCodes: [String]) {
         (self.object, self.blockedCountryCodes) = (object, blockedCountryCodes)
     }
 }
@@ -238,52 +298,78 @@ public struct OAuthApplicationSettings: Codable {
         case dynamicClientAllowedScopes = "dynamic_client_allowed_scopes"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OAuthApplicationSettings {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.dynamicOauthClientRegistration = try container.sdkDecodeRequired(.dynamicOauthClientRegistration)
-        self.defaultScopes = try container.sdkDecodeNullable(.defaultScopes)
-        self.oauthJwtAccessTokens = try container.sdkDecodeRequired(.oauthJwtAccessTokens)
-        self.audClaimEnabled = try container.sdkDecodeRequired(.audClaimEnabled)
-        self.audClaimRefreshBackfillEnabled = try container.sdkDecodeRequired(.audClaimRefreshBackfillEnabled)
-        self.pkceRequired = try container.sdkDecodeRequired(.pkceRequired)
-        self.clientIdMetadataDocumentsAdvertised = try container.sdkDecodeRequired(.clientIdMetadataDocumentsAdvertised)
-        self.clientIdMetadataDocumentsOnlyAllowPreRegisteredClients = try container.sdkDecodeRequired(.clientIdMetadataDocumentsOnlyAllowPreRegisteredClients)
-        self.clientIdMetadataDocumentsBlockImplicitlyAllowedClients = try container.sdkDecodeRequired(.clientIdMetadataDocumentsBlockImplicitlyAllowedClients)
-        self.dynamicClientAllowedScopes = try container.sdkDecodeIfPresent(.dynamicClientAllowedScopes)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension OAuthApplicationSettings {
-    public init(object: OAuthApplicationSettingsObject, dynamicOauthClientRegistration: Bool, defaultScopes: [String]?, oauthJwtAccessTokens: Bool, audClaimEnabled: Bool, audClaimRefreshBackfillEnabled: Bool, pkceRequired: Bool, clientIdMetadataDocumentsAdvertised: Bool, clientIdMetadataDocumentsOnlyAllowPreRegisteredClients: Bool, clientIdMetadataDocumentsBlockImplicitlyAllowedClients: Bool, dynamicClientAllowedScopes: [String]? = nil) {
+public extension OAuthApplicationSettings {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        dynamicOauthClientRegistration = try container.sdkDecodeRequired(.dynamicOauthClientRegistration)
+        defaultScopes = try container.sdkDecodeNullable(.defaultScopes)
+        oauthJwtAccessTokens = try container.sdkDecodeRequired(.oauthJwtAccessTokens)
+        audClaimEnabled = try container.sdkDecodeRequired(.audClaimEnabled)
+        audClaimRefreshBackfillEnabled = try container.sdkDecodeRequired(.audClaimRefreshBackfillEnabled)
+        pkceRequired = try container.sdkDecodeRequired(.pkceRequired)
+        clientIdMetadataDocumentsAdvertised = try container.sdkDecodeRequired(.clientIdMetadataDocumentsAdvertised)
+        clientIdMetadataDocumentsOnlyAllowPreRegisteredClients = try container
+            .sdkDecodeRequired(.clientIdMetadataDocumentsOnlyAllowPreRegisteredClients)
+        clientIdMetadataDocumentsBlockImplicitlyAllowedClients = try container
+            .sdkDecodeRequired(.clientIdMetadataDocumentsBlockImplicitlyAllowedClients)
+        dynamicClientAllowedScopes = try container.sdkDecodeIfPresent(.dynamicClientAllowedScopes)
+    }
+}
+
+public extension OAuthApplicationSettings {
+    init(
+        object: OAuthApplicationSettingsObject,
+        dynamicOauthClientRegistration: Bool,
+        defaultScopes: [String]?,
+        oauthJwtAccessTokens: Bool,
+        audClaimEnabled: Bool,
+        audClaimRefreshBackfillEnabled: Bool,
+        pkceRequired: Bool,
+        clientIdMetadataDocumentsAdvertised: Bool,
+        clientIdMetadataDocumentsOnlyAllowPreRegisteredClients: Bool,
+        clientIdMetadataDocumentsBlockImplicitlyAllowedClients: Bool,
+        dynamicClientAllowedScopes: [String]? = nil
+    ) {
         (self.object, self.dynamicOauthClientRegistration) = (object, dynamicOauthClientRegistration)
         (self.defaultScopes, self.oauthJwtAccessTokens) = (defaultScopes, oauthJwtAccessTokens)
         self.audClaimEnabled = audClaimEnabled
         self.audClaimRefreshBackfillEnabled = audClaimRefreshBackfillEnabled
         self.pkceRequired = pkceRequired
         self.clientIdMetadataDocumentsAdvertised = clientIdMetadataDocumentsAdvertised
-        self.clientIdMetadataDocumentsOnlyAllowPreRegisteredClients = clientIdMetadataDocumentsOnlyAllowPreRegisteredClients
-        self.clientIdMetadataDocumentsBlockImplicitlyAllowedClients = clientIdMetadataDocumentsBlockImplicitlyAllowedClients
+        self
+            .clientIdMetadataDocumentsOnlyAllowPreRegisteredClients =
+            clientIdMetadataDocumentsOnlyAllowPreRegisteredClients
+        self
+            .clientIdMetadataDocumentsBlockImplicitlyAllowedClients =
+            clientIdMetadataDocumentsBlockImplicitlyAllowedClients
         self.dynamicClientAllowedScopes = dynamicClientAllowedScopes
     }
 }
 
 /// Required enumerated value serialized in the `domains_enrollment_modes[]` wire field.
-public struct OrganizationSettingsDomainsEnrollmentModesItem: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct OrganizationSettingsDomainsEnrollmentModesItem: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let manualInvitation = OrganizationSettingsDomainsEnrollmentModesItem(rawValue: "manual_invitation")
-    public static let automaticInvitation = OrganizationSettingsDomainsEnrollmentModesItem(rawValue: "automatic_invitation")
-    public static let automaticSuggestion = OrganizationSettingsDomainsEnrollmentModesItem(rawValue: "automatic_suggestion")
+    public static let automaticInvitation =
+        OrganizationSettingsDomainsEnrollmentModesItem(rawValue: "automatic_invitation")
+    public static let automaticSuggestion =
+        OrganizationSettingsDomainsEnrollmentModesItem(rawValue: "automatic_suggestion")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -296,12 +382,15 @@ public struct OrganizationSettingsDomainsEnrollmentModesItem: RawRepresentable, 
 public struct InstanceProtectObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let instanceProtect = InstanceProtectObject(rawValue: "instance_protect")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -314,12 +403,15 @@ public struct InstanceProtectObject: RawRepresentable, Hashable, Codable, Sendab
 public struct OAuthApplicationSettingsObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let oauthApplicationSettings = OAuthApplicationSettingsObject(rawValue: "oauth_application_settings")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -332,12 +424,15 @@ public struct OAuthApplicationSettingsObject: RawRepresentable, Hashable, Codabl
 public struct InstanceCommunicationObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let instanceCommunication = InstanceCommunicationObject(rawValue: "instance_communication")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -350,12 +445,15 @@ public struct InstanceCommunicationObject: RawRepresentable, Hashable, Codable, 
 public struct OrganizationSettingsObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let organizationSettings = OrganizationSettingsObject(rawValue: "organization_settings")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

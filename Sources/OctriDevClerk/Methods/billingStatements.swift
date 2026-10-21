@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BillingMethods {
-    /// Returns a list of all billing statements for the instance. The statements are returned sorted by creation date, with the newest statements appearing first. Pagination is supported.
+public extension BillingMethods {
+    /// Returns a list of all billing statements for the instance. The statements are returned sorted by creation date,
+    /// with the newest statements appearing first. Pagination is supported.
     ///
     /// - Parameters:
     /// - paginated: Whether to paginate the results. If true, the results will be
@@ -16,29 +17,63 @@ extension BillingMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    public static func getBillingStatementList(config: ClientConfig, paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> PaginatedBillingStatementResponse {
-        if let limit = limit {
+    static func getBillingStatementList(
+        config: ClientConfig,
+        paginated: Bool? = nil,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> PaginatedBillingStatementResponse {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset = offset {
+        if let offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try (await sdkRequest("GET", "/billing/statements", config: config, query: [
-            SdkQueryParameter("paginated", value: paginated),
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("offset", value: offset),
-        ], decoder: .json, operationId: "GetBillingStatementList", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "GET",
+            "/billing/statements",
+            config: config,
+            query: [
+                SdkQueryParameter("paginated", value: paginated),
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("offset", value: offset),
+            ],
+            decoder: .json,
+            operationId: "GetBillingStatementList",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self]
+        )).data
     }
 
-    /// Retrieves a billing statement by its unique identifier. Use `statementID` to inspect the statement’s payer, current status, totals, and grouped items.
+    /// Retrieves a billing statement by its unique identifier. Use `statementID` to inspect the statement’s payer,
+    /// current status, totals, and grouped items.
     ///
     /// Retrieves the details of a billing statement.
     ///
     /// - Parameters:
     /// - statementId: The ID of the statement to retrieve.
-    public static func getBillingStatement(config: ClientConfig, statementId: String, requestOptions: RequestOptions? = nil) async throws -> BillingStatement {
-        return try (await sdkRequest("GET", ["/billing/statements/", sdkEncodePathSegment(sdkWireString(statementId))].joined(), config: config, decoder: .json, operationId: "GetBillingStatement", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
+    static func getBillingStatement(
+        config: ClientConfig,
+        statementId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BillingStatement {
+        try await (sdkRequest(
+            "GET",
+            ["/billing/statements/", sdkEncodePathSegment(sdkWireString(statementId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "GetBillingStatement",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+                "500": ClerkErrors.self,
+            ]
+        )).data
     }
 }

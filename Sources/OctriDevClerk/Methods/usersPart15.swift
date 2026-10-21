@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
+public extension UsersMethods {
     /// Retrieve a paginated list of the user's organization invitations
     ///
     /// - Parameters:
@@ -17,31 +17,71 @@ extension UsersMethods {
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
     /// - status: Filter organization invitations based on their status
-    public static func usersGetOrganizationInvitations(config: ClientConfig, userId: String, limit: Int? = nil, offset: Int? = nil, status: UsersGetOrganizationInvitationsParameter? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationInvitationsWithPublicOrganizationData {
-        if let limit = limit {
+    static func usersGetOrganizationInvitations(
+        config: ClientConfig,
+        userId: String,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        status: UsersGetOrganizationInvitationsParameter? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationInvitationsWithPublicOrganizationData {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset = offset {
+        if let offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try (await sdkRequest("GET", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/organization_invitations"].joined(), config: config, query: [
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("offset", value: offset),
-            SdkQueryParameter("status", value: status),
-        ], decoder: .json, operationId: "UsersGetOrganizationInvitations", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "GET",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/organization_invitations"].joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("offset", value: offset),
+                SdkQueryParameter("status", value: status),
+            ],
+            decoder: .json,
+            operationId: "UsersGetOrganizationInvitations",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 
-    /// Removes the password credential from the given user. This is a privileged operation and does not require the user's current password. Password removal is allowed even when the user has no other sign-in method configured. If the user does not have a password, the user is returned unchanged and no password-deletion or user-update event is emitted. By default, existing sessions remain active. Set `sign_out_of_other_sessions` to `true` to revoke sessions active when the request is processed.
+    /// Removes the password credential from the given user. This is a privileged operation and does not require the
+    /// user's current password. Password removal is allowed even when the user has no other sign-in method configured.
+    /// If the user does not have a password, the user is returned unchanged and no password-deletion or user-update
+    /// event is emitted. By default, existing sessions remain active. Set `sign_out_of_other_sessions` to `true` to
+    /// revoke sessions active when the request is processed.
     ///
     /// - Parameters:
     /// - userId: The ID of the user whose password to remove
     /// - signOutOfOtherSessions: Set to `true` to revoke all of the user's active
     ///   sessions after removing the password.
-    public static func removeUserPassword(config: ClientConfig, userId: String, signOutOfOtherSessions: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> User {
+    static func removeUserPassword(
+        config: ClientConfig,
+        userId: String,
+        signOutOfOtherSessions: Bool? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> User {
         let requestBody = RemoveUserPasswordRequestBody(signOutOfOtherSessions: signOutOfOtherSessions)
 
-        return try (await sdkRequest("POST", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/remove_password"].joined(), config: config, body: requestBody, decoder: .json, operationId: "RemoveUserPassword", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/remove_password"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "RemoveUserPassword",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "500": ClerkErrors.self,
+            ]
+        )).data
     }
 }

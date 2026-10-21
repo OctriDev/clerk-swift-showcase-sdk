@@ -3,7 +3,7 @@
 
 import Foundation
 
-// EnterpriseConnections domain models
+/// EnterpriseConnections domain models
 /// The user information parsed from the IdP response
 public struct EnterpriseConnectionTestRunParsedUserInfo: Codable {
     /// Optional `string` value serialized in the `email_address` wire field.
@@ -23,22 +23,22 @@ public struct EnterpriseConnectionTestRunParsedUserInfo: Codable {
     }
 
     init() {
-        (self.emailAddress, self.firstName, self.lastName, self.userId) = (nil, nil, nil, nil)
+        (emailAddress, firstName, lastName, userId) = (nil, nil, nil, nil)
     }
 }
 
-extension EnterpriseConnectionTestRunParsedUserInfo {
-    public init(from decoder: Decoder) throws {
+public extension EnterpriseConnectionTestRunParsedUserInfo {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.emailAddress = try container.sdkDecodeIfPresent(.emailAddress)
-        self.firstName = try container.sdkDecodeIfPresent(.firstName)
-        self.lastName = try container.sdkDecodeIfPresent(.lastName)
-        self.userId = try container.sdkDecodeIfPresent(.userId)
+        emailAddress = try container.sdkDecodeIfPresent(.emailAddress)
+        firstName = try container.sdkDecodeIfPresent(.firstName)
+        lastName = try container.sdkDecodeIfPresent(.lastName)
+        userId = try container.sdkDecodeIfPresent(.userId)
     }
 }
 
-extension EnterpriseConnectionTestRunParsedUserInfo {
-    public init(emailAddress: String? = nil, firstName: String? = nil, lastName: String? = nil, userId: String? = nil) {
+public extension EnterpriseConnectionTestRunParsedUserInfo {
+    init(emailAddress: String? = nil, firstName: String? = nil, lastName: String? = nil, userId: String? = nil) {
         self.init()
         (self.emailAddress, self.firstName) = (emailAddress, firstName)
         (self.lastName, self.userId) = (lastName, userId)
@@ -63,27 +63,37 @@ public struct EnterpriseConnectionTestRunLogsItem: Codable {
         case shortMessage = "short_message"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension EnterpriseConnectionTestRunLogsItem {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.level) else {
-            throw SdkValidationError(field: "level", code: "required", message: "Validation failed for 'level': value is required")
-        }
-        guard container.contains(.message) else {
-            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
-        }
-        self.level = try container.sdkDecodeRequired(.level)
-        self.message = try container.sdkDecodeRequired(.message)
-        self.code = try container.sdkDecodeIfPresent(.code)
-        self.shortMessage = try container.sdkDecodeIfPresent(.shortMessage)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension EnterpriseConnectionTestRunLogsItem {
-    public init(level: String, message: String, code: String? = nil, shortMessage: String? = nil) {
+public extension EnterpriseConnectionTestRunLogsItem {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.level) else {
+            throw SdkValidationError(
+                field: "level",
+                code: "required",
+                message: "Validation failed for 'level': value is required"
+            )
+        }
+        guard container.contains(.message) else {
+            throw SdkValidationError(
+                field: "message",
+                code: "required",
+                message: "Validation failed for 'message': value is required"
+            )
+        }
+        level = try container.sdkDecodeRequired(.level)
+        message = try container.sdkDecodeRequired(.message)
+        code = try container.sdkDecodeIfPresent(.code)
+        shortMessage = try container.sdkDecodeIfPresent(.shortMessage)
+    }
+}
+
+public extension EnterpriseConnectionTestRunLogsItem {
+    init(level: String, message: String, code: String? = nil, shortMessage: String? = nil) {
         (self.level, self.message) = (level, message)
         (self.code, self.shortMessage) = (code, shortMessage)
     }
@@ -105,21 +115,21 @@ public struct EnterpriseConnectionTestRunOauth: Codable {
     }
 
     init() {
-        (self.idToken, self.accessToken, self.userInfo) = (nil, nil, nil)
+        (idToken, accessToken, userInfo) = (nil, nil, nil)
     }
 }
 
-extension EnterpriseConnectionTestRunOauth {
-    public init(from decoder: Decoder) throws {
+public extension EnterpriseConnectionTestRunOauth {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.idToken = try container.sdkDecodeIfPresent(.idToken)
-        self.accessToken = try container.sdkDecodeIfPresent(.accessToken)
-        self.userInfo = try container.sdkDecodeIfPresent(.userInfo)
+        idToken = try container.sdkDecodeIfPresent(.idToken)
+        accessToken = try container.sdkDecodeIfPresent(.accessToken)
+        userInfo = try container.sdkDecodeIfPresent(.userInfo)
     }
 }
 
-extension EnterpriseConnectionTestRunOauth {
-    public init(idToken: String? = nil, accessToken: String? = nil, userInfo: String? = nil) {
+public extension EnterpriseConnectionTestRunOauth {
+    init(idToken: String? = nil, accessToken: String? = nil, userInfo: String? = nil) {
         self.init()
         (self.idToken, self.accessToken) = (idToken, accessToken)
         self.userInfo = userInfo
@@ -138,25 +148,35 @@ public struct EnterpriseConnectionTestRuns: Codable {
         case totalCount = "total_count"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension EnterpriseConnectionTestRuns {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.data) else {
-            throw SdkValidationError(field: "data", code: "required", message: "Validation failed for 'data': value is required")
-        }
-        guard container.contains(.totalCount) else {
-            throw SdkValidationError(field: "total_count", code: "required", message: "Validation failed for 'total_count': value is required")
-        }
-        self.data = try container.sdkDecodeRequired(.data)
-        self.totalCount = try container.sdkDecodeRequired(.totalCount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension EnterpriseConnectionTestRuns {
-    public init(data: [EnterpriseConnectionTestRun], totalCount: Int) {
+public extension EnterpriseConnectionTestRuns {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.data) else {
+            throw SdkValidationError(
+                field: "data",
+                code: "required",
+                message: "Validation failed for 'data': value is required"
+            )
+        }
+        guard container.contains(.totalCount) else {
+            throw SdkValidationError(
+                field: "total_count",
+                code: "required",
+                message: "Validation failed for 'total_count': value is required"
+            )
+        }
+        data = try container.sdkDecodeRequired(.data)
+        totalCount = try container.sdkDecodeRequired(.totalCount)
+    }
+}
+
+public extension EnterpriseConnectionTestRuns {
+    init(data: [EnterpriseConnectionTestRun], totalCount: Int) {
         (self.data, self.totalCount) = (data, totalCount)
     }
 }
@@ -177,21 +197,21 @@ public struct EnterpriseConnectionTestRunSaml: Codable {
     }
 
     init() {
-        (self.samlRequest, self.samlResponse, self.relayState) = (nil, nil, nil)
+        (samlRequest, samlResponse, relayState) = (nil, nil, nil)
     }
 }
 
-extension EnterpriseConnectionTestRunSaml {
-    public init(from decoder: Decoder) throws {
+public extension EnterpriseConnectionTestRunSaml {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.samlRequest = try container.sdkDecodeIfPresent(.samlRequest)
-        self.samlResponse = try container.sdkDecodeIfPresent(.samlResponse)
-        self.relayState = try container.sdkDecodeIfPresent(.relayState)
+        samlRequest = try container.sdkDecodeIfPresent(.samlRequest)
+        samlResponse = try container.sdkDecodeIfPresent(.samlResponse)
+        relayState = try container.sdkDecodeIfPresent(.relayState)
     }
 }
 
-extension EnterpriseConnectionTestRunSaml {
-    public init(samlRequest: String? = nil, samlResponse: String? = nil, relayState: String? = nil) {
+public extension EnterpriseConnectionTestRunSaml {
+    init(samlRequest: String? = nil, samlResponse: String? = nil, relayState: String? = nil) {
         self.init()
         (self.samlRequest, self.samlResponse) = (samlRequest, samlResponse)
         self.relayState = relayState
@@ -228,37 +248,64 @@ public struct EnterpriseConnectionTestRun: Codable {
         case oauth
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension EnterpriseConnectionTestRun {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.status) else {
-            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
-        }
-        guard container.contains(.connectionType) else {
-            throw SdkValidationError(field: "connection_type", code: "required", message: "Validation failed for 'connection_type': value is required")
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        self.id = try container.sdkDecodeRequired(.id)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.connectionType = try container.sdkDecodeRequired(.connectionType)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.parsedUserInfo = try container.sdkDecodeIfPresent(.parsedUserInfo)
-        self.logs = try container.sdkDecodeIfPresent(.logs)
-        self.saml = try container.sdkDecodeIfPresent(.saml)
-        self.oauth = try container.sdkDecodeIfPresent(.oauth)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension EnterpriseConnectionTestRun {
-    public init(id: String, status: EnterpriseConnectionTestRunStatus, connectionType: EnterpriseConnectionTestRunConnectionType, createdAt: Int, parsedUserInfo: EnterpriseConnectionTestRunParsedUserInfo? = nil, logs: [EnterpriseConnectionTestRunLogsItem]? = nil, saml: EnterpriseConnectionTestRunSaml? = nil, oauth: EnterpriseConnectionTestRunOauth? = nil) {
+public extension EnterpriseConnectionTestRun {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.status) else {
+            throw SdkValidationError(
+                field: "status",
+                code: "required",
+                message: "Validation failed for 'status': value is required"
+            )
+        }
+        guard container.contains(.connectionType) else {
+            throw SdkValidationError(
+                field: "connection_type",
+                code: "required",
+                message: "Validation failed for 'connection_type': value is required"
+            )
+        }
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        id = try container.sdkDecodeRequired(.id)
+        status = try container.sdkDecodeRequired(.status)
+        connectionType = try container.sdkDecodeRequired(.connectionType)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        parsedUserInfo = try container.sdkDecodeIfPresent(.parsedUserInfo)
+        logs = try container.sdkDecodeIfPresent(.logs)
+        saml = try container.sdkDecodeIfPresent(.saml)
+        oauth = try container.sdkDecodeIfPresent(.oauth)
+    }
+}
+
+public extension EnterpriseConnectionTestRun {
+    init(
+        id: String,
+        status: EnterpriseConnectionTestRunStatus,
+        connectionType: EnterpriseConnectionTestRunConnectionType,
+        createdAt: Int,
+        parsedUserInfo: EnterpriseConnectionTestRunParsedUserInfo? = nil,
+        logs: [EnterpriseConnectionTestRunLogsItem]? = nil,
+        saml: EnterpriseConnectionTestRunSaml? = nil,
+        oauth: EnterpriseConnectionTestRunOauth? = nil
+    ) {
         (self.id, self.status) = (id, status)
         (self.connectionType, self.createdAt) = (connectionType, createdAt)
         (self.parsedUserInfo, self.logs) = (parsedUserInfo, logs)
@@ -270,14 +317,17 @@ extension EnterpriseConnectionTestRun {
 public struct EnterpriseConnectionTestRunStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let pending = EnterpriseConnectionTestRunStatus(rawValue: "pending")
     public static let success = EnterpriseConnectionTestRunStatus(rawValue: "success")
     public static let failed = EnterpriseConnectionTestRunStatus(rawValue: "failed")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -287,16 +337,20 @@ public struct EnterpriseConnectionTestRunStatus: RawRepresentable, Hashable, Cod
 }
 
 /// The type of enterprise connection the test run was performed against
-public struct EnterpriseConnectionTestRunConnectionType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct EnterpriseConnectionTestRunConnectionType: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let saml = EnterpriseConnectionTestRunConnectionType(rawValue: "saml")
     public static let oauth = EnterpriseConnectionTestRunConnectionType(rawValue: "oauth")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

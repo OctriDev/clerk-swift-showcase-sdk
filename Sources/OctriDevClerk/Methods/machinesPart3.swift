@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension MachinesMethods {
-    /// Creates a new machine. Provide a `name` and optionally configure its machine scopes and default token TTL. The response includes the machine's secret key, so store it securely.
+public extension MachinesMethods {
+    /// Creates a new machine. Provide a `name` and optionally configure its machine scopes and default token TTL. The
+    /// response includes the machine's secret key, so store it securely.
     ///
     /// Creates a new machine.
     ///
@@ -17,29 +18,67 @@ extension MachinesMethods {
     ///   to. Maximum of 150 scopes per machine.
     /// - defaultTokenTtl: The default time-to-live (TTL) in seconds for tokens
     ///   created by this machine. Must be at least 1 second.
-    public static func createMachine(config: ClientConfig, name: String, scopedMachines: [String]? = nil, defaultTokenTtl: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> MachineCreated {
+    static func createMachine(
+        config: ClientConfig,
+        name: String,
+        scopedMachines: [String]? = nil,
+        defaultTokenTtl: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> MachineCreated {
         try validateLength("name", name, min: 1, max: 255)
 
-        if let scopedMachines = scopedMachines {
+        if let scopedMachines {
             try validateItems("scoped_machines", scopedMachines, max: 150)
         }
 
-        if let defaultTokenTtl = defaultTokenTtl {
-            try validateRange("default_token_ttl", Double(defaultTokenTtl), min: 1, max: 315360000)
+        if let defaultTokenTtl {
+            try validateRange("default_token_ttl", Double(defaultTokenTtl), min: 1, max: 315_360_000)
         }
 
-        let requestBody = CreateMachineRequestBody(name: name, scopedMachines: scopedMachines, defaultTokenTtl: defaultTokenTtl)
+        let requestBody = CreateMachineRequestBody(
+            name: name,
+            scopedMachines: scopedMachines,
+            defaultTokenTtl: defaultTokenTtl
+        )
 
-        return try (await sdkRequest("POST", "/machines", config: config, body: requestBody, decoder: .json, operationId: "CreateMachine", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/machines",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "CreateMachine",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 
-    /// Retrieves the details of a machine. Use its `machine_id` to identify the machine whose configuration and scopes you need to inspect.
+    /// Retrieves the details of a machine. Use its `machine_id` to identify the machine whose configuration and scopes
+    /// you need to inspect.
     ///
     /// Returns the details of a machine.
     ///
     /// - Parameters:
     /// - machineId: The ID of the machine to retrieve
-    public static func getMachine(config: ClientConfig, machineId: String, requestOptions: RequestOptions? = nil) async throws -> Machine {
-        return try (await sdkRequest("GET", ["/machines/", sdkEncodePathSegment(sdkWireString(machineId))].joined(), config: config, decoder: .json, operationId: "GetMachine", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+    static func getMachine(
+        config: ClientConfig,
+        machineId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Machine {
+        try await (sdkRequest(
+            "GET",
+            ["/machines/", sdkEncodePathSegment(sdkWireString(machineId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "GetMachine",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 }

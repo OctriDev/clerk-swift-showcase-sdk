@@ -6,15 +6,29 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
+public extension UsersMethods {
     /// Check that the user's password matches the supplied input. Useful for custom auth flows and re-verification.
     ///
     /// - Parameters:
     /// - userId: The ID of the user for whom to verify the password
     /// - password: The user password to verify
-    public static func verifyPassword(config: ClientConfig, userId: String, password: String, requestOptions: RequestOptions? = nil) async throws -> VerifyPasswordResponse {
+    static func verifyPassword(
+        config: ClientConfig,
+        userId: String,
+        password: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> VerifyPasswordResponse {
         let requestBody = VerifyPasswordRequestBody(password: password)
 
-        return try (await sdkRequest("POST", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/verify_password"].joined(), config: config, body: requestBody, decoder: .json, operationId: "VerifyPassword", options: requestOptions, errors: ["500": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/verify_password"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "VerifyPassword",
+            options: requestOptions,
+            errors: ["500": ClerkErrors.self]
+        )).data
     }
 }

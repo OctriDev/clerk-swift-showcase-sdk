@@ -6,8 +6,12 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OrganizationsMethods {
-    /// Replace an organization's metadata attributes with the provided values. Unlike `PATCH /v1/organizations/{organization_id}/metadata` (merge semantics), this endpoint replaces the supplied metadata fields entirely — the prior contents of each supplied field are discarded. Fields omitted from the request body are left unchanged. Prefer the `PATCH` endpoint for partial updates. Use `PUT` only when you explicitly intend to overwrite a metadata field wholesale.
+public extension OrganizationsMethods {
+    /// Replace an organization's metadata attributes with the provided values. Unlike `PATCH
+    /// /v1/organizations/{organization_id}/metadata` (merge semantics), this endpoint replaces the supplied metadata
+    /// fields entirely — the prior contents of each supplied field are discarded. Fields omitted from the request body
+    /// are left unchanged. Prefer the `PATCH` endpoint for partial updates. Use `PUT` only when you explicitly intend
+    /// to overwrite a metadata field wholesale.
     ///
     /// - Parameters:
     /// - organizationId: The ID of the organization whose metadata will be replaced
@@ -17,9 +21,27 @@ extension OrganizationsMethods {
     /// - privateMetadata: Metadata saved on the organization that is only visible
     ///   to your backend. The existing value will be replaced entirely with the new
     ///   object.
-    public static func replaceOrganizationMetadata(config: ClientConfig, organizationId: String, publicMetadata: [String: JSONValue]? = nil, privateMetadata: [String: JSONValue]? = nil, requestOptions: RequestOptions? = nil) async throws -> Organization {
-        let requestBody = ReplaceOrganizationMetadataRequestBody(publicMetadata: publicMetadata, privateMetadata: privateMetadata)
+    static func replaceOrganizationMetadata(
+        config: ClientConfig,
+        organizationId: String,
+        publicMetadata: [String: JSONValue]? = nil,
+        privateMetadata: [String: JSONValue]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Organization {
+        let requestBody = ReplaceOrganizationMetadataRequestBody(
+            publicMetadata: publicMetadata,
+            privateMetadata: privateMetadata
+        )
 
-        return try (await sdkRequest("PUT", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/metadata"].joined(), config: config, body: requestBody, decoder: .json, operationId: "ReplaceOrganizationMetadata", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PUT",
+            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/metadata"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "ReplaceOrganizationMetadata",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

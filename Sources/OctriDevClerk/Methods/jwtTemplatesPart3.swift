@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension JwtTemplatesMethods {
-    /// Creates a JWT template with the supplied name and claims. Include `name` and `claims`; set `lifetime` and `allowed_clock_skew` within their permitted ranges, and provide a signing algorithm and key when `custom_signing_key` is true. The response returns the created template.
+public extension JwtTemplatesMethods {
+    /// Creates a JWT template with the supplied name and claims. Include `name` and `claims`; set `lifetime` and
+    /// `allowed_clock_skew` within their permitted ranges, and provide a signing algorithm and key when
+    /// `custom_signing_key` is true. The response returns the created template.
     ///
     /// Create a new JWT template
     ///
@@ -22,17 +24,44 @@ extension JwtTemplatesMethods {
     ///   Required if `custom_signing_key` is `true`.
     /// - signingKey: The custom signing private key to use when minting JWTs.
     ///   Required if `custom_signing_key` is `true`.
-    public static func createJwtTemplate(config: ClientConfig, name: String, claims: [String: JSONValue], lifetime: SdkOptional<Int>? = nil, allowedClockSkew: SdkOptional<Int>? = nil, customSigningKey: Bool? = nil, signingAlgorithm: SdkOptional<String>? = nil, signingKey: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> JWTTemplate {
+    static func createJwtTemplate(
+        config: ClientConfig,
+        name: String,
+        claims: [String: JSONValue],
+        lifetime: SdkOptional<Int>? = nil,
+        allowedClockSkew: SdkOptional<Int>? = nil,
+        customSigningKey: Bool? = nil,
+        signingAlgorithm: SdkOptional<String>? = nil,
+        signingKey: SdkOptional<String>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> JWTTemplate {
         if let lifetime = lifetime?.valueOrNil {
-            try validateRange("lifetime", Double(lifetime), min: 30, max: 315360000)
+            try validateRange("lifetime", Double(lifetime), min: 30, max: 315_360_000)
         }
 
         if let allowedClockSkew = allowedClockSkew?.valueOrNil {
             try validateRange("allowed_clock_skew", Double(allowedClockSkew), min: 0, max: 300)
         }
 
-        let requestBody = CreateJwtTemplateRequestBody(name: name, claims: claims, lifetime: lifetime, allowedClockSkew: allowedClockSkew, customSigningKey: customSigningKey, signingAlgorithm: signingAlgorithm, signingKey: signingKey)
+        let requestBody = CreateJwtTemplateRequestBody(
+            name: name,
+            claims: claims,
+            lifetime: lifetime,
+            allowedClockSkew: allowedClockSkew,
+            customSigningKey: customSigningKey,
+            signingAlgorithm: signingAlgorithm,
+            signingKey: signingKey
+        )
 
-        return try (await sdkRequest("POST", "/jwt_templates", config: config, body: requestBody, decoder: .json, operationId: "CreateJWTTemplate", options: requestOptions, errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            "/jwt_templates",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "CreateJWTTemplate",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "402": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

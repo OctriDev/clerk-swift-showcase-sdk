@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension InstanceSettingsMethods {
-    public struct UpdateInstanceOptions: Codable {
+public extension InstanceSettingsMethods {
+    struct UpdateInstanceOptions: Codable {
         public var testMode: SdkOptional<Bool>?
         public var hibp: SdkOptional<Bool>?
         public var supportEmail: SdkOptional<String>?
@@ -18,12 +18,16 @@ extension InstanceSettingsMethods {
         public var subdomainAllowlistEnabled: SdkOptional<Bool>?
         public var cookielessDev: SdkOptional<Bool>?
         public var urlBasedSessionSyncing: SdkOptional<Bool>?
-        public var preferredSignInStrategyWhenPasswordRequired: SdkOptional<UpdateInstanceRequestBodyPreferredSignInStrategyWhenPasswordRequired>?
+        public var preferredSignInStrategyWhenPasswordRequired: SdkOptional<
+            UpdateInstanceRequestBodyPreferredSignInStrategyWhenPasswordRequired
+        >?
 
         public init() {}
     }
 
-    /// Updates configurable settings for an instance, including browser origins, password breach checks, and sign-in preferences. Supply only the settings you want to change; `preferred_sign_in_strategy_when_password_required` accepts `password`, `otp`, or an empty string.
+    /// Updates configurable settings for an instance, including browser origins, password breach checks, and sign-in
+    /// preferences. Supply only the settings you want to change; `preferred_sign_in_strategy_when_password_required`
+    /// accepts `password`, `otp`, or an empty string.
     ///
     /// Updates the settings of an instance
     ///
@@ -68,9 +72,22 @@ extension InstanceSettingsMethods {
     ///   the instance level, sets the preferred sign-in strategy surfaced to Clerk
     ///   components. Has no effect when password is not required. Defaults to
     ///   `password`. Set to an empty string to clear the override.
-    public static func updateInstance(config: ClientConfig, options: UpdateInstanceOptions, requestOptions: RequestOptions? = nil) async throws -> SdkEmptyResponse {
+    static func updateInstance(
+        config: ClientConfig,
+        options: UpdateInstanceOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SdkEmptyResponse {
         let requestBody = UpdateInstanceRequestBody(options: options)
 
-        return try (await sdkRequest("PATCH", "/instance", config: config, body: requestBody, decoder: .empty, operationId: "UpdateInstance", options: requestOptions, errors: ["422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            "/instance",
+            config: config,
+            body: requestBody,
+            decoder: .empty,
+            operationId: "UpdateInstance",
+            options: requestOptions,
+            errors: ["422": ClerkErrors.self]
+        )).data
     }
 }

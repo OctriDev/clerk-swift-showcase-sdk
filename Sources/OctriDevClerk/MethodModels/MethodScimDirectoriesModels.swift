@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-// Canonical scimDirectories operation model declarations
+/// Canonical scimDirectories operation model declarations
 public struct CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem: Codable {
     /// The SCIM group ID from the identity provider.
     public var scimGroupId: String
@@ -25,40 +25,66 @@ public struct CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem: Codable {
         case precedence
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem {
-    public init(from decoder: Decoder) throws {
+public extension CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.scimGroupId) else {
-            throw SdkValidationError(field: "scim_group_id", code: "required", message: "Validation failed for 'scim_group_id': value is required")
+            throw SdkValidationError(
+                field: "scim_group_id",
+                code: "required",
+                message: "Validation failed for 'scim_group_id': value is required"
+            )
         }
         guard container.contains(.roleId) else {
-            throw SdkValidationError(field: "role_id", code: "required", message: "Validation failed for 'role_id': value is required")
+            throw SdkValidationError(
+                field: "role_id",
+                code: "required",
+                message: "Validation failed for 'role_id': value is required"
+            )
         }
-        self.scimGroupId = try container.sdkDecodeRequired(.scimGroupId)
-        self.roleId = try container.sdkDecodeRequired(.roleId)
-        self.scimGroupDisplayName = try container.sdkDecodeIfPresent(.scimGroupDisplayName)
-        self.precedence = try container.sdkDecodeIfPresent(.precedence)
-        if let value = self.scimGroupDisplayName {
+        scimGroupId = try container.sdkDecodeRequired(.scimGroupId)
+        roleId = try container.sdkDecodeRequired(.roleId)
+        scimGroupDisplayName = try container.sdkDecodeIfPresent(.scimGroupDisplayName)
+        precedence = try container.sdkDecodeIfPresent(.precedence)
+        if let value = scimGroupDisplayName {
             try validateLength("scim_group_display_name", value, min: nil, max: 255)
         }
-        if let value = self.precedence {
-            try validateRange("precedence", Double(value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        if let value = precedence {
+            try validateRange(
+                "precedence",
+                Double(value),
+                min: 1,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
 
-extension CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem {
-    public init(scimGroupId: String, roleId: String, scimGroupDisplayName: String? = nil, precedence: Int? = nil) throws {
+public extension CreateSCIMDirectoryRequestBodyGroupRoleMappingsItem {
+    init(scimGroupId: String, roleId: String, scimGroupDisplayName: String? = nil, precedence: Int? = nil) throws {
         (self.scimGroupId, self.roleId) = (scimGroupId, roleId)
         (self.scimGroupDisplayName, self.precedence) = (scimGroupDisplayName, precedence)
         if let value = self.scimGroupDisplayName {
             try validateLength("scim_group_display_name", value, min: nil, max: 255)
         }
         if let value = self.precedence {
-            try validateRange("precedence", Double(value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "precedence",
+                Double(value),
+                min: 1,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
@@ -74,25 +100,35 @@ public struct ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem: Codable {
         case roleId = "role_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.scimGroupId) else {
-            throw SdkValidationError(field: "scim_group_id", code: "required", message: "Validation failed for 'scim_group_id': value is required")
-        }
-        guard container.contains(.roleId) else {
-            throw SdkValidationError(field: "role_id", code: "required", message: "Validation failed for 'role_id': value is required")
-        }
-        self.scimGroupId = try container.sdkDecodeRequired(.scimGroupId)
-        self.roleId = try container.sdkDecodeRequired(.roleId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem {
-    public init(scimGroupId: String, roleId: String) {
+public extension ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.scimGroupId) else {
+            throw SdkValidationError(
+                field: "scim_group_id",
+                code: "required",
+                message: "Validation failed for 'scim_group_id': value is required"
+            )
+        }
+        guard container.contains(.roleId) else {
+            throw SdkValidationError(
+                field: "role_id",
+                code: "required",
+                message: "Validation failed for 'role_id': value is required"
+            )
+        }
+        scimGroupId = try container.sdkDecodeRequired(.scimGroupId)
+        roleId = try container.sdkDecodeRequired(.roleId)
+    }
+}
+
+public extension ReplaceSCIMGroupRoleMappingsRequestBodyMappingsItem {
+    init(scimGroupId: String, roleId: String) {
         (self.scimGroupId, self.roleId) = (scimGroupId, roleId)
     }
 }

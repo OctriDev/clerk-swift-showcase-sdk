@@ -6,13 +6,27 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension ApiKeysMethods {
-    /// Revokes an API key identified by its ID. You can include `revocation_reason` to record why the key was revoked. The response contains the API key's updated revocation state.
-    public static func revokeApiKey(config: ClientConfig, apiKeyId: String, revocationReason: SdkOptional<String>? = nil, requestOptions: RequestOptions? = nil) async throws -> RevokeApiKeyResponse {
+public extension ApiKeysMethods {
+    /// Revokes an API key identified by its ID. You can include `revocation_reason` to record why the key was revoked.
+    /// The response contains the API key's updated revocation state.
+    static func revokeApiKey(
+        config: ClientConfig,
+        apiKeyId: String,
+        revocationReason: SdkOptional<String>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> RevokeApiKeyResponse {
         try sdkValidatePattern("apiKeyID", apiKeyId, sdkPattern4f1a58be85d5)
 
         let requestBody = RevokeApiKeyRequestBody(revocationReason: revocationReason)
 
-        return try (await sdkRequest("POST", ["/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "/revoke"].joined(), config: config, body: requestBody, decoder: .json, operationId: "revokeApiKey", options: requestOptions)).data
+        return try await (sdkRequest(
+            "POST",
+            ["/api_keys/", sdkEncodePathSegment(sdkWireString(apiKeyId)), "/revoke"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "revokeApiKey",
+            options: requestOptions
+        )).data
     }
 }

@@ -6,8 +6,11 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
-    /// Replace a user's metadata attributes with the provided values. Unlike `PATCH /v1/users/{user_id}/metadata` (merge semantics), this endpoint replaces the supplied metadata fields entirely — the prior contents of each supplied field are discarded. Fields omitted from the request body are left unchanged. Prefer the `PATCH` endpoint for partial updates. Use `PUT` only when you explicitly intend to overwrite a metadata field wholesale.
+public extension UsersMethods {
+    /// Replace a user's metadata attributes with the provided values. Unlike `PATCH /v1/users/{user_id}/metadata`
+    /// (merge semantics), this endpoint replaces the supplied metadata fields entirely — the prior contents of each
+    /// supplied field are discarded. Fields omitted from the request body are left unchanged. Prefer the `PATCH`
+    /// endpoint for partial updates. Use `PUT` only when you explicitly intend to overwrite a metadata field wholesale.
     ///
     /// - Parameters:
     /// - userId: The ID of the user whose metadata will be replaced
@@ -20,9 +23,29 @@ extension UsersMethods {
     ///   the Frontend and Backend APIs. The existing value will be replaced entirely
     ///   with the new object. Note: Since this data can be modified from the
     ///   frontend, it is not guaranteed to be safe.
-    public static func replaceUserMetadata(config: ClientConfig, userId: String, publicMetadata: [String: JSONValue]? = nil, privateMetadata: [String: JSONValue]? = nil, unsafeMetadata: [String: JSONValue]? = nil, requestOptions: RequestOptions? = nil) async throws -> User {
-        let requestBody = ReplaceUserMetadataRequestBody(publicMetadata: publicMetadata, privateMetadata: privateMetadata, unsafeMetadata: unsafeMetadata)
+    static func replaceUserMetadata(
+        config: ClientConfig,
+        userId: String,
+        publicMetadata: [String: JSONValue]? = nil,
+        privateMetadata: [String: JSONValue]? = nil,
+        unsafeMetadata: [String: JSONValue]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> User {
+        let requestBody = ReplaceUserMetadataRequestBody(
+            publicMetadata: publicMetadata,
+            privateMetadata: privateMetadata,
+            unsafeMetadata: unsafeMetadata
+        )
 
-        return try (await sdkRequest("PUT", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/metadata"].joined(), config: config, body: requestBody, decoder: .json, operationId: "ReplaceUserMetadata", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PUT",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/metadata"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "ReplaceUserMetadata",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

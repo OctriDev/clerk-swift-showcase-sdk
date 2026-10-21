@@ -6,14 +6,27 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension WaitlistEntriesMethods {
-    /// Deletes a pending waitlist entry. Use the `waitlist_entry_id` path parameter to identify the entry to delete. Entries locked while a batch action is processing are unavailable for other actions.
+public extension WaitlistEntriesMethods {
+    /// Deletes a pending waitlist entry. Use the `waitlist_entry_id` path parameter to identify the entry to delete.
+    /// Entries locked while a batch action is processing are unavailable for other actions.
     ///
     /// Delete a pending waitlist entry.
     ///
     /// - Parameters:
     /// - waitlistEntryId: The ID of the waitlist entry to delete
-    public static func deleteWaitlistEntry(config: ClientConfig, waitlistEntryId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try (await sdkRequest("DELETE", ["/waitlist_entries/", sdkEncodePathSegment(sdkWireString(waitlistEntryId))].joined(), config: config, decoder: .json, operationId: "DeleteWaitlistEntry", options: requestOptions, errors: ["400": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self])).data
+    static func deleteWaitlistEntry(
+        config: ClientConfig,
+        waitlistEntryId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeletedObject {
+        try await (sdkRequest(
+            "DELETE",
+            ["/waitlist_entries/", sdkEncodePathSegment(sdkWireString(waitlistEntryId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "DeleteWaitlistEntry",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

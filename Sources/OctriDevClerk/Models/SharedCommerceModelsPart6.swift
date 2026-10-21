@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedCommerce domain models
+/// SharedCommerce domain models
 /// Typed representation of the `CommerceProrationCreditDetailResponse` API schema.
 public struct CommerceProrationCreditDetailResponse: Codable {
     /// Required object value serialized in the `amount` wire field.
@@ -22,33 +22,51 @@ public struct CommerceProrationCreditDetailResponse: Codable {
         case cycleRemainingPercent = "cycle_remaining_percent"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommerceProrationCreditDetailResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        guard container.contains(.cycleDaysRemaining) else {
-            throw SdkValidationError(field: "cycle_days_remaining", code: "required", message: "Validation failed for 'cycle_days_remaining': value is required")
-        }
-        guard container.contains(.cycleDaysTotal) else {
-            throw SdkValidationError(field: "cycle_days_total", code: "required", message: "Validation failed for 'cycle_days_total': value is required")
-        }
-        guard container.contains(.cycleRemainingPercent) else {
-            throw SdkValidationError(field: "cycle_remaining_percent", code: "required", message: "Validation failed for 'cycle_remaining_percent': value is required")
-        }
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.cycleDaysRemaining = try container.sdkDecodeRequired(.cycleDaysRemaining)
-        self.cycleDaysTotal = try container.sdkDecodeRequired(.cycleDaysTotal)
-        self.cycleRemainingPercent = try container.sdkDecodeRequired(.cycleRemainingPercent)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CommerceProrationCreditDetailResponse {
-    public init(amount: CommerceMoneyResponse, cycleDaysRemaining: Int, cycleDaysTotal: Int, cycleRemainingPercent: Double) {
+public extension CommerceProrationCreditDetailResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.amount) else {
+            throw SdkValidationError(
+                field: "amount",
+                code: "required",
+                message: "Validation failed for 'amount': value is required"
+            )
+        }
+        guard container.contains(.cycleDaysRemaining) else {
+            throw SdkValidationError(
+                field: "cycle_days_remaining",
+                code: "required",
+                message: "Validation failed for 'cycle_days_remaining': value is required"
+            )
+        }
+        guard container.contains(.cycleDaysTotal) else {
+            throw SdkValidationError(
+                field: "cycle_days_total",
+                code: "required",
+                message: "Validation failed for 'cycle_days_total': value is required"
+            )
+        }
+        guard container.contains(.cycleRemainingPercent) else {
+            throw SdkValidationError(
+                field: "cycle_remaining_percent",
+                code: "required",
+                message: "Validation failed for 'cycle_remaining_percent': value is required"
+            )
+        }
+        amount = try container.sdkDecodeRequired(.amount)
+        cycleDaysRemaining = try container.sdkDecodeRequired(.cycleDaysRemaining)
+        cycleDaysTotal = try container.sdkDecodeRequired(.cycleDaysTotal)
+        cycleRemainingPercent = try container.sdkDecodeRequired(.cycleRemainingPercent)
+    }
+}
+
+public extension CommerceProrationCreditDetailResponse {
+    init(amount: CommerceMoneyResponse, cycleDaysRemaining: Int, cycleDaysTotal: Int, cycleRemainingPercent: Double) {
         (self.amount, self.cycleDaysRemaining) = (amount, cycleDaysRemaining)
         (self.cycleDaysTotal, self.cycleRemainingPercent) = (cycleDaysTotal, cycleRemainingPercent)
     }
@@ -58,7 +76,10 @@ extension CommerceProrationCreditDetailResponse {
 public struct CommerceSubscriptionStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let active = CommerceSubscriptionStatus(rawValue: "active")
     public static let pastDue = CommerceSubscriptionStatus(rawValue: "past_due")
     public static let canceled = CommerceSubscriptionStatus(rawValue: "canceled")
@@ -68,7 +89,7 @@ public struct CommerceSubscriptionStatus: RawRepresentable, Hashable, Codable, S
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -81,12 +102,15 @@ public struct CommerceSubscriptionStatus: RawRepresentable, Hashable, Codable, S
 public struct CommerceSubscriptionObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let commerceSubscription = CommerceSubscriptionObject(rawValue: "commerce_subscription")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -99,12 +123,15 @@ public struct CommerceSubscriptionObject: RawRepresentable, Hashable, Codable, S
 public struct CommercePaymentMethodResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let commercePaymentMethod = CommercePaymentMethodResponseObject(rawValue: "commerce_payment_method")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -117,13 +144,16 @@ public struct CommercePaymentMethodResponseObject: RawRepresentable, Hashable, C
 public struct CommerceSubscriptionItemPlanPeriod: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let month = CommerceSubscriptionItemPlanPeriod(rawValue: "month")
     public static let annual = CommerceSubscriptionItemPlanPeriod(rawValue: "annual")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -136,13 +166,16 @@ public struct CommerceSubscriptionItemPlanPeriod: RawRepresentable, Hashable, Co
 public struct CommercePaymentMethodResponseStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let active = CommercePaymentMethodResponseStatus(rawValue: "active")
     public static let disconnected = CommercePaymentMethodResponseStatus(rawValue: "disconnected")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -155,7 +188,10 @@ public struct CommercePaymentMethodResponseStatus: RawRepresentable, Hashable, C
 public struct CommerceSubscriptionItemStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let active = CommerceSubscriptionItemStatus(rawValue: "active")
     public static let canceled = CommerceSubscriptionItemStatus(rawValue: "canceled")
     public static let expired = CommerceSubscriptionItemStatus(rawValue: "expired")
@@ -167,7 +203,7 @@ public struct CommerceSubscriptionItemStatus: RawRepresentable, Hashable, Codabl
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -177,17 +213,21 @@ public struct CommerceSubscriptionItemStatus: RawRepresentable, Hashable, Codabl
 }
 
 /// The payment method type.
-public struct CommercePaymentMethodResponsePaymentType: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
+public struct CommercePaymentMethodResponsePaymentType: RawRepresentable, Hashable, Codable, Sendable,
+    SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let card = CommercePaymentMethodResponsePaymentType(rawValue: "card")
     public static let link = CommercePaymentMethodResponsePaymentType(rawValue: "link")
     public static let payerCredits = CommercePaymentMethodResponsePaymentType(rawValue: "payer-credits")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -200,12 +240,15 @@ public struct CommercePaymentMethodResponsePaymentType: RawRepresentable, Hashab
 public struct CommercePayerResponseObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let commercePayer = CommercePayerResponseObject(rawValue: "commerce_payer")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -218,12 +261,15 @@ public struct CommercePayerResponseObject: RawRepresentable, Hashable, Codable, 
 public struct CommerceSubscriptionItemObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let commerceSubscriptionItem = CommerceSubscriptionItemObject(rawValue: "commerce_subscription_item")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -236,12 +282,15 @@ public struct CommerceSubscriptionItemObject: RawRepresentable, Hashable, Codabl
 public struct CommercePlanObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let commercePlan = CommercePlanObject(rawValue: "commerce_plan")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

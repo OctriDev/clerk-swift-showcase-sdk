@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Machines domain models
+/// Machines domain models
 /// Typed representation of the `MachineScope` API schema.
 public struct MachineScope: Codable {
     /// Required enumerated value serialized in the `object` wire field.
@@ -22,33 +22,51 @@ public struct MachineScope: Codable {
         case createdAt = "created_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension MachineScope {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.fromMachineId) else {
-            throw SdkValidationError(field: "from_machine_id", code: "required", message: "Validation failed for 'from_machine_id': value is required")
-        }
-        guard container.contains(.toMachineId) else {
-            throw SdkValidationError(field: "to_machine_id", code: "required", message: "Validation failed for 'to_machine_id': value is required")
-        }
-        guard container.contains(.createdAt) else {
-            throw SdkValidationError(field: "created_at", code: "required", message: "Validation failed for 'created_at': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.fromMachineId = try container.sdkDecodeRequired(.fromMachineId)
-        self.toMachineId = try container.sdkDecodeRequired(.toMachineId)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension MachineScope {
-    public init(object: MachineScopeObject, fromMachineId: String, toMachineId: String, createdAt: Int) {
+public extension MachineScope {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.fromMachineId) else {
+            throw SdkValidationError(
+                field: "from_machine_id",
+                code: "required",
+                message: "Validation failed for 'from_machine_id': value is required"
+            )
+        }
+        guard container.contains(.toMachineId) else {
+            throw SdkValidationError(
+                field: "to_machine_id",
+                code: "required",
+                message: "Validation failed for 'to_machine_id': value is required"
+            )
+        }
+        guard container.contains(.createdAt) else {
+            throw SdkValidationError(
+                field: "created_at",
+                code: "required",
+                message: "Validation failed for 'created_at': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        fromMachineId = try container.sdkDecodeRequired(.fromMachineId)
+        toMachineId = try container.sdkDecodeRequired(.toMachineId)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+    }
+}
+
+public extension MachineScope {
+    init(object: MachineScopeObject, fromMachineId: String, toMachineId: String, createdAt: Int) {
         (self.object, self.fromMachineId) = (object, fromMachineId)
         (self.toMachineId, self.createdAt) = (toMachineId, createdAt)
     }
@@ -58,12 +76,15 @@ extension MachineScope {
 public struct MachineScopeObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let machineScope = MachineScopeObject(rawValue: "machine_scope")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

@@ -8,8 +8,11 @@ import Foundation
 #endif
 public enum OrganizationMembershipsMethods {}
 
-extension OrganizationMembershipsMethods {
-    /// Adds a user as a member to the given organization. Only users in the same instance as the organization can be added as members. This organization will be the user's [active organization] (https://clerk.com/docs/organizations/overview#active-organization) the next time they create a session, presuming they don't explicitly set a different organization as active before then.
+public extension OrganizationMembershipsMethods {
+    /// Adds a user as a member to the given organization. Only users in the same instance as the organization can be
+    /// added as members. This organization will be the user's [active organization]
+    /// (https://clerk.com/docs/organizations/overview#active-organization) the next time they create a session,
+    /// presuming they don't explicitly set a different organization as active before then.
     ///
     /// - Parameters:
     /// - organizationId: The ID of the organization where the new membership will
@@ -22,9 +25,31 @@ extension OrganizationMembershipsMethods {
     ///   visible to both your frontend and backend.
     /// - privateMetadata: Metadata saved on the organization membership that is
     ///   only visible to your backend.
-    public static func createOrganizationMembership(config: ClientConfig, organizationId: String, userId: String, role: String, publicMetadata: SdkOptional<[String: JSONValue]>? = nil, privateMetadata: SdkOptional<[String: JSONValue]>? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationMembership {
-        let requestBody = CreateOrganizationMembershipRequestBody(userId: userId, role: role, publicMetadata: publicMetadata, privateMetadata: privateMetadata)
+    static func createOrganizationMembership(
+        config: ClientConfig,
+        organizationId: String,
+        userId: String,
+        role: String,
+        publicMetadata: SdkOptional<[String: JSONValue]>? = nil,
+        privateMetadata: SdkOptional<[String: JSONValue]>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationMembership {
+        let requestBody = CreateOrganizationMembershipRequestBody(
+            userId: userId,
+            role: role,
+            publicMetadata: publicMetadata,
+            privateMetadata: privateMetadata
+        )
 
-        return try (await sdkRequest("POST", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/memberships"].joined(), config: config, body: requestBody, decoder: .json, operationId: "CreateOrganizationMembership", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/memberships"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "CreateOrganizationMembership",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

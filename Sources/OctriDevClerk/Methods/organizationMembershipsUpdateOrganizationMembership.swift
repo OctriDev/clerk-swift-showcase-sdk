@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OrganizationMembershipsMethods {
+public extension OrganizationMembershipsMethods {
     /// Updates the properties of an existing organization membership
     ///
     /// - Parameters:
@@ -14,10 +14,30 @@ extension OrganizationMembershipsMethods {
     ///   belongs
     /// - userId: The ID of the user to which this membership belongs
     /// - role: The new role of the given membership.
-    public static func updateOrganizationMembership(config: ClientConfig, organizationId: String, userId: String, role: String, requestOptions: RequestOptions? = nil) async throws -> OrganizationMembership {
+    static func updateOrganizationMembership(
+        config: ClientConfig,
+        organizationId: String,
+        userId: String,
+        role: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationMembership {
         let requestBody = UpdateOrganizationMembershipRequestBody(role: role)
 
-        return try (await sdkRequest("PATCH", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/memberships/", sdkEncodePathSegment(sdkWireString(userId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateOrganizationMembership", options: requestOptions, errors: ["404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            [
+                "/organizations/",
+                sdkEncodePathSegment(sdkWireString(organizationId)),
+                "/memberships/",
+                sdkEncodePathSegment(sdkWireString(userId)),
+            ].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdateOrganizationMembership",
+            options: requestOptions,
+            errors: ["404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 
     /// Removes the given membership from the organization
@@ -26,7 +46,25 @@ extension OrganizationMembershipsMethods {
     /// - organizationId: The ID of the organization to which this membership
     ///   belongs
     /// - userId: The ID of the user to which this membership belongs
-    public static func deleteOrganizationMembership(config: ClientConfig, organizationId: String, userId: String, requestOptions: RequestOptions? = nil) async throws -> OrganizationMembership {
-        return try (await sdkRequest("DELETE", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/memberships/", sdkEncodePathSegment(sdkWireString(userId))].joined(), config: config, decoder: .json, operationId: "DeleteOrganizationMembership", options: requestOptions, errors: ["401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+    static func deleteOrganizationMembership(
+        config: ClientConfig,
+        organizationId: String,
+        userId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationMembership {
+        try await (sdkRequest(
+            "DELETE",
+            [
+                "/organizations/",
+                sdkEncodePathSegment(sdkWireString(organizationId)),
+                "/memberships/",
+                sdkEncodePathSegment(sdkWireString(userId)),
+            ].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "DeleteOrganizationMembership",
+            options: requestOptions,
+            errors: ["401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

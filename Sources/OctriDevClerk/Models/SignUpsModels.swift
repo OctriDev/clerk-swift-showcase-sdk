@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SignUps domain models
+/// SignUps domain models
 /// Typed representation of the `SignUpVerifications` API schema.
 public struct SignUpVerifications: Codable {
     /// Required object value serialized in the `email_address` wire field.
@@ -22,33 +22,56 @@ public struct SignUpVerifications: Codable {
         case externalAccount = "external_account"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension SignUpVerifications {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.emailAddress) else {
-            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
-        }
-        guard container.contains(.phoneNumber) else {
-            throw SdkValidationError(field: "phone_number", code: "required", message: "Validation failed for 'phone_number': value is required")
-        }
-        guard container.contains(.web3Wallet) else {
-            throw SdkValidationError(field: "web3_wallet", code: "required", message: "Validation failed for 'web3_wallet': value is required")
-        }
-        guard container.contains(.externalAccount) else {
-            throw SdkValidationError(field: "external_account", code: "required", message: "Validation failed for 'external_account': value is required")
-        }
-        self.emailAddress = try container.sdkDecodeNullable(.emailAddress)
-        self.phoneNumber = try container.sdkDecodeNullable(.phoneNumber)
-        self.web3Wallet = try container.sdkDecodeNullable(.web3Wallet)
-        self.externalAccount = try container.sdkDecodeNullable(.externalAccount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension SignUpVerifications {
-    public init(emailAddress: SignUpVerification?, phoneNumber: SignUpVerification?, web3Wallet: SignUpVerification?, externalAccount: [String: JSONValue]?) {
+public extension SignUpVerifications {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.emailAddress) else {
+            throw SdkValidationError(
+                field: "email_address",
+                code: "required",
+                message: "Validation failed for 'email_address': value is required"
+            )
+        }
+        guard container.contains(.phoneNumber) else {
+            throw SdkValidationError(
+                field: "phone_number",
+                code: "required",
+                message: "Validation failed for 'phone_number': value is required"
+            )
+        }
+        guard container.contains(.web3Wallet) else {
+            throw SdkValidationError(
+                field: "web3_wallet",
+                code: "required",
+                message: "Validation failed for 'web3_wallet': value is required"
+            )
+        }
+        guard container.contains(.externalAccount) else {
+            throw SdkValidationError(
+                field: "external_account",
+                code: "required",
+                message: "Validation failed for 'external_account': value is required"
+            )
+        }
+        emailAddress = try container.sdkDecodeNullable(.emailAddress)
+        phoneNumber = try container.sdkDecodeNullable(.phoneNumber)
+        web3Wallet = try container.sdkDecodeNullable(.web3Wallet)
+        externalAccount = try container.sdkDecodeNullable(.externalAccount)
+    }
+}
+
+public extension SignUpVerifications {
+    init(
+        emailAddress: SignUpVerification?,
+        phoneNumber: SignUpVerification?,
+        web3Wallet: SignUpVerification?,
+        externalAccount: [String: JSONValue]?
+    ) {
         (self.emailAddress, self.phoneNumber) = (emailAddress, phoneNumber)
         (self.web3Wallet, self.externalAccount) = (web3Wallet, externalAccount)
     }
@@ -69,28 +92,28 @@ public struct SignUpVerification: Codable {
     }
 
     init() {
-        (self.nextAction, self.supportedStrategies) = (nil, nil)
+        (nextAction, supportedStrategies) = (nil, nil)
     }
 }
 
-extension SignUpVerification {
-    public init(from decoder: Decoder) throws {
+public extension SignUpVerification {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.nextAction = try container.sdkDecodeIfPresent(.nextAction)
-        self.supportedStrategies = try container.sdkDecodeIfPresent(.supportedStrategies)
+        nextAction = try container.sdkDecodeIfPresent(.nextAction)
+        supportedStrategies = try container.sdkDecodeIfPresent(.supportedStrategies)
         additionalProperties = try decoder.sdkAdditionalProperties(besides: CodingKeys.self)
     }
 }
 
-extension SignUpVerification {
-    public init(nextAction: SignUpVerificationNextAction? = nil, supportedStrategies: [String]? = nil) {
+public extension SignUpVerification {
+    init(nextAction: SignUpVerificationNextAction? = nil, supportedStrategies: [String]? = nil) {
         self.init()
         (self.nextAction, self.supportedStrategies) = (nextAction, supportedStrategies)
     }
 }
 
-extension SignUpVerification {
-    public func encode(to encoder: Encoder) throws {
+public extension SignUpVerification {
+    func encode(to encoder: Encoder) throws {
         try encoder.sdkEncodeAdditionalProperties(additionalProperties)
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(nextAction, forKey: .nextAction)
@@ -186,43 +209,72 @@ public struct SignUp: Codable {
         case externalAccount = "external_account"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension SignUp {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.requiredFields = try container.sdkDecodeRequired(.requiredFields)
-        self.optionalFields = try container.sdkDecodeRequired(.optionalFields)
-        self.missingFields = try container.sdkDecodeRequired(.missingFields)
-        self.unverifiedFields = try container.sdkDecodeRequired(.unverifiedFields)
-        self.verifications = try container.sdkDecodeRequired(.verifications)
-        self.username = try container.sdkDecodeNullable(.username)
-        self.emailAddress = try container.sdkDecodeNullable(.emailAddress)
-        self.phoneNumber = try container.sdkDecodeNullable(.phoneNumber)
-        self.web3Wallet = try container.sdkDecodeNullable(.web3Wallet)
-        self.passwordEnabled = try container.sdkDecodeRequired(.passwordEnabled)
-        self.firstName = try container.sdkDecodeNullable(.firstName)
-        self.lastName = try container.sdkDecodeNullable(.lastName)
-        self.customAction = try container.sdkDecodeRequired(.customAction)
-        self.externalId = try container.sdkDecodeNullable(.externalId)
-        self.createdSessionId = try container.sdkDecodeNullable(.createdSessionId)
-        self.createdUserId = try container.sdkDecodeNullable(.createdUserId)
-        self.abandonAt = try container.sdkDecodeRequired(.abandonAt)
-        self.legalAcceptedAt = try container.sdkDecodeNullable(.legalAcceptedAt)
-        self.unsafeMetadata = try container.sdkDecodeIfPresent(.unsafeMetadata)
-        self.publicMetadata = try container.sdkDecodeIfPresent(.publicMetadata)
-        self.timezone = try container.sdkDecodeIfPresent(.timezone)
-        self.locale = try container.sdkDecodeIfPresent(.locale)
-        self.externalAccount = try container.sdkDecodeIfPresent(.externalAccount)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension SignUp {
-    public init(object: SignUpObject, id: String, status: SignUpStatus, requiredFields: [String], optionalFields: [String], missingFields: [String], unverifiedFields: [String], verifications: SignUpVerifications, username: String?, emailAddress: String?, phoneNumber: String?, web3Wallet: String?, passwordEnabled: Bool, firstName: String?, lastName: String?, customAction: Bool, externalId: String?, createdSessionId: String?, createdUserId: String?, abandonAt: Int, legalAcceptedAt: Int?, unsafeMetadata: [String: JSONValue]? = nil, publicMetadata: [String: JSONValue]? = nil, timezone: String? = nil, locale: String? = nil, externalAccount: [String: JSONValue]? = nil) {
+public extension SignUp {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        status = try container.sdkDecodeRequired(.status)
+        requiredFields = try container.sdkDecodeRequired(.requiredFields)
+        optionalFields = try container.sdkDecodeRequired(.optionalFields)
+        missingFields = try container.sdkDecodeRequired(.missingFields)
+        unverifiedFields = try container.sdkDecodeRequired(.unverifiedFields)
+        verifications = try container.sdkDecodeRequired(.verifications)
+        username = try container.sdkDecodeNullable(.username)
+        emailAddress = try container.sdkDecodeNullable(.emailAddress)
+        phoneNumber = try container.sdkDecodeNullable(.phoneNumber)
+        web3Wallet = try container.sdkDecodeNullable(.web3Wallet)
+        passwordEnabled = try container.sdkDecodeRequired(.passwordEnabled)
+        firstName = try container.sdkDecodeNullable(.firstName)
+        lastName = try container.sdkDecodeNullable(.lastName)
+        customAction = try container.sdkDecodeRequired(.customAction)
+        externalId = try container.sdkDecodeNullable(.externalId)
+        createdSessionId = try container.sdkDecodeNullable(.createdSessionId)
+        createdUserId = try container.sdkDecodeNullable(.createdUserId)
+        abandonAt = try container.sdkDecodeRequired(.abandonAt)
+        legalAcceptedAt = try container.sdkDecodeNullable(.legalAcceptedAt)
+        unsafeMetadata = try container.sdkDecodeIfPresent(.unsafeMetadata)
+        publicMetadata = try container.sdkDecodeIfPresent(.publicMetadata)
+        timezone = try container.sdkDecodeIfPresent(.timezone)
+        locale = try container.sdkDecodeIfPresent(.locale)
+        externalAccount = try container.sdkDecodeIfPresent(.externalAccount)
+    }
+}
+
+public extension SignUp {
+    init(
+        object: SignUpObject,
+        id: String,
+        status: SignUpStatus,
+        requiredFields: [String],
+        optionalFields: [String],
+        missingFields: [String],
+        unverifiedFields: [String],
+        verifications: SignUpVerifications,
+        username: String?,
+        emailAddress: String?,
+        phoneNumber: String?,
+        web3Wallet: String?,
+        passwordEnabled: Bool,
+        firstName: String?,
+        lastName: String?,
+        customAction: Bool,
+        externalId: String?,
+        createdSessionId: String?,
+        createdUserId: String?,
+        abandonAt: Int,
+        legalAcceptedAt: Int?,
+        unsafeMetadata: [String: JSONValue]? = nil,
+        publicMetadata: [String: JSONValue]? = nil,
+        timezone: String? = nil,
+        locale: String? = nil,
+        externalAccount: [String: JSONValue]? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.status, self.requiredFields) = (status, requiredFields)
         (self.optionalFields, self.missingFields) = (optionalFields, missingFields)
@@ -243,12 +295,15 @@ extension SignUp {
 public struct SignUpObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let signUpAttempt = SignUpObject(rawValue: "sign_up_attempt")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -261,14 +316,17 @@ public struct SignUpObject: RawRepresentable, Hashable, Codable, Sendable, SdkWi
 public struct SignUpVerificationNextAction: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let needsPrepare = SignUpVerificationNextAction(rawValue: "needs_prepare")
     public static let needsAttempt = SignUpVerificationNextAction(rawValue: "needs_attempt")
     public static let unknown = SignUpVerificationNextAction(rawValue: "")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -281,14 +339,17 @@ public struct SignUpVerificationNextAction: RawRepresentable, Hashable, Codable,
 public struct SignUpStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let missingRequirements = SignUpStatus(rawValue: "missing_requirements")
     public static let complete = SignUpStatus(rawValue: "complete")
     public static let abandoned = SignUpStatus(rawValue: "abandoned")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

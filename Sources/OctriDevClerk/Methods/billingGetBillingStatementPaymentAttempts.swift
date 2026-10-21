@@ -6,8 +6,9 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BillingMethods {
-    /// Returns a list of all payment attempts for a specific billing statement. The payment attempts are returned sorted by creation date, with the newest payment attempts appearing first. Pagination is supported.
+public extension BillingMethods {
+    /// Returns a list of all payment attempts for a specific billing statement. The payment attempts are returned
+    /// sorted by creation date, with the newest payment attempts appearing first. Pagination is supported.
     ///
     /// - Parameters:
     /// - statementId: The ID of the statement to retrieve payment attempts for.
@@ -17,19 +18,41 @@ extension BillingMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    public static func getBillingStatementPaymentAttempts(config: ClientConfig, statementId: String, paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> PaginatedBillingPaymentAttemptResponse {
-        if let limit = limit {
+    static func getBillingStatementPaymentAttempts(
+        config: ClientConfig,
+        statementId: String,
+        paginated: Bool? = nil,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> PaginatedBillingPaymentAttemptResponse {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset = offset {
+        if let offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try (await sdkRequest("GET", ["/billing/statements/", sdkEncodePathSegment(sdkWireString(statementId)), "/payment_attempts"].joined(), config: config, query: [
-            SdkQueryParameter("paginated", value: paginated),
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("offset", value: offset),
-        ], decoder: .json, operationId: "GetBillingStatementPaymentAttempts", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "GET",
+            ["/billing/statements/", sdkEncodePathSegment(sdkWireString(statementId)), "/payment_attempts"].joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("paginated", value: paginated),
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("offset", value: offset),
+            ],
+            decoder: .json,
+            operationId: "GetBillingStatementPaymentAttempts",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+                "500": ClerkErrors.self,
+            ]
+        )).data
     }
 }

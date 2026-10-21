@@ -6,17 +6,43 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension RoleSetsMethods {
-    /// Replaces a role set with another role set. This is functionally equivalent to deleting the role set but allows for atomic replacement with migration support. Organizations using this role set will be migrated to the destination role set.
+public extension RoleSetsMethods {
+    /// Replaces a role set with another role set. This is functionally equivalent to deleting the role set but allows
+    /// for atomic replacement with migration support. Organizations using this role set will be migrated to the
+    /// destination role set.
     ///
     /// - Parameters:
     /// - roleSetKeyOrId: The key or ID of the role set to replace
     /// - destRoleSetKey: The key of the destination role set
     /// - reassignmentMappings: Mappings from source role keys to destination role
     ///   keys. Required if members have roles that need to be reassigned.
-    public static func replaceRoleSet(config: ClientConfig, roleSetKeyOrId: String, destRoleSetKey: String, reassignmentMappings: ReassignmentMappings? = nil, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        let requestBody = ReplaceRoleSetRequestBody(destRoleSetKey: destRoleSetKey, reassignmentMappings: reassignmentMappings)
+    static func replaceRoleSet(
+        config: ClientConfig,
+        roleSetKeyOrId: String,
+        destRoleSetKey: String,
+        reassignmentMappings: ReassignmentMappings? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeletedObject {
+        let requestBody = ReplaceRoleSetRequestBody(
+            destRoleSetKey: destRoleSetKey,
+            reassignmentMappings: reassignmentMappings
+        )
 
-        return try (await sdkRequest("POST", ["/role_sets/", sdkEncodePathSegment(sdkWireString(roleSetKeyOrId)), "/replace"].joined(), config: config, body: requestBody, decoder: .json, operationId: "ReplaceRoleSet", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/role_sets/", sdkEncodePathSegment(sdkWireString(roleSetKeyOrId)), "/replace"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "ReplaceRoleSet",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 }

@@ -6,12 +6,24 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension EnterpriseConnectionsMethods {
+public extension EnterpriseConnectionsMethods {
     /// Deletes the enterprise connection whose ID matches the provided `enterprise_connection_id` in the path.
     ///
     /// - Parameters:
     /// - enterpriseConnectionId: The ID of the enterprise connection to delete
-    public static func deleteEnterpriseConnection(config: ClientConfig, enterpriseConnectionId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try (await sdkRequest("DELETE", ["/enterprise_connections/", sdkEncodePathSegment(sdkWireString(enterpriseConnectionId))].joined(), config: config, decoder: .json, operationId: "DeleteEnterpriseConnection", options: requestOptions, errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func deleteEnterpriseConnection(
+        config: ClientConfig,
+        enterpriseConnectionId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeletedObject {
+        try await (sdkRequest(
+            "DELETE",
+            ["/enterprise_connections/", sdkEncodePathSegment(sdkWireString(enterpriseConnectionId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "DeleteEnterpriseConnection",
+            options: requestOptions,
+            errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

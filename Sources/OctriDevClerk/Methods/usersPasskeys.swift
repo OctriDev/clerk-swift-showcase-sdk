@@ -6,13 +6,32 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
-    /// Delete the passkey identification for a given user. The user is notified through email or SMS unless the passkey registration was never completed.
+public extension UsersMethods {
+    /// Delete the passkey identification for a given user. The user is notified through email or SMS unless the passkey
+    /// registration was never completed.
     ///
     /// - Parameters:
     /// - userId: The ID of the user that owns the passkey identity
     /// - passkeyIdentificationId: The ID of the passkey identity to be deleted
-    public static func deleteUserPasskey(config: ClientConfig, userId: String, passkeyIdentificationId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try (await sdkRequest("DELETE", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/passkeys/", sdkEncodePathSegment(sdkWireString(passkeyIdentificationId))].joined(), config: config, decoder: .json, operationId: "deleteUserPasskey", options: requestOptions, errors: ["403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self])).data
+    static func deleteUserPasskey(
+        config: ClientConfig,
+        userId: String,
+        passkeyIdentificationId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeletedObject {
+        try await (sdkRequest(
+            "DELETE",
+            [
+                "/users/",
+                sdkEncodePathSegment(sdkWireString(userId)),
+                "/passkeys/",
+                sdkEncodePathSegment(sdkWireString(passkeyIdentificationId)),
+            ].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "deleteUserPasskey",
+            options: requestOptions,
+            errors: ["403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self]
+        )).data
     }
 }

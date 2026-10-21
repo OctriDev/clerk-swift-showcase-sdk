@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OrganizationsMethods {
-    /// Update organization metadata attributes by merging existing values with the provided parameters. Metadata values will be updated via a deep merge. Deep meaning that any nested JSON objects will be merged as well. You can remove metadata keys at any level by setting their value to `null`.
+public extension OrganizationsMethods {
+    /// Update organization metadata attributes by merging existing values with the provided parameters. Metadata values
+    /// will be updated via a deep merge. Deep meaning that any nested JSON objects will be merged as well. You can
+    /// remove metadata keys at any level by setting their value to `null`.
     ///
     /// - Parameters:
     /// - organizationId: The ID of the organization for which metadata will be
@@ -17,9 +19,27 @@ extension OrganizationsMethods {
     ///   existing value.
     /// - privateMetadata: Metadata saved on the organization that is only visible
     ///   to your backend. The new object will be merged with the existing value.
-    public static func mergeOrganizationMetadata(config: ClientConfig, organizationId: String, publicMetadata: [String: JSONValue]? = nil, privateMetadata: [String: JSONValue]? = nil, requestOptions: RequestOptions? = nil) async throws -> Organization {
-        let requestBody = MergeOrganizationMetadataRequestBody(publicMetadata: publicMetadata, privateMetadata: privateMetadata)
+    static func mergeOrganizationMetadata(
+        config: ClientConfig,
+        organizationId: String,
+        publicMetadata: [String: JSONValue]? = nil,
+        privateMetadata: [String: JSONValue]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Organization {
+        let requestBody = MergeOrganizationMetadataRequestBody(
+            publicMetadata: publicMetadata,
+            privateMetadata: privateMetadata
+        )
 
-        return try (await sdkRequest("PATCH", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/metadata"].joined(), config: config, body: requestBody, decoder: .json, operationId: "MergeOrganizationMetadata", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/metadata"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "MergeOrganizationMetadata",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

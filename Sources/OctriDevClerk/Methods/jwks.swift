@@ -7,10 +7,18 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum JwksMethods {
-    /// Retrieves the instance's JSON Web Key Set. Use the returned keys when you need the public key material associated with the instance.
+    /// Retrieves the instance's JSON Web Key Set. Use the returned keys when you need the public key material
+    /// associated with the instance.
     ///
     /// Retrieve the JSON Web Key Set of the instance
     public static func getJwks(config: ClientConfig, requestOptions: RequestOptions? = nil) async throws -> JWKS {
-        return try (await sdkRequest("GET", "/jwks", config: config, decoder: .json, operationId: "GetJWKS", options: requestOptions)).data
+        try await (sdkRequest(
+            "GET",
+            "/jwks",
+            config: config,
+            decoder: .json,
+            operationId: "GetJWKS",
+            options: requestOptions
+        )).data
     }
 }

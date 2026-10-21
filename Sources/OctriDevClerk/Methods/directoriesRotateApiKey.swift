@@ -6,12 +6,26 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension DirectoriesMethods {
-    /// Generates a new API key for the directory and returns it in the `api_key` field. This is the only way to obtain the key after creation, so make sure to update it in your identity provider. The previous key remains valid for a short grace period before it expires.
+public extension DirectoriesMethods {
+    /// Generates a new API key for the directory and returns it in the `api_key` field. This is the only way to obtain
+    /// the key after creation, so make sure to update it in your identity provider. The previous key remains valid for
+    /// a short grace period before it expires.
     ///
     /// - Parameters:
     /// - directoryId: The ID of the directory whose API key to rotate
-    public static func rotateDirectoryApiKey(config: ClientConfig, directoryId: String, requestOptions: RequestOptions? = nil) async throws -> Directory {
-        return try (await sdkRequest("POST", ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId)), "/rotate_api_key"].joined(), config: config, decoder: .json, operationId: "RotateDirectoryAPIKey", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+    static func rotateDirectoryApiKey(
+        config: ClientConfig,
+        directoryId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Directory {
+        try await (sdkRequest(
+            "POST",
+            ["/directories/", sdkEncodePathSegment(sdkWireString(directoryId)), "/rotate_api_key"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "RotateDirectoryAPIKey",
+            options: requestOptions,
+            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

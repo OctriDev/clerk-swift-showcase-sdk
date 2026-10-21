@@ -6,16 +6,40 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
-    /// Removes the password credential from the given user. This is a privileged operation and does not require the user's current password. Password removal is allowed even when the user has no other sign-in method configured. If the user does not have a password, the user is returned unchanged and no password-deletion or user-update event is emitted. By default, existing sessions remain active. Set `sign_out_of_other_sessions` to `true` to revoke sessions active when the request is processed.
+public extension UsersMethods {
+    /// Removes the password credential from the given user. This is a privileged operation and does not require the
+    /// user's current password. Password removal is allowed even when the user has no other sign-in method configured.
+    /// If the user does not have a password, the user is returned unchanged and no password-deletion or user-update
+    /// event is emitted. By default, existing sessions remain active. Set `sign_out_of_other_sessions` to `true` to
+    /// revoke sessions active when the request is processed.
     ///
     /// - Parameters:
     /// - userId: The ID of the user whose password to remove
     /// - signOutOfOtherSessions: Set to `true` to revoke all of the user's active
     ///   sessions after removing the password.
-    public static func removeUserPassword(config: ClientConfig, userId: String, signOutOfOtherSessions: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> User {
+    static func removeUserPassword(
+        config: ClientConfig,
+        userId: String,
+        signOutOfOtherSessions: Bool? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> User {
         let requestBody = RemoveUserPasswordRequestBody(signOutOfOtherSessions: signOutOfOtherSessions)
 
-        return try (await sdkRequest("POST", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/remove_password"].joined(), config: config, body: requestBody, decoder: .json, operationId: "RemoveUserPassword", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/remove_password"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "RemoveUserPassword",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "500": ClerkErrors.self,
+            ]
+        )).data
     }
 }

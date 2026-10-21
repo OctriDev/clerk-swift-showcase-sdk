@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-// Canonical directories operation model declarations
+/// Canonical directories operation model declarations
 public struct CreateDirectoryRequestBodyGroupRoleMappingsItem: Codable {
     /// The organization role ID to assign to members of the group.
     public var roleId: String
@@ -33,35 +33,56 @@ public struct CreateDirectoryRequestBodyGroupRoleMappingsItem: Codable {
         case precedence
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension CreateDirectoryRequestBodyGroupRoleMappingsItem {
-    public init(from decoder: Decoder) throws {
+public extension CreateDirectoryRequestBodyGroupRoleMappingsItem {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.roleId) else {
-            throw SdkValidationError(field: "role_id", code: "required", message: "Validation failed for 'role_id': value is required")
+            throw SdkValidationError(
+                field: "role_id",
+                code: "required",
+                message: "Validation failed for 'role_id': value is required"
+            )
         }
-        self.roleId = try container.sdkDecodeRequired(.roleId)
-        self.directoryGroupId = try container.sdkDecodeIfPresent(.directoryGroupId)
-        self.scimGroupId = try container.sdkDecodeIfPresent(.scimGroupId)
-        self.directoryGroupDisplayName = try container.sdkDecodeIfPresent(.directoryGroupDisplayName)
-        self.scimGroupDisplayName = try container.sdkDecodeIfPresent(.scimGroupDisplayName)
-        self.precedence = try container.sdkDecodeIfPresent(.precedence)
-        if let value = self.directoryGroupDisplayName {
+        roleId = try container.sdkDecodeRequired(.roleId)
+        directoryGroupId = try container.sdkDecodeIfPresent(.directoryGroupId)
+        scimGroupId = try container.sdkDecodeIfPresent(.scimGroupId)
+        directoryGroupDisplayName = try container.sdkDecodeIfPresent(.directoryGroupDisplayName)
+        scimGroupDisplayName = try container.sdkDecodeIfPresent(.scimGroupDisplayName)
+        precedence = try container.sdkDecodeIfPresent(.precedence)
+        if let value = directoryGroupDisplayName {
             try validateLength("directory_group_display_name", value, min: nil, max: 255)
         }
-        if let value = self.scimGroupDisplayName {
+        if let value = scimGroupDisplayName {
             try validateLength("scim_group_display_name", value, min: nil, max: 255)
         }
-        if let value = self.precedence {
-            try validateRange("precedence", Double(value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        if let value = precedence {
+            try validateRange(
+                "precedence",
+                Double(value),
+                min: 1,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
 
-extension CreateDirectoryRequestBodyGroupRoleMappingsItem {
-    public init(roleId: String, directoryGroupId: String? = nil, scimGroupId: String? = nil, directoryGroupDisplayName: String? = nil, scimGroupDisplayName: String? = nil, precedence: Int? = nil) throws {
+public extension CreateDirectoryRequestBodyGroupRoleMappingsItem {
+    init(
+        roleId: String,
+        directoryGroupId: String? = nil,
+        scimGroupId: String? = nil,
+        directoryGroupDisplayName: String? = nil,
+        scimGroupDisplayName: String? = nil,
+        precedence: Int? = nil
+    ) throws {
         (self.roleId, self.directoryGroupId) = (roleId, directoryGroupId)
         (self.scimGroupId, self.directoryGroupDisplayName) = (scimGroupId, directoryGroupDisplayName)
         (self.scimGroupDisplayName, self.precedence) = (scimGroupDisplayName, precedence)
@@ -72,7 +93,15 @@ extension CreateDirectoryRequestBodyGroupRoleMappingsItem {
             try validateLength("scim_group_display_name", value, min: nil, max: 255)
         }
         if let value = self.precedence {
-            try validateRange("precedence", Double(value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "precedence",
+                Double(value),
+                min: 1,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
@@ -92,23 +121,29 @@ public struct ReplaceDirectoryGroupRoleMappingsRequestBodyMappingsItem: Codable 
         case scimGroupId = "scim_group_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ReplaceDirectoryGroupRoleMappingsRequestBodyMappingsItem {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.roleId) else {
-            throw SdkValidationError(field: "role_id", code: "required", message: "Validation failed for 'role_id': value is required")
-        }
-        self.roleId = try container.sdkDecodeRequired(.roleId)
-        self.directoryGroupId = try container.sdkDecodeIfPresent(.directoryGroupId)
-        self.scimGroupId = try container.sdkDecodeIfPresent(.scimGroupId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ReplaceDirectoryGroupRoleMappingsRequestBodyMappingsItem {
-    public init(roleId: String, directoryGroupId: String? = nil, scimGroupId: String? = nil) {
+public extension ReplaceDirectoryGroupRoleMappingsRequestBodyMappingsItem {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.roleId) else {
+            throw SdkValidationError(
+                field: "role_id",
+                code: "required",
+                message: "Validation failed for 'role_id': value is required"
+            )
+        }
+        roleId = try container.sdkDecodeRequired(.roleId)
+        directoryGroupId = try container.sdkDecodeIfPresent(.directoryGroupId)
+        scimGroupId = try container.sdkDecodeIfPresent(.scimGroupId)
+    }
+}
+
+public extension ReplaceDirectoryGroupRoleMappingsRequestBodyMappingsItem {
+    init(roleId: String, directoryGroupId: String? = nil, scimGroupId: String? = nil) {
         (self.roleId, self.directoryGroupId) = (roleId, directoryGroupId)
         self.scimGroupId = scimGroupId
     }

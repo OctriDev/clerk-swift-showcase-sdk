@@ -6,12 +6,25 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
-    /// Marks the given user as locked, which means they are not allowed to sign in again until the lock expires. Lock duration can be configured in the instance's restrictions settings.
+public extension UsersMethods {
+    /// Marks the given user as locked, which means they are not allowed to sign in again until the lock expires. Lock
+    /// duration can be configured in the instance's restrictions settings.
     ///
     /// - Parameters:
     /// - userId: The ID of the user to lock
-    public static func lockUser(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> User {
-        return try (await sdkRequest("POST", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/lock"].joined(), config: config, decoder: .json, operationId: "LockUser", options: requestOptions, errors: ["403": ClerkErrors.self])).data
+    static func lockUser(
+        config: ClientConfig,
+        userId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> User {
+        try await (sdkRequest(
+            "POST",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/lock"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "LockUser",
+            options: requestOptions,
+            errors: ["403": ClerkErrors.self]
+        )).data
     }
 }

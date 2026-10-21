@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Sessions domain models
+/// Sessions domain models
 public indirect enum SessionRefresh {
     case token(Token)
     case cookies(Cookies)
@@ -12,7 +12,6 @@ public indirect enum SessionRefresh {
 }
 
 extension SessionRefresh: Codable {
-
     private enum CodingKeys: String, CodingKey {
         case discriminator = "object"
     }
@@ -20,12 +19,16 @@ extension SessionRefresh: Codable {
     public init(from decoder: Decoder) throws {
         let tagged = try decoder.container(keyedBy: CodingKeys.self)
         let discriminator = try tagged.decode(String.self, forKey: .discriminator)
-        if let value = try Self.decodeGroup1(discriminator, from: decoder) { self = value; return }
+        if let value = try Self.decodeGroup1(discriminator, from: decoder) {
+            self = value; return
+        }
         self = try .unknown(tag: discriminator, raw: JSONValue(from: decoder))
     }
 
     public func encode(to encoder: Encoder) throws {
-        if try encodeGroup1(to: encoder) { return }
+        if try encodeGroup1(to: encoder) {
+            return
+        }
         if case let .unknown(_, raw) = self {
             var container = encoder.singleValueContainer()
             try container.encode(raw)
@@ -36,9 +39,9 @@ extension SessionRefresh: Codable {
 extension SessionRefresh {
     static func decodeGroup1(_ discriminator: String, from decoder: Decoder) throws -> Self? {
         switch discriminator {
-        case "token": return .token(try Token(from: decoder))
-        case "cookies": return .cookies(try Cookies(from: decoder))
-        default: return nil
+        case "token": try .token(Token(from: decoder))
+        case "cookies": try .cookies(Cookies(from: decoder))
+        default: nil
         }
     }
 }
@@ -91,27 +94,40 @@ public struct Reverification: Codable {
         case updatedAt = "updated_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension Reverification {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.sessionId = try container.sdkDecodeRequired(.sessionId)
-        self.userId = try container.sdkDecodeRequired(.userId)
-        self.level = try container.sdkDecodeRequired(.level)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.firstFactorVerifiedAt = try container.sdkDecodeNullable(.firstFactorVerifiedAt)
-        self.secondFactorVerifiedAt = try container.sdkDecodeNullable(.secondFactorVerifiedAt)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension Reverification {
-    public init(object: ReverificationObject, id: String, sessionId: String, userId: String, level: ReverificationLevel, status: ReverificationStatus, firstFactorVerifiedAt: Int?, secondFactorVerifiedAt: Int?, createdAt: Int, updatedAt: Int) {
+public extension Reverification {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        sessionId = try container.sdkDecodeRequired(.sessionId)
+        userId = try container.sdkDecodeRequired(.userId)
+        level = try container.sdkDecodeRequired(.level)
+        status = try container.sdkDecodeRequired(.status)
+        firstFactorVerifiedAt = try container.sdkDecodeNullable(.firstFactorVerifiedAt)
+        secondFactorVerifiedAt = try container.sdkDecodeNullable(.secondFactorVerifiedAt)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+    }
+}
+
+public extension Reverification {
+    init(
+        object: ReverificationObject,
+        id: String,
+        sessionId: String,
+        userId: String,
+        level: ReverificationLevel,
+        status: ReverificationStatus,
+        firstFactorVerifiedAt: Int?,
+        secondFactorVerifiedAt: Int?,
+        createdAt: Int,
+        updatedAt: Int
+    ) {
         (self.object, self.id) = (object, id)
         (self.sessionId, self.userId) = (sessionId, userId)
         (self.level, self.status) = (level, status)
@@ -133,28 +149,38 @@ public struct Cookies: Codable {
         case cookies
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension Cookies {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.cookies) else {
-            throw SdkValidationError(field: "cookies", code: "required", message: "Validation failed for 'cookies': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.cookies = try container.sdkDecodeRequired(.cookies)
-            try sdkValidateRawEnum("object", self.object, CookiesObject.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension Cookies {
-    public init(object: CookiesObject, cookies: [String]) throws {
+public extension Cookies {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.cookies) else {
+            throw SdkValidationError(
+                field: "cookies",
+                code: "required",
+                message: "Validation failed for 'cookies': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        cookies = try container.sdkDecodeRequired(.cookies)
+        try sdkValidateRawEnum("object", object, CookiesObject.allCases.map(\.rawValue))
+    }
+}
+
+public extension Cookies {
+    init(object: CookiesObject, cookies: [String]) throws {
         (self.object, self.cookies) = (object, cookies)
-            try sdkValidateRawEnum("object", self.object, CookiesObject.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("object", self.object, CookiesObject.allCases.map(\.rawValue))
     }
 }
 
@@ -170,28 +196,38 @@ public struct Token: Codable {
         case jwt
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension Token {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.jwt) else {
-            throw SdkValidationError(field: "jwt", code: "required", message: "Validation failed for 'jwt': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.jwt = try container.sdkDecodeRequired(.jwt)
-            try sdkValidateRawEnum("object", self.object, TokenObject.allCases.map(\.rawValue))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension Token {
-    public init(object: TokenObject, jwt: String) throws {
+public extension Token {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.jwt) else {
+            throw SdkValidationError(
+                field: "jwt",
+                code: "required",
+                message: "Validation failed for 'jwt': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        jwt = try container.sdkDecodeRequired(.jwt)
+        try sdkValidateRawEnum("object", object, TokenObject.allCases.map(\.rawValue))
+    }
+}
+
+public extension Token {
+    init(object: TokenObject, jwt: String) throws {
         (self.object, self.jwt) = (object, jwt)
-            try sdkValidateRawEnum("object", self.object, TokenObject.allCases.map(\.rawValue))
+        try sdkValidateRawEnum("object", self.object, TokenObject.allCases.map(\.rawValue))
     }
 }
 
@@ -217,14 +253,17 @@ public enum TokenObject: String, CaseIterable, Codable {
 public struct ReverificationStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let needsFirstFactor = ReverificationStatus(rawValue: "needs_first_factor")
     public static let needsSecondFactor = ReverificationStatus(rawValue: "needs_second_factor")
     public static let complete = ReverificationStatus(rawValue: "complete")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -237,14 +276,17 @@ public struct ReverificationStatus: RawRepresentable, Hashable, Codable, Sendabl
 public struct ReverificationLevel: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let firstFactor = ReverificationLevel(rawValue: "first_factor")
     public static let secondFactor = ReverificationLevel(rawValue: "second_factor")
     public static let multiFactor = ReverificationLevel(rawValue: "multi_factor")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -275,12 +317,15 @@ public enum CookiesObject: String, CaseIterable, Codable {
 public struct ReverificationObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let reverification = ReverificationObject(rawValue: "reverification")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

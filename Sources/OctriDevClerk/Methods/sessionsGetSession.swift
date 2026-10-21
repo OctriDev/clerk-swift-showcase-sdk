@@ -6,14 +6,27 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension SessionsMethods {
-    /// Retrieves the details and current status of a session identified by its session ID. Use `session_id` to look up the session and inspect its user, client, activity timestamps, expiry, and latest activity when available.
+public extension SessionsMethods {
+    /// Retrieves the details and current status of a session identified by its session ID. Use `session_id` to look up
+    /// the session and inspect its user, client, activity timestamps, expiry, and latest activity when available.
     ///
     /// Retrieve the details of a session
     ///
     /// - Parameters:
     /// - sessionId: The ID of the session
-    public static func getSession(config: ClientConfig, sessionId: String, requestOptions: RequestOptions? = nil) async throws -> Session {
-        return try (await sdkRequest("GET", ["/sessions/", sdkEncodePathSegment(sdkWireString(sessionId))].joined(), config: config, decoder: .json, operationId: "GetSession", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func getSession(
+        config: ClientConfig,
+        sessionId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Session {
+        try await (sdkRequest(
+            "GET",
+            ["/sessions/", sdkEncodePathSegment(sdkWireString(sessionId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "GetSession",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

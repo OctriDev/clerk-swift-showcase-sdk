@@ -6,24 +6,50 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension PhoneNumbersMethods {
-    /// Retrieves the details of a phone number. Use its identifier to get the phone number, verification details, linked resources, and reservation status.
+public extension PhoneNumbersMethods {
+    /// Retrieves the details of a phone number. Use its identifier to get the phone number, verification details,
+    /// linked resources, and reservation status.
     ///
     /// Returns the details of a phone number
     ///
     /// - Parameters:
     /// - phoneNumberId: The ID of the phone number to retrieve
-    public static func getPhoneNumber(config: ClientConfig, phoneNumberId: String, requestOptions: RequestOptions? = nil) async throws -> PhoneNumber {
-        return try (await sdkRequest("GET", ["/phone_numbers/", sdkEncodePathSegment(sdkWireString(phoneNumberId))].joined(), config: config, decoder: .json, operationId: "GetPhoneNumber", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func getPhoneNumber(
+        config: ClientConfig,
+        phoneNumberId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> PhoneNumber {
+        try await (sdkRequest(
+            "GET",
+            ["/phone_numbers/", sdkEncodePathSegment(sdkWireString(phoneNumberId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "GetPhoneNumber",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 
-    /// Deletes a phone number by its identifier. Use this operation to remove a phone number you no longer need; the response confirms whether it was deleted.
+    /// Deletes a phone number by its identifier. Use this operation to remove a phone number you no longer need; the
+    /// response confirms whether it was deleted.
     ///
     /// Delete the phone number with the given ID
     ///
     /// - Parameters:
     /// - phoneNumberId: The ID of the phone number to delete
-    public static func deletePhoneNumber(config: ClientConfig, phoneNumberId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try (await sdkRequest("DELETE", ["/phone_numbers/", sdkEncodePathSegment(sdkWireString(phoneNumberId))].joined(), config: config, decoder: .json, operationId: "DeletePhoneNumber", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func deletePhoneNumber(
+        config: ClientConfig,
+        phoneNumberId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeletedObject {
+        try await (sdkRequest(
+            "DELETE",
+            ["/phone_numbers/", sdkEncodePathSegment(sdkWireString(phoneNumberId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "DeletePhoneNumber",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

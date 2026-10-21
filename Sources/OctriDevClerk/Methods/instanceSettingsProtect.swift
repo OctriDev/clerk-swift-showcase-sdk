@@ -6,22 +6,48 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension InstanceSettingsMethods {
-    /// Retrieves the Protect settings for the instance, including rule enforcement and prerequisite check status. Use `rules_enabled` to distinguish active enforcement from shadow evaluation, where rules are scored and recorded without blocking traffic.
-    public static func getInstanceProtect(config: ClientConfig, requestOptions: RequestOptions? = nil) async throws -> InstanceProtect {
-        return try (await sdkRequest("GET", "/instance/protect", config: config, decoder: .json, operationId: "GetInstanceProtect", options: requestOptions)).data
+public extension InstanceSettingsMethods {
+    /// Retrieves the Protect settings for the instance, including rule enforcement and prerequisite check status. Use
+    /// `rules_enabled` to distinguish active enforcement from shadow evaluation, where rules are scored and recorded
+    /// without blocking traffic.
+    static func getInstanceProtect(
+        config: ClientConfig,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> InstanceProtect {
+        try await (sdkRequest(
+            "GET",
+            "/instance/protect",
+            config: config,
+            decoder: .json,
+            operationId: "GetInstanceProtect",
+            options: requestOptions
+        )).data
     }
 
-    /// Updates whether Protect rules are enforced for the instance. Set `rules_enabled` to true to enforce rules or false to return to shadow evaluation, which continues scoring and recording rules without blocking traffic.
+    /// Updates whether Protect rules are enforced for the instance. Set `rules_enabled` to true to enforce rules or
+    /// false to return to shadow evaluation, which continues scoring and recording rules without blocking traffic.
     ///
     /// - Parameters:
     /// - rulesEnabled: Set true to enforce Protect rules on this instance. Set
     ///   false to stop enforcing and return the instance to its default posture,
     ///   where traffic is still evaluated in shadow but nothing is blocked. This does
     ///   not remove the instance from Protect.
-    public static func updateInstanceProtect(config: ClientConfig, rulesEnabled: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> InstanceProtect {
+    static func updateInstanceProtect(
+        config: ClientConfig,
+        rulesEnabled: SdkOptional<Bool>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> InstanceProtect {
         let requestBody = UpdateInstanceProtectRequestBody(rulesEnabled: rulesEnabled)
 
-        return try (await sdkRequest("PATCH", "/instance/protect", config: config, body: requestBody, decoder: .json, operationId: "UpdateInstanceProtect", options: requestOptions, errors: ["422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            "/instance/protect",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdateInstanceProtect",
+            options: requestOptions,
+            errors: ["422": ClerkErrors.self]
+        )).data
     }
 }

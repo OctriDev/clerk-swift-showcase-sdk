@@ -6,13 +6,31 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OrganizationInvitationsMethods {
+public extension OrganizationInvitationsMethods {
     /// Use this request to get an existing organization invitation by ID.
     ///
     /// - Parameters:
     /// - organizationId: The organization ID.
     /// - invitationId: The organization invitation ID.
-    public static func getOrganizationInvitation(config: ClientConfig, organizationId: String, invitationId: String, requestOptions: RequestOptions? = nil) async throws -> OrganizationInvitation {
-        return try (await sdkRequest("GET", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/invitations/", sdkEncodePathSegment(sdkWireString(invitationId))].joined(), config: config, decoder: .json, operationId: "GetOrganizationInvitation", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func getOrganizationInvitation(
+        config: ClientConfig,
+        organizationId: String,
+        invitationId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationInvitation {
+        try await (sdkRequest(
+            "GET",
+            [
+                "/organizations/",
+                sdkEncodePathSegment(sdkWireString(organizationId)),
+                "/invitations/",
+                sdkEncodePathSegment(sdkWireString(invitationId)),
+            ].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "GetOrganizationInvitation",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

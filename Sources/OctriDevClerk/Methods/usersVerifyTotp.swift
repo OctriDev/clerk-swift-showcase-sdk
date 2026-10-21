@@ -6,15 +6,30 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
-    /// Verify that the provided TOTP or backup code is valid for the user. Verifying a backup code will result it in being consumed (i.e. it will become invalid). Useful for custom auth flows and re-verification.
+public extension UsersMethods {
+    /// Verify that the provided TOTP or backup code is valid for the user. Verifying a backup code will result it in
+    /// being consumed (i.e. it will become invalid). Useful for custom auth flows and re-verification.
     ///
     /// - Parameters:
     /// - userId: The ID of the user for whom to verify the TOTP
     /// - code: The TOTP or backup code to verify
-    public static func verifyTotp(config: ClientConfig, userId: String, code: String, requestOptions: RequestOptions? = nil) async throws -> VerifyTOTPResponse {
+    static func verifyTotp(
+        config: ClientConfig,
+        userId: String,
+        code: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> VerifyTOTPResponse {
         let requestBody = VerifyTotpRequestBody(code: code)
 
-        return try (await sdkRequest("POST", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/verify_totp"].joined(), config: config, body: requestBody, decoder: .json, operationId: "VerifyTOTP", options: requestOptions, errors: ["500": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/verify_totp"].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "VerifyTOTP",
+            options: requestOptions,
+            errors: ["500": ClerkErrors.self]
+        )).data
     }
 }

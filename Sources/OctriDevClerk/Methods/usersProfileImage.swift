@@ -6,30 +6,59 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
-    /// Sets or replaces a user's profile image. Send the image in the `file` field as multipart form data, and use `user_id` to identify the account to update. A 200 response returns the updated user object.
+public extension UsersMethods {
+    /// Sets or replaces a user's profile image. Send the image in the `file` field as multipart form data, and use
+    /// `user_id` to identify the account to update. A 200 response returns the updated user object.
     ///
     /// Update a user's profile image
     ///
     /// - Parameters:
     /// - userId: The ID of the user to update the profile image for
-    public static func setUserProfileImage(config: ClientConfig, userId: String, file: SdkUploadFile? = nil, requestOptions: RequestOptions? = nil) async throws -> User {
+    static func setUserProfileImage(
+        config: ClientConfig,
+        userId: String,
+        file: SdkUploadFile? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> User {
         var multipartParts: [SdkMultipartField] = []
-        if let file = file {
+        if let file {
             multipartParts.append(.file("file", file))
         }
         let multipart = sdkEncodeMultipart(multipartParts)
 
-        return try (await sdkRequest("POST", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/profile_image"].joined(), config: config, rawBody: multipart.data, contentType: multipart.contentType, decoder: .json, operationId: "SetUserProfileImage", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/profile_image"].joined(),
+            config: config,
+            rawBody: multipart.data,
+            contentType: multipart.contentType,
+            decoder: .json,
+            operationId: "SetUserProfileImage",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 
-    /// Deletes the profile image associated with a user account. Use `user_id` to identify the account whose image you want to remove. A 200 response returns the updated user object.
+    /// Deletes the profile image associated with a user account. Use `user_id` to identify the account whose image you
+    /// want to remove. A 200 response returns the updated user object.
     ///
     /// Delete a user's profile image
     ///
     /// - Parameters:
     /// - userId: The ID of the user to delete the profile image for
-    public static func deleteUserProfileImage(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> User {
-        return try (await sdkRequest("DELETE", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/profile_image"].joined(), config: config, decoder: .json, operationId: "DeleteUserProfileImage", options: requestOptions, errors: ["404": ClerkErrors.self])).data
+    static func deleteUserProfileImage(
+        config: ClientConfig,
+        userId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> User {
+        try await (sdkRequest(
+            "DELETE",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/profile_image"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "DeleteUserProfileImage",
+            options: requestOptions,
+            errors: ["404": ClerkErrors.self]
+        )).data
     }
 }

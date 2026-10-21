@@ -6,31 +6,81 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension BillingMethods {
-    /// Cancel a specific subscription item. The subscription item can be canceled immediately or at the end of the current billing period.
+public extension BillingMethods {
+    /// Cancel a specific subscription item. The subscription item can be canceled immediately or at the end of the
+    /// current billing period.
     ///
     /// - Parameters:
     /// - subscriptionItemId: The ID of the subscription item to cancel
     /// - endNow: Whether to cancel the subscription immediately (true) or at the
     ///   end of the current billing period (false, default)
-    public static func cancelCommerceSubscriptionItem(config: ClientConfig, subscriptionItemId: String, endNow: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> CommerceSubscriptionItem {
-        return try (await sdkRequest("DELETE", ["/billing/subscription_items/", sdkEncodePathSegment(sdkWireString(subscriptionItemId))].joined(), config: config, query: [
-            SdkQueryParameter("end_now", value: endNow),
-        ], decoder: .json, operationId: "CancelCommerceSubscriptionItem", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
+    static func cancelCommerceSubscriptionItem(
+        config: ClientConfig,
+        subscriptionItemId: String,
+        endNow: Bool? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CommerceSubscriptionItem {
+        try await (sdkRequest(
+            "DELETE",
+            ["/billing/subscription_items/", sdkEncodePathSegment(sdkWireString(subscriptionItemId))].joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("end_now", value: endNow),
+            ],
+            decoder: .json,
+            operationId: "CancelCommerceSubscriptionItem",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+                "500": ClerkErrors.self,
+            ]
+        )).data
     }
 
-    /// Extends the free trial period for a specific subscription item to the specified timestamp. The subscription item must be currently in a free trial period, and the plan must support free trials. The timestamp must be in the future and not more than 365 days from the end of the current trial period This operation is idempotent - repeated requests with the same timestamp will not change the trial period.
+    /// Extends the free trial period for a specific subscription item to the specified timestamp. The subscription item
+    /// must be currently in a free trial period, and the plan must support free trials. The timestamp must be in the
+    /// future and not more than 365 days from the end of the current trial period This operation is idempotent -
+    /// repeated requests with the same timestamp will not change the trial period.
     ///
     /// - Parameters:
     /// - subscriptionItemId: The ID of the subscription item to extend the free
     ///   trial for
     /// - extendTo: RFC3339 timestamp to extend the free trial to. Must be in the
     ///   future and not more than 365 days from now.
-    public static func extendBillingSubscriptionItemFreeTrial(config: ClientConfig, subscriptionItemId: String, extendTo: Date, requestOptions: RequestOptions? = nil) async throws -> CommerceSubscriptionItem2 {
+    static func extendBillingSubscriptionItemFreeTrial(
+        config: ClientConfig,
+        subscriptionItemId: String,
+        extendTo: Date,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CommerceSubscriptionItem2 {
         try sdkValidateDateTime("extend_to", extendTo)
 
         let requestBody = ExtendBillingSubscriptionItemFreeTrialRequestBody(extendTo: extendTo)
 
-        return try (await sdkRequest("POST", ["/billing/subscription_items/", sdkEncodePathSegment(sdkWireString(subscriptionItemId)), "/extend_free_trial"].joined(), config: config, body: requestBody, decoder: .json, operationId: "ExtendBillingSubscriptionItemFreeTrial", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            [
+                "/billing/subscription_items/",
+                sdkEncodePathSegment(sdkWireString(subscriptionItemId)),
+                "/extend_free_trial",
+            ].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "ExtendBillingSubscriptionItemFreeTrial",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+                "500": ClerkErrors.self,
+            ]
+        )).data
     }
 }

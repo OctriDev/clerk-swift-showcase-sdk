@@ -3,7 +3,7 @@
 
 import Foundation
 
-// EmailSMSTemplates domain models
+/// EmailSMSTemplates domain models
 /// Typed representation of the `Template` API schema.
 public struct Template: Codable {
     /// Optional `string` value serialized in the `id` wire field.
@@ -83,46 +83,77 @@ public struct Template: Codable {
     }
 
     init() {
-        (self.id, self.object, self.instanceId, self.resourceType, self.templateType) = (nil, nil, nil, nil, nil)
-        (self.name, self.slug, self.position, self.canRevert, self.canDelete) = (nil, nil, nil, nil, nil)
-        (self.canEditBody, self.canToggle, self.subject, self.markup, self.body) = (nil, nil, nil, nil, nil)
-        (self.availableVariables, self.requiredVariables, self.fromEmailName, self.replyToEmailName, self.deliveredByClerk) = (nil, nil, nil, nil, nil)
-        (self.enabled, self.flaggedAsSuspicious, self.updatedAt, self.createdAt) = (nil, nil, nil, nil)
+        (id, object, instanceId, resourceType, templateType) = (nil, nil, nil, nil, nil)
+        (name, slug, position, canRevert, canDelete) = (nil, nil, nil, nil, nil)
+        (canEditBody, canToggle, subject, markup, body) = (nil, nil, nil, nil, nil)
+        (availableVariables, requiredVariables, fromEmailName, replyToEmailName, deliveredByClerk) = (
+            nil,
+            nil,
+            nil,
+            nil,
+            nil
+        )
+        (enabled, flaggedAsSuspicious, updatedAt, createdAt) = (nil, nil, nil, nil)
     }
 }
 
-extension Template {
-    public init(from decoder: Decoder) throws {
+public extension Template {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.sdkDecodeIfPresent(.id)
-        self.object = try container.sdkDecodeIfPresent(.object)
-        self.instanceId = try container.sdkDecodeIfPresent(.instanceId)
-        self.resourceType = try container.sdkDecodeIfPresent(.resourceType)
-        self.templateType = try container.sdkDecodeIfPresent(.templateType)
-        self.name = try container.sdkDecodeIfPresent(.name)
-        self.slug = try container.sdkDecodeIfPresent(.slug)
-        self.position = try container.sdkDecodeIfPresent(.position)
-        self.canRevert = try container.sdkDecodeIfPresent(.canRevert)
-        self.canDelete = try container.sdkDecodeIfPresent(.canDelete)
-        self.canEditBody = try container.sdkDecodeIfPresent(.canEditBody)
-        self.canToggle = try container.sdkDecodeIfPresent(.canToggle)
-        self.subject = try container.sdkDecodeIfPresent(.subject)
-        self.markup = try container.sdkDecodeIfPresent(.markup)
-        self.body = try container.sdkDecodeIfPresent(.body)
-        self.availableVariables = try container.sdkDecodeIfPresent(.availableVariables)
-        self.requiredVariables = try container.sdkDecodeIfPresent(.requiredVariables)
-        self.fromEmailName = try container.sdkDecodeIfPresent(.fromEmailName)
-        self.replyToEmailName = try container.sdkDecodeIfPresent(.replyToEmailName)
-        self.deliveredByClerk = try container.sdkDecodeIfPresent(.deliveredByClerk)
-        self.enabled = try container.sdkDecodeIfPresent(.enabled)
-        self.flaggedAsSuspicious = try container.sdkDecodeIfPresent(.flaggedAsSuspicious)
-        self.updatedAt = try container.sdkDecodeIfPresent(.updatedAt)
-        self.createdAt = try container.sdkDecodeIfPresent(.createdAt)
+        id = try container.sdkDecodeIfPresent(.id)
+        object = try container.sdkDecodeIfPresent(.object)
+        instanceId = try container.sdkDecodeIfPresent(.instanceId)
+        resourceType = try container.sdkDecodeIfPresent(.resourceType)
+        templateType = try container.sdkDecodeIfPresent(.templateType)
+        name = try container.sdkDecodeIfPresent(.name)
+        slug = try container.sdkDecodeIfPresent(.slug)
+        position = try container.sdkDecodeIfPresent(.position)
+        canRevert = try container.sdkDecodeIfPresent(.canRevert)
+        canDelete = try container.sdkDecodeIfPresent(.canDelete)
+        canEditBody = try container.sdkDecodeIfPresent(.canEditBody)
+        canToggle = try container.sdkDecodeIfPresent(.canToggle)
+        subject = try container.sdkDecodeIfPresent(.subject)
+        markup = try container.sdkDecodeIfPresent(.markup)
+        body = try container.sdkDecodeIfPresent(.body)
+        availableVariables = try container.sdkDecodeIfPresent(.availableVariables)
+        requiredVariables = try container.sdkDecodeIfPresent(.requiredVariables)
+        fromEmailName = try container.sdkDecodeIfPresent(.fromEmailName)
+        replyToEmailName = try container.sdkDecodeIfPresent(.replyToEmailName)
+        deliveredByClerk = try container.sdkDecodeIfPresent(.deliveredByClerk)
+        enabled = try container.sdkDecodeIfPresent(.enabled)
+        flaggedAsSuspicious = try container.sdkDecodeIfPresent(.flaggedAsSuspicious)
+        updatedAt = try container.sdkDecodeIfPresent(.updatedAt)
+        createdAt = try container.sdkDecodeIfPresent(.createdAt)
     }
 }
 
-extension Template {
-    public init(id: String? = nil, object: TemplateObject? = nil, instanceId: String? = nil, resourceType: String? = nil, templateType: String? = nil, name: String? = nil, slug: String? = nil, position: Int? = nil, canRevert: Bool? = nil, canDelete: Bool? = nil, canEditBody: Bool? = nil, canToggle: Bool? = nil, subject: String? = nil, markup: String? = nil, body: String? = nil, availableVariables: [String]? = nil, requiredVariables: [String]? = nil, fromEmailName: String? = nil, replyToEmailName: String? = nil, deliveredByClerk: Bool? = nil, enabled: Bool? = nil, flaggedAsSuspicious: Bool? = nil, updatedAt: Int? = nil, createdAt: Int? = nil) {
+public extension Template {
+    init(
+        id: String? = nil,
+        object: TemplateObject? = nil,
+        instanceId: String? = nil,
+        resourceType: String? = nil,
+        templateType: String? = nil,
+        name: String? = nil,
+        slug: String? = nil,
+        position: Int? = nil,
+        canRevert: Bool? = nil,
+        canDelete: Bool? = nil,
+        canEditBody: Bool? = nil,
+        canToggle: Bool? = nil,
+        subject: String? = nil,
+        markup: String? = nil,
+        body: String? = nil,
+        availableVariables: [String]? = nil,
+        requiredVariables: [String]? = nil,
+        fromEmailName: String? = nil,
+        replyToEmailName: String? = nil,
+        deliveredByClerk: Bool? = nil,
+        enabled: Bool? = nil,
+        flaggedAsSuspicious: Bool? = nil,
+        updatedAt: Int? = nil,
+        createdAt: Int? = nil
+    ) {
         self.init()
         (self.id, self.object) = (id, object)
         (self.instanceId, self.resourceType) = (instanceId, resourceType)
@@ -143,12 +174,15 @@ extension Template {
 public struct TemplateObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let template = TemplateObject(rawValue: "template")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

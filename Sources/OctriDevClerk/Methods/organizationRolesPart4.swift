@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension OrganizationRolesMethods {
-    /// Updates an existing organization role. You can update the name, key, description, and permissions of the role. All parameters are optional - you can update only the fields you want to change. If the role is used as a creator role or domain default role, updating the key will cascade the update to the organization settings.
+public extension OrganizationRolesMethods {
+    /// Updates an existing organization role. You can update the name, key, description, and permissions of the role.
+    /// All parameters are optional - you can update only the fields you want to change. If the role is used as a
+    /// creator role or domain default role, updating the key will cascade the update to the organization settings.
     ///
     /// - Parameters:
     /// - organizationRoleId: The ID of the organization role to update
@@ -17,17 +19,58 @@ extension OrganizationRolesMethods {
     /// - description: Optional description for the role
     /// - permissions: Array of permission IDs to assign to the role. If provided,
     ///   this will replace the existing permissions.
-    public static func updateOrganizationRole(config: ClientConfig, organizationRoleId: String, name: SdkOptional<String>? = nil, key: SdkOptional<String>? = nil, description: SdkOptional<String>? = nil, permissions: SdkOptional<[String]>? = nil, requestOptions: RequestOptions? = nil) async throws -> Role {
-        let requestBody = UpdateOrganizationRoleRequestBody(name: name, key: key, description: description, permissions: permissions)
+    static func updateOrganizationRole(
+        config: ClientConfig,
+        organizationRoleId: String,
+        name: SdkOptional<String>? = nil,
+        key: SdkOptional<String>? = nil,
+        description: SdkOptional<String>? = nil,
+        permissions: SdkOptional<[String]>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Role {
+        let requestBody = UpdateOrganizationRoleRequestBody(
+            name: name,
+            key: key,
+            description: description,
+            permissions: permissions
+        )
 
-        return try (await sdkRequest("PATCH", ["/organization_roles/", sdkEncodePathSegment(sdkWireString(organizationRoleId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateOrganizationRole", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            ["/organization_roles/", sdkEncodePathSegment(sdkWireString(organizationRoleId))].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdateOrganizationRole",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 
-    /// Deletes the organization role. The role cannot be deleted if it is currently used as the default creator role, domain default role, assigned to any members, or exists in any invitations.
+    /// Deletes the organization role. The role cannot be deleted if it is currently used as the default creator role,
+    /// domain default role, assigned to any members, or exists in any invitations.
     ///
     /// - Parameters:
     /// - organizationRoleId: The ID of the organization role to delete
-    public static func deleteOrganizationRole(config: ClientConfig, organizationRoleId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try (await sdkRequest("DELETE", ["/organization_roles/", sdkEncodePathSegment(sdkWireString(organizationRoleId))].joined(), config: config, decoder: .json, operationId: "DeleteOrganizationRole", options: requestOptions, errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+    static func deleteOrganizationRole(
+        config: ClientConfig,
+        organizationRoleId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeletedObject {
+        try await (sdkRequest(
+            "DELETE",
+            ["/organization_roles/", sdkEncodePathSegment(sdkWireString(organizationRoleId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "DeleteOrganizationRole",
+            options: requestOptions,
+            errors: ["401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

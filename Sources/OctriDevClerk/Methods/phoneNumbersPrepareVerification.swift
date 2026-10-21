@@ -6,12 +6,33 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension PhoneNumbersMethods {
-    /// Sends a one-time code to the given phone number so that a backend can verify the user controls it (for example, in a custom, backend-driven sign-in flow). The code is tracked on its own verification; confirm it with attempt_verification.
+public extension PhoneNumbersMethods {
+    /// Sends a one-time code to the given phone number so that a backend can verify the user controls it (for example,
+    /// in a custom, backend-driven sign-in flow). The code is tracked on its own verification; confirm it with
+    /// attempt_verification.
     ///
     /// - Parameters:
     /// - phoneNumberId: The ID of the phone number to send the verification code to
-    public static func preparePhoneNumberVerification(config: ClientConfig, phoneNumberId: String, requestOptions: RequestOptions? = nil) async throws -> VerificationResponse {
-        return try (await sdkRequest("POST", ["/phone_numbers/", sdkEncodePathSegment(sdkWireString(phoneNumberId)), "/prepare_verification"].joined(), config: config, decoder: .json, operationId: "PreparePhoneNumberVerification", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "429": ClerkErrors.self, "500": ClerkErrors.self])).data
+    static func preparePhoneNumberVerification(
+        config: ClientConfig,
+        phoneNumberId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> VerificationResponse {
+        try await (sdkRequest(
+            "POST",
+            ["/phone_numbers/", sdkEncodePathSegment(sdkWireString(phoneNumberId)), "/prepare_verification"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "PreparePhoneNumberVerification",
+            options: requestOptions,
+            errors: [
+                "400": ClerkErrors.self,
+                "401": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "429": ClerkErrors.self,
+                "500": ClerkErrors.self,
+            ]
+        )).data
     }
 }

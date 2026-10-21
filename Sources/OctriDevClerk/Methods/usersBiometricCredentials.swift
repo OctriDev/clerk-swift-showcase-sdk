@@ -6,13 +6,25 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
+public extension UsersMethods {
     /// Returns the active biometric credentials enrolled by the user.
     ///
     /// - Parameters:
     /// - userId: The ID of the user whose biometric credentials are returned
-    public static func listUserBiometricCredentials(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> BiometricCredentialList {
-        return try (await sdkRequest("GET", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/biometric_credentials"].joined(), config: config, decoder: .json, operationId: "ListUserBiometricCredentials", options: requestOptions, errors: ["403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self])).data
+    static func listUserBiometricCredentials(
+        config: ClientConfig,
+        userId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BiometricCredentialList {
+        try await (sdkRequest(
+            "GET",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/biometric_credentials"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "ListUserBiometricCredentials",
+            options: requestOptions,
+            errors: ["403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self]
+        )).data
     }
 
     /// Revokes an active biometric credential enrolled by the user.
@@ -20,7 +32,25 @@ extension UsersMethods {
     /// - Parameters:
     /// - userId: The ID of the user that owns the biometric credential
     /// - biometricCredentialId: The ID of the biometric credential to revoke
-    public static func revokeUserBiometricCredential(config: ClientConfig, userId: String, biometricCredentialId: String, requestOptions: RequestOptions? = nil) async throws -> BiometricCredential {
-        return try (await sdkRequest("DELETE", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/biometric_credentials/", sdkEncodePathSegment(sdkWireString(biometricCredentialId))].joined(), config: config, decoder: .json, operationId: "RevokeUserBiometricCredential", options: requestOptions, errors: ["403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self])).data
+    static func revokeUserBiometricCredential(
+        config: ClientConfig,
+        userId: String,
+        biometricCredentialId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BiometricCredential {
+        try await (sdkRequest(
+            "DELETE",
+            [
+                "/users/",
+                sdkEncodePathSegment(sdkWireString(userId)),
+                "/biometric_credentials/",
+                sdkEncodePathSegment(sdkWireString(biometricCredentialId)),
+            ].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "RevokeUserBiometricCredential",
+            options: requestOptions,
+            errors: ["403": ClerkErrors.self, "404": ClerkErrors.self, "500": ClerkErrors.self]
+        )).data
     }
 }

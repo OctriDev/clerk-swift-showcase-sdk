@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension PhoneNumbersMethods {
-    /// Updates verification, primary-phone, or multi-factor authentication reservation settings for a phone number. Supply only the fields you want to change; reserving the number for multi-factor authentication requires it to be verified.
+public extension PhoneNumbersMethods {
+    /// Updates verification, primary-phone, or multi-factor authentication reservation settings for a phone number.
+    /// Supply only the fields you want to change; reserving the number for multi-factor authentication requires it to
+    /// be verified.
     ///
     /// Updates a phone number
     ///
@@ -19,9 +21,29 @@ extension PhoneNumbersMethods {
     ///   multi-factor authentication. The phone number must also be verified. If
     ///   there are no other reserved second factors, the phone number will be set as
     ///   the default second factor.
-    public static func updatePhoneNumber(config: ClientConfig, phoneNumberId: String, verified: SdkOptional<Bool>? = nil, primary: SdkOptional<Bool>? = nil, reservedForSecondFactor: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> PhoneNumber {
-        let requestBody = UpdatePhoneNumberRequestBody(verified: verified, primary: primary, reservedForSecondFactor: reservedForSecondFactor)
+    static func updatePhoneNumber(
+        config: ClientConfig,
+        phoneNumberId: String,
+        verified: SdkOptional<Bool>? = nil,
+        primary: SdkOptional<Bool>? = nil,
+        reservedForSecondFactor: SdkOptional<Bool>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> PhoneNumber {
+        let requestBody = UpdatePhoneNumberRequestBody(
+            verified: verified,
+            primary: primary,
+            reservedForSecondFactor: reservedForSecondFactor
+        )
 
-        return try (await sdkRequest("PATCH", ["/phone_numbers/", sdkEncodePathSegment(sdkWireString(phoneNumberId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdatePhoneNumber", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            ["/phone_numbers/", sdkEncodePathSegment(sdkWireString(phoneNumberId))].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdatePhoneNumber",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

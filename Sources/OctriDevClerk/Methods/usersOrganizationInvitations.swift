@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
+public extension UsersMethods {
     /// Retrieve a paginated list of the user's organization invitations
     ///
     /// - Parameters:
@@ -17,19 +17,35 @@ extension UsersMethods {
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
     /// - status: Filter organization invitations based on their status
-    public static func usersGetOrganizationInvitations(config: ClientConfig, userId: String, limit: Int? = nil, offset: Int? = nil, status: UsersGetOrganizationInvitationsParameter? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationInvitationsWithPublicOrganizationData {
-        if let limit = limit {
+    static func usersGetOrganizationInvitations(
+        config: ClientConfig,
+        userId: String,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        status: UsersGetOrganizationInvitationsParameter? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationInvitationsWithPublicOrganizationData {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset = offset {
+        if let offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try (await sdkRequest("GET", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/organization_invitations"].joined(), config: config, query: [
-            SdkQueryParameter("limit", value: limit),
-            SdkQueryParameter("offset", value: offset),
-            SdkQueryParameter("status", value: status),
-        ], decoder: .json, operationId: "UsersGetOrganizationInvitations", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "GET",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/organization_invitations"].joined(),
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("offset", value: offset),
+                SdkQueryParameter("status", value: status),
+            ],
+            decoder: .json,
+            operationId: "UsersGetOrganizationInvitations",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

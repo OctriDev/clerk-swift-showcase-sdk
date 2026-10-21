@@ -3,17 +3,20 @@
 
 import Foundation
 
-// Users domain models
+/// Users domain models
 /// String representing the object's type.
 public struct BiometricCredentialObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let trustedDevice = BiometricCredentialObject(rawValue: "trusted_device")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -44,13 +47,16 @@ public enum VerificationPasskeyObject: String, CaseIterable, Codable {
 public struct VerificationGoogleOneTapStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let unverified = VerificationGoogleOneTapStatus(rawValue: "unverified")
     public static let verified = VerificationGoogleOneTapStatus(rawValue: "verified")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -63,12 +69,15 @@ public struct VerificationGoogleOneTapStatus: RawRepresentable, Hashable, Codabl
 public struct Web3WalletObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let web3Wallet = Web3WalletObject(rawValue: "web3_wallet")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -81,12 +90,15 @@ public struct Web3WalletObject: RawRepresentable, Hashable, Codable, Sendable, S
 public struct BiometricCredentialAlgorithm: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let es256 = BiometricCredentialAlgorithm(rawValue: "ES256")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -99,7 +111,10 @@ public struct BiometricCredentialAlgorithm: RawRepresentable, Hashable, Codable,
 public struct VerificationWeb3Strategy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let web3MetamaskSignature = VerificationWeb3Strategy(rawValue: "web3_metamask_signature")
     public static let web3BaseSignature = VerificationWeb3Strategy(rawValue: "web3_base_signature")
     public static let web3CoinbaseWalletSignature = VerificationWeb3Strategy(rawValue: "web3_coinbase_wallet_signature")
@@ -108,7 +123,7 @@ public struct VerificationWeb3Strategy: RawRepresentable, Hashable, Codable, Sen
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -121,12 +136,15 @@ public struct VerificationWeb3Strategy: RawRepresentable, Hashable, Codable, Sen
 public struct TrustedDeviceAlgorithm: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let es256 = TrustedDeviceAlgorithm(rawValue: "ES256")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -139,13 +157,16 @@ public struct TrustedDeviceAlgorithm: RawRepresentable, Hashable, Codable, Senda
 public struct BiometricCredentialPlatform: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let ios = BiometricCredentialPlatform(rawValue: "ios")
     public static let android = BiometricCredentialPlatform(rawValue: "android")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -158,12 +179,15 @@ public struct BiometricCredentialPlatform: RawRepresentable, Hashable, Codable, 
 public struct PasskeyObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let passkey = PasskeyObject(rawValue: "passkey")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -176,12 +200,15 @@ public struct PasskeyObject: RawRepresentable, Hashable, Codable, Sendable, SdkW
 public struct UserObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let user = UserObject(rawValue: "user")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -194,12 +221,15 @@ public struct UserObject: RawRepresentable, Hashable, Codable, Sendable, SdkWire
 public struct VerificationGoogleOneTapStrategy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let googleOneTap = VerificationGoogleOneTapStrategy(rawValue: "google_one_tap")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -212,13 +242,16 @@ public struct VerificationGoogleOneTapStrategy: RawRepresentable, Hashable, Coda
 public struct EnterpriseAccountProtocol: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let oauth = EnterpriseAccountProtocol(rawValue: "oauth")
     public static let saml = EnterpriseAccountProtocol(rawValue: "saml")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -231,13 +264,16 @@ public struct EnterpriseAccountProtocol: RawRepresentable, Hashable, Codable, Se
 public struct TrustedDevicePlatform: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let ios = TrustedDevicePlatform(rawValue: "ios")
     public static let android = TrustedDevicePlatform(rawValue: "android")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -250,12 +286,15 @@ public struct TrustedDevicePlatform: RawRepresentable, Hashable, Codable, Sendab
 public struct TrustedDeviceObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let trustedDevice = TrustedDeviceObject(rawValue: "trusted_device")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -268,12 +307,15 @@ public struct TrustedDeviceObject: RawRepresentable, Hashable, Codable, Sendable
 public struct EnterpriseAccountObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let enterpriseAccount = EnterpriseAccountObject(rawValue: "enterprise_account")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -286,12 +328,15 @@ public struct EnterpriseAccountObject: RawRepresentable, Hashable, Codable, Send
 public struct VerificationPasskeyNonce: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let nonce = VerificationPasskeyNonce(rawValue: "nonce")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -304,12 +349,15 @@ public struct VerificationPasskeyNonce: RawRepresentable, Hashable, Codable, Sen
 public struct VerificationPasskeyStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let verified = VerificationPasskeyStatus(rawValue: "verified")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -340,7 +388,10 @@ public enum VerificationOauthObject: String, CaseIterable, Codable {
 public struct VerificationWeb3Status: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let unverified = VerificationWeb3Status(rawValue: "unverified")
     public static let verified = VerificationWeb3Status(rawValue: "verified")
     public static let failed = VerificationWeb3Status(rawValue: "failed")
@@ -348,7 +399,7 @@ public struct VerificationWeb3Status: RawRepresentable, Hashable, Codable, Senda
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -361,13 +412,16 @@ public struct VerificationWeb3Status: RawRepresentable, Hashable, Codable, Senda
 public struct TrustedDeviceStatus: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let active = TrustedDeviceStatus(rawValue: "active")
     public static let revoked = TrustedDeviceStatus(rawValue: "revoked")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -380,14 +434,17 @@ public struct TrustedDeviceStatus: RawRepresentable, Hashable, Codable, Sendable
 public struct ExternalAccountWithVerificationObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let externalAccount = ExternalAccountWithVerificationObject(rawValue: "external_account")
     public static let facebookAccount = ExternalAccountWithVerificationObject(rawValue: "facebook_account")
     public static let googleAccount = ExternalAccountWithVerificationObject(rawValue: "google_account")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -418,12 +475,15 @@ public enum VerificationGoogleOneTapObject: String, CaseIterable, Codable {
 public struct VerificationPasskeyStrategy: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let passkey = VerificationPasskeyStrategy(rawValue: "passkey")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {

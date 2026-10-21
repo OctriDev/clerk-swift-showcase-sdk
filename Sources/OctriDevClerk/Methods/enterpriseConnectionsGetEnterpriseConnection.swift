@@ -6,12 +6,24 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension EnterpriseConnectionsMethods {
+public extension EnterpriseConnectionsMethods {
     /// Fetches the enterprise connection whose ID matches the provided `enterprise_connection_id` in the path.
     ///
     /// - Parameters:
     /// - enterpriseConnectionId: The ID of the enterprise connection
-    public static func getEnterpriseConnection(config: ClientConfig, enterpriseConnectionId: String, requestOptions: RequestOptions? = nil) async throws -> EnterpriseConnection {
-        return try (await sdkRequest("GET", ["/enterprise_connections/", sdkEncodePathSegment(sdkWireString(enterpriseConnectionId))].joined(), config: config, decoder: .json, operationId: "GetEnterpriseConnection", options: requestOptions, errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self])).data
+    static func getEnterpriseConnection(
+        config: ClientConfig,
+        enterpriseConnectionId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> EnterpriseConnection {
+        try await (sdkRequest(
+            "GET",
+            ["/enterprise_connections/", sdkEncodePathSegment(sdkWireString(enterpriseConnectionId))].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "GetEnterpriseConnection",
+            options: requestOptions,
+            errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self]
+        )).data
     }
 }

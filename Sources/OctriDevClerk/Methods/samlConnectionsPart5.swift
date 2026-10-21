@@ -6,8 +6,8 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension SamlConnectionsMethods {
-    public struct UpdateSAMLConnectionOptions: Codable {
+public extension SamlConnectionsMethods {
+    struct UpdateSAMLConnectionOptions: Codable {
         public var samlConnectionId: String
         public var name: SdkOptional<String>?
         public var domain: SdkOptional<String>?
@@ -35,7 +35,8 @@ extension SamlConnectionsMethods {
         }
     }
 
-    /// Updates the SAML Connection whose ID matches the provided `id` in the path. Deprecated: Use the Enterprise Connections API instead. This endpoint will be removed in future versions.
+    /// Updates the SAML Connection whose ID matches the provided `id` in the path. Deprecated: Use the Enterprise
+    /// Connections API instead. This endpoint will be removed in future versions.
     ///
     /// - Parameters:
     /// - samlConnectionId: The ID of the SAML Connection to update
@@ -78,13 +79,32 @@ extension SamlConnectionsMethods {
     ///   false or omitted, the request fails when any such verified domain exists.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public static func updateSamlConnection(config: ClientConfig, options: UpdateSAMLConnectionOptions, requestOptions: RequestOptions? = nil) async throws -> SAMLConnection {
+    static func updateSamlConnection(
+        config: ClientConfig,
+        options: UpdateSAMLConnectionOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SAMLConnection {
         if let idpCertificates = options.idpCertificates {
             try validateItems("idp_certificates", idpCertificates, min: 1, max: 5)
         }
 
         let requestBody = UpdateSamlConnectionRequestBody(options: options)
 
-        return try (await sdkRequest("PATCH", ["/saml_connections/", sdkEncodePathSegment(sdkWireString(options.samlConnectionId))].joined(), config: config, body: requestBody, decoder: .json, operationId: "UpdateSAMLConnection", options: requestOptions, errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "409": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "PATCH",
+            ["/saml_connections/", sdkEncodePathSegment(sdkWireString(options.samlConnectionId))].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "UpdateSAMLConnection",
+            options: requestOptions,
+            errors: [
+                "402": ClerkErrors.self,
+                "403": ClerkErrors.self,
+                "404": ClerkErrors.self,
+                "409": ClerkErrors.self,
+                "422": ClerkErrors.self,
+            ]
+        )).data
     }
 }

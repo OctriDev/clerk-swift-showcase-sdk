@@ -6,11 +6,24 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension ApiKeysMethods {
-    /// Verifies an API key using its secret. Supply the key in the `secret` field to retrieve its metadata and status. The response includes whether the key is revoked or expired and its associated subject and scopes.
-    public static func verifyApiKey(config: ClientConfig, secret: String, requestOptions: RequestOptions? = nil) async throws -> VerifyApiKeyResponse {
+public extension ApiKeysMethods {
+    /// Verifies an API key using its secret. Supply the key in the `secret` field to retrieve its metadata and status.
+    /// The response includes whether the key is revoked or expired and its associated subject and scopes.
+    static func verifyApiKey(
+        config: ClientConfig,
+        secret: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> VerifyApiKeyResponse {
         let requestBody = VerifyApiKeyRequestBody(secret: secret)
 
-        return try (await sdkRequest("POST", "/api_keys/verify", config: config, body: requestBody, decoder: .json, operationId: "verifyApiKey", options: requestOptions)).data
+        return try await (sdkRequest(
+            "POST",
+            "/api_keys/verify",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "verifyApiKey",
+            options: requestOptions
+        )).data
     }
 }

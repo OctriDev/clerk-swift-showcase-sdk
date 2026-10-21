@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Users domain models
+/// Users domain models
 public typealias OAuthAccessToken = [OAuthAccessTokenItem]
 
 public struct OAuthAccessTokenItem: Codable {
@@ -42,28 +42,42 @@ public struct OAuthAccessTokenItem: Codable {
         case tokenSecret = "token_secret"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension OAuthAccessTokenItem {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.externalAccountId = try container.sdkDecodeRequired(.externalAccountId)
-        self.providerUserId = try container.sdkDecodeRequired(.providerUserId)
-        self.token = try container.sdkDecodeRequired(.token)
-        self.expiresAt = try container.sdkDecodeNullable(.expiresAt)
-        self.provider = try container.sdkDecodeRequired(.provider)
-        self.publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
-        self.label = try container.sdkDecodeNullable(.label)
-        self.scopes = try container.sdkDecodeIfPresent(.scopes)
-        self.idToken = try container.sdkDecodeIfPresent(.idToken)
-        self.tokenSecret = try container.sdkDecodeIfPresent(.tokenSecret)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension OAuthAccessTokenItem {
-    public init(object: OAuthAccessTokenItemObject, externalAccountId: String, providerUserId: String, token: String, expiresAt: Int?, provider: String, publicMetadata: [String: JSONValue], label: String?, scopes: [String]? = nil, idToken: String? = nil, tokenSecret: String? = nil) {
+public extension OAuthAccessTokenItem {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        externalAccountId = try container.sdkDecodeRequired(.externalAccountId)
+        providerUserId = try container.sdkDecodeRequired(.providerUserId)
+        token = try container.sdkDecodeRequired(.token)
+        expiresAt = try container.sdkDecodeNullable(.expiresAt)
+        provider = try container.sdkDecodeRequired(.provider)
+        publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
+        label = try container.sdkDecodeNullable(.label)
+        scopes = try container.sdkDecodeIfPresent(.scopes)
+        idToken = try container.sdkDecodeIfPresent(.idToken)
+        tokenSecret = try container.sdkDecodeIfPresent(.tokenSecret)
+    }
+}
+
+public extension OAuthAccessTokenItem {
+    init(
+        object: OAuthAccessTokenItemObject,
+        externalAccountId: String,
+        providerUserId: String,
+        token: String,
+        expiresAt: Int?,
+        provider: String,
+        publicMetadata: [String: JSONValue],
+        label: String?,
+        scopes: [String]? = nil,
+        idToken: String? = nil,
+        tokenSecret: String? = nil
+    ) {
         (self.object, self.externalAccountId) = (object, externalAccountId)
         (self.providerUserId, self.token) = (providerUserId, token)
         (self.expiresAt, self.provider) = (expiresAt, provider)
@@ -76,12 +90,15 @@ extension OAuthAccessTokenItem {
 public struct OAuthAccessTokenItemObject: RawRepresentable, Hashable, Codable, Sendable, SdkWireConvertible {
     public let rawValue: String
 
-    public init(rawValue: String) { self.rawValue = rawValue }
+    public init(rawValue: String) {
+        self.rawValue = rawValue
+    }
+
     public static let oauthAccessToken = OAuthAccessTokenItemObject(rawValue: "oauth_access_token")
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        self.init(rawValue: try container.decode(String.self))
+        try self.init(rawValue: container.decode(String.self))
     }
 
     public func encode(to encoder: Encoder) throws {
