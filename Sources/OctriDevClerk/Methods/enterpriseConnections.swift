@@ -7,3 +7,33 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum EnterpriseConnectionsMethods {}
+
+extension EnterpriseConnectionsMethods {
+    /// Returns the list of enterprise connections for the instance. Results can be paginated using the optional `limit` and `offset` query parameters.
+    ///
+    /// - Parameters:
+    /// - limit: Applies a limit to the number of results returned. Can be used for
+    ///   paginating the results together with `offset`.
+    /// - offset: Skip the first `offset` results when paginating. Needs to be an
+    ///   integer greater or equal to zero. To be used in conjunction with `limit`.
+    /// - organizationId: Filter enterprise connections by organization ID
+    /// - active: Filter by active status. If true, only active connections are
+    ///   returned. If false, only inactive connections are returned. If omitted, all
+    ///   connections are returned.
+    public static func listEnterpriseConnections(config: ClientConfig, limit: Int? = nil, offset: Int? = nil, organizationId: String? = nil, active: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> EnterpriseConnections {
+        if let limit = limit {
+            try validateRange("limit", Double(limit), min: 1, max: 500)
+        }
+
+        if let offset = offset {
+            try validateRange("offset", Double(offset), min: 0)
+        }
+
+        return try (await sdkRequest("GET", "/enterprise_connections", config: config, query: [
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+            SdkQueryParameter("organization_id", value: organizationId),
+            SdkQueryParameter("active", value: active),
+        ], decoder: .json, operationId: "ListEnterpriseConnections", options: requestOptions, errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
+    }
+}

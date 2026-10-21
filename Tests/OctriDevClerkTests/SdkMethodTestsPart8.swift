@@ -208,6 +208,54 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
+    func testDeleteUserPasskeyDeleteUserPasskeyReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient() else {
+            return
+        }
+        _ = client
+        let actual = try await client.users.deletePasskey(
+            userId: decoded("\"user-1\""),
+            passkeyIdentificationId: decoded("\"passkey_identification-1\"")
+        )
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture166Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        XCTAssertNil(
+            try mismatch(jsonValue(actual), expected),
+            "decoded a response that differs from the mock"
+        )
+    }
+
+    func testDeleteUserPasskeyDeleteUserPasskey403ReachesMockAndDecodesResponse() async throws {
+        guard let client = configuredClient(statusPrefix: "/__mockStatus/403") else {
+            return
+        }
+        _ = client
+        let expected = try JSONSerialization.jsonObject(
+            with: Data(sdkMethodFixture167Expected.utf8),
+            options: [.fragmentsAllowed]
+        )
+        do {
+            _ = try await client.users.deletePasskey(
+            userId: decoded("\"user-1\""),
+            passkeyIdentificationId: decoded("\"passkey_identification-1\"")
+        )
+            XCTFail("did not raise its declared error")
+        } catch let error as SdkHttpError {
+            XCTAssertEqual(error.statusCode, 403)
+            let data = try XCTUnwrap(
+                error.data as? any Encodable,
+                "decoded no error body"
+            )
+            XCTAssertNil(
+                try mismatch(jsonValue(data), expected),
+                "decoded an error body that differs from the mock"
+            )
+        }
+        XCTAssertTrue(true)
+    }
+
     func testDeleteUserProfileImageDeleteUserProfileImageReachesMockAndDecodesResponse() async throws {
         guard let client = configuredClient() else {
             return
@@ -217,7 +265,7 @@ extension SdkMethodTests {
             userId: decoded("\"user-1\"")
         )
         let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture166Expected.utf8),
+            with: Data(sdkMethodFixture168Expected.utf8),
             options: [.fragmentsAllowed]
         )
         XCTAssertNil(
@@ -232,7 +280,7 @@ extension SdkMethodTests {
         }
         _ = client
         let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture167Expected.utf8),
+            with: Data(sdkMethodFixture169Expected.utf8),
             options: [.fragmentsAllowed]
         )
         do {
@@ -242,54 +290,6 @@ extension SdkMethodTests {
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 404)
-            let data = try XCTUnwrap(
-                error.data as? any Encodable,
-                "decoded no error body"
-            )
-            XCTAssertNil(
-                try mismatch(jsonValue(data), expected),
-                "decoded an error body that differs from the mock"
-            )
-        }
-        XCTAssertTrue(true)
-    }
-
-    func testDeleteUsersPasskeyDeleteUsersPasskeyReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient() else {
-            return
-        }
-        _ = client
-        let actual = try await client.users.deletePasskey(
-            userId: decoded("\"user-1\""),
-            passkeyIdentificationId: decoded("\"passkey_identification-1\"")
-        )
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture168Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        XCTAssertNil(
-            try mismatch(jsonValue(actual), expected),
-            "decoded a response that differs from the mock"
-        )
-    }
-
-    func testDeleteUsersPasskeyDeleteUsersPasskey403ReachesMockAndDecodesResponse() async throws {
-        guard let client = configuredClient(statusPrefix: "/__mockStatus/403") else {
-            return
-        }
-        _ = client
-        let expected = try JSONSerialization.jsonObject(
-            with: Data(sdkMethodFixture169Expected.utf8),
-            options: [.fragmentsAllowed]
-        )
-        do {
-            _ = try await client.users.deletePasskey(
-            userId: decoded("\"user-1\""),
-            passkeyIdentificationId: decoded("\"passkey_identification-1\"")
-        )
-            XCTFail("did not raise its declared error")
-        } catch let error as SdkHttpError {
-            XCTAssertEqual(error.statusCode, 403)
             let data = try XCTUnwrap(
                 error.data as? any Encodable,
                 "decoded no error body"

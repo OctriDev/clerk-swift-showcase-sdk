@@ -39,10 +39,6 @@ extension BlocklistIdentifiers {
     }
 }
 
-
-
-
-
 /// Typed representation of the `AllowlistIdentifier` API schema.
 public struct AllowlistIdentifier: Codable {
     /// String representing the object's type. Objects of the same type share the same value.
@@ -102,10 +98,6 @@ extension AllowlistIdentifier {
         (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
     }
 }
-
-
-
-
 
 /// Typed representation of the `BlocklistIdentifier` API schema.
 public struct BlocklistIdentifier: Codable {

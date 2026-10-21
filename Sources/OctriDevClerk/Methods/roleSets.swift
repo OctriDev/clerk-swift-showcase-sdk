@@ -7,3 +7,38 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum RoleSetsMethods {}
+
+extension RoleSetsMethods {
+    /// Returns a list of role sets for the instance. Results can be paginated using the optional `limit` and `offset` query parameters. The role sets are ordered by descending creation date by default.
+    ///
+    /// - Parameters:
+    /// - query: Returns role sets with ID, name, or key that match the given query.
+    ///   Uses exact match for role set ID and partial match for name and key.
+    /// - orderBy: Allows to return role sets in a particular order. At the moment,
+    ///   you can order the returned role sets by their `created_at`, `name`, or
+    ///   `key`. In order to specify the direction, you can use the `+/-` symbols
+    ///   prepended in the property to order by. For example, if you want role sets to
+    ///   be returned in descending order according to their `created_at` property,
+    ///   you can use `-created_at`. If you don't use `+` or `-`, then `+` is implied.
+    ///   Defaults to `-created_at`.
+    /// - limit: Applies a limit to the number of results returned. Can be used for
+    ///   paginating the results together with `offset`.
+    /// - offset: Skip the first `offset` results when paginating. Needs to be an
+    ///   integer greater or equal to zero. To be used in conjunction with `limit`.
+    public static func listRoleSets(config: ClientConfig, query: String? = nil, orderBy: String? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> RoleSets {
+        if let limit = limit {
+            try validateRange("limit", Double(limit), min: 1, max: 500)
+        }
+
+        if let offset = offset {
+            try validateRange("offset", Double(offset), min: 0)
+        }
+
+        return try (await sdkRequest("GET", "/role_sets", config: config, query: [
+            SdkQueryParameter("query", value: query),
+            SdkQueryParameter("order_by", value: orderBy),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "ListRoleSets", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self])).data
+    }
+}

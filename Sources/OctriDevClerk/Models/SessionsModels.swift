@@ -54,12 +54,6 @@ extension SessionRefresh {
     }
 }
 
-
-
-
-
-
-
 /// A reverification scoped to a session. Returned so a resource server can validate a reverification id received
 /// from its client.
 public struct Reverification: Codable {

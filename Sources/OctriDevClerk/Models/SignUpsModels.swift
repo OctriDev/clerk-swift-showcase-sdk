@@ -98,10 +98,6 @@ extension SignUpVerification {
     }
 }
 
-
-
-
-
 /// Typed representation of the `SignUp` API schema.
 public struct SignUp: Codable {
     /// Required enumerated value serialized in the `object` wire field.

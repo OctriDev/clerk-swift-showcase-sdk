@@ -204,10 +204,6 @@ extension RoleSetItem {
     }
 }
 
-
-
-
-
 /// A role set defines a collection of roles that can be assigned to organization members
 public struct RoleSet: Codable {
     /// Required enumerated value serialized in the `object` wire field.

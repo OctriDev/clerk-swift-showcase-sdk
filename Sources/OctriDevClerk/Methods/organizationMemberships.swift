@@ -7,3 +7,24 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum OrganizationMembershipsMethods {}
+
+extension OrganizationMembershipsMethods {
+    /// Adds a user as a member to the given organization. Only users in the same instance as the organization can be added as members. This organization will be the user's [active organization] (https://clerk.com/docs/organizations/overview#active-organization) the next time they create a session, presuming they don't explicitly set a different organization as active before then.
+    ///
+    /// - Parameters:
+    /// - organizationId: The ID of the organization where the new membership will
+    ///   be created
+    /// - userId: The ID of the user that will be added as a member in the
+    ///   organization. The user needs to exist in the same instance as the
+    ///   organization and must not be a member of the given organization already.
+    /// - role: The role that the new member will have in the organization.
+    /// - publicMetadata: Metadata saved on the organization membership, that is
+    ///   visible to both your frontend and backend.
+    /// - privateMetadata: Metadata saved on the organization membership that is
+    ///   only visible to your backend.
+    public static func createOrganizationMembership(config: ClientConfig, organizationId: String, userId: String, role: String, publicMetadata: SdkOptional<[String: JSONValue]>? = nil, privateMetadata: SdkOptional<[String: JSONValue]>? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationMembership {
+        let requestBody = CreateOrganizationMembershipRequestBody(userId: userId, role: role, publicMetadata: publicMetadata, privateMetadata: privateMetadata)
+
+        return try (await sdkRequest("POST", ["/organizations/", sdkEncodePathSegment(sdkWireString(organizationId)), "/memberships"].joined(), config: config, body: requestBody, decoder: .json, operationId: "CreateOrganizationMembership", options: requestOptions, errors: ["400": ClerkErrors.self, "403": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+    }
+}

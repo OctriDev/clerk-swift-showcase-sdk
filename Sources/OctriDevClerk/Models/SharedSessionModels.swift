@@ -102,10 +102,6 @@ extension SessionTask {
     }
 }
 
-
-
-
-
 /// Typed representation of the `Session` API schema.
 public struct Session: Codable {
     /// String representing the object's type. Objects of the same type share the same value.

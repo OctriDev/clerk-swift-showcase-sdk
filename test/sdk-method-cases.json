@@ -9520,6 +9520,78 @@
       }
     },
     {
+      "id": "deleteUserPasskey:deleteUserPasskey",
+      "operationId": "deleteUserPasskey",
+      "methodName": "deleteUserPasskey",
+      "namespace": [
+        "users"
+      ],
+      "mode": "normal",
+      "owner": null,
+      "arguments": {
+        "userId": "user-1",
+        "passkeyIdentificationId": "passkey_identification-1"
+      },
+      "wireNames": {
+        "userId": "user_id",
+        "passkeyIdentificationId": "passkey_identification_id"
+      },
+      "argumentOrder": [
+        "userId",
+        "passkeyIdentificationId"
+      ],
+      "response": {
+        "kind": "json",
+        "expected": {
+          "object": "object",
+          "id": "id-1",
+          "slug": "slug",
+          "deleted": false,
+          "external_id": "external-1"
+        },
+        "byteLength": 0
+      }
+    },
+    {
+      "id": "deleteUserPasskey:deleteUserPasskey:403",
+      "operationId": "deleteUserPasskey",
+      "methodName": "deleteUserPasskey",
+      "namespace": [
+        "users"
+      ],
+      "mode": "normal",
+      "owner": null,
+      "arguments": {
+        "userId": "user-1",
+        "passkeyIdentificationId": "passkey_identification-1"
+      },
+      "wireNames": {
+        "userId": "user_id",
+        "passkeyIdentificationId": "passkey_identification_id"
+      },
+      "argumentOrder": [
+        "userId",
+        "passkeyIdentificationId"
+      ],
+      "response": {
+        "kind": "error",
+        "status": 403,
+        "expected": {
+          "errors": [
+            {
+              "message": "example text",
+              "long_message": "example text",
+              "code": "code",
+              "meta": {}
+            }
+          ],
+          "meta": {},
+          "clerk_trace_id": "clerk_trace-1"
+        },
+        "byteLength": 0
+      }
+    },
+    {
       "id": "DeleteUserProfileImage:deleteUserProfileImage",
       "operationId": "DeleteUserProfileImage",
       "methodName": "deleteUserProfileImage",
@@ -9916,78 +9988,6 @@
       "response": {
         "kind": "error",
         "status": 404,
-        "expected": {
-          "errors": [
-            {
-              "message": "example text",
-              "long_message": "example text",
-              "code": "code",
-              "meta": {}
-            }
-          ],
-          "meta": {},
-          "clerk_trace_id": "clerk_trace-1"
-        },
-        "byteLength": 0
-      }
-    },
-    {
-      "id": "deleteUsersPasskey:deleteUsersPasskey",
-      "operationId": "deleteUsersPasskey",
-      "methodName": "deleteUsersPasskey",
-      "namespace": [
-        "users"
-      ],
-      "mode": "normal",
-      "owner": null,
-      "arguments": {
-        "userId": "user-1",
-        "passkeyIdentificationId": "passkey_identification-1"
-      },
-      "wireNames": {
-        "userId": "user_id",
-        "passkeyIdentificationId": "passkey_identification_id"
-      },
-      "argumentOrder": [
-        "userId",
-        "passkeyIdentificationId"
-      ],
-      "response": {
-        "kind": "json",
-        "expected": {
-          "object": "object",
-          "id": "id-1",
-          "slug": "slug",
-          "deleted": false,
-          "external_id": "external-1"
-        },
-        "byteLength": 0
-      }
-    },
-    {
-      "id": "deleteUsersPasskey:deleteUsersPasskey:403",
-      "operationId": "deleteUsersPasskey",
-      "methodName": "deleteUsersPasskey",
-      "namespace": [
-        "users"
-      ],
-      "mode": "normal",
-      "owner": null,
-      "arguments": {
-        "userId": "user-1",
-        "passkeyIdentificationId": "passkey_identification-1"
-      },
-      "wireNames": {
-        "userId": "user_id",
-        "passkeyIdentificationId": "passkey_identification_id"
-      },
-      "argumentOrder": [
-        "userId",
-        "passkeyIdentificationId"
-      ],
-      "response": {
-        "kind": "error",
-        "status": 403,
         "expected": {
           "errors": [
             {

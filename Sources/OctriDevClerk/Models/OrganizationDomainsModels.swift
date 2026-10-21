@@ -98,10 +98,6 @@ extension OrganizationDomainVerification {
     }
 }
 
-
-
-
-
 /// An organization domain
 public struct OrganizationDomain: Codable {
     /// String representing the object's type. Objects of the same type share the same value. Always

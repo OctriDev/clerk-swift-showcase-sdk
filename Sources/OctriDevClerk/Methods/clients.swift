@@ -7,3 +7,42 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum ClientsMethods {}
+
+extension ClientsMethods {
+    /// Returns a list of all clients. The clients are returned sorted by creation date, with the newest clients appearing first. Warning: the endpoint is being deprecated and will be removed in future versions.
+    ///
+    /// - Parameters:
+    /// - paginated: Whether to paginate the results. If true, the results will be
+    ///   paginated. If false, the results will not be paginated.
+    /// - limit: Applies a limit to the number of results returned. Can be used for
+    ///   paginating the results together with `offset`.
+    /// - offset: Skip the first `offset` results when paginating. Needs to be an
+    ///   integer greater or equal to zero. To be used in conjunction with `limit`.
+    ///
+    /// - Warning: This operation is deprecated and may be removed in a future release.
+    public static func listClients(config: ClientConfig, paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> [Client] {
+        if let limit = limit {
+            try validateRange("limit", Double(limit), min: 1, max: 500)
+        }
+
+        if let offset = offset {
+            try validateRange("offset", Double(offset), min: 0)
+        }
+
+        return try (await sdkRequest("GET", "/clients", config: config, query: [
+            SdkQueryParameter("paginated", value: paginated),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "listClients", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "410": ClerkErrors.self, "422": ClerkErrors.self])).data
+    }
+
+    /// Retrieves the details of a client and its associated session information. Use `client_id` to look up the client whose sessions and authentication state you need to inspect.
+    ///
+    /// Returns the details of a client.
+    ///
+    /// - Parameters:
+    /// - clientId: Client ID.
+    public static func getClient(config: ClientConfig, clientId: String, requestOptions: RequestOptions? = nil) async throws -> Client {
+        return try (await sdkRequest("GET", ["/clients/", sdkEncodePathSegment(sdkWireString(clientId))].joined(), config: config, decoder: .json, operationId: "GetClient", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self])).data
+    }
+}

@@ -23,7 +23,7 @@ extension UsersNamespace {
 
 /// Delete the passkey identification for a given user. The user is notified through email or SMS unless the passkey registration was never completed.
     public func deletePasskey(userId: String, passkeyIdentificationId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try await UsersMethods.deleteUsersPasskey(config: config, userId: userId, passkeyIdentificationId: passkeyIdentificationId, requestOptions: requestOptions)
+        return try await UsersMethods.deleteUserPasskey(config: config, userId: userId, passkeyIdentificationId: passkeyIdentificationId, requestOptions: requestOptions)
     }
 
 /// Returns the active trusted devices enrolled by the user.

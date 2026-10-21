@@ -7,3 +7,12 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum InstanceSettingsMethods {}
+
+extension InstanceSettingsMethods {
+    /// Retrieves the current instance configuration, including its environment, allowed origins, and subdomain access settings. Use the returned `allowed_subdomains` and `subdomain_allowlist_enabled` values to understand which subdomains may originate requests.
+    ///
+    /// Fetches the current instance
+    public static func getInstance(config: ClientConfig, requestOptions: RequestOptions? = nil) async throws -> Instance {
+        return try (await sdkRequest("GET", "/instance", config: config, decoder: .json, operationId: "GetInstance", options: requestOptions)).data
+    }
+}

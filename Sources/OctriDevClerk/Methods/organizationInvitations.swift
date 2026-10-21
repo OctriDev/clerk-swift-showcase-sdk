@@ -7,3 +7,39 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum OrganizationInvitationsMethods {}
+
+extension OrganizationInvitationsMethods {
+    /// This request returns the list of organization invitations for the instance. Results can be paginated using the optional `limit` and `offset` query parameters. You can filter them by providing the 'status' query parameter, that accepts multiple values. You can change the order by providing the 'order' query parameter, that accepts multiple values. You can filter by the invited user email address providing the `query` query parameter. The organization invitations are ordered by descending creation date by default.
+    ///
+    /// - Parameters:
+    /// - orderBy: Allows to return organization invitations in a particular order.
+    ///   At the moment, you can order the returned organization invitations either by
+    ///   their `created_at` or `email_address`. In order to specify the direction,
+    ///   you can use the `+/-` symbols prepended in the property to order by. For
+    ///   example, if you want organization invitations to be returned in descending
+    ///   order according to their `created_at` property, you can use `-created_at`.
+    ///   If you don't use `+` or `-`, then `+` is implied. Defaults to `-created_at`.
+    /// - status: Filter organization invitations based on their status
+    /// - query: Filter organization invitations based on their `email_address`
+    /// - limit: Applies a limit to the number of results returned. Can be used for
+    ///   paginating the results together with `offset`.
+    /// - offset: Skip the first `offset` results when paginating. Needs to be an
+    ///   integer greater or equal to zero. To be used in conjunction with `limit`.
+    public static func listInstanceOrganizationInvitations(config: ClientConfig, orderBy: String? = nil, status: ListInstanceOrganizationInvitationsParameter? = nil, query: String? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationInvitationsWithPublicOrganizationData {
+        if let limit = limit {
+            try validateRange("limit", Double(limit), min: 1, max: 500)
+        }
+
+        if let offset = offset {
+            try validateRange("offset", Double(offset), min: 0)
+        }
+
+        return try (await sdkRequest("GET", "/organization_invitations", config: config, query: [
+            SdkQueryParameter("order_by", value: orderBy),
+            SdkQueryParameter("status", value: status),
+            SdkQueryParameter("query", value: query),
+            SdkQueryParameter("limit", value: limit),
+            SdkQueryParameter("offset", value: offset),
+        ], decoder: .json, operationId: "ListInstanceOrganizationInvitations", options: requestOptions, errors: ["400": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self, "500": ClerkErrors.self])).data
+    }
+}
