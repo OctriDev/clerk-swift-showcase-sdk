@@ -37,7 +37,7 @@ public extension UsersNamespace {
         passkeyIdentificationId: String,
         requestOptions: RequestOptions? = nil
     ) async throws -> DeletedObject {
-        try await UsersMethods.deleteUsersPasskey(
+        try await UsersMethods.deleteUserPasskey(
             config: config,
             userId: userId,
             passkeyIdentificationId: passkeyIdentificationId,

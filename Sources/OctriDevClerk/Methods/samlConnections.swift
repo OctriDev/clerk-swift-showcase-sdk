@@ -7,3 +7,63 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum SamlConnectionsMethods {}
+
+public extension SamlConnectionsMethods {
+    /// Returns the list of SAML Connections for an instance. Results can be paginated using the optional `limit` and
+    /// `offset` query parameters. The SAML Connections are ordered by descending creation date and the most recent will
+    /// be returned first. Deprecated: Use the Enterprise Connections API instead. This endpoint will be removed in
+    /// future versions.
+    ///
+    /// - Parameters:
+    /// - limit: Applies a limit to the number of results returned. Can be used for
+    ///   paginating the results together with `offset`.
+    /// - offset: Skip the first `offset` results when paginating. Needs to be an
+    ///   integer greater or equal to zero. To be used in conjunction with `limit`.
+    /// - query: Returns SAML connections that have a name that matches the given
+    ///   query, via case-insensitive partial match.
+    /// - orderBy: Sorts organizations memberships by phone_number, email_address,
+    ///   created_at, first_name, last_name or username. By prepending one of those
+    ///   values with + or -, we can choose to sort in ascending (ASC) or descending
+    ///   (DESC) order.
+    /// - organizationId: Returns SAML connections that have an associated
+    ///   organization ID to the given organizations. For each organization ID, the
+    ///   `+` and `-` can be prepended to the ID, which denote whether the respective
+    ///   organization should be included or excluded from the result set. Accepts up
+    ///   to 100 organization IDs.
+    ///
+    /// - Warning: This operation is deprecated and may be removed in a future release.
+    static func listSamlConnections(
+        config: ClientConfig,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        query: String? = nil,
+        orderBy: String? = nil,
+        organizationId: [String]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SAMLConnections {
+        if let limit {
+            try validateRange("limit", Double(limit), min: 1, max: 500)
+        }
+
+        if let offset {
+            try validateRange("offset", Double(offset), min: 0)
+        }
+
+        return try await (sdkRequest(
+            "GET",
+            "/saml_connections",
+            config: config,
+            query: [
+                SdkQueryParameter("limit", value: limit),
+                SdkQueryParameter("offset", value: offset),
+                SdkQueryParameter("query", value: query),
+                SdkQueryParameter("order_by", value: orderBy),
+                SdkQueryParameter("organization_id", values: organizationId, style: "form", explode: true),
+            ],
+            decoder: .json,
+            operationId: "ListSAMLConnections",
+            options: requestOptions,
+            errors: ["402": ClerkErrors.self, "403": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
+    }
+}

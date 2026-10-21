@@ -7,3 +7,59 @@ import Foundation
     import FoundationNetworking
 #endif
 public enum AgentTasksMethods {}
+
+public extension AgentTasksMethods {
+    /// Create an agent task on behalf of a user. The response contains a URL that, when visited, creates a session for
+    /// the user. The agent_id is stable per agent_name within an instance. The agent_task_id is unique per call.
+    ///
+    /// - Parameters:
+    /// - onBehalfOf: Identifies the user on whose behalf the agent task is created.
+    ///   Exactly one of user_id or identifier must be provided.
+    /// - permissions: The permissions granted to the agent task. Must be "*" (all
+    ///   permissions).
+    /// - agentName: A name identifying the agent. Used to derive a stable agent_id
+    ///   per instance. Logged for audit purposes.
+    /// - taskDescription: A description of the task being performed. Logged for
+    ///   audit purposes.
+    /// - redirectUrl: The URL the user is redirected to after the agent task is
+    ///   accepted. Must be a valid absolute URL with an `https` scheme in production
+    ///   instances. In development instances, `http` is also permitted. The URL's
+    ///   domain must belong to one of the instance's associated domains (primary or
+    ///   satellite); otherwise the redirect will be rejected when the task ticket is
+    ///   consumed.
+    /// - sessionMaxDurationInSeconds: The maximum duration that the session which
+    ///   will be created by the generated agent task should last. By default, the
+    ///   duration of a session created via an agent task lasts 30 minutes.
+    static func createAgentTask(
+        config: ClientConfig,
+        onBehalfOf: CreateAgentTaskRequestBodyOnBehalfOf,
+        permissions: CreateAgentTaskRequestBodyPermissions,
+        agentName: String,
+        taskDescription: String,
+        redirectUrl: String,
+        sessionMaxDurationInSeconds: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> AgentTask {
+        try sdkValidateUri("redirect_url", redirectUrl)
+
+        let requestBody = CreateAgentTaskRequestBody(
+            onBehalfOf: onBehalfOf,
+            permissions: permissions,
+            agentName: agentName,
+            taskDescription: taskDescription,
+            redirectUrl: redirectUrl,
+            sessionMaxDurationInSeconds: sessionMaxDurationInSeconds
+        )
+
+        return try await (sdkRequest(
+            "POST",
+            "/agents/tasks",
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "CreateAgentTask",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
+    }
+}
