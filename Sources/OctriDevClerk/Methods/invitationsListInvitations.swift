@@ -6,7 +6,7 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension InvitationsMethods {
+public extension InvitationsMethods {
     /// Returns all non-revoked invitations for your application, sorted by creation date
     ///
     /// - Parameters:
@@ -25,16 +25,25 @@ extension InvitationsMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    public static func listInvitations(config: ClientConfig, status: ListInvitationsParameter? = nil, query: String? = nil, orderBy: String? = nil, paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> [Invitation] {
-        if let limit = limit {
+    static func listInvitations(
+        config: ClientConfig,
+        status: ListInvitationsParameter? = nil,
+        query: String? = nil,
+        orderBy: String? = nil,
+        paginated: Bool? = nil,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [Invitation] {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset = offset {
+        if let offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try (await sdkRequest("GET", "/invitations", config: config, query: [
+        return try await (sdkRequest("GET", "/invitations", config: config, query: [
             SdkQueryParameter("status", value: status),
             SdkQueryParameter("query", value: query),
             SdkQueryParameter("order_by", value: orderBy),

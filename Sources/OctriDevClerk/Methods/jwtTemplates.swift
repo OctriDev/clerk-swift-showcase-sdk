@@ -8,8 +8,9 @@ import Foundation
 #endif
 public enum JwtTemplatesMethods {}
 
-extension JwtTemplatesMethods {
-    /// Lists JWT templates, with an option to return paginated or unpaginated results. Use `limit` and `offset` to control the number of templates returned and the starting position.
+public extension JwtTemplatesMethods {
+    /// Lists JWT templates, with an option to return paginated or unpaginated results. Use `limit` and `offset` to
+    /// control the number of templates returned and the starting position.
     ///
     /// - Parameters:
     /// - paginated: Whether to paginate the results. If true, the results will be
@@ -18,16 +19,22 @@ extension JwtTemplatesMethods {
     ///   paginating the results together with `offset`.
     /// - offset: Skip the first `offset` results when paginating. Needs to be an
     ///   integer greater or equal to zero. To be used in conjunction with `limit`.
-    public static func listJwtTemplates(config: ClientConfig, paginated: Bool? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> [JWTTemplate] {
-        if let limit = limit {
+    static func listJwtTemplates(
+        config: ClientConfig,
+        paginated: Bool? = nil,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [JWTTemplate] {
+        if let limit {
             try validateRange("limit", Double(limit), min: 1, max: 500)
         }
 
-        if let offset = offset {
+        if let offset {
             try validateRange("offset", Double(offset), min: 0)
         }
 
-        return try (await sdkRequest("GET", "/jwt_templates", config: config, query: [
+        return try await (sdkRequest("GET", "/jwt_templates", config: config, query: [
             SdkQueryParameter("paginated", value: paginated),
             SdkQueryParameter("limit", value: limit),
             SdkQueryParameter("offset", value: offset),

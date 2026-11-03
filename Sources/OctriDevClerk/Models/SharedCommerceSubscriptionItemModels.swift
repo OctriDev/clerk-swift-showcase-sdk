@@ -3,44 +3,71 @@
 
 import Foundation
 
-// SharedCommerce domain models
-extension CommerceSubscriptionItem {
-    public init(from decoder: Decoder) throws {
+/// SharedCommerce domain models
+public extension CommerceSubscriptionItem {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.instanceId = try container.sdkDecodeRequired(.instanceId)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.planId = try container.sdkDecodeNullable(.planId)
-        self.planPeriod = try container.sdkDecodeRequired(.planPeriod)
-        self.payerId = try container.sdkDecodeRequired(.payerId)
-        self.isFreeTrial = try container.sdkDecodeRequired(.isFreeTrial)
-        self.periodStart = try container.sdkDecodeRequired(.periodStart)
-        self.periodEnd = try container.sdkDecodeNullable(.periodEnd)
-        self.canceledAt = try container.sdkDecodeNullable(.canceledAt)
-        self.pastDueAt = try container.sdkDecodeNullable(.pastDueAt)
-        self.endedAt = try container.sdkDecodeNullable(.endedAt)
-        self.credit = try container.sdkDecodeIfPresent(.credit)
-        self.credits = try container.sdkDecodeIfPresent(.credits)
-        self.priceId = try container.sdkDecodeIfPresent(.priceId)
-        self.plan = try container.sdkDecodeIfPresent(.plan)
-        self.paymentMethod = try container.sdkDecodeIfPresent(.paymentMethod)
-        self.lifetimePaid = try container.sdkDecodeIfPresent(.lifetimePaid)
-        self.nextPayment = try container.sdkDecodeIfPresent(.nextPayment)
-        self.payer = try container.sdkDecodeIfPresent(.payer)
-        self.prorationDate = try container.sdkDecodeIfPresent(.prorationDate)
-        self.createdAt = try container.sdkDecodeIfPresent(.createdAt)
-        self.updatedAt = try container.sdkDecodeIfPresent(.updatedAt)
-        self.seats = try container.sdkDecodeIfPresent(.seats)
-        self.totals = try container.sdkDecodeIfPresent(.totals)
-        if let value = self.prorationDate {
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        instanceId = try container.sdkDecodeRequired(.instanceId)
+        status = try container.sdkDecodeRequired(.status)
+        planId = try container.sdkDecodeNullable(.planId)
+        planPeriod = try container.sdkDecodeRequired(.planPeriod)
+        payerId = try container.sdkDecodeRequired(.payerId)
+        isFreeTrial = try container.sdkDecodeRequired(.isFreeTrial)
+        periodStart = try container.sdkDecodeRequired(.periodStart)
+        periodEnd = try container.sdkDecodeNullable(.periodEnd)
+        canceledAt = try container.sdkDecodeNullable(.canceledAt)
+        pastDueAt = try container.sdkDecodeNullable(.pastDueAt)
+        endedAt = try container.sdkDecodeNullable(.endedAt)
+        credit = try container.sdkDecodeIfPresent(.credit)
+        credits = try container.sdkDecodeIfPresent(.credits)
+        priceId = try container.sdkDecodeIfPresent(.priceId)
+        plan = try container.sdkDecodeIfPresent(.plan)
+        paymentMethod = try container.sdkDecodeIfPresent(.paymentMethod)
+        lifetimePaid = try container.sdkDecodeIfPresent(.lifetimePaid)
+        nextPayment = try container.sdkDecodeIfPresent(.nextPayment)
+        payer = try container.sdkDecodeIfPresent(.payer)
+        prorationDate = try container.sdkDecodeIfPresent(.prorationDate)
+        createdAt = try container.sdkDecodeIfPresent(.createdAt)
+        updatedAt = try container.sdkDecodeIfPresent(.updatedAt)
+        seats = try container.sdkDecodeIfPresent(.seats)
+        totals = try container.sdkDecodeIfPresent(.totals)
+        if let value = prorationDate {
             try sdkValidateDate("proration_date", value)
         }
     }
 }
 
-extension CommerceSubscriptionItem {
-    public init(object: CommerceSubscriptionItemObject, id: String, instanceId: String, status: CommerceSubscriptionItemStatus, planId: String?, planPeriod: CommerceSubscriptionItemPlanPeriod, payerId: String, isFreeTrial: Bool, periodStart: Int, periodEnd: Int?, canceledAt: Int?, pastDueAt: Int?, endedAt: Int?, credit: CommerceSubscriptionCreditResponse? = nil, credits: CommerceCreditsResponse? = nil, priceId: String? = nil, plan: CommercePlan? = nil, paymentMethod: CommercePaymentMethodResponse? = nil, lifetimePaid: CommerceMoneyResponse? = nil, nextPayment: CommerceSubscriptionItemNextPaymentResponse? = nil, payer: CommercePayerResponse? = nil, prorationDate: String? = nil, createdAt: Int? = nil, updatedAt: Int? = nil, seats: CommerceSubscriptionItemSeatsResponse? = nil, totals: CommerceTotalsResponse2? = nil) throws {
+public extension CommerceSubscriptionItem {
+    init(
+        object: CommerceSubscriptionItemObject,
+        id: String,
+        instanceId: String,
+        status: CommerceSubscriptionItemStatus,
+        planId: String?,
+        planPeriod: CommerceSubscriptionItemPlanPeriod,
+        payerId: String,
+        isFreeTrial: Bool,
+        periodStart: Int,
+        periodEnd: Int?,
+        canceledAt: Int?,
+        pastDueAt: Int?,
+        endedAt: Int?,
+        credit: CommerceSubscriptionCreditResponse? = nil,
+        credits: CommerceCreditsResponse? = nil,
+        priceId: String? = nil,
+        plan: CommercePlan? = nil,
+        paymentMethod: CommercePaymentMethodResponse? = nil,
+        lifetimePaid: CommerceMoneyResponse? = nil,
+        nextPayment: CommerceSubscriptionItemNextPaymentResponse? = nil,
+        payer: CommercePayerResponse? = nil,
+        prorationDate: String? = nil,
+        createdAt: Int? = nil,
+        updatedAt: Int? = nil,
+        seats: CommerceSubscriptionItemSeatsResponse? = nil,
+        totals: CommerceTotalsResponse2? = nil
+    ) throws {
         (self.object, self.id) = (object, id)
         (self.instanceId, self.status) = (instanceId, status)
         (self.planId, self.planPeriod) = (planId, planPeriod)
@@ -117,34 +144,54 @@ public struct CommercePaymentMethodResponse: Codable {
         case isRemovable = "is_removable"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommercePaymentMethodResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.payerId = try container.sdkDecodeRequired(.payerId)
-        self.paymentType = try container.sdkDecodeRequired(.paymentType)
-        self.gateway = try container.sdkDecodeRequired(.gateway)
-        self.gatewayExternalId = try container.sdkDecodeRequired(.gatewayExternalId)
-        self.gatewayExternalAccountId = try container.sdkDecodeNullable(.gatewayExternalAccountId)
-        self.last4 = try container.sdkDecodeNullable(.last4)
-        self.status = try container.sdkDecodeRequired(.status)
-        self.cardType = try container.sdkDecodeNullable(.cardType)
-        self.isDefault = try container.sdkDecodeIfPresent(.isDefault)
-        self.walletType = try container.sdkDecodeIfPresent(.walletType)
-        self.expiryYear = try container.sdkDecodeIfPresent(.expiryYear)
-        self.expiryMonth = try container.sdkDecodeIfPresent(.expiryMonth)
-        self.createdAt = try container.sdkDecodeIfPresent(.createdAt)
-        self.updatedAt = try container.sdkDecodeIfPresent(.updatedAt)
-        self.isRemovable = try container.sdkDecodeIfPresent(.isRemovable)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CommercePaymentMethodResponse {
-    public init(object: CommercePaymentMethodResponseObject, id: String, payerId: String, paymentType: CommercePaymentMethodResponsePaymentType, gateway: String, gatewayExternalId: String, gatewayExternalAccountId: String?, last4: String?, status: CommercePaymentMethodResponseStatus, cardType: String?, isDefault: Bool? = nil, walletType: String? = nil, expiryYear: Int? = nil, expiryMonth: Int? = nil, createdAt: Int? = nil, updatedAt: Int? = nil, isRemovable: Bool? = nil) {
+public extension CommercePaymentMethodResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        payerId = try container.sdkDecodeRequired(.payerId)
+        paymentType = try container.sdkDecodeRequired(.paymentType)
+        gateway = try container.sdkDecodeRequired(.gateway)
+        gatewayExternalId = try container.sdkDecodeRequired(.gatewayExternalId)
+        gatewayExternalAccountId = try container.sdkDecodeNullable(.gatewayExternalAccountId)
+        last4 = try container.sdkDecodeNullable(.last4)
+        status = try container.sdkDecodeRequired(.status)
+        cardType = try container.sdkDecodeNullable(.cardType)
+        isDefault = try container.sdkDecodeIfPresent(.isDefault)
+        walletType = try container.sdkDecodeIfPresent(.walletType)
+        expiryYear = try container.sdkDecodeIfPresent(.expiryYear)
+        expiryMonth = try container.sdkDecodeIfPresent(.expiryMonth)
+        createdAt = try container.sdkDecodeIfPresent(.createdAt)
+        updatedAt = try container.sdkDecodeIfPresent(.updatedAt)
+        isRemovable = try container.sdkDecodeIfPresent(.isRemovable)
+    }
+}
+
+public extension CommercePaymentMethodResponse {
+    init(
+        object: CommercePaymentMethodResponseObject,
+        id: String,
+        payerId: String,
+        paymentType: CommercePaymentMethodResponsePaymentType,
+        gateway: String,
+        gatewayExternalId: String,
+        gatewayExternalAccountId: String?,
+        last4: String?,
+        status: CommercePaymentMethodResponseStatus,
+        cardType: String?,
+        isDefault: Bool? = nil,
+        walletType: String? = nil,
+        expiryYear: Int? = nil,
+        expiryMonth: Int? = nil,
+        createdAt: Int? = nil,
+        updatedAt: Int? = nil,
+        isRemovable: Bool? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.payerId, self.paymentType) = (payerId, paymentType)
         (self.gateway, self.gatewayExternalId) = (gateway, gatewayExternalId)
@@ -175,33 +222,51 @@ public struct CommerceMoneyResponse: Codable {
         case currencySymbol = "currency_symbol"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommerceMoneyResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        guard container.contains(.amountFormatted) else {
-            throw SdkValidationError(field: "amount_formatted", code: "required", message: "Validation failed for 'amount_formatted': value is required")
-        }
-        guard container.contains(.currency) else {
-            throw SdkValidationError(field: "currency", code: "required", message: "Validation failed for 'currency': value is required")
-        }
-        guard container.contains(.currencySymbol) else {
-            throw SdkValidationError(field: "currency_symbol", code: "required", message: "Validation failed for 'currency_symbol': value is required")
-        }
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.amountFormatted = try container.sdkDecodeRequired(.amountFormatted)
-        self.currency = try container.sdkDecodeRequired(.currency)
-        self.currencySymbol = try container.sdkDecodeRequired(.currencySymbol)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CommerceMoneyResponse {
-    public init(amount: Int, amountFormatted: String, currency: String, currencySymbol: String) {
+public extension CommerceMoneyResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.amount) else {
+            throw SdkValidationError(
+                field: "amount",
+                code: "required",
+                message: "Validation failed for 'amount': value is required"
+            )
+        }
+        guard container.contains(.amountFormatted) else {
+            throw SdkValidationError(
+                field: "amount_formatted",
+                code: "required",
+                message: "Validation failed for 'amount_formatted': value is required"
+            )
+        }
+        guard container.contains(.currency) else {
+            throw SdkValidationError(
+                field: "currency",
+                code: "required",
+                message: "Validation failed for 'currency': value is required"
+            )
+        }
+        guard container.contains(.currencySymbol) else {
+            throw SdkValidationError(
+                field: "currency_symbol",
+                code: "required",
+                message: "Validation failed for 'currency_symbol': value is required"
+            )
+        }
+        amount = try container.sdkDecodeRequired(.amount)
+        amountFormatted = try container.sdkDecodeRequired(.amountFormatted)
+        currency = try container.sdkDecodeRequired(.currency)
+        currencySymbol = try container.sdkDecodeRequired(.currencySymbol)
+    }
+}
+
+public extension CommerceMoneyResponse {
+    init(amount: Int, amountFormatted: String, currency: String, currencySymbol: String) {
         (self.amount, self.amountFormatted) = (amount, amountFormatted)
         (self.currency, self.currencySymbol) = (currency, currencySymbol)
     }
@@ -222,26 +287,36 @@ public struct CommercePlanUnitPriceTier: Codable {
         case endsAfterBlock = "ends_after_block"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommercePlanUnitPriceTier {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.startsAtBlock) else {
-            throw SdkValidationError(field: "starts_at_block", code: "required", message: "Validation failed for 'starts_at_block': value is required")
-        }
-        guard container.contains(.feePerBlock) else {
-            throw SdkValidationError(field: "fee_per_block", code: "required", message: "Validation failed for 'fee_per_block': value is required")
-        }
-        self.startsAtBlock = try container.sdkDecodeRequired(.startsAtBlock)
-        self.feePerBlock = try container.sdkDecodeRequired(.feePerBlock)
-        self.endsAfterBlock = try container.sdkDecodeIfPresent(.endsAfterBlock)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CommercePlanUnitPriceTier {
-    public init(startsAtBlock: Int, feePerBlock: CommerceMoneyResponse, endsAfterBlock: Int? = nil) {
+public extension CommercePlanUnitPriceTier {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.startsAtBlock) else {
+            throw SdkValidationError(
+                field: "starts_at_block",
+                code: "required",
+                message: "Validation failed for 'starts_at_block': value is required"
+            )
+        }
+        guard container.contains(.feePerBlock) else {
+            throw SdkValidationError(
+                field: "fee_per_block",
+                code: "required",
+                message: "Validation failed for 'fee_per_block': value is required"
+            )
+        }
+        startsAtBlock = try container.sdkDecodeRequired(.startsAtBlock)
+        feePerBlock = try container.sdkDecodeRequired(.feePerBlock)
+        endsAfterBlock = try container.sdkDecodeIfPresent(.endsAfterBlock)
+    }
+}
+
+public extension CommercePlanUnitPriceTier {
+    init(startsAtBlock: Int, feePerBlock: CommerceMoneyResponse, endsAfterBlock: Int? = nil) {
         (self.startsAtBlock, self.feePerBlock) = (startsAtBlock, feePerBlock)
         self.endsAfterBlock = endsAfterBlock
     }
@@ -267,27 +342,42 @@ public struct CommerceSubscriptionNextPayment: Codable {
         case totals
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommerceSubscriptionNextPayment {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.date) else {
-            throw SdkValidationError(field: "date", code: "required", message: "Validation failed for 'date': value is required")
-        }
-        guard container.contains(.amount) else {
-            throw SdkValidationError(field: "amount", code: "required", message: "Validation failed for 'amount': value is required")
-        }
-        self.date = try container.sdkDecodeRequired(.date)
-        self.amount = try container.sdkDecodeRequired(.amount)
-        self.perUnitTotals = try container.sdkDecodeIfPresent(.perUnitTotals)
-        self.totals = try container.sdkDecodeIfPresent(.totals)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CommerceSubscriptionNextPayment {
-    public init(date: Int, amount: CommerceMoneyResponse, perUnitTotals: [CommercePerUnitTotal2]? = nil, totals: CommerceTotalsResponse2? = nil) {
+public extension CommerceSubscriptionNextPayment {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.date) else {
+            throw SdkValidationError(
+                field: "date",
+                code: "required",
+                message: "Validation failed for 'date': value is required"
+            )
+        }
+        guard container.contains(.amount) else {
+            throw SdkValidationError(
+                field: "amount",
+                code: "required",
+                message: "Validation failed for 'amount': value is required"
+            )
+        }
+        date = try container.sdkDecodeRequired(.date)
+        amount = try container.sdkDecodeRequired(.amount)
+        perUnitTotals = try container.sdkDecodeIfPresent(.perUnitTotals)
+        totals = try container.sdkDecodeIfPresent(.totals)
+    }
+}
+
+public extension CommerceSubscriptionNextPayment {
+    init(
+        date: Int,
+        amount: CommerceMoneyResponse,
+        perUnitTotals: [CommercePerUnitTotal2]? = nil,
+        totals: CommerceTotalsResponse2? = nil
+    ) {
         (self.date, self.amount) = (date, amount)
         (self.perUnitTotals, self.totals) = (perUnitTotals, totals)
     }
@@ -338,39 +428,67 @@ public struct CommercePayerResponse: Codable {
         case updatedAt = "updated_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommercePayerResponse {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.instanceId) else {
-            throw SdkValidationError(field: "instance_id", code: "required", message: "Validation failed for 'instance_id': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.instanceId = try container.sdkDecodeRequired(.instanceId)
-        self.userId = try container.sdkDecodeIfPresent(.userId)
-        self.firstName = try container.sdkDecodeIfPresent(.firstName)
-        self.lastName = try container.sdkDecodeIfPresent(.lastName)
-        self.email = try container.sdkDecodeIfPresent(.email)
-        self.organizationId = try container.sdkDecodeIfPresent(.organizationId)
-        self.organizationName = try container.sdkDecodeIfPresent(.organizationName)
-        self.imageUrl = try container.sdkDecodeIfPresent(.imageUrl)
-        self.creditsBalance = try container.sdkDecodeIfPresent(.creditsBalance)
-        self.createdAt = try container.sdkDecodeIfPresent(.createdAt)
-        self.updatedAt = try container.sdkDecodeIfPresent(.updatedAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CommercePayerResponse {
-    public init(object: CommercePayerResponseObject, id: String, instanceId: String, userId: String? = nil, firstName: String? = nil, lastName: String? = nil, email: String? = nil, organizationId: String? = nil, organizationName: String? = nil, imageUrl: String? = nil, creditsBalance: CommerceMoneyResponse? = nil, createdAt: Int? = nil, updatedAt: Int? = nil) {
+public extension CommercePayerResponse {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.instanceId) else {
+            throw SdkValidationError(
+                field: "instance_id",
+                code: "required",
+                message: "Validation failed for 'instance_id': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        instanceId = try container.sdkDecodeRequired(.instanceId)
+        userId = try container.sdkDecodeIfPresent(.userId)
+        firstName = try container.sdkDecodeIfPresent(.firstName)
+        lastName = try container.sdkDecodeIfPresent(.lastName)
+        email = try container.sdkDecodeIfPresent(.email)
+        organizationId = try container.sdkDecodeIfPresent(.organizationId)
+        organizationName = try container.sdkDecodeIfPresent(.organizationName)
+        imageUrl = try container.sdkDecodeIfPresent(.imageUrl)
+        creditsBalance = try container.sdkDecodeIfPresent(.creditsBalance)
+        createdAt = try container.sdkDecodeIfPresent(.createdAt)
+        updatedAt = try container.sdkDecodeIfPresent(.updatedAt)
+    }
+}
+
+public extension CommercePayerResponse {
+    init(
+        object: CommercePayerResponseObject,
+        id: String,
+        instanceId: String,
+        userId: String? = nil,
+        firstName: String? = nil,
+        lastName: String? = nil,
+        email: String? = nil,
+        organizationId: String? = nil,
+        organizationName: String? = nil,
+        imageUrl: String? = nil,
+        creditsBalance: CommerceMoneyResponse? = nil,
+        createdAt: Int? = nil,
+        updatedAt: Int? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.instanceId, self.userId) = (instanceId, userId)
         (self.firstName, self.lastName) = (firstName, lastName)
@@ -444,36 +562,58 @@ public struct CommercePlan: Codable {
         case unitPrices = "unit_prices"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CommercePlan {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.fee = try container.sdkDecodeNullable(.fee)
-        self.annualMonthlyFee = try container.sdkDecodeNullable(.annualMonthlyFee)
-        self.annualFee = try container.sdkDecodeNullable(.annualFee)
-        self.description = try container.sdkDecodeNullable(.description)
-        self.productId = try container.sdkDecodeRequired(.productId)
-        self.isDefault = try container.sdkDecodeRequired(.isDefault)
-        self.isRecurring = try container.sdkDecodeRequired(.isRecurring)
-        self.publiclyVisible = try container.sdkDecodeRequired(.publiclyVisible)
-        self.hasBaseFee = try container.sdkDecodeRequired(.hasBaseFee)
-        self.forPayerType = try container.sdkDecodeRequired(.forPayerType)
-        self.slug = try container.sdkDecodeRequired(.slug)
-        self.avatarUrl = try container.sdkDecodeNullable(.avatarUrl)
-        self.freeTrialEnabled = try container.sdkDecodeRequired(.freeTrialEnabled)
-        self.freeTrialDays = try container.sdkDecodeNullable(.freeTrialDays)
-        self.features = try container.sdkDecodeIfPresent(.features)
-        self.unitPrices = try container.sdkDecodeIfPresent(.unitPrices)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CommercePlan {
-    public init(object: CommercePlanObject, id: String, name: String, fee: CommerceMoneyResponse?, annualMonthlyFee: CommerceMoneyResponse?, annualFee: CommerceMoneyResponse?, description: String?, productId: String, isDefault: Bool, isRecurring: Bool, publiclyVisible: Bool, hasBaseFee: Bool, forPayerType: String, slug: String, avatarUrl: String?, freeTrialEnabled: Bool, freeTrialDays: Int?, features: [FeatureResponse]? = nil, unitPrices: [CommercePlanUnitPrice]? = nil) {
+public extension CommercePlan {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        fee = try container.sdkDecodeNullable(.fee)
+        annualMonthlyFee = try container.sdkDecodeNullable(.annualMonthlyFee)
+        annualFee = try container.sdkDecodeNullable(.annualFee)
+        description = try container.sdkDecodeNullable(.description)
+        productId = try container.sdkDecodeRequired(.productId)
+        isDefault = try container.sdkDecodeRequired(.isDefault)
+        isRecurring = try container.sdkDecodeRequired(.isRecurring)
+        publiclyVisible = try container.sdkDecodeRequired(.publiclyVisible)
+        hasBaseFee = try container.sdkDecodeRequired(.hasBaseFee)
+        forPayerType = try container.sdkDecodeRequired(.forPayerType)
+        slug = try container.sdkDecodeRequired(.slug)
+        avatarUrl = try container.sdkDecodeNullable(.avatarUrl)
+        freeTrialEnabled = try container.sdkDecodeRequired(.freeTrialEnabled)
+        freeTrialDays = try container.sdkDecodeNullable(.freeTrialDays)
+        features = try container.sdkDecodeIfPresent(.features)
+        unitPrices = try container.sdkDecodeIfPresent(.unitPrices)
+    }
+}
+
+public extension CommercePlan {
+    init(
+        object: CommercePlanObject,
+        id: String,
+        name: String,
+        fee: CommerceMoneyResponse?,
+        annualMonthlyFee: CommerceMoneyResponse?,
+        annualFee: CommerceMoneyResponse?,
+        description: String?,
+        productId: String,
+        isDefault: Bool,
+        isRecurring: Bool,
+        publiclyVisible: Bool,
+        hasBaseFee: Bool,
+        forPayerType: String,
+        slug: String,
+        avatarUrl: String?,
+        freeTrialEnabled: Bool,
+        freeTrialDays: Int?,
+        features: [FeatureResponse]? = nil,
+        unitPrices: [CommercePlanUnitPrice]? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.name, self.fee) = (name, fee)
         (self.annualMonthlyFee, self.annualFee) = (annualMonthlyFee, annualFee)

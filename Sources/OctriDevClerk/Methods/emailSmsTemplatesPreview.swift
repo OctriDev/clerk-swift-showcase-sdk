@@ -6,8 +6,10 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension EmailSmsTemplatesMethods {
-    /// Returns a preview of a template using the specified template type, slug, and optional body values. Use the body fields to preview changes; `subject`, `from_email_name`, and `reply_to_email_name` apply only to email templates.
+public extension EmailSmsTemplatesMethods {
+    /// Returns a preview of a template using the specified template type, slug, and optional body values. Use the body
+    /// fields to preview changes; `subject`, `from_email_name`, and `reply_to_email_name` apply only to email
+    /// templates.
     ///
     /// Returns a preview of a template for a given template_type, slug and body
     ///
@@ -24,9 +26,38 @@ extension EmailSmsTemplatesMethods {
     ///   local part is 'hello'. Applicable only to email templates.
     ///
     /// - Warning: This operation is deprecated and may be removed in a future release.
-    public static func previewTemplate(config: ClientConfig, templateType: String, slug: String, subject: SdkOptional<String>? = nil, body: String? = nil, fromEmailName: String? = nil, replyToEmailName: String? = nil, requestOptions: RequestOptions? = nil) async throws -> [String: JSONValue] {
-        let requestBody = PreviewTemplateRequestBody(subject: subject, body: body, fromEmailName: fromEmailName, replyToEmailName: replyToEmailName)
+    static func previewTemplate(
+        config: ClientConfig,
+        templateType: String,
+        slug: String,
+        subject: SdkOptional<String>? = nil,
+        body: String? = nil,
+        fromEmailName: String? = nil,
+        replyToEmailName: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [String: JSONValue] {
+        let requestBody = PreviewTemplateRequestBody(
+            subject: subject,
+            body: body,
+            fromEmailName: fromEmailName,
+            replyToEmailName: replyToEmailName
+        )
 
-        return try (await sdkRequest("POST", ["/templates/", sdkEncodePathSegment(sdkWireString(templateType)), "/", sdkEncodePathSegment(sdkWireString(slug)), "/preview"].joined(), config: config, body: requestBody, decoder: .json, operationId: "PreviewTemplate", options: requestOptions, errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self])).data
+        return try await (sdkRequest(
+            "POST",
+            [
+                "/templates/",
+                sdkEncodePathSegment(sdkWireString(templateType)),
+                "/",
+                sdkEncodePathSegment(sdkWireString(slug)),
+                "/preview",
+            ].joined(),
+            config: config,
+            body: requestBody,
+            decoder: .json,
+            operationId: "PreviewTemplate",
+            options: requestOptions,
+            errors: ["400": ClerkErrors.self, "401": ClerkErrors.self, "404": ClerkErrors.self, "422": ClerkErrors.self]
+        )).data
     }
 }

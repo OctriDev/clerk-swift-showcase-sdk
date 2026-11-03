@@ -35,8 +35,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.get(
-            userId: decoded("\"user-1\"")
-        )
+                userId: decoded("\"user-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -81,8 +81,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.getBillingCreditBalance(
-            userId: decoded("\"user-1\"")
-        )
+                userId: decoded("\"user-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -127,8 +127,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.getBillingSubscription(
-            userId: decoded("\"user-1\"")
-        )
+                userId: decoded("\"user-1\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -219,8 +219,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.users.getCount(
-            options: options
-        )
+                options: options
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 422)
@@ -266,9 +266,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.waitlistEntries.invite(
-            waitlistEntryId: decoded("\"waitlist_entry-1\""),
-            ignoreExisting: decoded("false")
-        )
+                waitlistEntryId: decoded("\"waitlist_entry-1\""),
+                ignoreExisting: decoded("false")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -331,8 +331,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizationDomains.listAll(
-            options: options
-        )
+                options: options
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 401)
@@ -379,10 +379,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.allowListBlockList.listAllowlistIdentifiers(
-            paginated: decoded("false"),
-            limit: decoded("10"),
-            offset: decoded("0")
-        )
+                paginated: decoded("false"),
+                limit: decoded("10"),
+                offset: decoded("0")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 401)
@@ -494,10 +494,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.clients.list(
-            paginated: decoded("false"),
-            limit: decoded("10"),
-            offset: decoded("0")
-        )
+                paginated: decoded("false"),
+                limit: decoded("10"),
+                offset: decoded("0")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -543,9 +543,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.directories.list(
-            limit: decoded("10"),
-            offset: decoded("0")
-        )
+                limit: decoded("10"),
+                offset: decoded("0")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 401)

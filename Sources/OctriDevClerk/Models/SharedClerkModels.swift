@@ -3,7 +3,7 @@
 
 import Foundation
 
-// SharedClerk domain models
+/// SharedClerk domain models
 /// Typed representation of the `ClerkErrors` API schema.
 public struct ClerkErrors: Codable {
     /// Required array value serialized in the `errors` wire field.
@@ -19,23 +19,29 @@ public struct ClerkErrors: Codable {
         case clerkTraceId = "clerk_trace_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ClerkErrors {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.errors) else {
-            throw SdkValidationError(field: "errors", code: "required", message: "Validation failed for 'errors': value is required")
-        }
-        self.errors = try container.sdkDecodeRequired(.errors)
-        self.meta = try container.sdkDecodeIfPresent(.meta)
-        self.clerkTraceId = try container.sdkDecodeIfPresent(.clerkTraceId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ClerkErrors {
-    public init(errors: [ClerkError], meta: [String: JSONValue]? = nil, clerkTraceId: String? = nil) {
+public extension ClerkErrors {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.errors) else {
+            throw SdkValidationError(
+                field: "errors",
+                code: "required",
+                message: "Validation failed for 'errors': value is required"
+            )
+        }
+        errors = try container.sdkDecodeRequired(.errors)
+        meta = try container.sdkDecodeIfPresent(.meta)
+        clerkTraceId = try container.sdkDecodeIfPresent(.clerkTraceId)
+    }
+}
+
+public extension ClerkErrors {
+    init(errors: [ClerkError], meta: [String: JSONValue]? = nil, clerkTraceId: String? = nil) {
         (self.errors, self.meta) = (errors, meta)
         self.clerkTraceId = clerkTraceId
     }
@@ -59,30 +65,44 @@ public struct ClerkError: Codable {
         case meta
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ClerkError {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.message) else {
-            throw SdkValidationError(field: "message", code: "required", message: "Validation failed for 'message': value is required")
-        }
-        guard container.contains(.longMessage) else {
-            throw SdkValidationError(field: "long_message", code: "required", message: "Validation failed for 'long_message': value is required")
-        }
-        guard container.contains(.code) else {
-            throw SdkValidationError(field: "code", code: "required", message: "Validation failed for 'code': value is required")
-        }
-        self.message = try container.sdkDecodeRequired(.message)
-        self.longMessage = try container.sdkDecodeRequired(.longMessage)
-        self.code = try container.sdkDecodeRequired(.code)
-        self.meta = try container.sdkDecodeIfPresent(.meta)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ClerkError {
-    public init(message: String, longMessage: String, code: String, meta: [String: JSONValue]? = nil) {
+public extension ClerkError {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.message) else {
+            throw SdkValidationError(
+                field: "message",
+                code: "required",
+                message: "Validation failed for 'message': value is required"
+            )
+        }
+        guard container.contains(.longMessage) else {
+            throw SdkValidationError(
+                field: "long_message",
+                code: "required",
+                message: "Validation failed for 'long_message': value is required"
+            )
+        }
+        guard container.contains(.code) else {
+            throw SdkValidationError(
+                field: "code",
+                code: "required",
+                message: "Validation failed for 'code': value is required"
+            )
+        }
+        message = try container.sdkDecodeRequired(.message)
+        longMessage = try container.sdkDecodeRequired(.longMessage)
+        code = try container.sdkDecodeRequired(.code)
+        meta = try container.sdkDecodeIfPresent(.meta)
+    }
+}
+
+public extension ClerkError {
+    init(message: String, longMessage: String, code: String, meta: [String: JSONValue]? = nil) {
         (self.message, self.longMessage) = (message, longMessage)
         (self.code, self.meta) = (code, meta)
     }

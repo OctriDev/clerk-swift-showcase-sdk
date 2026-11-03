@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-// Canonical enterpriseConnections operation model declarations
+/// Canonical enterpriseConnections operation model declarations
 /// SAML connection-specific properties. Only applied when the enterprise connection uses SAML. Use this to update
 /// IdP configuration, attribute mapping, and other SAML-specific settings.
 public struct UpdateEnterpriseConnectionRequestBodySaml: Codable {
@@ -51,35 +51,48 @@ public struct UpdateEnterpriseConnectionRequestBodySaml: Codable {
     }
 
     init() {
-        (self.name, self.idpEntityId, self.idpSsoUrl, self.idpCertificate, self.idpCertificates) = (nil, nil, nil, nil, nil)
-        (self.idpMetadataUrl, self.idpMetadata, self.attributeMapping, self.allowSubdomains, self.allowIdpInitiated) = (nil, nil, nil, nil, nil)
-        (self.forceAuthn, self.loginHint) = (nil, nil)
+        (name, idpEntityId, idpSsoUrl, idpCertificate, idpCertificates) = (nil, nil, nil, nil, nil)
+        (idpMetadataUrl, idpMetadata, attributeMapping, allowSubdomains, allowIdpInitiated) = (nil, nil, nil, nil, nil)
+        (forceAuthn, loginHint) = (nil, nil)
     }
 }
 
-extension UpdateEnterpriseConnectionRequestBodySaml {
-    public init(from decoder: Decoder) throws {
+public extension UpdateEnterpriseConnectionRequestBodySaml {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.name = try container.sdkDecodeIfPresent(.name)
-        self.idpEntityId = try container.sdkDecodeIfPresent(.idpEntityId)
-        self.idpSsoUrl = try container.sdkDecodeIfPresent(.idpSsoUrl)
-        self.idpCertificate = try container.sdkDecodeIfPresent(.idpCertificate)
-        self.idpCertificates = try container.sdkDecodeIfPresent(.idpCertificates)
-        self.idpMetadataUrl = try container.sdkDecodeIfPresent(.idpMetadataUrl)
-        self.idpMetadata = try container.sdkDecodeIfPresent(.idpMetadata)
-        self.attributeMapping = try container.sdkDecodeIfPresent(.attributeMapping)
-        self.allowSubdomains = try container.sdkDecodeIfPresent(.allowSubdomains)
-        self.allowIdpInitiated = try container.sdkDecodeIfPresent(.allowIdpInitiated)
-        self.forceAuthn = try container.sdkDecodeIfPresent(.forceAuthn)
-        self.loginHint = try container.sdkDecodeIfPresent(.loginHint)
-        if let value = self.idpCertificates {
+        name = try container.sdkDecodeIfPresent(.name)
+        idpEntityId = try container.sdkDecodeIfPresent(.idpEntityId)
+        idpSsoUrl = try container.sdkDecodeIfPresent(.idpSsoUrl)
+        idpCertificate = try container.sdkDecodeIfPresent(.idpCertificate)
+        idpCertificates = try container.sdkDecodeIfPresent(.idpCertificates)
+        idpMetadataUrl = try container.sdkDecodeIfPresent(.idpMetadataUrl)
+        idpMetadata = try container.sdkDecodeIfPresent(.idpMetadata)
+        attributeMapping = try container.sdkDecodeIfPresent(.attributeMapping)
+        allowSubdomains = try container.sdkDecodeIfPresent(.allowSubdomains)
+        allowIdpInitiated = try container.sdkDecodeIfPresent(.allowIdpInitiated)
+        forceAuthn = try container.sdkDecodeIfPresent(.forceAuthn)
+        loginHint = try container.sdkDecodeIfPresent(.loginHint)
+        if let value = idpCertificates {
             try validateItems("idp_certificates", value, min: 1, max: 5)
         }
     }
 }
 
-extension UpdateEnterpriseConnectionRequestBodySaml {
-    public init(name: String? = nil, idpEntityId: String? = nil, idpSsoUrl: String? = nil, idpCertificate: String? = nil, idpCertificates: [String]? = nil, idpMetadataUrl: String? = nil, idpMetadata: String? = nil, attributeMapping: UpdateEnterpriseConnectionRequestBodySamlAttributeMapping? = nil, allowSubdomains: Bool? = nil, allowIdpInitiated: Bool? = nil, forceAuthn: Bool? = nil, loginHint: UpdateEnterpriseConnectionRequestBodySamlLoginHint? = nil) throws {
+public extension UpdateEnterpriseConnectionRequestBodySaml {
+    init(
+        name: String? = nil,
+        idpEntityId: String? = nil,
+        idpSsoUrl: String? = nil,
+        idpCertificate: String? = nil,
+        idpCertificates: [String]? = nil,
+        idpMetadataUrl: String? = nil,
+        idpMetadata: String? = nil,
+        attributeMapping: UpdateEnterpriseConnectionRequestBodySamlAttributeMapping? = nil,
+        allowSubdomains: Bool? = nil,
+        allowIdpInitiated: Bool? = nil,
+        forceAuthn: Bool? = nil,
+        loginHint: UpdateEnterpriseConnectionRequestBodySamlLoginHint? = nil
+    ) throws {
         self.init()
         (self.name, self.idpEntityId) = (name, idpEntityId)
         (self.idpSsoUrl, self.idpCertificate) = (idpSsoUrl, idpCertificate)
@@ -122,26 +135,34 @@ public struct CreateEnterpriseConnectionRequestBodyOidc: Codable {
     }
 
     init() {
-        (self.clientId, self.clientSecret, self.discoveryUrl, self.authUrl, self.tokenUrl) = (nil, nil, nil, nil, nil)
-        (self.userInfoUrl, self.requiresPkce) = (nil, nil)
+        (clientId, clientSecret, discoveryUrl, authUrl, tokenUrl) = (nil, nil, nil, nil, nil)
+        (userInfoUrl, requiresPkce) = (nil, nil)
     }
 }
 
-extension CreateEnterpriseConnectionRequestBodyOidc {
-    public init(from decoder: Decoder) throws {
+public extension CreateEnterpriseConnectionRequestBodyOidc {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.clientId = try container.sdkDecodeIfPresent(.clientId)
-        self.clientSecret = try container.sdkDecodeIfPresent(.clientSecret)
-        self.discoveryUrl = try container.sdkDecodeIfPresent(.discoveryUrl)
-        self.authUrl = try container.sdkDecodeIfPresent(.authUrl)
-        self.tokenUrl = try container.sdkDecodeIfPresent(.tokenUrl)
-        self.userInfoUrl = try container.sdkDecodeIfPresent(.userInfoUrl)
-        self.requiresPkce = try container.sdkDecodeIfPresent(.requiresPkce)
+        clientId = try container.sdkDecodeIfPresent(.clientId)
+        clientSecret = try container.sdkDecodeIfPresent(.clientSecret)
+        discoveryUrl = try container.sdkDecodeIfPresent(.discoveryUrl)
+        authUrl = try container.sdkDecodeIfPresent(.authUrl)
+        tokenUrl = try container.sdkDecodeIfPresent(.tokenUrl)
+        userInfoUrl = try container.sdkDecodeIfPresent(.userInfoUrl)
+        requiresPkce = try container.sdkDecodeIfPresent(.requiresPkce)
     }
 }
 
-extension CreateEnterpriseConnectionRequestBodyOidc {
-    public init(clientId: String? = nil, clientSecret: String? = nil, discoveryUrl: String? = nil, authUrl: String? = nil, tokenUrl: String? = nil, userInfoUrl: String? = nil, requiresPkce: Bool? = nil) {
+public extension CreateEnterpriseConnectionRequestBodyOidc {
+    init(
+        clientId: String? = nil,
+        clientSecret: String? = nil,
+        discoveryUrl: String? = nil,
+        authUrl: String? = nil,
+        tokenUrl: String? = nil,
+        userInfoUrl: String? = nil,
+        requiresPkce: Bool? = nil
+    ) {
         self.init()
         (self.clientId, self.clientSecret) = (clientId, clientSecret)
         (self.discoveryUrl, self.authUrl) = (discoveryUrl, authUrl)
@@ -179,26 +200,34 @@ public struct UpdateEnterpriseConnectionRequestBodyOidc: Codable {
     }
 
     init() {
-        (self.clientId, self.clientSecret, self.discoveryUrl, self.authUrl, self.tokenUrl) = (nil, nil, nil, nil, nil)
-        (self.userInfoUrl, self.requiresPkce) = (nil, nil)
+        (clientId, clientSecret, discoveryUrl, authUrl, tokenUrl) = (nil, nil, nil, nil, nil)
+        (userInfoUrl, requiresPkce) = (nil, nil)
     }
 }
 
-extension UpdateEnterpriseConnectionRequestBodyOidc {
-    public init(from decoder: Decoder) throws {
+public extension UpdateEnterpriseConnectionRequestBodyOidc {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.clientId = try container.sdkDecodeIfPresent(.clientId)
-        self.clientSecret = try container.sdkDecodeIfPresent(.clientSecret)
-        self.discoveryUrl = try container.sdkDecodeIfPresent(.discoveryUrl)
-        self.authUrl = try container.sdkDecodeIfPresent(.authUrl)
-        self.tokenUrl = try container.sdkDecodeIfPresent(.tokenUrl)
-        self.userInfoUrl = try container.sdkDecodeIfPresent(.userInfoUrl)
-        self.requiresPkce = try container.sdkDecodeIfPresent(.requiresPkce)
+        clientId = try container.sdkDecodeIfPresent(.clientId)
+        clientSecret = try container.sdkDecodeIfPresent(.clientSecret)
+        discoveryUrl = try container.sdkDecodeIfPresent(.discoveryUrl)
+        authUrl = try container.sdkDecodeIfPresent(.authUrl)
+        tokenUrl = try container.sdkDecodeIfPresent(.tokenUrl)
+        userInfoUrl = try container.sdkDecodeIfPresent(.userInfoUrl)
+        requiresPkce = try container.sdkDecodeIfPresent(.requiresPkce)
     }
 }
 
-extension UpdateEnterpriseConnectionRequestBodyOidc {
-    public init(clientId: String? = nil, clientSecret: String? = nil, discoveryUrl: String? = nil, authUrl: String? = nil, tokenUrl: String? = nil, userInfoUrl: String? = nil, requiresPkce: Bool? = nil) {
+public extension UpdateEnterpriseConnectionRequestBodyOidc {
+    init(
+        clientId: String? = nil,
+        clientSecret: String? = nil,
+        discoveryUrl: String? = nil,
+        authUrl: String? = nil,
+        tokenUrl: String? = nil,
+        userInfoUrl: String? = nil,
+        requiresPkce: Bool? = nil
+    ) {
         self.init()
         (self.clientId, self.clientSecret) = (clientId, clientSecret)
         (self.discoveryUrl, self.authUrl) = (discoveryUrl, authUrl)
@@ -219,22 +248,28 @@ public struct CreateEnterpriseConnectionRequestBodySamlLoginHint: Codable {
         case source
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CreateEnterpriseConnectionRequestBodySamlLoginHint {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.mode) else {
-            throw SdkValidationError(field: "mode", code: "required", message: "Validation failed for 'mode': value is required")
-        }
-        self.mode = try container.sdkDecodeRequired(.mode)
-        self.source = try container.sdkDecodeIfPresent(.source)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CreateEnterpriseConnectionRequestBodySamlLoginHint {
-    public init(mode: CreateEnterpriseConnectionRequestBodySamlLoginHintMode, source: String? = nil) {
+public extension CreateEnterpriseConnectionRequestBodySamlLoginHint {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.mode) else {
+            throw SdkValidationError(
+                field: "mode",
+                code: "required",
+                message: "Validation failed for 'mode': value is required"
+            )
+        }
+        mode = try container.sdkDecodeRequired(.mode)
+        source = try container.sdkDecodeIfPresent(.source)
+    }
+}
+
+public extension CreateEnterpriseConnectionRequestBodySamlLoginHint {
+    init(mode: CreateEnterpriseConnectionRequestBodySamlLoginHintMode, source: String? = nil) {
         (self.mode, self.source) = (mode, source)
     }
 }
@@ -254,22 +289,22 @@ public struct UpdateEnterpriseConnectionRequestBodySamlAttributeMapping: Codable
     }
 
     init() {
-        (self.userId, self.emailAddress, self.firstName, self.lastName) = (nil, nil, nil, nil)
+        (userId, emailAddress, firstName, lastName) = (nil, nil, nil, nil)
     }
 }
 
-extension UpdateEnterpriseConnectionRequestBodySamlAttributeMapping {
-    public init(from decoder: Decoder) throws {
+public extension UpdateEnterpriseConnectionRequestBodySamlAttributeMapping {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.userId = try container.sdkDecodeIfPresent(.userId)
-        self.emailAddress = try container.sdkDecodeIfPresent(.emailAddress)
-        self.firstName = try container.sdkDecodeIfPresent(.firstName)
-        self.lastName = try container.sdkDecodeIfPresent(.lastName)
+        userId = try container.sdkDecodeIfPresent(.userId)
+        emailAddress = try container.sdkDecodeIfPresent(.emailAddress)
+        firstName = try container.sdkDecodeIfPresent(.firstName)
+        lastName = try container.sdkDecodeIfPresent(.lastName)
     }
 }
 
-extension UpdateEnterpriseConnectionRequestBodySamlAttributeMapping {
-    public init(userId: String? = nil, emailAddress: String? = nil, firstName: String? = nil, lastName: String? = nil) {
+public extension UpdateEnterpriseConnectionRequestBodySamlAttributeMapping {
+    init(userId: String? = nil, emailAddress: String? = nil, firstName: String? = nil, lastName: String? = nil) {
         self.init()
         (self.userId, self.emailAddress) = (userId, emailAddress)
         (self.firstName, self.lastName) = (firstName, lastName)
@@ -301,38 +336,55 @@ public struct CreateEnterpriseConnectionRequestBodyCustomAttributesItem: Codable
         case multiValued = "multi_valued"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension CreateEnterpriseConnectionRequestBodyCustomAttributesItem {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.key) else {
-            throw SdkValidationError(field: "key", code: "required", message: "Validation failed for 'key': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.key = try container.sdkDecodeRequired(.key)
-        self.ssoPath = try container.sdkDecodeIfPresent(.ssoPath)
-        self.scimPath = try container.sdkDecodeIfPresent(.scimPath)
-        self.directoryPath = try container.sdkDecodeIfPresent(.directoryPath)
-        self.multiValued = try container.sdkDecodeIfPresent(.multiValued)
-            try validateLength("name", self.name, min: 1, max: nil)
-            try validateLength("key", self.key, min: 1, max: nil)
-            try sdkValidatePattern("key", self.key, sdkPattern603e712ed208)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension CreateEnterpriseConnectionRequestBodyCustomAttributesItem {
-    public init(name: String, key: String, ssoPath: String? = nil, scimPath: String? = nil, directoryPath: String? = nil, multiValued: Bool? = nil) throws {
+public extension CreateEnterpriseConnectionRequestBodyCustomAttributesItem {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.key) else {
+            throw SdkValidationError(
+                field: "key",
+                code: "required",
+                message: "Validation failed for 'key': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        key = try container.sdkDecodeRequired(.key)
+        ssoPath = try container.sdkDecodeIfPresent(.ssoPath)
+        scimPath = try container.sdkDecodeIfPresent(.scimPath)
+        directoryPath = try container.sdkDecodeIfPresent(.directoryPath)
+        multiValued = try container.sdkDecodeIfPresent(.multiValued)
+        try validateLength("name", name, min: 1, max: nil)
+        try validateLength("key", key, min: 1, max: nil)
+        try sdkValidatePattern("key", key, sdkPattern603e712ed208)
+    }
+}
+
+public extension CreateEnterpriseConnectionRequestBodyCustomAttributesItem {
+    init(
+        name: String,
+        key: String,
+        ssoPath: String? = nil,
+        scimPath: String? = nil,
+        directoryPath: String? = nil,
+        multiValued: Bool? = nil
+    ) throws {
         (self.name, self.key) = (name, key)
         (self.ssoPath, self.scimPath) = (ssoPath, scimPath)
         (self.directoryPath, self.multiValued) = (directoryPath, multiValued)
-            try validateLength("name", self.name, min: 1, max: nil)
-            try validateLength("key", self.key, min: 1, max: nil)
-            try sdkValidatePattern("key", self.key, sdkPattern603e712ed208)
+        try validateLength("name", self.name, min: 1, max: nil)
+        try validateLength("key", self.key, min: 1, max: nil)
+        try sdkValidatePattern("key", self.key, sdkPattern603e712ed208)
     }
 }
 
@@ -361,38 +413,55 @@ public struct UpdateEnterpriseConnectionRequestBodyCustomAttributesItem: Codable
         case multiValued = "multi_valued"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension UpdateEnterpriseConnectionRequestBodyCustomAttributesItem {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.key) else {
-            throw SdkValidationError(field: "key", code: "required", message: "Validation failed for 'key': value is required")
-        }
-        self.name = try container.sdkDecodeRequired(.name)
-        self.key = try container.sdkDecodeRequired(.key)
-        self.ssoPath = try container.sdkDecodeIfPresent(.ssoPath)
-        self.scimPath = try container.sdkDecodeIfPresent(.scimPath)
-        self.directoryPath = try container.sdkDecodeIfPresent(.directoryPath)
-        self.multiValued = try container.sdkDecodeIfPresent(.multiValued)
-            try validateLength("name", self.name, min: 1, max: nil)
-            try validateLength("key", self.key, min: 1, max: nil)
-            try sdkValidatePattern("key", self.key, sdkPattern603e712ed208)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension UpdateEnterpriseConnectionRequestBodyCustomAttributesItem {
-    public init(name: String, key: String, ssoPath: String? = nil, scimPath: String? = nil, directoryPath: String? = nil, multiValued: Bool? = nil) throws {
+public extension UpdateEnterpriseConnectionRequestBodyCustomAttributesItem {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.key) else {
+            throw SdkValidationError(
+                field: "key",
+                code: "required",
+                message: "Validation failed for 'key': value is required"
+            )
+        }
+        name = try container.sdkDecodeRequired(.name)
+        key = try container.sdkDecodeRequired(.key)
+        ssoPath = try container.sdkDecodeIfPresent(.ssoPath)
+        scimPath = try container.sdkDecodeIfPresent(.scimPath)
+        directoryPath = try container.sdkDecodeIfPresent(.directoryPath)
+        multiValued = try container.sdkDecodeIfPresent(.multiValued)
+        try validateLength("name", name, min: 1, max: nil)
+        try validateLength("key", key, min: 1, max: nil)
+        try sdkValidatePattern("key", key, sdkPattern603e712ed208)
+    }
+}
+
+public extension UpdateEnterpriseConnectionRequestBodyCustomAttributesItem {
+    init(
+        name: String,
+        key: String,
+        ssoPath: String? = nil,
+        scimPath: String? = nil,
+        directoryPath: String? = nil,
+        multiValued: Bool? = nil
+    ) throws {
         (self.name, self.key) = (name, key)
         (self.ssoPath, self.scimPath) = (ssoPath, scimPath)
         (self.directoryPath, self.multiValued) = (directoryPath, multiValued)
-            try validateLength("name", self.name, min: 1, max: nil)
-            try validateLength("key", self.key, min: 1, max: nil)
-            try sdkValidatePattern("key", self.key, sdkPattern603e712ed208)
+        try validateLength("name", self.name, min: 1, max: nil)
+        try validateLength("key", self.key, min: 1, max: nil)
+        try sdkValidatePattern("key", self.key, sdkPattern603e712ed208)
     }
 }
 
@@ -408,22 +477,28 @@ public struct UpdateEnterpriseConnectionRequestBodySamlLoginHint: Codable {
         case source
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension UpdateEnterpriseConnectionRequestBodySamlLoginHint {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.mode) else {
-            throw SdkValidationError(field: "mode", code: "required", message: "Validation failed for 'mode': value is required")
-        }
-        self.mode = try container.sdkDecodeRequired(.mode)
-        self.source = try container.sdkDecodeIfPresent(.source)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension UpdateEnterpriseConnectionRequestBodySamlLoginHint {
-    public init(mode: UpdateEnterpriseConnectionRequestBodySamlLoginHintMode, source: String? = nil) {
+public extension UpdateEnterpriseConnectionRequestBodySamlLoginHint {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.mode) else {
+            throw SdkValidationError(
+                field: "mode",
+                code: "required",
+                message: "Validation failed for 'mode': value is required"
+            )
+        }
+        mode = try container.sdkDecodeRequired(.mode)
+        source = try container.sdkDecodeIfPresent(.source)
+    }
+}
+
+public extension UpdateEnterpriseConnectionRequestBodySamlLoginHint {
+    init(mode: UpdateEnterpriseConnectionRequestBodySamlLoginHintMode, source: String? = nil) {
         (self.mode, self.source) = (mode, source)
     }
 }
@@ -469,34 +544,46 @@ public struct CreateEnterpriseConnectionRequestBodySaml: Codable {
     }
 
     init() {
-        (self.idpEntityId, self.idpSsoUrl, self.idpCertificate, self.idpCertificates, self.idpMetadataUrl) = (nil, nil, nil, nil, nil)
-        (self.idpMetadata, self.attributeMapping, self.allowSubdomains, self.allowIdpInitiated, self.forceAuthn) = (nil, nil, nil, nil, nil)
-        self.loginHint = nil
+        (idpEntityId, idpSsoUrl, idpCertificate, idpCertificates, idpMetadataUrl) = (nil, nil, nil, nil, nil)
+        (idpMetadata, attributeMapping, allowSubdomains, allowIdpInitiated, forceAuthn) = (nil, nil, nil, nil, nil)
+        loginHint = nil
     }
 }
 
-extension CreateEnterpriseConnectionRequestBodySaml {
-    public init(from decoder: Decoder) throws {
+public extension CreateEnterpriseConnectionRequestBodySaml {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.idpEntityId = try container.sdkDecodeIfPresent(.idpEntityId)
-        self.idpSsoUrl = try container.sdkDecodeIfPresent(.idpSsoUrl)
-        self.idpCertificate = try container.sdkDecodeIfPresent(.idpCertificate)
-        self.idpCertificates = try container.sdkDecodeIfPresent(.idpCertificates)
-        self.idpMetadataUrl = try container.sdkDecodeIfPresent(.idpMetadataUrl)
-        self.idpMetadata = try container.sdkDecodeIfPresent(.idpMetadata)
-        self.attributeMapping = try container.sdkDecodeIfPresent(.attributeMapping)
-        self.allowSubdomains = try container.sdkDecodeIfPresent(.allowSubdomains)
-        self.allowIdpInitiated = try container.sdkDecodeIfPresent(.allowIdpInitiated)
-        self.forceAuthn = try container.sdkDecodeIfPresent(.forceAuthn)
-        self.loginHint = try container.sdkDecodeIfPresent(.loginHint)
-        if let value = self.idpCertificates {
+        idpEntityId = try container.sdkDecodeIfPresent(.idpEntityId)
+        idpSsoUrl = try container.sdkDecodeIfPresent(.idpSsoUrl)
+        idpCertificate = try container.sdkDecodeIfPresent(.idpCertificate)
+        idpCertificates = try container.sdkDecodeIfPresent(.idpCertificates)
+        idpMetadataUrl = try container.sdkDecodeIfPresent(.idpMetadataUrl)
+        idpMetadata = try container.sdkDecodeIfPresent(.idpMetadata)
+        attributeMapping = try container.sdkDecodeIfPresent(.attributeMapping)
+        allowSubdomains = try container.sdkDecodeIfPresent(.allowSubdomains)
+        allowIdpInitiated = try container.sdkDecodeIfPresent(.allowIdpInitiated)
+        forceAuthn = try container.sdkDecodeIfPresent(.forceAuthn)
+        loginHint = try container.sdkDecodeIfPresent(.loginHint)
+        if let value = idpCertificates {
             try validateItems("idp_certificates", value, min: 1, max: 5)
         }
     }
 }
 
-extension CreateEnterpriseConnectionRequestBodySaml {
-    public init(idpEntityId: String? = nil, idpSsoUrl: String? = nil, idpCertificate: String? = nil, idpCertificates: [String]? = nil, idpMetadataUrl: String? = nil, idpMetadata: String? = nil, attributeMapping: CreateEnterpriseConnectionRequestBodySamlAttributeMapping? = nil, allowSubdomains: Bool? = nil, allowIdpInitiated: Bool? = nil, forceAuthn: Bool? = nil, loginHint: CreateEnterpriseConnectionRequestBodySamlLoginHint? = nil) throws {
+public extension CreateEnterpriseConnectionRequestBodySaml {
+    init(
+        idpEntityId: String? = nil,
+        idpSsoUrl: String? = nil,
+        idpCertificate: String? = nil,
+        idpCertificates: [String]? = nil,
+        idpMetadataUrl: String? = nil,
+        idpMetadata: String? = nil,
+        attributeMapping: CreateEnterpriseConnectionRequestBodySamlAttributeMapping? = nil,
+        allowSubdomains: Bool? = nil,
+        allowIdpInitiated: Bool? = nil,
+        forceAuthn: Bool? = nil,
+        loginHint: CreateEnterpriseConnectionRequestBodySamlLoginHint? = nil
+    ) throws {
         self.init()
         (self.idpEntityId, self.idpSsoUrl) = (idpEntityId, idpSsoUrl)
         (self.idpCertificate, self.idpCertificates) = (idpCertificate, idpCertificates)

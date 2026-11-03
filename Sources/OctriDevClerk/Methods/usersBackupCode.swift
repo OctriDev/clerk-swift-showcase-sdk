@@ -6,14 +6,27 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
-    /// Deletes all backup codes for a user, disabling them for future use. Supply `user_id` to identify the user whose backup codes you want to disable.
+public extension UsersMethods {
+    /// Deletes all backup codes for a user, disabling them for future use. Supply `user_id` to identify the user whose
+    /// backup codes you want to disable.
     ///
     /// Disable all of a user's backup codes.
     ///
     /// - Parameters:
     /// - userId: The ID of the user whose backup codes are to be deleted.
-    public static func deleteBackupCode(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> DeleteBackupCodeResponse {
-        return try (await sdkRequest("DELETE", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/backup_code"].joined(), config: config, decoder: .json, operationId: "DeleteBackupCode", options: requestOptions, errors: ["404": ClerkErrors.self, "500": ClerkErrors.self])).data
+    static func deleteBackupCode(
+        config: ClientConfig,
+        userId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeleteBackupCodeResponse {
+        try await (sdkRequest(
+            "DELETE",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/backup_code"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "DeleteBackupCode",
+            options: requestOptions,
+            errors: ["404": ClerkErrors.self, "500": ClerkErrors.self]
+        )).data
     }
 }

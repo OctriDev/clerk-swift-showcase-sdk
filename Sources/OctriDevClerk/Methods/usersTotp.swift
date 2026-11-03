@@ -6,14 +6,27 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-extension UsersMethods {
-    /// Deletes all TOTP credentials associated with a user. Supply the `user_id` of the user whose TOTPs you want to delete; the operation removes all of that user's TOTPs.
+public extension UsersMethods {
+    /// Deletes all TOTP credentials associated with a user. Supply the `user_id` of the user whose TOTPs you want to
+    /// delete; the operation removes all of that user's TOTPs.
     ///
     /// Deletes all of the user's TOTPs.
     ///
     /// - Parameters:
     /// - userId: The ID of the user whose TOTPs are to be deleted
-    public static func deleteTotp(config: ClientConfig, userId: String, requestOptions: RequestOptions? = nil) async throws -> DeleteTOTPResponse {
-        return try (await sdkRequest("DELETE", ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/totp"].joined(), config: config, decoder: .json, operationId: "DeleteTOTP", options: requestOptions, errors: ["404": ClerkErrors.self, "500": ClerkErrors.self])).data
+    static func deleteTotp(
+        config: ClientConfig,
+        userId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeleteTOTPResponse {
+        try await (sdkRequest(
+            "DELETE",
+            ["/users/", sdkEncodePathSegment(sdkWireString(userId)), "/totp"].joined(),
+            config: config,
+            decoder: .json,
+            operationId: "DeleteTOTP",
+            options: requestOptions,
+            errors: ["404": ClerkErrors.self, "500": ClerkErrors.self]
+        )).data
     }
 }

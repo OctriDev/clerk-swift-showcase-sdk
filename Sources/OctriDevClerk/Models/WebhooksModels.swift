@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Webhooks domain models
+/// Webhooks domain models
 /// Typed representation of the `SvixURL` API schema.
 public struct SvixURL: Codable, SdkResource {
     /// Required `string` value serialized in the `svix_url` wire field.
@@ -14,21 +14,27 @@ public struct SvixURL: Codable, SdkResource {
         case svixUrl = "svix_url"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension SvixURL {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.svixUrl) else {
-            throw SdkValidationError(field: "svix_url", code: "required", message: "Validation failed for 'svix_url': value is required")
-        }
-        self.svixUrl = try container.sdkDecodeRequired(.svixUrl)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension SvixURL {
-    public init(svixUrl: String) {
+public extension SvixURL {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.svixUrl) else {
+            throw SdkValidationError(
+                field: "svix_url",
+                code: "required",
+                message: "Validation failed for 'svix_url': value is required"
+            )
+        }
+        svixUrl = try container.sdkDecodeRequired(.svixUrl)
+    }
+}
+
+public extension SvixURL {
+    init(svixUrl: String) {
         self.svixUrl = svixUrl
     }
 }

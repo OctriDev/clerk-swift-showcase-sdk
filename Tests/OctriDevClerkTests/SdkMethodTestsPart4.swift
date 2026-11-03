@@ -38,11 +38,11 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizationDomains.create(
-            organizationId: decoded("\"organization-1\""),
-            name: decoded("\"Example Name\""),
-            enrollmentMode: decoded("\"enrollment_mode\""),
-            verified: decoded("false")
-        )
+                organizationId: decoded("\"organization-1\""),
+                name: decoded("\"Example Name\""),
+                enrollmentMode: decoded("\"enrollment_mode\""),
+                verified: decoded("false")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -63,7 +63,11 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try OrganizationInvitationsMethods.CreateOrganizationInvitationOptions(organizationId: decoded("\"organization-1\""), emailAddress: decoded("\"user@example.com\""), role: decoded("\"role\""))
+        var options = try OrganizationInvitationsMethods.CreateOrganizationInvitationOptions(
+            organizationId: decoded("\"organization-1\""),
+            emailAddress: decoded("\"user@example.com\""),
+            role: decoded("\"role\"")
+        )
         options.inviterUserId = try decoded("\"inviter_user-1\"")
         options.publicMetadata = try decoded("{}")
         options.privateMetadata = try decoded("{}")
@@ -88,7 +92,11 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try OrganizationInvitationsMethods.CreateOrganizationInvitationOptions(organizationId: decoded("\"organization-1\""), emailAddress: decoded("\"user@example.com\""), role: decoded("\"role\""))
+        var options = try OrganizationInvitationsMethods.CreateOrganizationInvitationOptions(
+            organizationId: decoded("\"organization-1\""),
+            emailAddress: decoded("\"user@example.com\""),
+            role: decoded("\"role\"")
+        )
         options.inviterUserId = try decoded("\"inviter_user-1\"")
         options.publicMetadata = try decoded("{}")
         options.privateMetadata = try decoded("{}")
@@ -101,8 +109,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizationInvitations.create(
-            options: options
-        )
+                options: options
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -118,7 +126,8 @@ extension SdkMethodTests {
         XCTAssertTrue(true)
     }
 
-    func testCreateOrganizationInvitationBulkCreateOrganizationInvitationBulkReachesMockAndDecodesResponse() async throws {
+    func testCreateOrganizationInvitationBulkCreateOrganizationInvitationBulkReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient() else {
             return
         }
@@ -137,7 +146,8 @@ extension SdkMethodTests {
         )
     }
 
-    func testCreateOrganizationInvitationBulkCreateOrganizationInvitationBulk400ReachesMockAndDecodesResponse() async throws {
+    func testCreateOrganizationInvitationBulkCreateOrganizationInvitationBulk400ReachesMockAndDecodesResponse(
+    ) async throws {
         guard let client = configuredClient(statusPrefix: "/__mockStatus/400") else {
             return
         }
@@ -148,9 +158,9 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizationInvitations.createBulk(
-            organizationId: decoded("\"organization-1\""),
-            body: decoded(sdkMethodFixture71Value1)
-        )
+                organizationId: decoded("\"organization-1\""),
+                body: decoded(sdkMethodFixture71Value1)
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -199,12 +209,12 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizationMemberships.create(
-            organizationId: decoded("\"organization-1\""),
-            userId: decoded("\"user-1\""),
-            role: decoded("\"role\""),
-            publicMetadata: decoded("{}"),
-            privateMetadata: decoded("{}")
-        )
+                organizationId: decoded("\"organization-1\""),
+                userId: decoded("\"user-1\""),
+                role: decoded("\"role\""),
+                publicMetadata: decoded("{}"),
+                privateMetadata: decoded("{}")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -251,10 +261,10 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizationPermissions.create(
-            name: decoded("\"Example Name\""),
-            key: decoded("\"key\""),
-            description: decoded("\"example text\"")
-        )
+                name: decoded("\"Example Name\""),
+                key: decoded("\"key\""),
+                description: decoded("\"example text\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -303,12 +313,12 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.organizationRoles.create(
-            name: decoded("\"Example Name\""),
-            key: decoded("\"key\""),
-            description: decoded("\"example text\""),
-            permissions: decoded("[\"permissions\"]"),
-            includeInInitialRoleSet: decoded("false")
-        )
+                name: decoded("\"Example Name\""),
+                key: decoded("\"key\""),
+                description: decoded("\"example text\""),
+                permissions: decoded("[\"permissions\"]"),
+                includeInInitialRoleSet: decoded("false")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -357,12 +367,12 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.phoneNumbers.create(
-            userId: decoded("\"user-1\""),
-            phoneNumber: decoded("\"+15555550100\""),
-            verified: decoded("false"),
-            primary: decoded("false"),
-            reservedForSecondFactor: decoded("false")
-        )
+                userId: decoded("\"user-1\""),
+                phoneNumber: decoded("\"+15555550100\""),
+                verified: decoded("false"),
+                primary: decoded("false"),
+                reservedForSecondFactor: decoded("false")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -407,8 +417,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.redirectUrls.create(
-            url: decoded("\"https://example.com\"")
-        )
+                url: decoded("\"https://example.com\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -459,14 +469,14 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.roleSets.create(
-            name: decoded("\"Example Name\""),
-            defaultRoleKey: decoded("\"default_role_key\""),
-            creatorRoleKey: decoded("\"creator_role_key\""),
-            roles: decoded("[\"roles\"]"),
-            key: decoded("\"key\""),
-            description: decoded("\"example text\""),
-            type: decoded("\"initial\"")
-        )
+                name: decoded("\"Example Name\""),
+                defaultRoleKey: decoded("\"default_role_key\""),
+                creatorRoleKey: decoded("\"creator_role_key\""),
+                roles: decoded("[\"roles\"]"),
+                key: decoded("\"key\""),
+                description: decoded("\"example text\""),
+                type: decoded("\"initial\"")
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 400)
@@ -487,7 +497,10 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try SamlConnectionsMethods.CreateSAMLConnectionOptions(name: decoded("\"Example Name\""), provider: decoded("\"saml_custom\""))
+        var options = try SamlConnectionsMethods.CreateSAMLConnectionOptions(
+            name: decoded("\"Example Name\""),
+            provider: decoded("\"saml_custom\"")
+        )
         options.domain = try decoded("\"domain\"")
         options.domains = try decoded("[\"domains\"]")
         options.idpEntityId = try decoded("\"idp_entity-1\"")
@@ -518,7 +531,10 @@ extension SdkMethodTests {
             return
         }
         _ = client
-        var options = try SamlConnectionsMethods.CreateSAMLConnectionOptions(name: decoded("\"Example Name\""), provider: decoded("\"saml_custom\""))
+        var options = try SamlConnectionsMethods.CreateSAMLConnectionOptions(
+            name: decoded("\"Example Name\""),
+            provider: decoded("\"saml_custom\"")
+        )
         options.domain = try decoded("\"domain\"")
         options.domains = try decoded("[\"domains\"]")
         options.idpEntityId = try decoded("\"idp_entity-1\"")
@@ -537,8 +553,8 @@ extension SdkMethodTests {
         )
         do {
             _ = try await client.samlConnections.create(
-            options: options
-        )
+                options: options
+            )
             XCTFail("did not raise its declared error")
         } catch let error as SdkHttpError {
             XCTAssertEqual(error.statusCode, 402)

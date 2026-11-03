@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Billing domain models
+/// Billing domain models
 /// Typed representation of the `ApplyCommerceDiscountRequest` API schema.
 public struct ApplyCommerceDiscountRequest: Codable {
     /// The ID of the discount to apply to the subscription item.
@@ -13,21 +13,27 @@ public struct ApplyCommerceDiscountRequest: Codable {
         case discountId = "discount_id"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ApplyCommerceDiscountRequest {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.discountId) else {
-            throw SdkValidationError(field: "discount_id", code: "required", message: "Validation failed for 'discount_id': value is required")
-        }
-        self.discountId = try container.sdkDecodeRequired(.discountId)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ApplyCommerceDiscountRequest {
-    public init(discountId: String) {
+public extension ApplyCommerceDiscountRequest {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.discountId) else {
+            throw SdkValidationError(
+                field: "discount_id",
+                code: "required",
+                message: "Validation failed for 'discount_id': value is required"
+            )
+        }
+        discountId = try container.sdkDecodeRequired(.discountId)
+    }
+}
+
+public extension ApplyCommerceDiscountRequest {
+    init(discountId: String) {
         self.discountId = discountId
     }
 }

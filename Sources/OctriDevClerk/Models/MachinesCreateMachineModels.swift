@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Machines domain models
+/// Machines domain models
 public struct MachineCreatedVariant1: Codable {
     /// The secret key for the machine, only returned upon creation.
     public var secretKey: String
@@ -12,21 +12,27 @@ public struct MachineCreatedVariant1: Codable {
         case secretKey = "secret_key"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension MachineCreatedVariant1 {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.secretKey) else {
-            throw SdkValidationError(field: "secret_key", code: "required", message: "Validation failed for 'secret_key': value is required")
-        }
-        self.secretKey = try container.sdkDecodeRequired(.secretKey)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension MachineCreatedVariant1 {
-    public init(secretKey: String) {
+public extension MachineCreatedVariant1 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.secretKey) else {
+            throw SdkValidationError(
+                field: "secret_key",
+                code: "required",
+                message: "Validation failed for 'secret_key': value is required"
+            )
+        }
+        secretKey = try container.sdkDecodeRequired(.secretKey)
+    }
+}
+
+public extension MachineCreatedVariant1 {
+    init(secretKey: String) {
         self.secretKey = secretKey
     }
 }
@@ -64,38 +70,66 @@ public struct MachineCreated: Codable {
         case defaultTokenTtl = "default_token_ttl"
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension MachineCreated {
-    public init(from decoder: Decoder) throws {
+public extension MachineCreated {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.instanceId = try container.sdkDecodeRequired(.instanceId)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.scopedMachines = try container.sdkDecodeRequired(.scopedMachines)
-        self.secretKey = try container.sdkDecodeRequired(.secretKey)
-        self.defaultTokenTtl = try container.sdkDecodeIfPresent(.defaultTokenTtl)
-            try validateLength("name", self.name, min: 1, max: 255)
-        if let value = self.defaultTokenTtl {
-            try validateRange("default_token_ttl", Double(value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        name = try container.sdkDecodeRequired(.name)
+        instanceId = try container.sdkDecodeRequired(.instanceId)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        scopedMachines = try container.sdkDecodeRequired(.scopedMachines)
+        secretKey = try container.sdkDecodeRequired(.secretKey)
+        defaultTokenTtl = try container.sdkDecodeIfPresent(.defaultTokenTtl)
+        try validateLength("name", name, min: 1, max: 255)
+        if let value = defaultTokenTtl {
+            try validateRange(
+                "default_token_ttl",
+                Double(value),
+                min: 1,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }
 
-extension MachineCreated {
-    public init(object: MachineWithoutScopedMachinesObject, id: String, name: String, instanceId: String, createdAt: Int, updatedAt: Int, scopedMachines: [MachineWithoutScopedMachines], secretKey: String, defaultTokenTtl: Int? = nil) throws {
+public extension MachineCreated {
+    init(
+        object: MachineWithoutScopedMachinesObject,
+        id: String,
+        name: String,
+        instanceId: String,
+        createdAt: Int,
+        updatedAt: Int,
+        scopedMachines: [MachineWithoutScopedMachines],
+        secretKey: String,
+        defaultTokenTtl: Int? = nil
+    ) throws {
         (self.object, self.id) = (object, id)
         (self.name, self.instanceId) = (name, instanceId)
         (self.createdAt, self.updatedAt) = (createdAt, updatedAt)
         (self.scopedMachines, self.secretKey) = (scopedMachines, secretKey)
         self.defaultTokenTtl = defaultTokenTtl
-            try validateLength("name", self.name, min: 1, max: 255)
+        try validateLength("name", self.name, min: 1, max: 255)
         if let value = self.defaultTokenTtl {
-            try validateRange("default_token_ttl", Double(value), min: 1, max: nil, exclusiveMin: nil, exclusiveMax: nil, multipleOf: nil)
+            try validateRange(
+                "default_token_ttl",
+                Double(value),
+                min: 1,
+                max: nil,
+                exclusiveMin: nil,
+                exclusiveMax: nil,
+                multipleOf: nil
+            )
         }
     }
 }

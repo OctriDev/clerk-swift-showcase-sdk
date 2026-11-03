@@ -7,7 +7,7 @@ import Foundation
     import FoundationNetworking
 #endif
 
-// Canonical agentTasks operation model declarations
+/// Canonical agentTasks operation model declarations
 /// Identifies the user on whose behalf the agent task is created. Exactly one of user_id or identifier must be
 /// provided.
 public struct CreateAgentTaskRequestBodyOnBehalfOf: Codable {
@@ -22,20 +22,20 @@ public struct CreateAgentTaskRequestBodyOnBehalfOf: Codable {
     }
 
     init() {
-        (self.userId, self.identifier) = (nil, nil)
+        (userId, identifier) = (nil, nil)
     }
 }
 
-extension CreateAgentTaskRequestBodyOnBehalfOf {
-    public init(from decoder: Decoder) throws {
+public extension CreateAgentTaskRequestBodyOnBehalfOf {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.userId = try container.sdkDecodeIfPresent(.userId)
-        self.identifier = try container.sdkDecodeIfPresent(.identifier)
+        userId = try container.sdkDecodeIfPresent(.userId)
+        identifier = try container.sdkDecodeIfPresent(.identifier)
     }
 }
 
-extension CreateAgentTaskRequestBodyOnBehalfOf {
-    public init(userId: String? = nil, identifier: String? = nil) {
+public extension CreateAgentTaskRequestBodyOnBehalfOf {
+    init(userId: String? = nil, identifier: String? = nil) {
         self.init()
         (self.userId, self.identifier) = (userId, identifier)
     }

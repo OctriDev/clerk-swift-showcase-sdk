@@ -9,59 +9,135 @@ public class MachinesNamespace {
         self.config = config
     }
 
-/// This request returns the list of machines for an instance. The machines are ordered by descending creation date (i.e. most recent machines will be returned first)
-    public func list(limit: Int? = nil, offset: Int? = nil, query: String? = nil, orderBy: String? = nil, requestOptions: RequestOptions? = nil) async throws -> MachineList {
-        return try await MachinesMethods.listMachines(config: config, limit: limit, offset: offset, query: query, orderBy: orderBy, requestOptions: requestOptions)
+    /// This request returns the list of machines for an instance. The machines are ordered by descending creation date
+    /// (i.e. most recent machines will be returned first)
+    public func list(
+        limit: Int? = nil,
+        offset: Int? = nil,
+        query: String? = nil,
+        orderBy: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> MachineList {
+        try await MachinesMethods.listMachines(
+            config: config,
+            limit: limit,
+            offset: offset,
+            query: query,
+            orderBy: orderBy,
+            requestOptions: requestOptions
+        )
     }
 
-/// Creates a new machine. Provide a `name` and optionally configure its machine scopes and default token TTL. The response includes the machine's secret key, so store it securely.
+    /// Creates a new machine. Provide a `name` and optionally configure its machine scopes and default token TTL. The
+    /// response includes the machine's secret key, so store it securely.
     ///
     /// Creates a new machine.
-    public func create(name: String, scopedMachines: [String]? = nil, defaultTokenTtl: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> MachineCreated {
-        return try await MachinesMethods.createMachine(config: config, name: name, scopedMachines: scopedMachines, defaultTokenTtl: defaultTokenTtl, requestOptions: requestOptions)
+    public func create(
+        name: String,
+        scopedMachines: [String]? = nil,
+        defaultTokenTtl: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> MachineCreated {
+        try await MachinesMethods.createMachine(
+            config: config,
+            name: name,
+            scopedMachines: scopedMachines,
+            defaultTokenTtl: defaultTokenTtl,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves the details of a machine. Use its `machine_id` to identify the machine whose configuration and scopes you need to inspect.
+    /// Retrieves the details of a machine. Use its `machine_id` to identify the machine whose configuration and scopes
+    /// you need to inspect.
     ///
     /// Returns the details of a machine.
     public func get(machineId: String, requestOptions: RequestOptions? = nil) async throws -> Machine {
-        return try await MachinesMethods.getMachine(config: config, machineId: machineId, requestOptions: requestOptions)
+        try await MachinesMethods.getMachine(config: config, machineId: machineId, requestOptions: requestOptions)
     }
 
-/// Updates an existing machine. Only the provided fields will be updated.
-    public func update(machineId: String, name: String? = nil, defaultTokenTtl: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> Machine {
-        return try await MachinesMethods.updateMachine(config: config, machineId: machineId, name: name, defaultTokenTtl: defaultTokenTtl, requestOptions: requestOptions)
+    /// Updates an existing machine. Only the provided fields will be updated.
+    public func update(
+        machineId: String,
+        name: String? = nil,
+        defaultTokenTtl: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Machine {
+        try await MachinesMethods.updateMachine(
+            config: config,
+            machineId: machineId,
+            name: name,
+            defaultTokenTtl: defaultTokenTtl,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes a machine. Use its `machine_id` to identify the machine you want to remove. The response confirms deletion with the machine ID and a `deleted` value.
+    /// Deletes a machine. Use its `machine_id` to identify the machine you want to remove. The response confirms
+    /// deletion with the machine ID and a `deleted` value.
     ///
     /// Deletes a machine.
     public func delete(machineId: String, requestOptions: RequestOptions? = nil) async throws -> MachineDeleted {
-        return try await MachinesMethods.deleteMachine(config: config, machineId: machineId, requestOptions: requestOptions)
+        try await MachinesMethods.deleteMachine(config: config, machineId: machineId, requestOptions: requestOptions)
     }
 
-/// Retrieves the secret key for a machine. Use the `machine_id` to identify which machine's key you need.
+    /// Retrieves the secret key for a machine. Use the `machine_id` to identify which machine's key you need.
     ///
     /// Returns the secret key for a machine.
-    public func getSecretKey(machineId: String, requestOptions: RequestOptions? = nil) async throws -> MachineSecretKey {
-        return try await MachinesMethods.getMachineSecretKey(config: config, machineId: machineId, requestOptions: requestOptions)
+    public func getSecretKey(
+        machineId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> MachineSecretKey {
+        try await MachinesMethods.getMachineSecretKey(
+            config: config,
+            machineId: machineId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Rotates the machine's secret key. When the secret key is rotated, make sure to update it in your machine/application. The previous secret key will remain valid for the duration specified by the previous_token_ttl parameter.
-    public func rotateSecretKey(machineId: String, previousTokenTtl: Int, requestOptions: RequestOptions? = nil) async throws -> MachineSecretKey {
-        return try await MachinesMethods.rotateMachineSecretKey(config: config, machineId: machineId, previousTokenTtl: previousTokenTtl, requestOptions: requestOptions)
+    /// Rotates the machine's secret key. When the secret key is rotated, make sure to update it in your
+    /// machine/application. The previous secret key will remain valid for the duration specified by the
+    /// previous_token_ttl parameter.
+    public func rotateSecretKey(
+        machineId: String,
+        previousTokenTtl: Int,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> MachineSecretKey {
+        try await MachinesMethods.rotateMachineSecretKey(
+            config: config,
+            machineId: machineId,
+            previousTokenTtl: previousTokenTtl,
+            requestOptions: requestOptions
+        )
     }
 
-/// Creates a new machine scope, allowing the specified machine to access another machine. Maximum of 150 scopes per machine.
-    public func createScope(machineId: String, toMachineId: String, requestOptions: RequestOptions? = nil) async throws -> MachineScope {
-        return try await MachinesMethods.createMachineScope(config: config, machineId: machineId, toMachineId: toMachineId, requestOptions: requestOptions)
+    /// Creates a new machine scope, allowing the specified machine to access another machine. Maximum of 150 scopes per
+    /// machine.
+    public func createScope(
+        machineId: String,
+        toMachineId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> MachineScope {
+        try await MachinesMethods.createMachineScope(
+            config: config,
+            machineId: machineId,
+            toMachineId: toMachineId,
+            requestOptions: requestOptions
+        )
     }
 }
 
-extension MachinesNamespace {
-/// Deletes a machine scope, removing access from one machine to another.
-    public func deleteScope(machineId: String, otherMachineId: String, requestOptions: RequestOptions? = nil) async throws -> MachineScopeDeleted {
-        return try await MachinesMethods.deleteMachineScope(config: config, machineId: machineId, otherMachineId: otherMachineId, requestOptions: requestOptions)
+public extension MachinesNamespace {
+    /// Deletes a machine scope, removing access from one machine to another.
+    func deleteScope(
+        machineId: String,
+        otherMachineId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> MachineScopeDeleted {
+        try await MachinesMethods.deleteMachineScope(
+            config: config,
+            machineId: machineId,
+            otherMachineId: otherMachineId,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -71,70 +147,203 @@ public class OrganizationsNamespace {
         self.config = config
     }
 
-/// This request returns the list of organizations for an instance. Results can be paginated using the optional `limit` and `offset` query parameters. The organizations are ordered by descending creation date. Most recent organizations will be returned first.
-    public func list(options: OrganizationsMethods.ListOrganizationsOptions, requestOptions: RequestOptions? = nil) async throws -> Organizations {
-        return try await OrganizationsMethods.listOrganizations(config: config, options: options, requestOptions: requestOptions)
+    /// This request returns the list of organizations for an instance. Results can be paginated using the optional
+    /// `limit` and `offset` query parameters. The organizations are ordered by descending creation date. Most recent
+    /// organizations will be returned first.
+    public func list(
+        options: OrganizationsMethods.ListOrganizationsOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Organizations {
+        try await OrganizationsMethods.listOrganizations(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Creates a new organization with the given name for an instance. You can specify an optional slug for the new organization. If provided, the organization slug can contain only lowercase alphanumeric characters (letters and digits) and the dash "-". Organization slugs must be unique for the instance. You can provide additional metadata for the organization and set any custom attribute you want. Organizations support private and public metadata. Private metadata can only be accessed from the Backend API. Public metadata can be accessed from the Backend API, and are read-only from the Frontend API. The `created_by` user will see this as their [active organization](https://clerk.com/docs/organizations/overview#active-organization) the next time they create a session, presuming they don't explicitly set a different organization as active before then.
-    public func create(options: OrganizationsMethods.CreateOrganizationOptions, requestOptions: RequestOptions? = nil) async throws -> Organization {
-        return try await OrganizationsMethods.createOrganization(config: config, options: options, requestOptions: requestOptions)
+    /// Creates a new organization with the given name for an instance. You can specify an optional slug for the new
+    /// organization. If provided, the organization slug can contain only lowercase alphanumeric characters (letters and
+    /// digits) and the dash "-". Organization slugs must be unique for the instance. You can provide additional
+    /// metadata for the organization and set any custom attribute you want. Organizations support private and public
+    /// metadata. Private metadata can only be accessed from the Backend API. Public metadata can be accessed from the
+    /// Backend API, and are read-only from the Frontend API. The `created_by` user will see this as their [active
+    /// organization](https://clerk.com/docs/organizations/overview#active-organization) the next time they create a
+    /// session, presuming they don't explicitly set a different organization as active before then.
+    public func create(
+        options: OrganizationsMethods.CreateOrganizationOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Organization {
+        try await OrganizationsMethods.createOrganization(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Fetches the organization whose ID or slug matches the provided `id_or_slug` URL query parameter.
-    public func get(organizationId: String, includeMembersCount: Bool? = nil, includeMissingMemberWithElevatedPermissions: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> Organization {
-        return try await OrganizationsMethods.getOrganization(config: config, organizationId: organizationId, includeMembersCount: includeMembersCount, includeMissingMemberWithElevatedPermissions: includeMissingMemberWithElevatedPermissions, requestOptions: requestOptions)
+    /// Fetches the organization whose ID or slug matches the provided `id_or_slug` URL query parameter.
+    public func get(
+        organizationId: String,
+        includeMembersCount: Bool? = nil,
+        includeMissingMemberWithElevatedPermissions: Bool? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Organization {
+        try await OrganizationsMethods.getOrganization(
+            config: config,
+            organizationId: organizationId,
+            includeMembersCount: includeMembersCount,
+            includeMissingMemberWithElevatedPermissions: includeMissingMemberWithElevatedPermissions,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates an existing organization. As of API version 2026-05-12, this endpoint no longer accepts `public_metadata` or `private_metadata`. Use `PATCH /v1/organizations/{organization_id}/metadata` to merge updates into existing metadata, or `PUT /v1/organizations/{organization_id}/metadata` to replace a metadata field entirely.
-    public func update(options: OrganizationsMethods.UpdateOrganizationOptions, requestOptions: RequestOptions? = nil) async throws -> Organization {
-        return try await OrganizationsMethods.updateOrganization(config: config, options: options, requestOptions: requestOptions)
+    /// Updates an existing organization. As of API version 2026-05-12, this endpoint no longer accepts
+    /// `public_metadata` or `private_metadata`. Use `PATCH /v1/organizations/{organization_id}/metadata` to merge
+    /// updates into existing metadata, or `PUT /v1/organizations/{organization_id}/metadata` to replace a metadata
+    /// field entirely.
+    public func update(
+        options: OrganizationsMethods.UpdateOrganizationOptions,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Organization {
+        try await OrganizationsMethods.updateOrganization(
+            config: config,
+            options: options,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes the given organization. Please note that deleting an organization will also delete all memberships and invitations. This is not reversible. After the organization is deleted, any user's active sessions that contain the deleted organization will be cleared.
+    /// Deletes the given organization. Please note that deleting an organization will also delete all memberships and
+    /// invitations. This is not reversible. After the organization is deleted, any user's active sessions that contain
+    /// the deleted organization will be cleared.
     public func delete(organizationId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try await OrganizationsMethods.deleteOrganization(config: config, organizationId: organizationId, requestOptions: requestOptions)
+        try await OrganizationsMethods.deleteOrganization(
+            config: config,
+            organizationId: organizationId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Update organization metadata attributes by merging existing values with the provided parameters. Metadata values will be updated via a deep merge. Deep meaning that any nested JSON objects will be merged as well. You can remove metadata keys at any level by setting their value to `null`.
-    public func mergeMetadata(organizationId: String, publicMetadata: [String: JSONValue]? = nil, privateMetadata: [String: JSONValue]? = nil, requestOptions: RequestOptions? = nil) async throws -> Organization {
-        return try await OrganizationsMethods.mergeOrganizationMetadata(config: config, organizationId: organizationId, publicMetadata: publicMetadata, privateMetadata: privateMetadata, requestOptions: requestOptions)
+    /// Update organization metadata attributes by merging existing values with the provided parameters. Metadata values
+    /// will be updated via a deep merge. Deep meaning that any nested JSON objects will be merged as well. You can
+    /// remove metadata keys at any level by setting their value to `null`.
+    public func mergeMetadata(
+        organizationId: String,
+        publicMetadata: [String: JSONValue]? = nil,
+        privateMetadata: [String: JSONValue]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Organization {
+        try await OrganizationsMethods.mergeOrganizationMetadata(
+            config: config,
+            organizationId: organizationId,
+            publicMetadata: publicMetadata,
+            privateMetadata: privateMetadata,
+            requestOptions: requestOptions
+        )
     }
 
-/// Replace an organization's metadata attributes with the provided values. Unlike `PATCH /v1/organizations/{organization_id}/metadata` (merge semantics), this endpoint replaces the supplied metadata fields entirely — the prior contents of each supplied field are discarded. Fields omitted from the request body are left unchanged. Prefer the `PATCH` endpoint for partial updates. Use `PUT` only when you explicitly intend to overwrite a metadata field wholesale.
-    public func replaceMetadata(organizationId: String, publicMetadata: [String: JSONValue]? = nil, privateMetadata: [String: JSONValue]? = nil, requestOptions: RequestOptions? = nil) async throws -> Organization {
-        return try await OrganizationsMethods.replaceOrganizationMetadata(config: config, organizationId: organizationId, publicMetadata: publicMetadata, privateMetadata: privateMetadata, requestOptions: requestOptions)
+    /// Replace an organization's metadata attributes with the provided values. Unlike `PATCH
+    /// /v1/organizations/{organization_id}/metadata` (merge semantics), this endpoint replaces the supplied metadata
+    /// fields entirely — the prior contents of each supplied field are discarded. Fields omitted from the request body
+    /// are left unchanged. Prefer the `PATCH` endpoint for partial updates. Use `PUT` only when you explicitly intend
+    /// to overwrite a metadata field wholesale.
+    public func replaceMetadata(
+        organizationId: String,
+        publicMetadata: [String: JSONValue]? = nil,
+        privateMetadata: [String: JSONValue]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Organization {
+        try await OrganizationsMethods.replaceOrganizationMetadata(
+            config: config,
+            organizationId: organizationId,
+            publicMetadata: publicMetadata,
+            privateMetadata: privateMetadata,
+            requestOptions: requestOptions
+        )
     }
 
-/// Uploads an image file as the logo for an organization. Send the request as `multipart/form-data`; files must be no larger than 10 MB and use a supported image content type. A 200 response returns the organization with its logo URL.
+    /// Uploads an image file as the logo for an organization. Send the request as `multipart/form-data`; files must be
+    /// no larger than 10 MB and use a supported image content type. A 200 response returns the organization with its
+    /// logo URL.
     ///
-    /// Set or replace an organization's logo, by uploading an image file. This endpoint uses the `multipart/form-data` request content type and accepts a file of image type. The file size cannot exceed 10MB. Only the following file content types are supported: `image/jpeg`, `image/png`, `image/gif`, `image/webp`.
-    public func uploadLogo(organizationId: String, file: SdkUploadFile, uploaderUserId: String? = nil, requestOptions: RequestOptions? = nil) async throws -> OrganizationWithLogo {
-        return try await OrganizationsMethods.uploadOrganizationLogo(config: config, organizationId: organizationId, file: file, uploaderUserId: uploaderUserId, requestOptions: requestOptions)
+    /// Set or replace an organization's logo, by uploading an image file. This endpoint uses the `multipart/form-data`
+    /// request content type and accepts a file of image type. The file size cannot exceed 10MB. Only the following file
+    /// content types are supported: `image/jpeg`, `image/png`, `image/gif`, `image/webp`.
+    public func uploadLogo(
+        organizationId: String,
+        file: SdkUploadFile,
+        uploaderUserId: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> OrganizationWithLogo {
+        try await OrganizationsMethods.uploadOrganizationLogo(
+            config: config,
+            organizationId: organizationId,
+            file: file,
+            uploaderUserId: uploaderUserId,
+            requestOptions: requestOptions
+        )
     }
 }
 
-extension OrganizationsNamespace {
-/// Deletes the logo associated with an organization. Use `organization_id` to identify the organization whose logo you want to remove. A 200 response returns the organization with its updated logo-related fields.
+public extension OrganizationsNamespace {
+    /// Deletes the logo associated with an organization. Use `organization_id` to identify the organization whose logo
+    /// you want to remove. A 200 response returns the organization with its updated logo-related fields.
     ///
     /// Delete the organization's logo.
-    public func deleteLogo(organizationId: String, requestOptions: RequestOptions? = nil) async throws -> Organization {
-        return try await OrganizationsMethods.deleteOrganizationLogo(config: config, organizationId: organizationId, requestOptions: requestOptions)
+    func deleteLogo(organizationId: String, requestOptions: RequestOptions? = nil) async throws -> Organization {
+        try await OrganizationsMethods.deleteOrganizationLogo(
+            config: config,
+            organizationId: organizationId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves the billing subscription for the specified organization. This includes subscription details, active plans, billing information, and payment status. The subscription contains subscription items which represent the individual plans the organization is subscribed to.
-    public func getBillingSubscription(organizationId: String, requestOptions: RequestOptions? = nil) async throws -> CommerceSubscription {
-        return try await OrganizationsMethods.getOrganizationBillingSubscription(config: config, organizationId: organizationId, requestOptions: requestOptions)
+    /// Retrieves the billing subscription for the specified organization. This includes subscription details, active
+    /// plans, billing information, and payment status. The subscription contains subscription items which represent the
+    /// individual plans the organization is subscribed to.
+    func getBillingSubscription(
+        organizationId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CommerceSubscription {
+        try await OrganizationsMethods.getOrganizationBillingSubscription(
+            config: config,
+            organizationId: organizationId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Retrieves the current credit balance for the specified organization. Credits can be applied during checkout to reduce the charge or automatically applied to upcoming recurring charges.
-    public func getBillingCreditBalance(organizationId: String, requestOptions: RequestOptions? = nil) async throws -> CommerceCreditBalanceResponse {
-        return try await OrganizationsMethods.getOrganizationBillingCreditBalance(config: config, organizationId: organizationId, requestOptions: requestOptions)
+    /// Retrieves the current credit balance for the specified organization. Credits can be applied during checkout to
+    /// reduce the charge or automatically applied to upcoming recurring charges.
+    func getBillingCreditBalance(
+        organizationId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CommerceCreditBalanceResponse {
+        try await OrganizationsMethods.getOrganizationBillingCreditBalance(
+            config: config,
+            organizationId: organizationId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Increases or decreases the credit balance for the specified organization. Each adjustment is recorded as a ledger entry. The idempotency_key parameter ensures that duplicate requests are safely handled.
-    public func adjustBillingCreditBalance(organizationId: String, amount: Int, action: AdjustCreditBalanceRequestAction, idempotencyKey: String, currency: String? = nil, note: String? = nil, requestOptions: RequestOptions? = nil) async throws -> CommerceCreditLedgerResponse {
-        return try await OrganizationsMethods.adjustOrganizationBillingCreditBalance(config: config, organizationId: organizationId, amount: amount, action: action, idempotencyKey: idempotencyKey, currency: currency, note: note, requestOptions: requestOptions)
+    /// Increases or decreases the credit balance for the specified organization. Each adjustment is recorded as a
+    /// ledger entry. The idempotency_key parameter ensures that duplicate requests are safely handled.
+    func adjustBillingCreditBalance(
+        organizationId: String,
+        amount: Int,
+        action: AdjustCreditBalanceRequestAction,
+        idempotencyKey: String,
+        currency: String? = nil,
+        note: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CommerceCreditLedgerResponse {
+        try await OrganizationsMethods.adjustOrganizationBillingCreditBalance(
+            config: config,
+            organizationId: organizationId,
+            amount: amount,
+            action: action,
+            idempotencyKey: idempotencyKey,
+            currency: currency,
+            note: note,
+            requestOptions: requestOptions
+        )
     }
 }
 
@@ -144,42 +353,126 @@ public class OrganizationRolesNamespace {
         self.config = config
     }
 
-/// This request returns the list of organization roles for the instance. Results can be paginated using the optional `limit` and `offset` query parameters. The organization roles are ordered by descending creation date. Most recent roles will be returned first.
-    public func list(query: String? = nil, orderBy: String? = nil, limit: Int? = nil, offset: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> Roles {
-        return try await OrganizationRolesMethods.listOrganizationRoles(config: config, query: query, orderBy: orderBy, limit: limit, offset: offset, requestOptions: requestOptions)
+    /// This request returns the list of organization roles for the instance. Results can be paginated using the
+    /// optional `limit` and `offset` query parameters. The organization roles are ordered by descending creation date.
+    /// Most recent roles will be returned first.
+    public func list(
+        query: String? = nil,
+        orderBy: String? = nil,
+        limit: Int? = nil,
+        offset: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Roles {
+        try await OrganizationRolesMethods.listOrganizationRoles(
+            config: config,
+            query: query,
+            orderBy: orderBy,
+            limit: limit,
+            offset: offset,
+            requestOptions: requestOptions
+        )
     }
 
-/// Creates a new organization role with the given name and permissions for an instance. The key must be unique for the instance and start with the 'org:' prefix, followed by lowercase alphanumeric characters and underscores only. You can optionally provide a description for the role and specify whether it should be included in the initial role set. Organization roles support permissions that can be assigned to control access within the organization.
-    public func create(name: String, key: String, description: SdkOptional<String>? = nil, permissions: SdkOptional<[String]>? = nil, includeInInitialRoleSet: SdkOptional<Bool>? = nil, requestOptions: RequestOptions? = nil) async throws -> Role {
-        return try await OrganizationRolesMethods.createOrganizationRole(config: config, name: name, key: key, description: description, permissions: permissions, includeInInitialRoleSet: includeInInitialRoleSet, requestOptions: requestOptions)
+    /// Creates a new organization role with the given name and permissions for an instance. The key must be unique for
+    /// the instance and start with the 'org:' prefix, followed by lowercase alphanumeric characters and underscores
+    /// only. You can optionally provide a description for the role and specify whether it should be included in the
+    /// initial role set. Organization roles support permissions that can be assigned to control access within the
+    /// organization.
+    public func create(
+        name: String,
+        key: String,
+        description: SdkOptional<String>? = nil,
+        permissions: SdkOptional<[String]>? = nil,
+        includeInInitialRoleSet: SdkOptional<Bool>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Role {
+        try await OrganizationRolesMethods.createOrganizationRole(
+            config: config,
+            name: name,
+            key: key,
+            description: description,
+            permissions: permissions,
+            includeInInitialRoleSet: includeInInitialRoleSet,
+            requestOptions: requestOptions
+        )
     }
 
-/// Use this request to retrieve an existing organization role by its ID.
+    /// Use this request to retrieve an existing organization role by its ID.
     public func get(organizationRoleId: String, requestOptions: RequestOptions? = nil) async throws -> Role {
-        return try await OrganizationRolesMethods.getOrganizationRole(config: config, organizationRoleId: organizationRoleId, requestOptions: requestOptions)
+        try await OrganizationRolesMethods.getOrganizationRole(
+            config: config,
+            organizationRoleId: organizationRoleId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Updates an existing organization role. You can update the name, key, description, and permissions of the role. All parameters are optional - you can update only the fields you want to change. If the role is used as a creator role or domain default role, updating the key will cascade the update to the organization settings.
-    public func update(organizationRoleId: String, name: SdkOptional<String>? = nil, key: SdkOptional<String>? = nil, description: SdkOptional<String>? = nil, permissions: SdkOptional<[String]>? = nil, requestOptions: RequestOptions? = nil) async throws -> Role {
-        return try await OrganizationRolesMethods.updateOrganizationRole(config: config, organizationRoleId: organizationRoleId, name: name, key: key, description: description, permissions: permissions, requestOptions: requestOptions)
+    /// Updates an existing organization role. You can update the name, key, description, and permissions of the role.
+    /// All parameters are optional - you can update only the fields you want to change. If the role is used as a
+    /// creator role or domain default role, updating the key will cascade the update to the organization settings.
+    public func update(
+        organizationRoleId: String,
+        name: SdkOptional<String>? = nil,
+        key: SdkOptional<String>? = nil,
+        description: SdkOptional<String>? = nil,
+        permissions: SdkOptional<[String]>? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Role {
+        try await OrganizationRolesMethods.updateOrganizationRole(
+            config: config,
+            organizationRoleId: organizationRoleId,
+            name: name,
+            key: key,
+            description: description,
+            permissions: permissions,
+            requestOptions: requestOptions
+        )
     }
 
-/// Deletes the organization role. The role cannot be deleted if it is currently used as the default creator role, domain default role, assigned to any members, or exists in any invitations.
-    public func delete(organizationRoleId: String, requestOptions: RequestOptions? = nil) async throws -> DeletedObject {
-        return try await OrganizationRolesMethods.deleteOrganizationRole(config: config, organizationRoleId: organizationRoleId, requestOptions: requestOptions)
+    /// Deletes the organization role. The role cannot be deleted if it is currently used as the default creator role,
+    /// domain default role, assigned to any members, or exists in any invitations.
+    public func delete(
+        organizationRoleId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeletedObject {
+        try await OrganizationRolesMethods.deleteOrganizationRole(
+            config: config,
+            organizationRoleId: organizationRoleId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Assigns a permission to an organization role. Use the `organization_role_id` and `permission_id` path parameters to identify the role and permission to link. The response contains the updated role and its permissions.
+    /// Assigns a permission to an organization role. Use the `organization_role_id` and `permission_id` path parameters
+    /// to identify the role and permission to link. The response contains the updated role and its permissions.
     ///
     /// Assigns a permission to an organization role
-    public func assignPermissionTo(organizationRoleId: String, permissionId: String, requestOptions: RequestOptions? = nil) async throws -> Role {
-        return try await OrganizationRolesMethods.assignPermissionToOrganizationRole(config: config, organizationRoleId: organizationRoleId, permissionId: permissionId, requestOptions: requestOptions)
+    public func assignPermissionTo(
+        organizationRoleId: String,
+        permissionId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Role {
+        try await OrganizationRolesMethods.assignPermissionToOrganizationRole(
+            config: config,
+            organizationRoleId: organizationRoleId,
+            permissionId: permissionId,
+            requestOptions: requestOptions
+        )
     }
 
-/// Removes a permission from an organization role. Use the `organization_role_id` and `permission_id` path parameters to identify the role and permission to unlink. The response contains the updated role and its remaining permissions.
+    /// Removes a permission from an organization role. Use the `organization_role_id` and `permission_id` path
+    /// parameters to identify the role and permission to unlink. The response contains the updated role and its
+    /// remaining permissions.
     ///
     /// Removes a permission from an organization role
-    public func removePermissionFrom(organizationRoleId: String, permissionId: String, requestOptions: RequestOptions? = nil) async throws -> Role {
-        return try await OrganizationRolesMethods.removePermissionFromOrganizationRole(config: config, organizationRoleId: organizationRoleId, permissionId: permissionId, requestOptions: requestOptions)
+    public func removePermissionFrom(
+        organizationRoleId: String,
+        permissionId: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Role {
+        try await OrganizationRolesMethods.removePermissionFromOrganizationRole(
+            config: config,
+            organizationRoleId: organizationRoleId,
+            permissionId: permissionId,
+            requestOptions: requestOptions
+        )
     }
 }

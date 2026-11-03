@@ -3,9 +3,18 @@
 
 import Foundation
 
-// Users domain models
-extension VerificationWeb3 {
-    public init(status: VerificationWeb3Status, strategy: VerificationWeb3Strategy, attempts: Int?, expireAt: Int?, object: VerificationWeb3Object? = nil, nonce: String? = nil, message: String? = nil, verifiedAtClient: String? = nil) throws {
+/// Users domain models
+public extension VerificationWeb3 {
+    init(
+        status: VerificationWeb3Status,
+        strategy: VerificationWeb3Strategy,
+        attempts: Int?,
+        expireAt: Int?,
+        object: VerificationWeb3Object? = nil,
+        nonce: String? = nil,
+        message: String? = nil,
+        verifiedAtClient: String? = nil
+    ) throws {
         (self.status, self.strategy) = (status, strategy)
         (self.attempts, self.expireAt) = (attempts, expireAt)
         (self.object, self.nonce) = (object, nonce)
@@ -58,47 +67,86 @@ public struct SAMLAccount: Codable {
         case samlConnection = "saml_connection"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension SAMLAccount {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.provider) else {
-            throw SdkValidationError(field: "provider", code: "required", message: "Validation failed for 'provider': value is required")
-        }
-        guard container.contains(.active) else {
-            throw SdkValidationError(field: "active", code: "required", message: "Validation failed for 'active': value is required")
-        }
-        guard container.contains(.emailAddress) else {
-            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
-        }
-        guard container.contains(.verification) else {
-            throw SdkValidationError(field: "verification", code: "required", message: "Validation failed for 'verification': value is required")
-        }
-        self.id = try container.sdkDecodeRequired(.id)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.provider = try container.sdkDecodeRequired(.provider)
-        self.active = try container.sdkDecodeRequired(.active)
-        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        self.verification = try container.sdkDecodeNullable(.verification)
-        self.firstName = try container.sdkDecodeIfPresent(.firstName)
-        self.lastName = try container.sdkDecodeIfPresent(.lastName)
-        self.providerUserId = try container.sdkDecodeIfPresent(.providerUserId)
-        self.lastAuthenticatedAt = try container.sdkDecodeIfPresent(.lastAuthenticatedAt)
-        self.publicMetadata = try container.sdkDecodeIfPresent(.publicMetadata)
-        self.samlConnection = try container.sdkDecodeIfPresent(.samlConnection)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension SAMLAccount {
-    public init(id: String, object: SAMLAccountObject, provider: String, active: Bool, emailAddress: String, verification: SAMLAccountVerification?, firstName: String? = nil, lastName: String? = nil, providerUserId: String? = nil, lastAuthenticatedAt: Int? = nil, publicMetadata: [String: JSONValue]? = nil, samlConnection: [String: JSONValue]? = nil) {
+public extension SAMLAccount {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.provider) else {
+            throw SdkValidationError(
+                field: "provider",
+                code: "required",
+                message: "Validation failed for 'provider': value is required"
+            )
+        }
+        guard container.contains(.active) else {
+            throw SdkValidationError(
+                field: "active",
+                code: "required",
+                message: "Validation failed for 'active': value is required"
+            )
+        }
+        guard container.contains(.emailAddress) else {
+            throw SdkValidationError(
+                field: "email_address",
+                code: "required",
+                message: "Validation failed for 'email_address': value is required"
+            )
+        }
+        guard container.contains(.verification) else {
+            throw SdkValidationError(
+                field: "verification",
+                code: "required",
+                message: "Validation failed for 'verification': value is required"
+            )
+        }
+        id = try container.sdkDecodeRequired(.id)
+        object = try container.sdkDecodeRequired(.object)
+        provider = try container.sdkDecodeRequired(.provider)
+        active = try container.sdkDecodeRequired(.active)
+        emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        verification = try container.sdkDecodeNullable(.verification)
+        firstName = try container.sdkDecodeIfPresent(.firstName)
+        lastName = try container.sdkDecodeIfPresent(.lastName)
+        providerUserId = try container.sdkDecodeIfPresent(.providerUserId)
+        lastAuthenticatedAt = try container.sdkDecodeIfPresent(.lastAuthenticatedAt)
+        publicMetadata = try container.sdkDecodeIfPresent(.publicMetadata)
+        samlConnection = try container.sdkDecodeIfPresent(.samlConnection)
+    }
+}
+
+public extension SAMLAccount {
+    init(
+        id: String,
+        object: SAMLAccountObject,
+        provider: String,
+        active: Bool,
+        emailAddress: String,
+        verification: SAMLAccountVerification?,
+        firstName: String? = nil,
+        lastName: String? = nil,
+        providerUserId: String? = nil,
+        lastAuthenticatedAt: Int? = nil,
+        publicMetadata: [String: JSONValue]? = nil,
+        samlConnection: [String: JSONValue]? = nil
+    ) {
         (self.id, self.object) = (id, object)
         (self.provider, self.active) = (provider, active)
         (self.emailAddress, self.verification) = (emailAddress, verification)
@@ -175,37 +223,59 @@ public struct ExternalAccountWithVerification: Codable {
         case label
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension ExternalAccountWithVerification {
-    public init(from decoder: Decoder) throws {
+public extension ExternalAccountWithVerification {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.id = try container.sdkDecodeRequired(.id)
-        self.provider = try container.sdkDecodeRequired(.provider)
-        self.identificationId = try container.sdkDecodeRequired(.identificationId)
-        self.providerUserId = try container.sdkDecodeRequired(.providerUserId)
-        self.approvedScopes = try container.sdkDecodeRequired(.approvedScopes)
-        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        self.firstName = try container.sdkDecodeRequired(.firstName)
-        self.lastName = try container.sdkDecodeRequired(.lastName)
-        self.publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
-        self.createdAt = try container.sdkDecodeRequired(.createdAt)
-        self.updatedAt = try container.sdkDecodeRequired(.updatedAt)
-        self.verification = try container.sdkDecodeNullable(.verification)
-        self.emailAddressVerified = try container.sdkDecodeIfPresent(.emailAddressVerified)
-        self.avatarUrl = try container.sdkDecodeIfPresent(.avatarUrl)
-        self.imageUrl = try container.sdkDecodeIfPresent(.imageUrl)
-        self.username = try container.sdkDecodeIfPresent(.username)
-        self.phoneNumber = try container.sdkDecodeIfPresent(.phoneNumber)
-        self.label = try container.sdkDecodeIfPresent(.label)
+        object = try container.sdkDecodeRequired(.object)
+        id = try container.sdkDecodeRequired(.id)
+        provider = try container.sdkDecodeRequired(.provider)
+        identificationId = try container.sdkDecodeRequired(.identificationId)
+        providerUserId = try container.sdkDecodeRequired(.providerUserId)
+        approvedScopes = try container.sdkDecodeRequired(.approvedScopes)
+        emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        firstName = try container.sdkDecodeRequired(.firstName)
+        lastName = try container.sdkDecodeRequired(.lastName)
+        publicMetadata = try container.sdkDecodeRequired(.publicMetadata)
+        createdAt = try container.sdkDecodeRequired(.createdAt)
+        updatedAt = try container.sdkDecodeRequired(.updatedAt)
+        verification = try container.sdkDecodeNullable(.verification)
+        emailAddressVerified = try container.sdkDecodeIfPresent(.emailAddressVerified)
+        avatarUrl = try container.sdkDecodeIfPresent(.avatarUrl)
+        imageUrl = try container.sdkDecodeIfPresent(.imageUrl)
+        username = try container.sdkDecodeIfPresent(.username)
+        phoneNumber = try container.sdkDecodeIfPresent(.phoneNumber)
+        label = try container.sdkDecodeIfPresent(.label)
         additionalProperties = try decoder.sdkAdditionalProperties(besides: CodingKeys.self)
     }
 }
 
-extension ExternalAccountWithVerification {
-    public init(object: ExternalAccountWithVerificationObject, id: String, provider: String, identificationId: String, providerUserId: String, approvedScopes: String, emailAddress: String, firstName: String, lastName: String, publicMetadata: [String: JSONValue], createdAt: Int, updatedAt: Int, verification: ExternalAccountWithVerificationVerification?, emailAddressVerified: Bool? = nil, avatarUrl: String? = nil, imageUrl: String? = nil, username: String? = nil, phoneNumber: String? = nil, label: String? = nil) {
+public extension ExternalAccountWithVerification {
+    init(
+        object: ExternalAccountWithVerificationObject,
+        id: String,
+        provider: String,
+        identificationId: String,
+        providerUserId: String,
+        approvedScopes: String,
+        emailAddress: String,
+        firstName: String,
+        lastName: String,
+        publicMetadata: [String: JSONValue],
+        createdAt: Int,
+        updatedAt: Int,
+        verification: ExternalAccountWithVerificationVerification?,
+        emailAddressVerified: Bool? = nil,
+        avatarUrl: String? = nil,
+        imageUrl: String? = nil,
+        username: String? = nil,
+        phoneNumber: String? = nil,
+        label: String? = nil
+    ) {
         (self.object, self.id) = (object, id)
         (self.provider, self.identificationId) = (provider, identificationId)
         (self.providerUserId, self.approvedScopes) = (providerUserId, approvedScopes)
@@ -219,8 +289,8 @@ extension ExternalAccountWithVerification {
     }
 }
 
-extension ExternalAccountWithVerification {
-    public func encode(to encoder: Encoder) throws {
+public extension ExternalAccountWithVerification {
+    func encode(to encoder: Encoder) throws {
         try encoder.sdkEncodeAdditionalProperties(additionalProperties)
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(object, forKey: .object)
@@ -272,39 +342,65 @@ public struct VerificationGoogleOneTap: Codable {
         case error
     }
 
-    private init(sdkCopy value: Self) { self = value }
+    private init(sdkCopy value: Self) {
+        self = value
+    }
 }
 
-extension VerificationGoogleOneTap {
-    public init(from decoder: Decoder) throws {
+public extension VerificationGoogleOneTap {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         guard container.contains(.status) else {
-            throw SdkValidationError(field: "status", code: "required", message: "Validation failed for 'status': value is required")
+            throw SdkValidationError(
+                field: "status",
+                code: "required",
+                message: "Validation failed for 'status': value is required"
+            )
         }
         guard container.contains(.strategy) else {
-            throw SdkValidationError(field: "strategy", code: "required", message: "Validation failed for 'strategy': value is required")
+            throw SdkValidationError(
+                field: "strategy",
+                code: "required",
+                message: "Validation failed for 'strategy': value is required"
+            )
         }
         guard container.contains(.expireAt) else {
-            throw SdkValidationError(field: "expire_at", code: "required", message: "Validation failed for 'expire_at': value is required")
+            throw SdkValidationError(
+                field: "expire_at",
+                code: "required",
+                message: "Validation failed for 'expire_at': value is required"
+            )
         }
         guard container.contains(.attempts) else {
-            throw SdkValidationError(field: "attempts", code: "required", message: "Validation failed for 'attempts': value is required")
+            throw SdkValidationError(
+                field: "attempts",
+                code: "required",
+                message: "Validation failed for 'attempts': value is required"
+            )
         }
-        self.status = try container.sdkDecodeRequired(.status)
-        self.strategy = try container.sdkDecodeRequired(.strategy)
-        self.expireAt = try container.sdkDecodeNullable(.expireAt)
-        self.attempts = try container.sdkDecodeNullable(.attempts)
-        self.object = try container.sdkDecodeIfPresent(.object)
-        self.verifiedAtClient = try container.sdkDecodeIfPresent(.verifiedAtClient)
-        self.error = try container.sdkDecodeIfPresent(.error)
-        if let value = self.object {
+        status = try container.sdkDecodeRequired(.status)
+        strategy = try container.sdkDecodeRequired(.strategy)
+        expireAt = try container.sdkDecodeNullable(.expireAt)
+        attempts = try container.sdkDecodeNullable(.attempts)
+        object = try container.sdkDecodeIfPresent(.object)
+        verifiedAtClient = try container.sdkDecodeIfPresent(.verifiedAtClient)
+        error = try container.sdkDecodeIfPresent(.error)
+        if let value = object {
             try sdkValidateRawEnum("object", value, VerificationGoogleOneTapObject.allCases.map(\.rawValue))
         }
     }
 }
 
-extension VerificationGoogleOneTap {
-    public init(status: VerificationGoogleOneTapStatus, strategy: VerificationGoogleOneTapStrategy, expireAt: Int?, attempts: Int?, object: VerificationGoogleOneTapObject? = nil, verifiedAtClient: String? = nil, error: [String: JSONValue]? = nil) throws {
+public extension VerificationGoogleOneTap {
+    init(
+        status: VerificationGoogleOneTapStatus,
+        strategy: VerificationGoogleOneTapStrategy,
+        expireAt: Int?,
+        attempts: Int?,
+        object: VerificationGoogleOneTapObject? = nil,
+        verifiedAtClient: String? = nil,
+        error: [String: JSONValue]? = nil
+    ) throws {
         (self.status, self.strategy) = (status, strategy)
         (self.expireAt, self.attempts) = (expireAt, attempts)
         (self.object, self.verifiedAtClient) = (object, verifiedAtClient)
@@ -363,53 +459,94 @@ public struct EnterpriseAccount: Codable {
         case lastAuthenticatedAt = "last_authenticated_at"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension EnterpriseAccount {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.id) else {
-            throw SdkValidationError(field: "id", code: "required", message: "Validation failed for 'id': value is required")
-        }
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.provider) else {
-            throw SdkValidationError(field: "provider", code: "required", message: "Validation failed for 'provider': value is required")
-        }
-        guard container.contains(.active) else {
-            throw SdkValidationError(field: "active", code: "required", message: "Validation failed for 'active': value is required")
-        }
-        guard container.contains(.emailAddress) else {
-            throw SdkValidationError(field: "email_address", code: "required", message: "Validation failed for 'email_address': value is required")
-        }
-        guard container.contains(.verification) else {
-            throw SdkValidationError(field: "verification", code: "required", message: "Validation failed for 'verification': value is required")
-        }
-        self.id = try container.sdkDecodeRequired(.id)
-        self.object = try container.sdkDecodeRequired(.object)
-        self.provider = try container.sdkDecodeRequired(.provider)
-        self.active = try container.sdkDecodeRequired(.active)
-        self.emailAddress = try container.sdkDecodeRequired(.emailAddress)
-        self.verification = try container.sdkDecodeNullable(.verification)
-        self.`protocol` = try container.sdkDecodeIfPresent(.`protocol`)
-        self.firstName = try container.sdkDecodeIfPresent(.firstName)
-        self.lastName = try container.sdkDecodeIfPresent(.lastName)
-        self.providerUserId = try container.sdkDecodeIfPresent(.providerUserId)
-        self.enterpriseConnectionId = try container.sdkDecodeIfPresent(.enterpriseConnectionId)
-        self.publicMetadata = try container.sdkDecodeIfPresent(.publicMetadata)
-        self.enterpriseConnection = try container.sdkDecodeIfPresent(.enterpriseConnection)
-        self.lastAuthenticatedAt = try container.sdkDecodeIfPresent(.lastAuthenticatedAt)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension EnterpriseAccount {
-    public init(id: String, object: EnterpriseAccountObject, provider: String, active: Bool, emailAddress: String, verification: EnterpriseAccountVerification?, `protocol`: EnterpriseAccountProtocol? = nil, firstName: String? = nil, lastName: String? = nil, providerUserId: String? = nil, enterpriseConnectionId: String? = nil, publicMetadata: [String: JSONValue]? = nil, enterpriseConnection: [String: JSONValue]? = nil, lastAuthenticatedAt: Int? = nil) {
+public extension EnterpriseAccount {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.id) else {
+            throw SdkValidationError(
+                field: "id",
+                code: "required",
+                message: "Validation failed for 'id': value is required"
+            )
+        }
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.provider) else {
+            throw SdkValidationError(
+                field: "provider",
+                code: "required",
+                message: "Validation failed for 'provider': value is required"
+            )
+        }
+        guard container.contains(.active) else {
+            throw SdkValidationError(
+                field: "active",
+                code: "required",
+                message: "Validation failed for 'active': value is required"
+            )
+        }
+        guard container.contains(.emailAddress) else {
+            throw SdkValidationError(
+                field: "email_address",
+                code: "required",
+                message: "Validation failed for 'email_address': value is required"
+            )
+        }
+        guard container.contains(.verification) else {
+            throw SdkValidationError(
+                field: "verification",
+                code: "required",
+                message: "Validation failed for 'verification': value is required"
+            )
+        }
+        id = try container.sdkDecodeRequired(.id)
+        object = try container.sdkDecodeRequired(.object)
+        provider = try container.sdkDecodeRequired(.provider)
+        active = try container.sdkDecodeRequired(.active)
+        emailAddress = try container.sdkDecodeRequired(.emailAddress)
+        verification = try container.sdkDecodeNullable(.verification)
+        self.protocol = try container.sdkDecodeIfPresent(.protocol)
+        firstName = try container.sdkDecodeIfPresent(.firstName)
+        lastName = try container.sdkDecodeIfPresent(.lastName)
+        providerUserId = try container.sdkDecodeIfPresent(.providerUserId)
+        enterpriseConnectionId = try container.sdkDecodeIfPresent(.enterpriseConnectionId)
+        publicMetadata = try container.sdkDecodeIfPresent(.publicMetadata)
+        enterpriseConnection = try container.sdkDecodeIfPresent(.enterpriseConnection)
+        lastAuthenticatedAt = try container.sdkDecodeIfPresent(.lastAuthenticatedAt)
+    }
+}
+
+public extension EnterpriseAccount {
+    init(
+        id: String,
+        object: EnterpriseAccountObject,
+        provider: String,
+        active: Bool,
+        emailAddress: String,
+        verification: EnterpriseAccountVerification?,
+        protocol: EnterpriseAccountProtocol? = nil,
+        firstName: String? = nil,
+        lastName: String? = nil,
+        providerUserId: String? = nil,
+        enterpriseConnectionId: String? = nil,
+        publicMetadata: [String: JSONValue]? = nil,
+        enterpriseConnection: [String: JSONValue]? = nil,
+        lastAuthenticatedAt: Int? = nil
+    ) {
         (self.id, self.object) = (id, object)
         (self.provider, self.active) = (provider, active)
         (self.emailAddress, self.verification) = (emailAddress, verification)
-        (self.`protocol`, self.firstName) = (`protocol`, firstName)
+        (self.protocol, self.firstName) = (`protocol`, firstName)
         (self.lastName, self.providerUserId) = (lastName, providerUserId)
         (self.enterpriseConnectionId, self.publicMetadata) = (enterpriseConnectionId, publicMetadata)
         (self.enterpriseConnection, self.lastAuthenticatedAt) = (enterpriseConnection, lastAuthenticatedAt)
@@ -437,34 +574,52 @@ public struct Passkey: Codable {
         case id
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension Passkey {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.object) else {
-            throw SdkValidationError(field: "object", code: "required", message: "Validation failed for 'object': value is required")
-        }
-        guard container.contains(.name) else {
-            throw SdkValidationError(field: "name", code: "required", message: "Validation failed for 'name': value is required")
-        }
-        guard container.contains(.lastUsedAt) else {
-            throw SdkValidationError(field: "last_used_at", code: "required", message: "Validation failed for 'last_used_at': value is required")
-        }
-        guard container.contains(.verification) else {
-            throw SdkValidationError(field: "verification", code: "required", message: "Validation failed for 'verification': value is required")
-        }
-        self.object = try container.sdkDecodeRequired(.object)
-        self.name = try container.sdkDecodeRequired(.name)
-        self.lastUsedAt = try container.sdkDecodeRequired(.lastUsedAt)
-        self.verification = try container.sdkDecodeNullable(.verification)
-        self.id = try container.sdkDecodeIfPresent(.id)
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension Passkey {
-    public init(object: PasskeyObject, name: String, lastUsedAt: Int, verification: [String: JSONValue]?, id: String? = nil) {
+public extension Passkey {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.object) else {
+            throw SdkValidationError(
+                field: "object",
+                code: "required",
+                message: "Validation failed for 'object': value is required"
+            )
+        }
+        guard container.contains(.name) else {
+            throw SdkValidationError(
+                field: "name",
+                code: "required",
+                message: "Validation failed for 'name': value is required"
+            )
+        }
+        guard container.contains(.lastUsedAt) else {
+            throw SdkValidationError(
+                field: "last_used_at",
+                code: "required",
+                message: "Validation failed for 'last_used_at': value is required"
+            )
+        }
+        guard container.contains(.verification) else {
+            throw SdkValidationError(
+                field: "verification",
+                code: "required",
+                message: "Validation failed for 'verification': value is required"
+            )
+        }
+        object = try container.sdkDecodeRequired(.object)
+        name = try container.sdkDecodeRequired(.name)
+        lastUsedAt = try container.sdkDecodeRequired(.lastUsedAt)
+        verification = try container.sdkDecodeNullable(.verification)
+        id = try container.sdkDecodeIfPresent(.id)
+    }
+}
+
+public extension Passkey {
+    init(object: PasskeyObject, name: String, lastUsedAt: Int, verification: [String: JSONValue]?, id: String? = nil) {
         (self.object, self.name) = (object, name)
         (self.lastUsedAt, self.verification) = (lastUsedAt, verification)
         self.id = id

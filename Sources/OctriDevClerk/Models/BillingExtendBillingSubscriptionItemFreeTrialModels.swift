@@ -3,7 +3,7 @@
 
 import Foundation
 
-// Billing domain models
+/// Billing domain models
 /// Typed representation of the `ExtendFreeTrialRequest` API schema.
 public struct ExtendFreeTrialRequest: Codable {
     /// RFC3339 timestamp to extend the free trial to. Must be in the future and not more than 365 days from now.
@@ -14,23 +14,29 @@ public struct ExtendFreeTrialRequest: Codable {
         case extendTo = "extend_to"
     }
 
-    private init(sdkCopy value: Self) { self = value }
-}
-
-extension ExtendFreeTrialRequest {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        guard container.contains(.extendTo) else {
-            throw SdkValidationError(field: "extend_to", code: "required", message: "Validation failed for 'extend_to': value is required")
-        }
-        self.extendTo = try container.sdkDecodeRequired(.extendTo)
-            try sdkValidateDateTime("extend_to", sdkWireString(self.extendTo))
+    private init(sdkCopy value: Self) {
+        self = value
     }
 }
 
-extension ExtendFreeTrialRequest {
-    public init(extendTo: Date) throws {
+public extension ExtendFreeTrialRequest {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        guard container.contains(.extendTo) else {
+            throw SdkValidationError(
+                field: "extend_to",
+                code: "required",
+                message: "Validation failed for 'extend_to': value is required"
+            )
+        }
+        extendTo = try container.sdkDecodeRequired(.extendTo)
+        try sdkValidateDateTime("extend_to", sdkWireString(extendTo))
+    }
+}
+
+public extension ExtendFreeTrialRequest {
+    init(extendTo: Date) throws {
         self.extendTo = extendTo
-            try sdkValidateDateTime("extend_to", sdkWireString(self.extendTo))
+        try sdkValidateDateTime("extend_to", sdkWireString(self.extendTo))
     }
 }
